@@ -1,17 +1,17 @@
 
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content;
 
 import java.util.List;
 
-public class Outfit_list{
-   	private String alias;
+public class Outfit{
    	private String id;
+   	private String name;
+	private String alias;
    	private String leader_character_id;
    	private String member_count;
-   	private List members;
-   	private String name;
    	private String time_created;
-
+   	private List<Member> members;
+   	   	
  	public String getAlias(){
 		return this.alias;
 	}
@@ -36,10 +36,10 @@ public class Outfit_list{
 	public void setMember_count(String member_count){
 		this.member_count = member_count;
 	}
- 	public List getMembers(){
+ 	public List<Member> getMembers(){
 		return this.members;
 	}
-	public void setMembers(List members){
+	public void setMembers(List<Member> members){
 		this.members = members;
 	}
  	public String getName(){

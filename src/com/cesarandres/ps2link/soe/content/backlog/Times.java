@@ -1,8 +1,7 @@
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.backlog;
 
 public class Times {
     private String last_login;
-    private String last_save;
     private String minutes_played;
 
     public String getLast_login() {
@@ -11,14 +10,6 @@ public class Times {
 
     public void setLast_login(String last_login) {
         this.last_login = last_login;
-    }
-
-    public String getLast_save() {
-        return last_save;
-    }
-
-    public void setLast_save(String last_save) {
-        this.last_save = last_save;
     }
 
     public String getMinutes_played() {

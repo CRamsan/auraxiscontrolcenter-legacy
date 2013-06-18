@@ -22,6 +22,7 @@ public class SOECensus {
     public static final String SERVICE_ID = "s:PS2Link";
     public static final String ENDPOINT_URL = "http://census.soe.com";
     public static final String IMG = "img";
+    public static final String ITEM = "item";
     public static enum Verb {
         GET("get"),
         COUNT("count");
@@ -38,7 +39,6 @@ public class SOECensus {
         }
     }
     public static enum Game {
-        PS2BETA("ps2-beta"),
         PS2("ps2"),
         EQ2("eq2");
 
@@ -75,34 +75,22 @@ public class SOECensus {
         if(type == null){
             requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
                     + IMG + "/" + game.toString() + "/" + collection.toString() + "/"
-                    + identifier + "/");
+                    + identifier + "/" + ITEM);
         }else {
             requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
                     + IMG + "/" + game.toString() + "/" + collection.toString() + "/"
-                    + identifier + "/" + type.toString());
+                    + identifier + "/" + type.toString() + "/" + ITEM);
         }
         return requestDataURL;
     }
 
-    public URL generateGameDataRequest(Verb verb, Game game, Collections.PS2Collection collection,
-                                          String identifier, QueryString query) throws MalformedURLException {
+    public URL generateGameDataRequest(Verb verb, Game game, Collections.PS2Collection collection, String identifier, QueryString query) throws MalformedURLException {
         if(identifier == null){
             identifier = "";
         }
         URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/"
                                     + game.toString() + "/" + collection.toString() + "/"
                                     + identifier + "/" + query.toString());
-        return requestDataURL;
-    }
-
-    public URL generateGameDataRequest(Verb verb, Game game, Collections.PS2BetaCollection collection,
-                                          String identifier, QueryString query) throws MalformedURLException {
-        if(identifier == null){
-            identifier = "";
-        }
-        URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/"
-                + game.toString() + "/" + collection.toString() + "/"
-                + identifier + "/" + query.toString());
         return requestDataURL;
     }
 

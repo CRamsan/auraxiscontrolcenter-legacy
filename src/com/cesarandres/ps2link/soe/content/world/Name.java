@@ -1,7 +1,7 @@
 
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.world;
 
-public class Description{
+public class Name{
    	private String de;
    	private String en;
    	private String es;

@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.backlog;
 
 public class Currency{
    	private String aerospace;

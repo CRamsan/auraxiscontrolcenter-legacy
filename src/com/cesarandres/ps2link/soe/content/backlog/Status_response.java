@@ -1,25 +1,25 @@
-
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.backlog;
 
 import java.util.List;
 
-public class Outfit_member_response{
+
+public class Status_response{
+   	private List characters_online_status_list;
    	private boolean internal;
-   	private List outfit_list;
    	private Number returned;
    	private Timing timing;
 
+ 	public List getCharacters_online_status_list(){
+		return this.characters_online_status_list;
+	}
+	public void setCharacters_online_status_list(List characters_online_status_list){
+		this.characters_online_status_list = characters_online_status_list;
+	}
  	public boolean getInternal(){
 		return this.internal;
 	}
 	public void setInternal(boolean internal){
 		this.internal = internal;
-	}
- 	public List getOutfit_list(){
-		return this.outfit_list;
-	}
-	public void setOutfit_list(List outfit_list){
-		this.outfit_list = outfit_list;
 	}
  	public Number getReturned(){
 		return this.returned;

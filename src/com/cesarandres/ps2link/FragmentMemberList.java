@@ -1,5 +1,7 @@
 package com.cesarandres.ps2link;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.module.FragmentBase;
 
 import android.os.Bundle;
@@ -12,6 +14,9 @@ import android.view.ViewGroup;
  * Created by cesar on 6/16/13.
  */
 public class FragmentMemberList extends FragmentBase {
+	
+	private RequestQueue volley = Volley.newRequestQueue(getActivity());
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

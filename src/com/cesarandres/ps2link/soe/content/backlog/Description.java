@@ -1,7 +1,7 @@
 
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.backlog;
 
-public class Name{
+public class Description{
    	private String de;
    	private String en;
    	private String es;

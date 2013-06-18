@@ -1,5 +1,5 @@
 
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.backlog;
 
 public class Experience{
    	private String rank;

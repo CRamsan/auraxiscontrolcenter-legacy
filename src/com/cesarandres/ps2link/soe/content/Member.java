@@ -1,7 +1,7 @@
 
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content;
 
-public class Members{
+public class Member{
    	private String character_id;
    	private String member_since;
    	private String online_status;

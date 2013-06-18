@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link.soe;
+package com.cesarandres.ps2link.soe.content.character;
 
 public class Certs{
    	private String currentpoints;

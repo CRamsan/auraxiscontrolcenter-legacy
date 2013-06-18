@@ -31,53 +31,7 @@ public class Collections {
             return this.collection;
         }
     }
-    public static enum PS2BetaCollection {
-        AMERISHMAP("amerishmap"),
-        CHARACTER("character"),
-        CURRENCY("currency"),
-        ESAMIRMAP("esamirmap"),
-        FACTION("faction"),
-        ICONATTACHMENT("icon.attachment"),
-        INDARMAP("indarmap"),
-        ITEM("item"),
-        PROFILE("profile"),
-        PROFILETYPE("profile.type"),
-        RANK("rank"),
-        RESOURCE("resource"),
-        STAT_INFO("stat_info"),
-        VEHICLE("vehicle"),
-        ZONE("zone"),
-        OUTFIT("outfit"),
-        OUTFIT_MEMBER("outfit_member"),
-        OUTFIT_MEMBER_EXTENDED("outfit_member_extended"),
-        OUTFIT_RANK("outfit_rank"),
-        V1_OUTFIT("v1_outfit"),
-        V1_OUTFIT_MEMBER("v1_outfit_member"),
-        V1_OUTFIT_MEMBER_EXTENDED("v1_outfit_member_extended"),
-        V1_OUTFIT_RANK("v1_outfit_rank"),
-        CHARACTERS_ONLINE_STATUS("characters_online_status"),
-        MAP("map"),
-        CHARACTERS_FRIEND("characters_friend"),
-        CHARACTERS_WORLD("characters_world"),
-        LEADERBOARD("leaderboard"),
-        CHARACTERS_LEADERBOARD("characters_leaderboard"),
-        CHARACTERS_EVENT_GROUPED("characters_event_grouped"),
-        CHARACTERS_EVENT("characters_event"),
-        EVENT("event"),
-        WORLD_EVENT("world_event"),
-        WORLD("world"),
-        ;
-        private final String collection;
-
-        private PS2BetaCollection(final String collection) {
-            this.collection = collection;
-        }
-
-        @Override
-        public String toString() {
-            return this.collection;
-        }
-    }
+    
     public static enum PS2Collection {
         AMERISHMAP("amerishmap"),
         CHARACTER("character"),

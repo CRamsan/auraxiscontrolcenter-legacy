@@ -1,0 +1,36 @@
+package com.cesarandres.ps2link.soe.content;
+
+import com.cesarandres.ps2link.soe.content.world.Name;
+
+public class Faction {
+	
+	private String id;
+	private Name name;
+	private String code;
+	private String icon;
+	
+	public Name getName() {
+		return name;
+	}
+	public void setName(Name name) {
+		this.name = name;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+}
