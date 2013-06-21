@@ -5,7 +5,7 @@ import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
 
-public class Character {
+public class CharacterProfile {
 	private String id;
 	private Name name;
 	private String active_profile_id;

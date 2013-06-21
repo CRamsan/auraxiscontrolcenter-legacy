@@ -7,5 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_activity__container">MainActivity</string>
+    <string name="profile_list_add">Add</string>
 
 </resources>

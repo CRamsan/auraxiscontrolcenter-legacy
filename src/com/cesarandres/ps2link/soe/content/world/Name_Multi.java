@@ -1,7 +1,7 @@
 
 package com.cesarandres.ps2link.soe.content.world;
 
-public class Name{
+public class Name_Multi{
    	private String de;
    	private String en;
    	private String es;

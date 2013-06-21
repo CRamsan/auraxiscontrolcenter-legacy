@@ -1,18 +1,18 @@
 package com.cesarandres.ps2link.soe.content;
 
-import com.cesarandres.ps2link.soe.content.world.Name;
+import com.cesarandres.ps2link.soe.content.world.Name_Multi;
 
 public class Faction {
 	
 	private String id;
-	private Name name;
+	private Name_Multi name;
 	private String code;
 	private String icon;
 	
-	public Name getName() {
+	public Name_Multi getName() {
 		return name;
 	}
-	public void setName(Name name) {
+	public void setName(Name_Multi name) {
 		this.name = name;
 	}
 	public String getCode() {

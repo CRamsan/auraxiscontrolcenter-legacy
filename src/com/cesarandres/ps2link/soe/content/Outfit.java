@@ -10,6 +10,8 @@ public class Outfit{
    	private String leader_character_id;
    	private String member_count;
    	private String time_created;
+   	private String world_id;
+	private String faction_id;
    	private List<Member> members;
    	   	
  	public String getAlias(){
@@ -54,4 +56,18 @@ public class Outfit{
 	public void setTime_created(String time_created){
 		this.time_created = time_created;
 	}
+	
+   	public String getWorld_id() {
+		return world_id;
+	}
+	public void setWorld_id(String world_id) {
+		this.world_id = world_id;
+	}
+	public String getFaction_id() {
+		return faction_id;
+	}
+	public void setFaction_id(String faction_id) {
+		this.faction_id = faction_id;
+	}
+
 }

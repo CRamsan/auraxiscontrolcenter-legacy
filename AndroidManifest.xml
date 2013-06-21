@@ -34,6 +34,8 @@
         </activity>
         <activity android:name="com.cesarandres.ps2link.ActivityMermberList" >
         </activity>
+		<activity android:name="com.cesarandres.ps2link.ActivityAddProfile" >
+        </activity>
     </application>
 
 </manifest>

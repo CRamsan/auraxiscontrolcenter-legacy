@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentActivity;
 /**
  * Created by cesar on 6/16/13.
  */
-public class ActivityProfile extends FragmentActivity {
+public class ActivityAddProfile extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_profile);
+		setContentView(R.layout.activity_add_profile);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);

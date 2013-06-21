@@ -10,7 +10,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_prefered_profile"
+            android:id="@+id/buttonPreferedProfile"
             android:layout_gravity="center"/>
 
     <Button
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_prefered_outfit"
+            android:id="@+id/buttonPreferedOutfit"
             android:layout_gravity="center"/>
 
     <Button
@@ -26,35 +26,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_prefered_server"
+            android:id="@+id/buttonPreferedServer"
             android:layout_gravity="center"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_characters"
+            android:id="@+id/buttonCharacters"
             android:layout_gravity="center"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_servers"
+            android:id="@+id/buttonServers"
             android:layout_gravity="center"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_outfit"
+            android:id="@+id/buttonOutfit"
             android:layout_gravity="center"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_stats"
+            android:id="@+id/buttonStats"
             android:layout_gravity="center"/>
 
     <Button
@@ -62,6 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/button_news"
+            android:id="@+id/buttonNews"
             android:layout_gravity="center"/>
 </LinearLayout>

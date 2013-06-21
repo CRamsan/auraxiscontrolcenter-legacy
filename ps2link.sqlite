@@ -1,0 +1,60 @@
+-- Database Creation
+-- Table Script Creation
+CREATE TABLE Worlds(
+   world_id Int
+   ,   state Int
+   ,   name varchar(-1)
+   ,PRIMARY KEY (world_id)
+);
+
+CREATE TABLE Factions(
+   id Int
+   ,   name varchar(-1)
+   ,   code varchar(-1)
+   ,   icon Int
+   ,PRIMARY KEY (id)
+);
+
+CREATE TABLE Characters(
+   id Int
+   ,   name_first varchar(-1)
+   ,   name_first_lower varchar(-1)
+   ,   active_profile_id varchar(-1)
+   ,   currentpoints Int
+   ,   percentagetonext Int
+   ,   percent_to_next_rank Int
+   ,   rank_value Int
+   ,   last_login Int
+   ,   minutes_played Int
+   ,   faction_id varchar(-1)
+   ,   world_id varchar(-1)
+   ,PRIMARY KEY (id)
+   ,FOREIGN KEY(faction_id) REFERENCES Factions(id)
+   ,FOREIGN KEY(world_id) REFERENCES Worlds(world_id)
+);
+
+CREATE TABLE Members(
+   character_id varchar(-1)
+   ,   member_since Int
+   ,   rank varchar(-1)
+   ,   ordinal Int
+   ,   outfit_id Int
+   ,   online_status varchar(-1)
+   ,PRIMARY KEY (character_id)
+   ,FOREIGN KEY(outfit_id) REFERENCES Outfits(id)
+);
+
+CREATE TABLE Outfits(
+   id Int
+   ,   name varchar(-1)
+   ,   leader_character_id varchar(-1)
+   ,   member_count Int
+   ,   time_created Int
+   ,   world_id Int
+   ,   faction_id Int
+   ,FOREIGN KEY(faction_id) REFERENCES Factions(id)
+   ,FOREIGN KEY(world_id) REFERENCES Worlds(world_id)
+   ,PRIMARY KEY (id)
+);
+-- Relationships Creation (not supported by SQLite, could be simulated using triggers)
+-- Created at http://www.dbschemaeditor.com/

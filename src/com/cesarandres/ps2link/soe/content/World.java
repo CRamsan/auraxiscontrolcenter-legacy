@@ -1,17 +1,17 @@
 
 package com.cesarandres.ps2link.soe.content;
 
-import com.cesarandres.ps2link.soe.content.world.Name;
+import com.cesarandres.ps2link.soe.content.world.Name_Multi;
 
 public class World{
-   	private Name name;
+   	private Name_Multi name;
    	private String world_id;
    	private String state;
 
- 	public Name getName(){
+ 	public Name_Multi getName(){
 		return this.name;
 	}
-	public void setName(Name name){
+	public void setName(Name_Multi name){
 		this.name = name;
 	}
  	public String getState(){
