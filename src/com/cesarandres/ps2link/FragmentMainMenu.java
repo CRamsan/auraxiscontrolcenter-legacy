@@ -65,7 +65,7 @@ public class FragmentMainMenu extends BaseFragment {
 		buttonOutfit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfileList.class);
+				intent.setClass(getActivity(), ActivityOutfitList.class);
 				startActivity(intent);
 			}
 		});

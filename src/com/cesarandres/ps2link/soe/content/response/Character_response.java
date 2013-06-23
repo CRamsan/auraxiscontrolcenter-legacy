@@ -2,13 +2,22 @@ package com.cesarandres.ps2link.soe.content.response;
 
 import java.util.List;
 
-public class Character_response{
-   	private List<Character> character_list;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
- 	public List<Character> getCharacter_list(){
-		return this.character_list;
+public class Character_response{
+   	private List<CharacterProfile> character_name_list;
+   	private List<CharacterProfile> character_list;
+
+ 	public List<CharacterProfile> getCharacter_name_list(){
+		return this.character_name_list;
 	}
-	public void setCharacter_list(List<Character> character_list){
+	public void setCharacter_name_list(List<CharacterProfile> character_name_list){
+		this.character_name_list = character_name_list;
+	}
+	public List<CharacterProfile> getCharacter_list() {
+		return character_list;
+	}
+	public void setCharacter_list(List<CharacterProfile> character_list) {
 		this.character_list = character_list;
 	}
 }

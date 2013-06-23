@@ -1,11 +1,14 @@
 
 package com.cesarandres.ps2link.soe.content;
 
+import com.cesarandres.ps2link.soe.content.character.Name;
+
 public class Member{
    	private String character_id;
    	private String member_since;
    	private String online_status;
    	private String rank;
+   	private Name name;
    	private String rank_ordinal;
 
  	public String getCharacter_id(){
@@ -37,5 +40,11 @@ public class Member{
 	}
 	public void setRank_ordinal(String rank_ordinal){
 		this.rank_ordinal = rank_ordinal;
+	}
+	public Name getName() {
+		return name;
+	}
+	public void setName(Name name) {
+		this.name = name;
 	}
 }

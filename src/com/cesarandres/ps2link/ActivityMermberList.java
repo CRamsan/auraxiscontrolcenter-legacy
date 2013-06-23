@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
  * Created by cesar on 6/16/13.
  */
 public class ActivityMermberList extends FragmentActivity {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

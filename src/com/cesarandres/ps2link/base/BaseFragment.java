@@ -11,7 +11,6 @@ import com.android.volley.toolbox.Volley;
  */
 public abstract class BaseFragment extends Fragment {
 
-	protected static RequestQueue volley;
 	protected OnFragmentEventListener mListener;
 
 	public interface OnFragmentEventListener {
@@ -21,6 +20,5 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		this.volley = Volley.newRequestQueue(getActivity());
 	}
 }

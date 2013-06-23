@@ -1,17 +1,18 @@
 package com.cesarandres.ps2link;
 
-import android.app.ActionBar;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.base.BaseFragment.OnFragmentEventListener;
 
 public class ActivityContainer extends FragmentActivity implements
 		OnFragmentEventListener {
+
+	public static RequestQueue volley;
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -23,6 +24,9 @@ public class ActivityContainer extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+		if (volley == null) {
+			ActivityContainer.volley = Volley.newRequestQueue(this);
+		}
 	}
 
 	@Override
