@@ -17,4 +17,15 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="ButtonStyle" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@drawable/menu_item</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    	<item name="android:layout_marginTop">10dp</item>
+    </style>
+
 </resources>

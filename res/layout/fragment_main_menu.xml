@@ -1,67 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main_menu"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
             android:id="@+id/buttonPreferedProfile"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:visibility="gone" />
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonPreferedOutfit"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:visibility="gone" />
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonPreferedServer"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:visibility="gone" />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonCharacters"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:text="@string/text_menu_profiles" />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonServers"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:text="@string/text_menu_servers" />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonOutfit"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:text="@string/text_menu_outfits" />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonStats"
-            android:layout_gravity="center"/>
+            style="@style/ButtonStyle"
+            android:text="@string/text_menu_stats" />
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+        <Button
             android:id="@+id/buttonNews"
-            android:layout_gravity="center"/>
-</LinearLayout>
+            style="@style/ButtonStyle"
+            android:text="@string/text_menu_community" />
+    </LinearLayout>
+
+</ScrollView>

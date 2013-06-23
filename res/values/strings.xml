@@ -9,5 +9,10 @@
     <string name="title_activity_activity__container">MainActivity</string>
     <string name="profile_list_add">Add</string>
     <string name="outfit_list_add">Add</string>
+    <string name="text_menu_profiles">Profiles</string>
+    <string name="text_menu_servers">Servers/Continents</string>
+    <string name="text_menu_outfits">Outfits</string>
+    <string name="text_menu_community">Community/News</string>
+    <string name="text_menu_stats">Stats</string>
 
 </resources>

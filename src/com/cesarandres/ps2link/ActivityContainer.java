@@ -1,5 +1,6 @@
 package com.cesarandres.ps2link;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -26,6 +27,16 @@ public class ActivityContainer extends FragmentActivity implements
 		setContentView(R.layout.activity_main_menu);
 		if (volley == null) {
 			ActivityContainer.volley = Volley.newRequestQueue(this);
+		}
+
+		if (findViewById(R.id.second_pane) != null) {
+			mTwoPane = true;
+		}
+
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle("NDSU Buildings");
 		}
 	}
 
