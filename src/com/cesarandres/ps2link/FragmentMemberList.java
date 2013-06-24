@@ -118,6 +118,8 @@ public class FragmentMemberList extends BaseFragment {
 			e.printStackTrace();
 		}
 
+		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("List of Members");
+		
 		return root;
 	}
 

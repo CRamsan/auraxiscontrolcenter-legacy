@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <TextView
+    <include
+        android:layout_height="wrap_content"
+        layout="@layout/fragment_title" />
+
+    <LinearLayout
+        style="@style/FragmentStyle"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="left|center_vertical"
             android:text="Large Text"
-            android:id="@+id/textView"
-            android:layout_gravity="left|center_vertical"/>
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ProgressBar
+        <ProgressBar
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
+    </LinearLayout>
 
 </LinearLayout>

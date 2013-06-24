@@ -1,6 +1,13 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_profile_list"
-    android:name="com.cesarandres.ps2link.FragmentProfileList"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    style="@style/ActivityStyle" >
+
+    <include layout="@layout/activity_background" />
+
+    <fragment
+        android:id="@+id/activity_profile_list"
+        android:name="com.cesarandres.ps2link.FragmentProfileList"
+        style="@style/EmbeddedFragmentStyle"
+        tools:layout="@layout/fragment_profile_list" />
+
+</FrameLayout>

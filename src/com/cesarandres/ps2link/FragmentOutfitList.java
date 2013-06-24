@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
 
@@ -26,31 +27,35 @@ public class FragmentOutfitList extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater
-				.inflate(R.layout.fragment_outfit_list, container, false);
+		View root = inflater.inflate(R.layout.fragment_outfit_list, container,
+				false);
+		((TextView) root.findViewById(R.id.textViewFragmentTitle))
+				.setText("List of Outfits");
+
+		return root;
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 	}
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	    inflater.inflate(R.menu.fragment_outfit_list_menu, menu);
+		inflater.inflate(R.menu.fragment_outfit_list_menu, menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	        case R.id.outfit_list_add:
-	        	Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityAddOutfit.class);
-				startActivity(intent);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.outfit_list_add:
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), ActivityAddOutfit.class);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

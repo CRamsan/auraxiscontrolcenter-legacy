@@ -1,10 +1,13 @@
 package com.cesarandres.ps2link.module;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Region;
 
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
@@ -152,6 +155,23 @@ public class ObjectDataSource {
 		return character;
 	}
 	
+	public ArrayList<CharacterProfile> getAllCharacterProfiles() {
+		ArrayList<CharacterProfile> profiles = new ArrayList<CharacterProfile>(0);
+
+		Cursor cursor = database.query(SQLiteManager.TABLE_CHARACTERS_NAME,
+				allColumnsCharacters, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			CharacterProfile character = cursorToCharacterProfile(cursor);
+			profiles.add(character);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return profiles;
+	}
+	
 	public boolean insertFaction(Faction faction) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.FACTIONS_COLUMN_ID, faction.getId());
@@ -179,6 +199,23 @@ public class ObjectDataSource {
 		return faction;
 	}
 	
+	public ArrayList<Faction> getAllFactions() {
+		ArrayList<Faction> factions = new ArrayList<Faction>(0);
+
+		Cursor cursor = database.query(SQLiteManager.TABLE_FACTIONS_NAME,
+				allColumnsFactions, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Faction faction = cursorToFaction(cursor);
+			factions.add(faction);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return factions;
+	} 
+	
 	public boolean insertMember(Member member) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
@@ -204,6 +241,22 @@ public class ObjectDataSource {
 		member.setRank_ordinal(cursor.getString(4));
 		return member;
 	}
+	
+	public ArrayList<Member> getAllMembers() {
+		ArrayList<Member> members = new ArrayList<Member>(0);
+		Cursor cursor = database.query(SQLiteManager.TABLE_MEMBERS_NAME,
+				allColumnsMembers, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Member member = cursorToMember(cursor);
+			members.add(member);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return members;
+	} 
 	
 	public boolean insertOutfit(Outfit outfit) {
 		ContentValues values = new ContentValues();
@@ -234,6 +287,24 @@ public class ObjectDataSource {
 		return outfit;
 	}
 	
+
+	public ArrayList<Outfit> getAllOutfits() {
+		ArrayList<Outfit> outfits = new ArrayList<Outfit>(0);
+		Cursor cursor = database.query(SQLiteManager.TABLE_OUTFITS_NAME,
+				allColumnsOutfit, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Outfit outfit = cursorToOutfit(cursor);
+			outfits.add(outfit);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return outfits;
+	} 
+	
+	
 	public boolean insertWorld(World world) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.WORLDS_COLUMN_NAME, world.getName().getEn());
@@ -261,5 +332,22 @@ public class ObjectDataSource {
 		
 		return world;
 	}
+	
+
+	public ArrayList<World> getAllWorlds() {
+		ArrayList<World> worlds = new ArrayList<World>(0);
+		Cursor cursor = database.query(SQLiteManager.TABLE_WORLDS_NAME,
+				allColumnsWorlds, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			World world = cursorToWorld(cursor);
+			worlds.add(world);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return worlds;
+	} 
 	
 }

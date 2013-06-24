@@ -129,6 +129,7 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 
 			}
 		});
+		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Profiles Found");
 		return root;
 	}
 

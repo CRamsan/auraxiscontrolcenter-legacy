@@ -4,17 +4,34 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
+    <style name="PS2BaseTheme" parent="android:Theme.Black.NoTitleBar"></style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="PS2Theme" parent="PS2BaseTheme"></style>
+
+    <style name="ActivityStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+
+    <style name="TitleBarStyle">
+        <item name="android:background">@drawable/fragment_title</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="FragmentStyle">
+        <item name="android:background">@drawable/fragment</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+
+    <style name="EmbeddedFragmentStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
     </style>
 
     <style name="ButtonStyle" parent="@android:style/TextAppearance.Large">
@@ -25,7 +42,16 @@
         <item name="android:typeface">monospace</item>
         <item name="android:background">@drawable/menu_item</item>
         <item name="android:layout_marginBottom">10dp</item>
-    	<item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="GreenButtonStyle" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@drawable/menu_item_green</item>
     </style>
 
 </resources>

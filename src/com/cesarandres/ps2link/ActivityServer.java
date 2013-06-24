@@ -15,7 +15,7 @@ import com.google.gson.Gson;
  */
 public class ActivityServer extends FragmentActivity {
 
-	private World server;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,5 @@ public class ActivityServer extends FragmentActivity {
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-
-		this.server = new Gson().fromJson(
-				getIntent().getExtras().getString("server"), World.class);
 	}
 }

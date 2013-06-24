@@ -4,30 +4,38 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.soe.content.World;
+import com.google.gson.Gson;
 
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentServer extends  BaseFragment {
+public class FragmentServer extends BaseFragment {
+
+	private World server;
 
 	@Override
-	public void onCreate (Bundle savedInstanceState){
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.server = new Gson().fromJson(getActivity().getIntent().getExtras()
+				.getString("server"), World.class);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		View root = inflater.inflate(R.layout.fragment_server, container, false);
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_server, container, false);
+		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Server");
+		return root;
 	}
-	
+
 	@Override
-	public void onPause (){
+	public void onPause() {
 		super.onPause();
-	}	
-	
+	}
 
 }

@@ -134,6 +134,9 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 
 			}
 		});
+		
+		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Outfits Found");
+		
 		return root;
 	}
 

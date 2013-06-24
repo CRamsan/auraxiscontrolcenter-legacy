@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main_menu"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <include
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical" >
+        layout="@layout/fragment_title" />
 
-        <Button
-            android:id="@+id/buttonPreferedProfile"
-            style="@style/ButtonStyle"
-            android:visibility="gone" />
+    <ScrollView
+        android:id="@+id/activity_main_menu"
+        style="@style/FragmentStyle" >
 
-        <Button
-            android:id="@+id/buttonPreferedOutfit"
-            style="@style/ButtonStyle"
-            android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/buttonPreferedServer"
-            style="@style/ButtonStyle"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/buttonPreferedProfile"
+                style="@style/ButtonStyle"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/buttonCharacters"
-            style="@style/ButtonStyle"
-            android:text="@string/text_menu_profiles" />
+            <Button
+                android:id="@+id/buttonPreferedOutfit"
+                style="@style/ButtonStyle"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/buttonServers"
-            style="@style/ButtonStyle"
-            android:text="@string/text_menu_servers" />
+            <Button
+                android:id="@+id/buttonPreferedServer"
+                style="@style/ButtonStyle"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/buttonOutfit"
-            style="@style/ButtonStyle"
-            android:text="@string/text_menu_outfits" />
+            <Button
+                android:id="@+id/buttonCharacters"
+                style="@style/ButtonStyle"
+                android:text="@string/text_menu_profiles" />
 
-        <Button
-            android:id="@+id/buttonStats"
-            style="@style/ButtonStyle"
-            android:text="@string/text_menu_stats" />
+            <Button
+                android:id="@+id/buttonServers"
+                style="@style/ButtonStyle"
+                android:text="@string/text_menu_servers" />
 
-        <Button
-            android:id="@+id/buttonNews"
-            style="@style/ButtonStyle"
-            android:text="@string/text_menu_community" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/buttonOutfit"
+                style="@style/ButtonStyle"
+                android:text="@string/text_menu_outfits" />
 
-</ScrollView>
+            <Button
+                android:id="@+id/buttonStats"
+                style="@style/ButtonStyle"
+                android:text="@string/text_menu_stats" />
+
+            <Button
+                android:id="@+id/buttonNews"
+                style="@style/ButtonStyle"
+                android:text="@string/text_menu_community" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

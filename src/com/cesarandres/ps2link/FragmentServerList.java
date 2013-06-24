@@ -7,26 +7,29 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.World;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.WorldLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
@@ -41,7 +44,12 @@ import com.google.gson.Gson;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentServerList extends BaseFragment {
+public class FragmentServerList extends BaseFragment implements
+		LoaderManager.LoaderCallbacks<World> {
+
+	public static final int SQL_READER = 235;
+
+	private ArrayList<World> serverList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,22 @@ public class FragmentServerList extends BaseFragment {
 			}
 		});
 
+		((TextView) root.findViewById(R.id.textViewFragmentTitle))
+				.setText("List of servers");
+
+		return root;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		// Prepare the loader. Either re-connect with an existing one,
+		// or start a new one.
+		getLoaderManager().initLoader(SQL_READER, null, this);
+	}
+
+	public void downloadServers() {
 		URL url;
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,
@@ -93,21 +117,22 @@ public class FragmentServerList extends BaseFragment {
 					error.equals(new Object());
 				}
 			};
-
 			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(
 					url.toString(), Server_response.class, null, success, error);
+			gsonOject.setTag(this);
 			ActivityContainer.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return root;
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
+	public void readServers() {
+		ObjectDataSource data = new ObjectDataSource(getActivity());
+		data.open();
+		this.serverList = data.getAllWorlds();
+		data.close();
 	}
 
 	private static class ServerItemAdapter extends BaseAdapter {
@@ -148,8 +173,8 @@ public class FragmentServerList extends BaseFragment {
 			// supplied
 			// by ListView is null.
 			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.server_item_list,
-						null);
+				convertView = mInflater
+						.inflate(R.layout.server_item_list, null);
 
 				// Creates a ViewHolder and store references to the two children
 				// views
@@ -187,6 +212,25 @@ public class FragmentServerList extends BaseFragment {
 			TextView serverName;
 			TextView serverRegion;
 		}
+
+	}
+
+	@Override
+	public Loader<World> onCreateLoader(int arg0, Bundle arg1) {
+		return new WorldLoader(getActivity(), baseUri,
+				CONTACTS_SUMMARY_PROJECTION, select, null,
+				Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
+	}
+
+	@Override
+	public void onLoadFinished(Loader<World> arg0, World arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLoaderReset(Loader<World> arg0) {
+		// TODO Auto-generated method stub
 
 	}
 }

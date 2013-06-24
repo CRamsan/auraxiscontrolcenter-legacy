@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
 
@@ -70,6 +71,18 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
+		final Button buttonNews = (Button) root
+				.findViewById(R.id.buttonNews);
+		buttonNews.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityReddit.class);
+				startActivity(intent);
+			}
+		});
+
+		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("PS2 Link");
+		
 		return root;
 	}
 
