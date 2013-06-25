@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -118,6 +119,16 @@ public class FragmentMemberList extends BaseFragment {
 			e.printStackTrace();
 		}
 
+		Button updateButton = (Button) root
+				.findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+		
+			}
+		});
+		
 		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("List of Members");
 		
 		return root;

@@ -10,8 +10,7 @@
 
     <ListView
         android:id="@+id/listViewServers"
-        style="@style/FragmentStyle"
->
+        style="@style/FragmentStyle" >
     </ListView>
 
 </LinearLayout>

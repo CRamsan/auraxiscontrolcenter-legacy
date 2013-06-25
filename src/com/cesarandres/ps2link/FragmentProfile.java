@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -54,6 +55,17 @@ public class FragmentProfile extends BaseFragment {
 				.setText(this.profile.getTimes().getLast_login());
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("Profile");
+		
+		Button updateButton = (Button) root
+				.findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+		
+			}
+		});
+		
 		return root;
 	}
 

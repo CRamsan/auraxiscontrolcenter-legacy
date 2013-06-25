@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -32,6 +33,29 @@ public class FragmentProfileList extends BaseFragment {
 				false);
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("List of Profiles");
+
+		Button updateButton = (Button) root
+				.findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+			}
+		});
+
+		Button searchButton = (Button) root
+				.findViewById(R.id.buttonFragmentAdd);
+		searchButton.setVisibility(View.VISIBLE);
+
+		searchButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityAddProfile.class);
+				startActivity(intent);
+			}
+		});
+
 		return root;
 	}
 
@@ -43,19 +67,5 @@ public class FragmentProfileList extends BaseFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.fragment_profile_list_menu, menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.profile_list_add:
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), ActivityAddProfile.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 }

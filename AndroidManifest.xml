@@ -6,11 +6,12 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="16" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.cesarandres.ps2link.ApplicationPS2Link"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -40,7 +41,7 @@
         </activity>
         <activity android:name="com.cesarandres.ps2link.ActivityAddOutfit" >
         </activity>
-         <activity android:name="com.cesarandres.ps2link.ActivityReddit" >
+        <activity android:name="com.cesarandres.ps2link.ActivityReddit" >
         </activity>
     </application>
 

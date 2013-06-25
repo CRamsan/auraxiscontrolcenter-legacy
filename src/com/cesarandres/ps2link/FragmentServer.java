@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -30,6 +31,17 @@ public class FragmentServer extends BaseFragment {
 		View root = inflater.inflate(R.layout.fragment_server, container, false);
 		// Inflate the layout for this fragment
 		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Server");
+		
+		Button updateButton = (Button) root
+				.findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				
+			}
+		});
+		
 		return root;
 	}
 
