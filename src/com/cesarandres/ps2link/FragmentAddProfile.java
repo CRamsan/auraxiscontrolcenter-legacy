@@ -7,8 +7,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +18,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -78,8 +77,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			}
 		});
 
-		final Button buttonCharacters = (Button) root
-				.findViewById(R.id.buttonSearchProfile);
+		final ImageButton buttonCharacters = (ImageButton) root
+				.findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				@SuppressWarnings("unused")
@@ -121,7 +120,7 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 					GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
 							url.toString(), Character_response.class, null,
 							success, error);
-					ActivityContainer.volley.add(gsonOject);
+					ApplicationPS2Link.volley.add(gsonOject);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -129,7 +128,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 
 			}
 		});
-		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Profiles Found");
+		((TextView) root.findViewById(R.id.textViewFragmentTitle))
+				.setText("Profiles Found");
 		return root;
 	}
 
@@ -205,13 +205,13 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			// Bind the data efficiently with the holder.
 			if (this.charactersList.get(position).getFaction_id()
 					.equals(Faction.VS)) {
-				holder.faction.setImageResource(R.drawable.vs);
+				holder.faction.setImageResource(R.drawable.vs_icon);
 			} else if (this.charactersList.get(position).getFaction_id()
 					.equals(Faction.NC)) {
-				holder.faction.setImageResource(R.drawable.nc);
+				holder.faction.setImageResource(R.drawable.nc_icon);
 			} else if (this.charactersList.get(position).getFaction_id()
 					.equals(Faction.TR)) {
-				holder.faction.setImageResource(R.drawable.tr);
+				holder.faction.setImageResource(R.drawable.tr_icon);
 			}
 
 			holder.characterName.setText(this.charactersList.get(position)

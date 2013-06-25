@@ -7,22 +7,21 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.World;
-import android.net.Uri;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Contacts;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.WorldLoader;
-import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -44,12 +43,9 @@ import com.google.gson.Gson;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentServerList extends BaseFragment implements
-		LoaderManager.LoaderCallbacks<World> {
+public class FragmentServerList extends BaseFragment {
 
 	public static final int SQL_READER = 235;
-
-	private ArrayList<World> serverList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +59,8 @@ public class FragmentServerList extends BaseFragment implements
 		// Inflate the layout for this fragment
 		View root = inflater.inflate(R.layout.fragment_server_list, container,
 				false);
+
+		new ReadServerTable().execute();
 
 		ListView listRoot = (ListView) root.findViewById(R.id.listViewServers);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
@@ -79,6 +77,15 @@ public class FragmentServerList extends BaseFragment implements
 
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("List of servers");
+		Button updateButton = (Button) root
+				.findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				downloadServers();
+			}
+		});
 
 		return root;
 	}
@@ -87,9 +94,12 @@ public class FragmentServerList extends BaseFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		// Prepare the loader. Either re-connect with an existing one,
-		// or start a new one.
-		getLoaderManager().initLoader(SQL_READER, null, this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		ApplicationPS2Link.volley.cancelAll(this);
 	}
 
 	public void downloadServers() {
@@ -104,10 +114,11 @@ public class FragmentServerList extends BaseFragment implements
 				public void onResponse(Server_response response) {
 					ListView listRoot = (ListView) getActivity().findViewById(
 							R.id.listViewServers);
+					Toast.makeText(getActivity(), "Data downloaded",
+							Toast.LENGTH_SHORT).show();
 					listRoot.setAdapter(new ServerItemAdapter(getActivity(),
 							response.getWorld_list()));
-					listRoot.setTextFilterEnabled(true);
-
+					new UpdateServerTable().execute(response.getWorld_list());
 				}
 			};
 
@@ -120,19 +131,12 @@ public class FragmentServerList extends BaseFragment implements
 			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(
 					url.toString(), Server_response.class, null, success, error);
 			gsonOject.setTag(this);
-			ActivityContainer.volley.add(gsonOject);
+			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-	public void readServers() {
-		ObjectDataSource data = new ObjectDataSource(getActivity());
-		data.open();
-		this.serverList = data.getAllWorlds();
-		data.close();
 	}
 
 	private static class ServerItemAdapter extends BaseAdapter {
@@ -182,6 +186,8 @@ public class FragmentServerList extends BaseFragment implements
 				holder = new ViewHolder();
 				holder.status = (ImageView) convertView
 						.findViewById(R.id.imageViewServerListStatus);
+				holder.serverstatus = (TextView) convertView
+						.findViewById(R.id.textViewServerStatus);
 				holder.serverName = (TextView) convertView
 						.findViewById(R.id.textViewServerListName);
 				holder.serverRegion = (TextView) convertView
@@ -195,42 +201,79 @@ public class FragmentServerList extends BaseFragment implements
 
 			// Bind the data efficiently with the holder.
 			if (this.serverList.get(position).getState().equals("online")) {
-				holder.status.setImageResource(R.drawable.vs);
+				holder.status.setImageResource(R.drawable.online);
+				holder.serverstatus.setText("ONLINE");
+				holder.serverstatus.setTextColor(Color.GREEN);
 			} else {
-				holder.status.setImageResource(R.drawable.tr);
+				holder.status.setImageResource(R.drawable.offline);
+				holder.serverstatus.setText("OFFLINE");
+				holder.serverstatus.setTextColor(Color.RED);
 			}
 
 			holder.serverName.setText(this.serverList.get(position).getName()
 					.getEn());
-			holder.serverRegion.setText("Not implemented yet");
+			holder.serverRegion.setText("(Region)");
 
 			return convertView;
 		}
 
 		static class ViewHolder {
 			ImageView status;
+			TextView serverstatus;
 			TextView serverName;
 			TextView serverRegion;
+		}
+	}
+
+	private class UpdateServerTable extends
+			AsyncTask<ArrayList<World>, Integer, Boolean> {
+		@Override
+		protected Boolean doInBackground(ArrayList<World>... worlds) {
+			int count = worlds[0].size();
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			int success = 0;
+			World world;
+			for (int i = 0; i < count; i++) {
+				world = worlds[0].get(i);
+				if (data.getWorld(world.getWorld_id()) == null) {
+					data.insertWorld(world);
+				} else {
+					data.updateWorld(world);
+				}
+			}
+			data.close();
+			return success > 0;
+		}
+	}
+
+	private class ReadServerTable extends
+			AsyncTask<Integer, Integer, ArrayList<World>> {
+
+		@Override
+		protected ArrayList<World> doInBackground(Integer... params) {
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			ArrayList<World> tmpServerList = data.getAllWorlds();
+			data.close();
+			return tmpServerList;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<World> result) {
+			if (result.size() == 0) {
+				Toast.makeText(getActivity(), "Not servers in DB",
+						Toast.LENGTH_SHORT).show();
+				downloadServers();
+			} else {
+				Toast.makeText(getActivity(), "Used servers from DB",
+						Toast.LENGTH_SHORT).show();
+				ListView listRoot = (ListView) getActivity().findViewById(
+						R.id.listViewServers);
+				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
+			}
 		}
 
 	}
 
-	@Override
-	public Loader<World> onCreateLoader(int arg0, Bundle arg1) {
-		return new WorldLoader(getActivity(), baseUri,
-				CONTACTS_SUMMARY_PROJECTION, select, null,
-				Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
-	}
-
-	@Override
-	public void onLoadFinished(Loader<World> arg0, World arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLoaderReset(Loader<World> arg0) {
-		// TODO Auto-generated method stub
-
-	}
 }

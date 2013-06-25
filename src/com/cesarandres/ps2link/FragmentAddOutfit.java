@@ -18,17 +18,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -40,7 +38,6 @@ import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
-import com.google.gson.Gson;
 
 /**
  * Created by cesar on 6/16/13.
@@ -77,8 +74,8 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			}
 		});
 
-		final Button buttonOutfits = (Button) root
-				.findViewById(R.id.buttonSearchOutfit);
+		final ImageButton buttonOutfits = (ImageButton) root
+				.findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				@SuppressWarnings("unused")
@@ -123,7 +120,7 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 					GsonRequest<Outfit_response> gsonOject = new GsonRequest<Outfit_response>(
 							url.toString(), Outfit_response.class, null,
 							success, error);
-					ActivityContainer.volley.add(gsonOject);
+					ApplicationPS2Link.volley.add(gsonOject);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -31,6 +32,26 @@ public class FragmentOutfitList extends BaseFragment {
 				false);
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("List of Outfits");
+
+		Button updateButton = (Button) root
+				.findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+			}
+		});
+
+		Button searchButton = (Button) root
+				.findViewById(R.id.buttonFragmentAdd);
+		searchButton.setVisibility(View.VISIBLE);
+
+		searchButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+			}
+		});
 
 		return root;
 	}
