@@ -103,6 +103,9 @@ public class SOECensus {
 		if (identifier == null) {
 			identifier = "";
 		}
+		if (query == null) {
+			query = new QueryString();
+		}
 		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
 				+ verb.toString() + "/" + game.toString() + "/"
 				+ collection.toString() + "/" + identifier + "?"

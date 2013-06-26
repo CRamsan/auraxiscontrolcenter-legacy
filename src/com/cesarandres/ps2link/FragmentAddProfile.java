@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,6 +30,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
@@ -46,6 +49,10 @@ import com.google.gson.Gson;
  */
 public class FragmentAddProfile extends BaseFragment implements OnClickListener {
 
+	public static Bitmap vs_icon;
+	public static Bitmap nc_icon;
+	public static Bitmap tr_icon;
+
 	public interface NameToSearchListener {
 		void onProfileSelected(CharacterProfile profile);
 	}
@@ -54,6 +61,13 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		vs_icon = BitmapFactory.decodeResource(getActivity().getResources(),
+				R.drawable.vs_icon);
+		tr_icon = BitmapFactory.decodeResource(getActivity().getResources(),
+				R.drawable.tr_icon);
+		nc_icon = BitmapFactory.decodeResource(getActivity().getResources(),
+				R.drawable.nc_icon);
 	}
 
 	@Override
@@ -71,8 +85,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 					int myItemInt, long mylng) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profile", new Gson().toJson(myAdapter
-						.getItemAtPosition(myItemInt)));
+				intent.putExtra("profileId", ((CharacterProfile) myAdapter
+						.getItemAtPosition(myItemInt)).getId());
 				startActivity(intent);
 			}
 		});
@@ -81,51 +95,7 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 				.findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				@SuppressWarnings("unused")
-				EditText searchField = (EditText) getActivity().findViewById(
-						R.id.fieldSearchProfile);
-				URL url;
-				try {
-					url = SOECensus.generateGameDataRequest(
-							Verb.GET,
-							Game.PS2,
-							PS2Collection.CHARACTER,
-							"",
-							QueryString
-									.generateQeuryString()
-									.AddComparison("name.first_lower",
-											SearchModifier.STARTSWITH,
-											searchField.getText().toString())
-									.AddCommand(QueryCommand.LIMIT, "10"));
-
-					Listener<Character_response> success = new Response.Listener<Character_response>() {
-						@Override
-						public void onResponse(Character_response response) {
-							ListView listRoot = (ListView) getActivity()
-									.findViewById(R.id.listFoundProfiles);
-							listRoot.setAdapter(new ProfileItemAdapter(
-									getActivity(), response.getCharacter_list()));
-							listRoot.setTextFilterEnabled(true);
-
-						}
-					};
-
-					ErrorListener error = new Response.ErrorListener() {
-						@Override
-						public void onErrorResponse(VolleyError error) {
-							error.equals(new Object());
-						}
-					};
-
-					GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
-							url.toString(), Character_response.class, null,
-							success, error);
-					ApplicationPS2Link.volley.add(gsonOject);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+				downloadProfiles();
 			}
 		});
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
@@ -205,13 +175,13 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			// Bind the data efficiently with the holder.
 			if (this.charactersList.get(position).getFaction_id()
 					.equals(Faction.VS)) {
-				holder.faction.setImageResource(R.drawable.vs_icon);
+				holder.faction.setImageBitmap(vs_icon);
 			} else if (this.charactersList.get(position).getFaction_id()
 					.equals(Faction.NC)) {
-				holder.faction.setImageResource(R.drawable.nc_icon);
+				holder.faction.setImageBitmap(nc_icon);
 			} else if (this.charactersList.get(position).getFaction_id()
 					.equals(Faction.TR)) {
-				holder.faction.setImageResource(R.drawable.tr_icon);
+				holder.faction.setImageBitmap(tr_icon);
 			}
 
 			holder.characterName.setText(this.charactersList.get(position)
@@ -228,5 +198,74 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			TextView battleRank;
 		}
 
+	}
+
+	private void downloadProfiles() {
+		EditText searchField = (EditText) getActivity().findViewById(
+				R.id.fieldSearchProfile);
+		URL url;
+		try {
+			url = SOECensus.generateGameDataRequest(
+					Verb.GET,
+					Game.PS2,
+					PS2Collection.CHARACTER,
+					"",
+					QueryString
+							.generateQeuryString()
+							.AddComparison(
+									"name.first_lower",
+									SearchModifier.STARTSWITH,
+									searchField.getText().toString()
+											.toLowerCase())
+							.AddCommand(QueryCommand.LIMIT, "10"));
+
+			Listener<Character_response> success = new Response.Listener<Character_response>() {
+				@Override
+				public void onResponse(Character_response response) {
+					ListView listRoot = (ListView) getActivity().findViewById(
+							R.id.listFoundProfiles);
+					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
+							response.getCharacter_list()));
+					new UpdateTmpProfileTable().execute(response.getCharacter_list());
+
+				}
+			};
+
+			ErrorListener error = new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					error.equals(new Object());
+				}
+			};
+
+			GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
+					url.toString(), Character_response.class, null, success,
+					error);
+			ApplicationPS2Link.volley.add(gsonOject);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private class UpdateTmpProfileTable extends
+			AsyncTask<ArrayList<CharacterProfile>, Integer, Boolean> {
+		@Override
+		protected Boolean doInBackground(
+				ArrayList<CharacterProfile>... profiles) {
+			int count = profiles[0].size();
+			ArrayList<CharacterProfile> list = profiles[0];
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			for (int i = 0; i < count; i++) {
+				if (data.getCharacter(list.get(i).getId(), true) == null) {
+					data.insertCharacter(list.get(i), true);
+				} else {
+					data.updateCharacter(list.get(i), true);
+				}
+			}
+			data.close();
+			return true;
+		}
 	}
 }
