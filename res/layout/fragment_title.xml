@@ -29,6 +29,27 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_action_refresh"
             android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonFragmentStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_action_star"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonFragmentAddContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_action_user_add"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonFragmentRemoveContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_action_delete"
+            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>

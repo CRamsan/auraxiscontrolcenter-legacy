@@ -103,7 +103,7 @@ public class ObjectDataSource {
 				SQLiteManager.DATABASE_VERSION);
 	}
 
-	public boolean insertCharacter(CharacterProfile character) {
+	public boolean insertCharacter(CharacterProfile character, boolean temp) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character
@@ -113,9 +113,9 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ACTIVE_PROFILE_ID,
 				character.getActive_profile_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_CURRENT_POINTS, character
-				.getCerts().getCurrentpoints());
+				.getCerts().getAvailable_points());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_CERT,
-				character.getCerts().getPercentagetonext());
+				character.getCerts().getPercent_to_next());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_RANK_VALUE, character
 				.getBattle_rank().getValue());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_RANK,
@@ -128,43 +128,60 @@ public class ObjectDataSource {
 				character.getFaction_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
 				character.getWorld_id());
-		long insertId = database.insert(SQLiteManager.TABLE_CHARACTERS_NAME,
-				null, values);
+
+		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		}
+		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
 
-	public int insertAllCharacters(ArrayList<CharacterProfile> characterList) {
+	public int insertAllCharacters(ArrayList<CharacterProfile> characterList,
+			boolean temp) {
 		int count = 0;
 		for (CharacterProfile character : characterList) {
-			if (insertCharacter(character)) {
+			if (insertCharacter(character, temp)) {
 				count++;
 			}
 		}
 		return count;
 	}
 
-	public void deleteCharacter(CharacterProfile character) {
+	public void deleteCharacter(CharacterProfile character, boolean temp) {
 		String id = character.getId();
-		database.delete(SQLiteManager.TABLE_CHARACTERS_NAME,
+		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		}
+		database.delete(target,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + id, null);
 	}
 
-	public CharacterProfile getCharacter(int characterId) {
-		Cursor cursor = database.query(SQLiteManager.TABLE_CHARACTERS_NAME,
-				allColumnsCharacters, SQLiteManager.CHARACTERS_COLUMN_ID
-						+ " = " + characterId, null, null, null, null);
+	public CharacterProfile getCharacter(String characterId, boolean temp) {
+		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsCharacters,
+				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + characterId, null,
+				null, null, null);
 		cursor.moveToFirst();
 		CharacterProfile character = null;
 		while (!cursor.isAfterLast()) {
 			character = cursorToCharacterProfile(cursor);
+			cursor.moveToNext();
 		}
 		// Make sure to close the cursor
 		cursor.close();
 		return character;
 	}
 
-	public int updateCharacter(CharacterProfile character) {
-
+	public int updateCharacter(CharacterProfile character, boolean temp) {
+		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character
@@ -174,9 +191,9 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ACTIVE_PROFILE_ID,
 				character.getActive_profile_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_CURRENT_POINTS, character
-				.getCerts().getCurrentpoints());
+				.getCerts().getAvailable_points());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_CERT,
-				character.getCerts().getPercentagetonext());
+				character.getCerts().getPercent_to_next());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_RANK_VALUE, character
 				.getBattle_rank().getValue());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_RANK,
@@ -190,7 +207,7 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
 				character.getWorld_id());
 
-		return database.update(SQLiteManager.TABLE_CHARACTERS_NAME, values,
+		return database.update(target, values,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + character.getId(),
 				null);
 	}
@@ -205,8 +222,8 @@ public class ObjectDataSource {
 
 		character.setActive_profile_id(cursor.getString(3));
 		Certs certs = new Certs();
-		certs.setCurrentpoints(cursor.getString(4));
-		certs.setPercentagetonext(cursor.getString(5));
+		certs.setAvailable_points(cursor.getString(4));
+		certs.setPercent_to_next(cursor.getString(5));
 		character.setCerts(certs);
 
 		BattleRank br = new BattleRank();
@@ -223,6 +240,29 @@ public class ObjectDataSource {
 		character.setWorld_id(cursor.getString(11));
 
 		return character;
+	}
+
+	public ArrayList<CharacterProfile> daleteAllCharacterProfiles(boolean temp) {
+		ArrayList<CharacterProfile> profiles = new ArrayList<CharacterProfile>(
+				0);
+
+		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		}
+
+		Cursor cursor = database.query(target, allColumnsCharacters, null,
+				null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			CharacterProfile character = cursorToCharacterProfile(cursor);
+			profiles.add(character);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return profiles;
 	}
 
 	public ArrayList<CharacterProfile> getAllCharacterProfiles() {
@@ -505,14 +545,10 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
 				outfit.getLeader_character_id());
 
-		return database.update(
-				SQLiteManager.TABLE_OUTFITS_NAME,
-				values,
-				SQLiteManager.OUTFIT_COLUMN_ID + " = "
-						+ outfit.getId(), null);
+		return database.update(SQLiteManager.TABLE_OUTFITS_NAME, values,
+				SQLiteManager.OUTFIT_COLUMN_ID + " = " + outfit.getId(), null);
 	}
-	
-	
+
 	public boolean insertWorld(World world) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.WORLDS_COLUMN_NAME, world.getName().getEn());
@@ -533,11 +569,10 @@ public class ObjectDataSource {
 		World world = new World();
 
 		world.setWorld_id(cursor.getString(0));
-		world.setState(cursor.getString(1));
-
 		Name_Multi name = new Name_Multi();
-		name.setEn(cursor.getString(2));
+		name.setEn(cursor.getString(1));
 		world.setName(name);
+		world.setState(cursor.getString(2));
 
 		return world;
 	}
@@ -572,7 +607,6 @@ public class ObjectDataSource {
 		}
 		return count;
 	}
-	
 
 	public World getWorld(String worldId) {
 		Cursor cursor = database.query(SQLiteManager.TABLE_WORLDS_NAME,
@@ -595,11 +629,9 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.WORLDS_COLUMN_ID, world.getWorld_id());
 		values.put(SQLiteManager.WORLDS_COLUMN_STATE, world.getState());
 
-		return database.update(
-				SQLiteManager.TABLE_WORLDS_NAME,
-				values,
-				SQLiteManager.WORLDS_COLUMN_ID + " = "
-						+ world.getWorld_id(), null);
+		return database.update(SQLiteManager.TABLE_WORLDS_NAME, values,
+				SQLiteManager.WORLDS_COLUMN_ID + " = " + world.getWorld_id(),
+				null);
 	}
-	
+
 }

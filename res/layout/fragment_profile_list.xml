@@ -9,7 +9,7 @@
         layout="@layout/fragment_title" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listViewProfileList"
         style="@style/FragmentStyle" >
     </ListView>
 

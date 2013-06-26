@@ -7,7 +7,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,10 +48,17 @@ public class FragmentServerList extends BaseFragment {
 
 	public static final int SQL_READER = 235;
 
+	private static Bitmap offline;
+	private static Bitmap online;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		online = BitmapFactory.decodeResource(getActivity().getResources(),
+				R.drawable.online);
+		offline = BitmapFactory.decodeResource(getActivity().getResources(),
+				R.drawable.offline);
 	}
 
 	@Override
@@ -201,11 +209,11 @@ public class FragmentServerList extends BaseFragment {
 
 			// Bind the data efficiently with the holder.
 			if (this.serverList.get(position).getState().equals("online")) {
-				holder.status.setImageResource(R.drawable.online);
+				holder.status.setImageBitmap(online);
 				holder.serverstatus.setText("ONLINE");
 				holder.serverstatus.setTextColor(Color.GREEN);
 			} else {
-				holder.status.setImageResource(R.drawable.offline);
+				holder.status.setImageBitmap(offline);
 				holder.serverstatus.setText("OFFLINE");
 				holder.serverstatus.setTextColor(Color.RED);
 			}
@@ -234,13 +242,34 @@ public class FragmentServerList extends BaseFragment {
 			data.open();
 			int success = 0;
 			World world;
+			boolean found = false;
+			ArrayList<World> newWorlds = new ArrayList<World>(0);
+			ArrayList<World> oldWorlds = data.getAllWorlds();
 			for (int i = 0; i < count; i++) {
 				world = worlds[0].get(i);
-				if (data.getWorld(world.getWorld_id()) == null) {
-					data.insertWorld(world);
-				} else {
-					data.updateWorld(world);
+				for (int j = 0; j < oldWorlds.size(); j++) {
+					if (oldWorlds.get(j).getWorld_id()
+							.equals(world.getWorld_id())) {
+						data.updateWorld(world);
+						newWorlds.add(oldWorlds.get(j));
+						found = true;
+					}
 				}
+				if (!found) {
+					data.insertWorld(world);
+				}
+				found = false;
+			}
+			for (int i = 0; i < newWorlds.size(); i++) {
+				world = newWorlds.get(i);
+				for (int j = 0; j < oldWorlds.size(); j++) {
+					if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
+						oldWorlds.remove(j);
+					}
+				}
+			}
+			for (int i = 0; i < oldWorlds.size(); i++) {
+				data.deleteWorld(oldWorlds.get(i));
 			}
 			data.close();
 			return success > 0;
@@ -271,6 +300,7 @@ public class FragmentServerList extends BaseFragment {
 				ListView listRoot = (ListView) getActivity().findViewById(
 						R.id.listViewServers);
 				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
+				downloadServers();
 			}
 		}
 
