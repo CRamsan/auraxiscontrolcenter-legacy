@@ -26,6 +26,8 @@ import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
+import android.widget.AdapterView.*;
+import android.widget.*;
 
 /**
  * Created by cesar on 6/16/13.
@@ -59,6 +61,20 @@ public class FragmentProfileList extends BaseFragment {
 
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("List of Profiles");
+				
+		ListView listRoot = (ListView) root
+				.findViewById(R.id.listViewProfileList);
+		listRoot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView,
+					   int myItemInt, long mylng) {
+   Intent intent = new Intent();
+   intent.setClass(getActivity(), ActivityProfile.class);
+   intent.putExtra("profileId", ((CharacterProfile) myAdapter
+				   .getItemAtPosition(myItemInt)).getId());
+   startActivity(intent);
+			}
+		});		
 
 		Button updateButton = (Button) root
 				.findViewById(R.id.buttonFragmentUpdate);
@@ -66,7 +82,7 @@ public class FragmentProfileList extends BaseFragment {
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+				new ReadProfilesTable().execute();
 			}
 		});
 
@@ -90,6 +106,12 @@ public class FragmentProfileList extends BaseFragment {
 		super.onPause();
 	}
 
+	@Override
+	public void onResume(){
+		super.onResume();
+		new ReadProfilesTable().execute();
+	}
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.fragment_profile_list_menu, menu);

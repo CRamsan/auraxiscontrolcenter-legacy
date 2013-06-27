@@ -49,9 +49,12 @@ public class FragmentOutfitList extends BaseFragment {
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+   Intent intent = new Intent();
+   intent.setClass(getActivity(), ActivityAddOutfit.class);
+   startActivity(intent);
 			}
 		});
+
 
 		return root;
 	}
