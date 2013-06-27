@@ -17,6 +17,7 @@
             android:id="@+id/textViewProfileServer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:drawableLeft="@drawable/vs_icon"
             android:gravity="center_vertical"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -42,25 +43,14 @@
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <LinearLayout
+            <ProgressBar
+                android:id="@+id/progressBarProfileBRProgress"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="5"
-                android:orientation="vertical" >
-
-                <RatingBar
-                    android:id="@+id/ratingBarBRProgress"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:max="10"
-                    android:maxHeight="@dimen/br_bar_height"
-                    android:minHeight="@dimen/br_bar_height"
-                    android:numStars="6"
-                    android:progress="1"
-                    android:progressDrawable="@drawable/br_progress" />
-            </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:layout_weight="10"
+                android:indeterminate="false" />
 
             <TextView
                 android:id="@+id/textViewNextRank"
@@ -76,23 +66,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" >
 
-            <TextView
-                android:id="@+id/textViewProfileCerts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/textViewProfileCertsValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
             <ProgressBar
                 android:id="@+id/progressBarProfileCertsProgress"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -100,7 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="10"
-                android:max="100"
                 android:indeterminate="false" />
 
             <ImageView
@@ -109,6 +81,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/cert" />
+
+            <TextView
+                android:id="@+id/textViewProfileCertsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
         </LinearLayout>
 
         <TextView

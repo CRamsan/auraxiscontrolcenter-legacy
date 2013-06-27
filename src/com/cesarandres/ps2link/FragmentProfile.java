@@ -26,6 +26,7 @@ import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
+import com.cesarandres.ps2link.soe.content.backlog.Profile;
 import com.cesarandres.ps2link.soe.content.response.Character_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
@@ -34,6 +35,9 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  * Created by cesar on 6/16/13.
  */
 public class FragmentProfile extends BaseFragment {
+
+	private static boolean isCached;
+	private CharacterProfile profile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +60,23 @@ public class FragmentProfile extends BaseFragment {
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+				downloadProfiles(profile.getId());
 			}
 		});
+
+		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						new UnCacheProfile().execute(profile);
+					}
+				});
+
+		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						new CacheProfile().execute(profile);
+					}
+				});
 
 		return root;
 	}
@@ -77,15 +95,18 @@ public class FragmentProfile extends BaseFragment {
 				R.id.textViewProfileServer));
 		faction.setText("");
 		if (character.getFaction_id().equals(Faction.VS)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vs_icon, 0, 0, 0);
+			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vs_icon,
+					0, 0, 0);
 		} else if (character.getFaction_id().equals(Faction.NC)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.nc_icon, 0, 0, 0);
+			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.nc_icon,
+					0, 0, 0);
 		} else if (character.getFaction_id().equals(Faction.TR)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tr_icon, 0, 0, 0);
+			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tr_icon,
+					0, 0, 0);
 		}
-		
+
 		TextView initialBR = ((TextView) getActivity().findViewById(
-				R.id.textViewProfileBattleRankValue));
+				R.id.textViewCurrentRank));
 		initialBR.setText(Integer.toString(character.getBattle_rank()
 				.getValue()));
 		initialBR.setTextColor(Color.BLACK);
@@ -96,9 +117,19 @@ public class FragmentProfile extends BaseFragment {
 				.toString(character.getBattle_rank().getValue() + 1));
 		nextBR.setTextColor(Color.BLACK);
 
+		int progressBR = (character.getBattle_rank().getPercent_to_next());
 		((ProgressBar) getActivity().findViewById(
-				R.id.progressBarProfileCertsProgress)).setProgress(Integer
-				.parseInt(character.getCerts().getPercent_to_next()));
+				R.id.progressBarProfileBRProgress))
+				.setProgress((int) (progressBR));
+
+		Float progressCerts = Float.parseFloat(character.getCerts()
+				.getPercent_to_next());
+		((ProgressBar) getActivity().findViewById(
+				R.id.progressBarProfileCertsProgress))
+				.setProgress((int) (progressCerts * 100));
+		TextView certs = ((TextView) getActivity().findViewById(
+				R.id.textViewProfileCertsValue));
+		certs.setText(character.getCerts().getAvailable_points());
 
 		((TextView) getActivity().findViewById(
 				R.id.textViewProfileMinutesPlayed)).setText(character
@@ -114,6 +145,18 @@ public class FragmentProfile extends BaseFragment {
 								Toast.LENGTH_SHORT).show();
 					}
 				});
+
+		if (isCached) {
+			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
+					.setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.buttonFragmentAddContact)
+					.setVisibility(View.GONE);
+		} else {
+			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
+					.setVisibility(View.GONE);
+			getActivity().findViewById(R.id.buttonFragmentAddContact)
+					.setVisibility(View.VISIBLE);
+		}
 	}
 
 	private void downloadProfiles(String character_id) {
@@ -153,9 +196,12 @@ public class FragmentProfile extends BaseFragment {
 		protected CharacterProfile doInBackground(String... args) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
-			CharacterProfile profile = data.getCharacter(args[0], true);
+			CharacterProfile profile = data.getCharacter(args[0], false);
 			if (profile == null) {
-				profile = data.getCharacter(args[0], false);
+				profile = data.getCharacter(args[0], true);
+				isCached = false;
+			} else {
+				isCached = true;
 			}
 			data.close();
 			return profile;
@@ -163,6 +209,51 @@ public class FragmentProfile extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(CharacterProfile result) {
+			profile = result;
+			updateUI(result);
+		}
+	}
+
+	private class CacheProfile extends
+			AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+		@Override
+		protected CharacterProfile doInBackground(CharacterProfile... args) {
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			CharacterProfile profile = args[0];
+			data.insertCharacter(profile, false);
+			data.deleteCharacter(profile, true);
+			isCached = true;
+
+			data.close();
+			return profile;
+		}
+
+		@Override
+		protected void onPostExecute(CharacterProfile result) {
+			profile = result;
+			updateUI(result);
+		}
+	}
+
+	private class UnCacheProfile extends
+			AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+		@Override
+		protected CharacterProfile doInBackground(CharacterProfile... args) {
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			CharacterProfile profile = args[0];
+			data.insertCharacter(profile, true);
+			data.deleteCharacter(profile, false);
+			isCached = false;
+
+			data.close();
+			return profile;
+		}
+
+		@Override
+		protected void onPostExecute(CharacterProfile result) {
+			profile = result;
 			updateUI(result);
 		}
 	}

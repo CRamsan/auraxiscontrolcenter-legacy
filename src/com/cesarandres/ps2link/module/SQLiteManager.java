@@ -61,7 +61,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
 
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 7;
+	public static final int DATABASE_VERSION = 10;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "
@@ -89,9 +89,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ CHARACTERS_COLUMN_WORLD_ID + " varchar(-1), " + "PRIMARY KEY ("
 			+ CHARACTERS_COLUMN_ID + "), " + "FOREIGN KEY("
 			+ CHARACTERS_COLUMN_FACTION_ID + ") REFERENCES "
-			+ TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "), "
-			+ "FOREIGN KEY(" + CHARACTERS_COLUMN_WORLD_ID + ") REFERENCES "
-			+ TABLE_WORLDS_NAME + "(" + WORLDS_COLUMN_ID + "));";
+			+ TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "));";
 
 	private static final String CREATE_CHARACTERS_TMP_TABLE = "create table "
 			+ TABLE_CHARACTERS_TMP_NAME + " ( " + CHARACTERS_COLUMN_ID
@@ -108,9 +106,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ CHARACTERS_COLUMN_WORLD_ID + " varchar(-1), " + "PRIMARY KEY ("
 			+ CHARACTERS_COLUMN_ID + "), " + "FOREIGN KEY("
 			+ CHARACTERS_COLUMN_FACTION_ID + ") REFERENCES "
-			+ TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "), "
-			+ "FOREIGN KEY(" + CHARACTERS_COLUMN_WORLD_ID + ") REFERENCES "
-			+ TABLE_WORLDS_NAME + "(" + WORLDS_COLUMN_ID + "));";
+			+ TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "));";
 
 	private static final String CREATE_MEMBERS_TABLE = "create table "
 			+ TABLE_MEMBERS_NAME + " ( " + MEMBERS_COLUMN_ID + " varchar(-1), "
