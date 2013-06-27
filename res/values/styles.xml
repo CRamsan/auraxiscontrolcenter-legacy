@@ -1,17 +1,15 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
     <style name="PS2BaseTheme" parent="android:Theme.Black.NoTitleBar"></style>
-
-    <!-- Application theme. -->
-    <style name="PS2Theme" parent="PS2BaseTheme"></style>
 
     <style name="ActivityStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
+    </style>
+
+    <style name="ActionBarButtonStyle">
+        <item name="android:minHeight">1dp</item>
+        <item name="android:minWidth">1dp</item>
     </style>
 
     <style name="TitleBarStyle">
@@ -53,5 +51,7 @@
         <item name="android:typeface">monospace</item>
         <item name="android:background">@drawable/menu_item_green</item>
     </style>
+
+    <color name="BLACK">#000000</color>
 
 </resources>

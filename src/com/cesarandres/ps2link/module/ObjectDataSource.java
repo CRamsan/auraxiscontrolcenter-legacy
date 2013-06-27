@@ -129,7 +129,7 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
 				character.getWorld_id());
 
-		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
 			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
 		}
@@ -150,7 +150,7 @@ public class ObjectDataSource {
 
 	public void deleteCharacter(CharacterProfile character, boolean temp) {
 		String id = character.getId();
-		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
 			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
 		}
@@ -159,7 +159,7 @@ public class ObjectDataSource {
 	}
 
 	public CharacterProfile getCharacter(String characterId, boolean temp) {
-		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
 			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
 		}
@@ -178,7 +178,7 @@ public class ObjectDataSource {
 	}
 
 	public int updateCharacter(CharacterProfile character, boolean temp) {
-		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
 			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
 		}
@@ -246,7 +246,7 @@ public class ObjectDataSource {
 		ArrayList<CharacterProfile> profiles = new ArrayList<CharacterProfile>(
 				0);
 
-		String target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
 			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
 		}

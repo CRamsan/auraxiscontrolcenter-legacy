@@ -15,8 +15,8 @@ public class ActivityAddProfile extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_profile);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+			//ActionBar actionBar = getActionBar();
+			//actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
 }

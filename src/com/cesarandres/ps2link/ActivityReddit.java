@@ -19,8 +19,8 @@ public class ActivityReddit extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_reddit);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+			//ActionBar actionBar = getActionBar();
+			//actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 		webView = (WebView) findViewById(R.id.webViewReddit);
 		webView.getSettings().setJavaScriptEnabled(true);

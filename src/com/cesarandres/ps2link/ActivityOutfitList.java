@@ -15,8 +15,8 @@ public class ActivityOutfitList extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_outfit_list);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+			//ActionBar actionBar = getActionBar();
+			//actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
 }
