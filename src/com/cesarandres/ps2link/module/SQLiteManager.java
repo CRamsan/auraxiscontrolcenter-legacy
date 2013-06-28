@@ -61,7 +61,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
 
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 10;
+	public static final int DATABASE_VERSION = 15;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "
@@ -125,23 +125,24 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ MEMBERS_COLUMN_ID + "));";
 
 	private static final String CREATE_OUTFITS_TABLE = "create table "
-			+ TABLE_OUTFITS_NAME + " ( " + OUTFIT_COLUMN_ID + " Int, "
+			+ TABLE_OUTFITS_NAME + " ( " + OUTFIT_COLUMN_ID + " varchar(-1), "
 			+ OUTFIT_COLUMN_NAME + " varchar(-1), " + OUTFIT_COLUMN_ALIAS
 			+ " varchar(-1), " + OUTFIT_COLUMN_LEADER_CHARACTER_ID
 			+ " varchar(-1), " + OUTFIT_COLUMN_MEMBER_COUNT + " Int, "
 			+ OUTFIT_COLUMN_TIME_CREATED + " Int, " + OUTFIT_COLUMN_WORDL_ID
-			+ " Int, " + OUTFIT_COLUMN_FACTION_ID + " Int, " + "FOREIGN KEY("
-			+ OUTFIT_COLUMN_FACTION_ID + ") REFERENCES " + TABLE_FACTIONS_NAME
-			+ "(" + FACTIONS_COLUMN_ID + "), " + "FOREIGN KEY("
-			+ OUTFIT_COLUMN_WORDL_ID + ") REFERENCES " + TABLE_WORLDS_NAME
-			+ "(" + WORLDS_COLUMN_ID + "), " + "PRIMARY KEY ("
-			+ OUTFIT_COLUMN_ID + "));";
+			+ " Int, " + OUTFIT_COLUMN_FACTION_ID + " varchar(-1), "
+			+ "FOREIGN KEY(" + OUTFIT_COLUMN_FACTION_ID + ") REFERENCES "
+			+ TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "), "
+			+ "FOREIGN KEY(" + OUTFIT_COLUMN_WORDL_ID + ") REFERENCES "
+			+ TABLE_WORLDS_NAME + "(" + WORLDS_COLUMN_ID + "), "
+			+ "PRIMARY KEY (" + OUTFIT_COLUMN_ID + "));";
 
 	private static final String CREATE_OUTFITS_TMP_TABLE = "create table "
-			+ TABLE_OUTFITS_TMP_NAME + " ( " + OUTFIT_COLUMN_ID + " Int, "
-			+ OUTFIT_COLUMN_NAME + " varchar(-1), " + OUTFIT_COLUMN_ALIAS
-			+ " varchar(-1), " + OUTFIT_COLUMN_LEADER_CHARACTER_ID
-			+ " varchar(-1), " + OUTFIT_COLUMN_MEMBER_COUNT + " Int, "
+			+ TABLE_OUTFITS_TMP_NAME + " ( " + OUTFIT_COLUMN_ID
+			+ " varchar(-1), " + OUTFIT_COLUMN_NAME + " varchar(-1), "
+			+ OUTFIT_COLUMN_ALIAS + " varchar(-1), "
+			+ OUTFIT_COLUMN_LEADER_CHARACTER_ID + " varchar(-1), "
+			+ OUTFIT_COLUMN_MEMBER_COUNT + " Int, "
 			+ OUTFIT_COLUMN_TIME_CREATED + " Int, " + OUTFIT_COLUMN_WORDL_ID
 			+ " Int, " + OUTFIT_COLUMN_FACTION_ID + " Int, " + "FOREIGN KEY("
 			+ OUTFIT_COLUMN_FACTION_ID + ") REFERENCES " + TABLE_FACTIONS_NAME

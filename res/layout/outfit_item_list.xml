@@ -8,21 +8,21 @@
         android:id="@+id/textViewOutfitName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Derp Company"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textViewOutfitAlias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(D3RP)"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textViewOutfitCount"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="123"
+        android:layout_marginLeft="15dp"
+        android:layout_weight="1"
+        android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
