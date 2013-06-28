@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
@@ -105,6 +107,7 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 									.findViewById(R.id.listFoundOutfits);
 							listRoot.setAdapter(new outfitItemAdapter(
 									getActivity(), response.getOutfit_list()));
+							new UpdateTmpOutfitTable().execute(response.getOutfit_list());
 							listRoot.setTextFilterEnabled(true);
 
 						}
@@ -131,9 +134,10 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 
 			}
 		});
-		
-		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Outfits Found");
-		
+
+		((TextView) root.findViewById(R.id.textViewFragmentTitle))
+				.setText("Outfits Found");
+
 		return root;
 	}
 
@@ -197,8 +201,6 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 						.findViewById(R.id.textViewOutfitAlias);
 				holder.memberCount = (TextView) convertView
 						.findViewById(R.id.textViewOutfitCount);
-				holder.serverName = (TextView) convertView
-						.findViewById(R.id.textViewOutfitServer);
 				convertView.setTag(holder);
 			} else {
 				// Get the ViewHolder back to get fast access to the TextView
@@ -207,13 +209,13 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			}
 
 			holder.outfitName.setText(this.outfitList.get(position).getName());
-			holder.memberCount.setText(this.outfitList.get(position)
-					.getMember_count());
-			holder.outfitAlias
-					.setText(this.outfitList.get(position).getAlias());
+			holder.memberCount.setText("Members: "
+					+ this.outfitList.get(position).getMember_count());
+			String tag = this.outfitList.get(position).getAlias();
+			if (tag.length() > 0) {
+				holder.outfitAlias.setText("(" + tag + ")");
+			}
 
-			holder.serverName.setText(this.outfitList.get(position)
-					.getWorld_id());
 			return convertView;
 		}
 
@@ -221,8 +223,27 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			TextView outfitName;
 			TextView outfitAlias;
 			TextView memberCount;
-			TextView serverName;
 		}
+	}
 
+	private class UpdateTmpOutfitTable extends
+			AsyncTask<ArrayList<Outfit>, Integer, Boolean> {
+		@Override
+		protected Boolean doInBackground(
+				ArrayList<Outfit>... outfits) {
+			int count = outfits[0].size();
+			ArrayList<Outfit> list = outfits[0];
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			for (int i = 0; i < count; i++) {
+				if (data.getOutfit(list.get(i).getId(), true) == null) {
+					data.insertOutfit(list.get(i), true);
+				} else {
+					data.updateOutfit(list.get(i), true);
+				}
+			}
+			data.close();
+			return true;
+		}
 	}
 }

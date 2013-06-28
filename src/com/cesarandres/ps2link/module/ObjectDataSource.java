@@ -62,6 +62,7 @@ public class ObjectDataSource {
 
 	private String[] allColumnsOutfit = { SQLiteManager.OUTFIT_COLUMN_ID,
 			SQLiteManager.OUTFIT_COLUMN_NAME,
+			SQLiteManager.OUTFIT_COLUMN_ALIAS,
 			SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID,
 			SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT,
 			SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
@@ -348,6 +349,7 @@ public class ObjectDataSource {
 		Faction faction = null;
 		while (!cursor.isAfterLast()) {
 			faction = cursorToFaction(cursor);
+			cursor.moveToNext();
 		}
 		// Make sure to close the cursor
 		cursor.close();
@@ -368,7 +370,11 @@ public class ObjectDataSource {
 				null);
 	}
 
-	public boolean insertMember(Member member) {
+	public boolean insertMember(Member member, String outfit_id, boolean temp) {
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
 		values.put(SQLiteManager.MEMBERS_COLUMN_MEMBER_SINCE,
@@ -378,15 +384,19 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.MEMBERS_COLUMN_RANK, member.getRank());
 		values.put(SQLiteManager.MEMBERS_COLUMN_ORDINAL,
 				member.getRank_ordinal());
-		long insertId = database.insert(SQLiteManager.TABLE_MEMBERS_NAME, null,
-				values);
+		values.put(SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID, outfit_id);
+		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
 
-	public void deleteMember(Member member) {
+	public void deleteMember(Member member, boolean temp) {
 		String id = member.getCharacter_id();
-		database.delete(SQLiteManager.TABLE_MEMBERS_NAME,
-				SQLiteManager.MEMBERS_COLUMN_ID + " = " + id, null);
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
+		database.delete(target, SQLiteManager.MEMBERS_COLUMN_ID + " = " + id,
+				null);
 	}
 
 	private Member cursorToMember(Cursor cursor) {
@@ -399,10 +409,15 @@ public class ObjectDataSource {
 		return member;
 	}
 
-	public ArrayList<Member> getAllMembers() {
+	public ArrayList<Member> getAllMembers(String outfit_id, boolean temp) {
 		ArrayList<Member> members = new ArrayList<Member>(0);
-		Cursor cursor = database.query(SQLiteManager.TABLE_MEMBERS_NAME,
-				allColumnsMembers, null, null, null, null, null);
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsMembers,
+				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = " + outfit_id,
+				null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -415,32 +430,102 @@ public class ObjectDataSource {
 		return members;
 	}
 
-	public int insertAllMembers(ArrayList<Member> memberList) {
+	public ArrayList<Member> getMembers(String outfit_id, boolean temp,
+			int index, int count) {
+		ArrayList<Member> members = new ArrayList<Member>(0);
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsMembers,
+				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = " + outfit_id,
+				null, null, null, null, "LIMIT " + count + " OFFSET " + index);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Member member = cursorToMember(cursor);
+			members.add(member);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return members;
+	}
+
+	public int countAllMembers(String outfit_id, boolean temp) {
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsMembers,
+				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = " + outfit_id,
+				null, null, null, null);
+
+		cursor.moveToFirst();
+		int count = 0;
+		while (!cursor.isAfterLast()) {
+			count++;
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return count;
+	}
+
+	public int insertAllMembers(ArrayList<Member> memberList, String outfit_id,
+			boolean temp) {
 		int count = 0;
 		for (Member member : memberList) {
-			if (insertMember(member)) {
+			if (insertMember(member, outfit_id, temp)) {
 				count++;
 			}
 		}
 		return count;
 	}
 
-	public Member getMember(int memberId) {
-		Cursor cursor = database.query(SQLiteManager.TABLE_MEMBERS_NAME,
-				allColumnsMembers, SQLiteManager.MEMBERS_COLUMN_ID + " = "
-						+ memberId, null, null, null, null);
+	public Member getMember(int memberId, boolean temp) {
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsMembers,
+				SQLiteManager.MEMBERS_COLUMN_ID + " = " + memberId, null, null,
+				null, null);
 		cursor.moveToFirst();
 		Member member = null;
 		while (!cursor.isAfterLast()) {
 			member = cursorToMember(cursor);
+			cursor.moveToNext();
 		}
 		// Make sure to close the cursor
 		cursor.close();
 		return member;
 	}
 
-	public int updateMember(Member member) {
+	public Member getMember(int index, String outfit_id, boolean temp) {
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsMembers,
+				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = " + outfit_id,
+				null, null, null, null, "LIMIT 1 OFFSET " + index);
+		cursor.moveToFirst();
+		Member member = null;
+		while (!cursor.isAfterLast()) {
+			member = cursorToMember(cursor);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return member;
+	}
 
+	public int updateMember(Member member, boolean temp) {
+		String target = SQLiteManager.TABLE_MEMBERS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
 		values.put(SQLiteManager.MEMBERS_COLUMN_MEMBER_SINCE,
@@ -451,33 +536,36 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.MEMBERS_COLUMN_ORDINAL,
 				member.getRank_ordinal());
 
-		return database.update(
-				SQLiteManager.TABLE_MEMBERS_NAME,
-				values,
-				SQLiteManager.MEMBERS_COLUMN_ID + " = "
-						+ member.getCharacter_id(), null);
+		return database.update(target, values, SQLiteManager.MEMBERS_COLUMN_ID
+				+ " = " + member.getCharacter_id(), null);
 	}
 
-	public boolean insertOutfit(Outfit outfit) {
+	public boolean insertOutfit(Outfit outfit, boolean temp) {
+		String target = SQLiteManager.TABLE_OUTFITS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
+		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
 		values.put(SQLiteManager.OUTFIT_COLUMN_ALIAS, outfit.getAlias());
-		values.put(SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID,
-				outfit.getLeader_character_id());
-		values.put(SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT,
-				outfit.getMember_count());
-		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
-				outfit.getLeader_character_id());
-		long insertId = database.insert(SQLiteManager.TABLE_MEMBERS_NAME, null,
-				values);
+		values.put(SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID,outfit.getLeader_character_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT,outfit.getMember_count());
+		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,outfit.getLeader_character_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_WORDL_ID,outfit.getWorld_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_FACTION_ID,outfit.getFaction_id());
+		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
 
-	public void deleteOutfit(Outfit outfit) {
+	public void deleteOutfit(Outfit outfit, boolean temp) {
 		String id = outfit.getId();
-		database.delete(SQLiteManager.TABLE_OUTFITS_NAME,
-				SQLiteManager.OUTFIT_COLUMN_ID + " = " + id, null);
+		String target = SQLiteManager.TABLE_OUTFITS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
+		}
+		database.delete(target, SQLiteManager.OUTFIT_COLUMN_ID + " = " + id,
+				null);
 	}
 
 	private Outfit cursorToOutfit(Cursor cursor) {
@@ -486,16 +574,21 @@ public class ObjectDataSource {
 		outfit.setName(cursor.getString(1));
 		outfit.setAlias(cursor.getString(2));
 		outfit.setLeader_character_id(cursor.getString(3));
-		outfit.setTime_created(cursor.getString(4));
-		outfit.setWorld_id(cursor.getString(5));
-		outfit.setFaction_id(cursor.getString(6));
+		outfit.setMember_count(cursor.getInt(4));
+		outfit.setTime_created(cursor.getString(5));
+		outfit.setWorld_id(cursor.getString(6));
+		outfit.setFaction_id(cursor.getString(7));
 		return outfit;
 	}
 
-	public ArrayList<Outfit> getAllOutfits() {
+	public ArrayList<Outfit> getAllOutfits(boolean temp) {
 		ArrayList<Outfit> outfits = new ArrayList<Outfit>(0);
-		Cursor cursor = database.query(SQLiteManager.TABLE_OUTFITS_NAME,
-				allColumnsOutfit, null, null, null, null, null);
+		String target = SQLiteManager.TABLE_OUTFITS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
+		}
+		Cursor cursor = database.query(target, allColumnsOutfit, null, null,
+				null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -508,32 +601,41 @@ public class ObjectDataSource {
 		return outfits;
 	}
 
-	public int insertAllOutfits(ArrayList<Outfit> outfitList) {
+	public int insertAllOutfits(ArrayList<Outfit> outfitList, boolean temp) {
 		int count = 0;
 		for (Outfit outfit : outfitList) {
-			if (insertOutfit(outfit)) {
+			if (insertOutfit(outfit, temp)) {
 				count++;
 			}
 		}
 		return count;
 	}
 
-	public Outfit getOutfit(int outfitId) {
-		Cursor cursor = database.query(SQLiteManager.TABLE_OUTFITS_NAME,
-				allColumnsOutfit, SQLiteManager.OUTFIT_COLUMN_ID + " = "
-						+ outfitId, null, null, null, null);
+	public Outfit getOutfit(String outfitId, boolean temp) {
+		String target = SQLiteManager.TABLE_OUTFITS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
+		}
+
+		Cursor cursor = database.query(target, allColumnsOutfit,
+				SQLiteManager.OUTFIT_COLUMN_ID + " = " + outfitId, null, null,
+				null, null);
 		cursor.moveToFirst();
 		Outfit outfit = null;
 		while (!cursor.isAfterLast()) {
 			outfit = cursorToOutfit(cursor);
+			cursor.moveToNext();
 		}
 		// Make sure to close the cursor
 		cursor.close();
 		return outfit;
 	}
 
-	public int updateOutfit(Outfit outfit) {
-
+	public int updateOutfit(Outfit outfit, boolean temp) {
+		String target = SQLiteManager.TABLE_OUTFITS_NAME;
+		if (temp) {
+			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
+		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
@@ -545,8 +647,8 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
 				outfit.getLeader_character_id());
 
-		return database.update(SQLiteManager.TABLE_OUTFITS_NAME, values,
-				SQLiteManager.OUTFIT_COLUMN_ID + " = " + outfit.getId(), null);
+		return database.update(target, values, SQLiteManager.OUTFIT_COLUMN_ID
+				+ " = " + outfit.getId(), null);
 	}
 
 	public boolean insertWorld(World world) {
@@ -616,6 +718,8 @@ public class ObjectDataSource {
 		World world = null;
 		while (!cursor.isAfterLast()) {
 			world = cursorToWorld(cursor);
+			cursor.moveToNext();
+
 		}
 		// Make sure to close the cursor
 		cursor.close();
