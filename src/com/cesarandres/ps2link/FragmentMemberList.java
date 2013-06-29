@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -70,7 +71,7 @@ public class FragmentMemberList extends BaseFragment {
 				intent.setClass(getActivity(), ActivityProfile.class);
 				intent.putExtra("member_id", ((Member) myAdapter
 						.getItemAtPosition(myItemInt)).getCharacter_id());
-				// startActivity(intent);
+				startActivity(intent);
 			}
 		});
 
@@ -87,14 +88,14 @@ public class FragmentMemberList extends BaseFragment {
 		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-
+						new UnCacheOutfit().execute(outfit.getId());
 					}
 				});
 
 		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-
+						new CacheOutfit().execute(outfit.getId());
 					}
 				});
 
@@ -139,11 +140,6 @@ public class FragmentMemberList extends BaseFragment {
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
 				@Override
 				public void onResponse(Outfit_member_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(
-							R.id.listViewMemberList);
-					listRoot.setAdapter(new memberItemAdapter(getActivity(),
-							outfit, data, isCached));
-					listRoot.setTextFilterEnabled(true);
 					new UpdateMembers().execute(response.getOutfit_list()
 							.get(0).getMembers());
 
@@ -169,9 +165,8 @@ public class FragmentMemberList extends BaseFragment {
 
 	private static class memberItemAdapter extends BaseAdapter {
 		private LayoutInflater mInflater;
-		private Outfit outfitView;
-		private ObjectDataSource dataView;
-		private boolean isCache;
+		private Cursor cursor;
+		private int size;
 
 		/*
 		 * private int size; private int cacheFirst; private int cacheSize;
@@ -182,9 +177,8 @@ public class FragmentMemberList extends BaseFragment {
 				ObjectDataSource data, boolean isCache) {
 			// Cache the LayoutInflate to avoid asking for a new one each time.
 			this.mInflater = LayoutInflater.from(context);
-			this.outfitView = outfitView;
-			this.dataView = data;
-			this.isCache = isCache;
+			this.size = outfitView.getMember_count();
+			this.cursor = data.getMembersCursor(outfitView.getId(), !isCache);
 			/*
 			 * this.size = size; this.cacheFirst = 0; this.cacheSize = 2 *
 			 * this.size; this.cacheA = new ArrayList<Member>(size); this.cacheB
@@ -194,13 +188,13 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		public int getCount() {
-			return this.outfitView.getMember_count();
+			return this.size;
 		}
 
 		@Override
 		public Member getItem(int position) {
-			return this.dataView.getMember(position, this.outfitView.getId(),
-					this.isCache);
+			return ObjectDataSource.cursorToMember(ObjectDataSource
+					.cursorToPosition(cursor, position));
 		}
 
 		@Override
@@ -230,7 +224,11 @@ public class FragmentMemberList extends BaseFragment {
 
 			holder.memberName.setText(getItem(position).getName().getFirst());
 			holder.memberRank.setText(getItem(position).getRank());
-			holder.memberStatus.setText(getItem(position).getOnline_status());
+			if (getItem(position).getOnline_status().equals("0")) {
+				holder.memberStatus.setText("Offline");
+			} else {
+				holder.memberStatus.setText("Online");
+			}
 
 			return convertView;
 		}
@@ -243,7 +241,6 @@ public class FragmentMemberList extends BaseFragment {
 	}
 
 	private void updateUI() {
-
 		if (isCached) {
 			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
 					.setVisibility(View.VISIBLE);
@@ -255,6 +252,14 @@ public class FragmentMemberList extends BaseFragment {
 			getActivity().findViewById(R.id.buttonFragmentAddContact)
 					.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void updateContent() {
+		ListView listRoot = (ListView) getActivity().findViewById(
+				R.id.listViewMemberList);
+		listRoot.setAdapter(new memberItemAdapter(getActivity(), outfit, data,
+				isCached));
+
 	}
 
 	private class UpdateOutfitFromTable extends
@@ -326,11 +331,52 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			ListView listRoot = (ListView) getActivity().findViewById(
-					R.id.listViewMemberList);
-			listRoot.setAdapter(new memberItemAdapter(getActivity(), outfit,
-					data, isCached));
-			listRoot.setTextFilterEnabled(true);
+			updateContent();
+		}
+	}
+
+	private class CacheOutfit extends AsyncTask<String, Integer, Integer> {
+		@Override
+		protected Integer doInBackground(String... args) {
+			Outfit outfit = data.getOutfit(args[0], true);
+			data.insertOutfit(outfit, false);
+			data.deleteOutfit(outfit, true);
+
+			ArrayList<Member> members = data.getAllMembers(args[0], true);
+			data.insertAllMembers(members, args[0], false);
+			for (Member delMember : members) {
+				data.deleteMember(delMember, true);
+			}
+			isCached = true;
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			updateContent();
+			updateUI();
+		}
+	}
+
+	private class UnCacheOutfit extends AsyncTask<String, Integer, Integer> {
+		@Override
+		protected Integer doInBackground(String... args) {
+			Outfit outfit = data.getOutfit(args[0], false);
+			data.insertOutfit(outfit, true);
+			data.deleteOutfit(outfit, false);
+
+			ArrayList<Member> members = data.getAllMembers(args[0], false);
+			data.insertAllMembers(members, args[0], true);
+			for (Member delMember : members) {
+				data.deleteMember(delMember, false);
+			}
+			isCached = false;
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			updateContent();
 			updateUI();
 		}
 	}

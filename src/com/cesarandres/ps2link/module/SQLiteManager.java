@@ -45,11 +45,10 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String CHARACTERS_COLUMN_WORLD_ID = "world_id";
 
 	public static final String MEMBERS_COLUMN_ID = "character_id";
-	public static final String MEMBERS_COLUMN_MEMBER_SINCE = "member_since";
 	public static final String MEMBERS_COLUMN_RANK = "rank";
-	public static final String MEMBERS_COLUMN_ORDINAL = "ordinal";
 	public static final String MEMBERS_COLUMN_OUTFIT_ID = "outfit";
 	public static final String MEMBERS_COLUMN_ONLINE_STATUS = "online_status";
+	public static final String MEMBERS_COLUMN_NAME = "name";
 
 	public static final String OUTFIT_COLUMN_ID = "id";
 	public static final String OUTFIT_COLUMN_NAME = "name";
@@ -61,7 +60,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
 
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 15;
+	public static final int DATABASE_VERSION = 17;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "
@@ -109,19 +108,21 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "));";
 
 	private static final String CREATE_MEMBERS_TABLE = "create table "
-			+ TABLE_MEMBERS_NAME + " ( " + MEMBERS_COLUMN_ID + " varchar(-1), "
-			+ MEMBERS_COLUMN_MEMBER_SINCE + " Int, " + MEMBERS_COLUMN_RANK
-			+ " varchar(-1), " + MEMBERS_COLUMN_ORDINAL + " Int, "
+			+ TABLE_MEMBERS_NAME + " ( " 
+			+ MEMBERS_COLUMN_ID + " varchar(-1), "
+			+ MEMBERS_COLUMN_RANK + " varchar(-1), " 
 			+ MEMBERS_COLUMN_OUTFIT_ID + " Int, "
-			+ MEMBERS_COLUMN_ONLINE_STATUS + " varchar(-1), " + "PRIMARY KEY ("
+			+ MEMBERS_COLUMN_ONLINE_STATUS + " varchar(-1), " 
+			+ MEMBERS_COLUMN_NAME + " varchar(-1), "+ "PRIMARY KEY ("
 			+ MEMBERS_COLUMN_ID + "));";
 
 	private static final String CREATE_MEMBERS_TMP_TABLE = "create table "
-			+ TABLE_MEMBERS_TMP_NAME + " ( " + MEMBERS_COLUMN_ID
-			+ " varchar(-1), " + MEMBERS_COLUMN_MEMBER_SINCE + " Int, "
-			+ MEMBERS_COLUMN_RANK + " varchar(-1), " + MEMBERS_COLUMN_ORDINAL
-			+ " Int, " + MEMBERS_COLUMN_OUTFIT_ID + " Int, "
-			+ MEMBERS_COLUMN_ONLINE_STATUS + " varchar(-1), " + "PRIMARY KEY ("
+			+ TABLE_MEMBERS_TMP_NAME + " ( " 
+			+ MEMBERS_COLUMN_ID + " varchar(-1), " 
+			+ MEMBERS_COLUMN_RANK + " varchar(-1), " 
+			+ MEMBERS_COLUMN_OUTFIT_ID + " Int, "
+			+ MEMBERS_COLUMN_ONLINE_STATUS + " varchar(-1), " 
+			+ MEMBERS_COLUMN_NAME + " varchar(-1), " + "PRIMARY KEY ("
 			+ MEMBERS_COLUMN_ID + "));";
 
 	private static final String CREATE_OUTFITS_TABLE = "create table "

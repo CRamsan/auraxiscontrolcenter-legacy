@@ -1,50 +1,51 @@
-
 package com.cesarandres.ps2link.soe.content;
 
 import com.cesarandres.ps2link.soe.content.character.Name;
 
-public class Member{
-   	private String character_id;
-   	private String member_since;
-   	private String online_status;
-   	private String rank;
-   	private Name name;
-   	private String rank_ordinal;
+public class Member {
+	private String character_id;
+	private String online_status;
+	private String rank;
+	private String outfit_id;
+	private Name name;
 
- 	public String getCharacter_id(){
+	public String getCharacter_id() {
 		return this.character_id;
 	}
-	public void setCharacter_id(String character_id){
+
+	public void setCharacter_id(String character_id) {
 		this.character_id = character_id;
 	}
- 	public String getMember_since(){
-		return this.member_since;
-	}
-	public void setMember_since(String member_since){
-		this.member_since = member_since;
-	}
- 	public String getOnline_status(){
+
+	public String getOnline_status() {
 		return this.online_status;
 	}
-	public void setOnline_status(String online_status){
+
+	public void setOnline_status(String online_status) {
 		this.online_status = online_status;
 	}
- 	public String getRank(){
+
+	public String getRank() {
 		return this.rank;
 	}
-	public void setRank(String rank){
+
+	public void setRank(String rank) {
 		this.rank = rank;
 	}
- 	public String getRank_ordinal(){
-		return this.rank_ordinal;
-	}
-	public void setRank_ordinal(String rank_ordinal){
-		this.rank_ordinal = rank_ordinal;
-	}
+
 	public Name getName() {
 		return name;
 	}
+
 	public void setName(Name name) {
 		this.name = name;
+	}
+
+	public String getOutfit_id() {
+		return outfit_id;
+	}
+
+	public void setOutfit_id(String outfit_id) {
+		this.outfit_id = outfit_id;
 	}
 }
