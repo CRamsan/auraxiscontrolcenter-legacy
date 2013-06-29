@@ -1,6 +1,9 @@
 package com.cesarandres.ps2link;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,10 +11,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.module.ObjectDataSource;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
+import com.cesarandres.ps2link.soe.content.Member;
+import com.cesarandres.ps2link.soe.content.Outfit;
+import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
 /**
  * Created by cesar on 6/16/13.
@@ -43,22 +55,41 @@ public class FragmentOutfitList extends BaseFragment {
 			}
 		});
 
+		ListView listRoot = (ListView) root
+				.findViewById(R.id.listViewOutfitList);
+		listRoot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView,
+					int myItemInt, long mylng) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityMermberList.class);
+				intent.putExtra("outfit_id", ((Outfit) myAdapter
+						.getItemAtPosition(myItemInt)).getId());
+				startActivity(intent);
+			}
+		});
+		
 		Button searchButton = (Button) root
 				.findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-   Intent intent = new Intent();
-   intent.setClass(getActivity(), ActivityAddOutfit.class);
-   startActivity(intent);
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityAddOutfit.class);
+				startActivity(intent);
 			}
 		});
-
 
 		return root;
 	}
 
+	@Override
+	public void onResume(){
+		super.onResume();
+		new ReadOutfitsTable().execute();
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -81,5 +112,28 @@ public class FragmentOutfitList extends BaseFragment {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private class ReadOutfitsTable extends
+			AsyncTask<Integer, Integer, ArrayList<Outfit>> {
+
+		@Override
+		protected ArrayList<Outfit> doInBackground(Integer... params) {
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			data.open();
+			ArrayList<Outfit> outfitList = data.getAllOutfits(false);
+			data.close();
+			return outfitList;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<Outfit> result) {
+			Toast.makeText(getActivity(), "Used outfits from DB",
+					Toast.LENGTH_SHORT).show();
+			ListView listRoot = (ListView) getActivity().findViewById(
+					R.id.listViewOutfitList);
+			listRoot.setAdapter(new OutfitItemAdapter(getActivity(), result));
+		}
+
 	}
 }

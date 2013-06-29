@@ -48,17 +48,10 @@ public class FragmentServerList extends BaseFragment {
 
 	public static final int SQL_READER = 235;
 
-	private static Bitmap offline;
-	private static Bitmap online;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		online = BitmapFactory.decodeResource(getActivity().getResources(),
-				R.drawable.online);
-		offline = BitmapFactory.decodeResource(getActivity().getResources(),
-				R.drawable.offline);
 	}
 
 	@Override
@@ -192,8 +185,6 @@ public class FragmentServerList extends BaseFragment {
 				// views
 				// we want to bind data to.
 				holder = new ViewHolder();
-				holder.status = (ImageView) convertView
-						.findViewById(R.id.imageViewServerListStatus);
 				holder.serverstatus = (TextView) convertView
 						.findViewById(R.id.textViewServerStatus);
 				holder.serverName = (TextView) convertView
@@ -209,24 +200,38 @@ public class FragmentServerList extends BaseFragment {
 
 			// Bind the data efficiently with the holder.
 			if (this.serverList.get(position).getState().equals("online")) {
-				holder.status.setImageBitmap(online);
+
 				holder.serverstatus.setText("ONLINE");
 				holder.serverstatus.setTextColor(Color.GREEN);
 			} else {
-				holder.status.setImageBitmap(offline);
+
 				holder.serverstatus.setText("OFFLINE");
 				holder.serverstatus.setTextColor(Color.RED);
 			}
 
-			holder.serverName.setText(this.serverList.get(position).getName()
-					.getEn());
-			holder.serverRegion.setText("(Region)");
+			String name = this.serverList.get(position).getName().getEn();
+
+			if (name.equals("Briggs")) {
+				holder.serverRegion.setText("(AU)");
+			} else if (name.equals("Waterson") || name.equals("Mattherson")) {
+				holder.serverRegion.setText("(US EAST)");
+			} else if (name.equals("Connery")) {
+				holder.serverRegion.setText("(US WEST)");
+			} else if (name.equals("Mallory") || name.equals("Ceres")
+					|| name.equals("Miller") || name.equals("Cobalt")
+					|| name.equals("Woodman")) {
+				holder.serverRegion.setText("(EU)");
+			} else {
+				holder.serverRegion.setText("");
+			}
+
+			holder.serverName.setText(name);
 
 			return convertView;
 		}
 
 		static class ViewHolder {
-			ImageView status;
+
 			TextView serverstatus;
 			TextView serverName;
 			TextView serverRegion;
@@ -263,7 +268,8 @@ public class FragmentServerList extends BaseFragment {
 			for (int i = 0; i < newWorlds.size(); i++) {
 				world = newWorlds.get(i);
 				for (int j = 0; j < oldWorlds.size(); j++) {
-					if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
+					if (oldWorlds.get(j).getWorld_id()
+							.equals(world.getWorld_id())) {
 						oldWorlds.remove(j);
 					}
 				}

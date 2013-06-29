@@ -12,7 +12,7 @@ import android.webkit.WebView;
  */
 public class ActivityReddit extends FragmentActivity {
 
-	private WebView webView;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,26 +22,5 @@ public class ActivityReddit extends FragmentActivity {
 			//ActionBar actionBar = getActionBar();
 			//actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-		webView = (WebView) findViewById(R.id.webViewReddit);
-		webView.getSettings().setJavaScriptEnabled(true);
-		webView.loadUrl("http://www.reddit.com/r/Planetside/");
 	}
-	
-	  @Override
-	    public boolean onKeyDown(int keyCode, KeyEvent event) {
-	        if(event.getAction() == KeyEvent.ACTION_DOWN){
-	            switch(keyCode)
-	            {
-	            case KeyEvent.KEYCODE_BACK:
-	                if(webView.canGoBack() == true){
-	                	webView.goBack();
-	                }else{
-	                    finish();
-	                }
-	                return true;
-	            }
-
-	        }
-	        return super.onKeyDown(keyCode, event);
-	    }
 }

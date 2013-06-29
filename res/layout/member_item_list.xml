@@ -16,7 +16,8 @@
         android:id="@+id/textViewMemberListRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/textViewMemberListStatus"
@@ -25,4 +26,5 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-</LinearLayout>
+
+</LinearLayout>

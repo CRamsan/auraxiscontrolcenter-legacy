@@ -41,6 +41,7 @@ import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 import com.google.gson.Gson;
 
@@ -112,94 +113,6 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 	public void onClick(DialogInterface dialog, int which) {
 	}
 
-	private static class ProfileItemAdapter extends BaseAdapter {
-		private LayoutInflater mInflater;
-		private ArrayList<CharacterProfile> charactersList;
-
-		public ProfileItemAdapter(Context context,
-				List<CharacterProfile> charactersList) {
-			// Cache the LayoutInflate to avoid asking for a new one each time.
-			this.mInflater = LayoutInflater.from(context);
-			this.charactersList = new ArrayList<CharacterProfile>(
-					charactersList);
-		}
-
-		@Override
-		public int getCount() {
-			return this.charactersList.size();
-		}
-
-		@Override
-		public CharacterProfile getItem(int position) {
-			return this.charactersList.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// A ViewHolder keeps references to children views to avoid
-			// unneccessary calls
-			// to findViewById() on each row.
-			ViewHolder holder;
-
-			// When convertView is not null, we can reuse it directly, there is
-			// no need
-			// to reinflate it. We only inflate a new View when the convertView
-			// supplied
-			// by ListView is null.
-			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.profile_item_list,
-						null);
-
-				// Creates a ViewHolder and store references to the two children
-				// views
-				// we want to bind data to.
-				holder = new ViewHolder();
-				holder.faction = (ImageView) convertView
-						.findViewById(R.id.imageViewFaction);
-				holder.characterName = (TextView) convertView
-						.findViewById(R.id.textViewProfileCharacterName);
-				holder.battleRank = (TextView) convertView
-						.findViewById(R.id.textViewBattleRank);
-				convertView.setTag(holder);
-			} else {
-				// Get the ViewHolder back to get fast access to the TextView
-				// and the ImageView.
-				holder = (ViewHolder) convertView.getTag();
-			}
-
-			// Bind the data efficiently with the holder.
-			if (this.charactersList.get(position).getFaction_id()
-					.equals(Faction.VS)) {
-				holder.faction.setImageBitmap(vs_icon);
-			} else if (this.charactersList.get(position).getFaction_id()
-					.equals(Faction.NC)) {
-				holder.faction.setImageBitmap(nc_icon);
-			} else if (this.charactersList.get(position).getFaction_id()
-					.equals(Faction.TR)) {
-				holder.faction.setImageBitmap(tr_icon);
-			}
-
-			holder.characterName.setText(this.charactersList.get(position)
-					.getName().getFirst());
-			holder.battleRank.setText(Integer.toString(this.charactersList
-					.get(position).getBattle_rank().getValue()));
-
-			return convertView;
-		}
-
-		static class ViewHolder {
-			ImageView faction;
-			TextView characterName;
-			TextView battleRank;
-		}
-
-	}
-
 	private void downloadProfiles() {
 		EditText searchField = (EditText) getActivity().findViewById(
 				R.id.fieldSearchProfile);
@@ -226,7 +139,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 							R.id.listFoundProfiles);
 					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
 							response.getCharacter_list()));
-					new UpdateTmpProfileTable().execute(response.getCharacter_list());
+					new UpdateTmpProfileTable().execute(response
+							.getCharacter_list());
 
 				}
 			};

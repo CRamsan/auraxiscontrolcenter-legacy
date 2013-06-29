@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -69,7 +70,7 @@ public class FragmentMemberList extends BaseFragment {
 					int myItemInt, long mylng) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("member_id", ((Member) myAdapter
+				intent.putExtra("profileId", ((Member) myAdapter
 						.getItemAtPosition(myItemInt)).getCharacter_id());
 				startActivity(intent);
 			}
@@ -102,23 +103,31 @@ public class FragmentMemberList extends BaseFragment {
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("List of Members");
 
+		data.open();
+		new UpdateOutfitFromTable().execute(getActivity().getIntent()
+				.getExtras().getString("outfit_id"));
+		
 		return root;
 	}
 
 	@Override
 	public void onResume() {
-		data.open();
-		new UpdateOutfitFromTable().execute(getActivity().getIntent()
-				.getExtras().getString("outfit_id"));
+		
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		data.close();
 		super.onPause();
 	}
 
+	@Override
+	public void onDestroyView() {
+		data.close();
+		super.onDestroy();
+	}
+
+	
 	private void downloadOutfitMembers(String outfit_id) {
 
 		RequestQueue volley = Volley.newRequestQueue(getActivity());
@@ -224,10 +233,13 @@ public class FragmentMemberList extends BaseFragment {
 
 			holder.memberName.setText(getItem(position).getName().getFirst());
 			holder.memberRank.setText(getItem(position).getRank());
+
 			if (getItem(position).getOnline_status().equals("0")) {
 				holder.memberStatus.setText("Offline");
+				holder.memberStatus.setTextColor(Color.RED);
 			} else {
 				holder.memberStatus.setText("Online");
+				holder.memberStatus.setTextColor(Color.GREEN);
 			}
 
 			return convertView;

@@ -2,9 +2,10 @@ package com.cesarandres.ps2link;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Date;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,7 +27,6 @@ import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.backlog.Profile;
 import com.cesarandres.ps2link.soe.content.response.Character_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
@@ -132,10 +132,15 @@ public class FragmentProfile extends BaseFragment {
 		certs.setText(character.getCerts().getAvailable_points());
 
 		((TextView) getActivity().findViewById(
-				R.id.textViewProfileMinutesPlayed)).setText(character
-				.getTimes().getMinutes_played());
+				R.id.textViewProfileMinutesPlayed)).setText(Integer
+				.toString((Integer.parseInt(character.getTimes()
+						.getMinutes_played()) / 60)));
+
+		String lastLogin = DateFormat.getDateTimeInstance()
+				.format(new Date(Long.parseLong(character.getTimes()
+						.getLast_login()) * 1000));
 		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin))
-				.setText(character.getTimes().getLast_login());
+				.setText(lastLogin);
 
 		((Button) getActivity().findViewById(R.id.buttonProfileFriends))
 				.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +174,8 @@ public class FragmentProfile extends BaseFragment {
 			Listener<Character_response> success = new Response.Listener<Character_response>() {
 				@Override
 				public void onResponse(Character_response response) {
-					updateUI(response.getCharacter_list().get(0));
+					profile = response.getCharacter_list().get(0);
+					updateUI(profile);
 				}
 			};
 
@@ -192,11 +198,16 @@ public class FragmentProfile extends BaseFragment {
 
 	private class UpdateProfileFromTable extends
 			AsyncTask<String, Integer, CharacterProfile> {
+
+		private String profile_id;
+
 		@Override
 		protected CharacterProfile doInBackground(String... args) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
-			CharacterProfile profile = data.getCharacter(args[0], false);
+			this.profile_id = args[0];
+			CharacterProfile profile = data
+					.getCharacter(this.profile_id, false);
 			if (profile == null) {
 				profile = data.getCharacter(args[0], true);
 				isCached = false;
@@ -209,8 +220,12 @@ public class FragmentProfile extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(CharacterProfile result) {
-			profile = result;
-			updateUI(result);
+			if (result == null) {
+				downloadProfiles(profile_id);
+			} else {
+				profile = result;
+				updateUI(result);
+			}
 		}
 	}
 
@@ -220,12 +235,14 @@ public class FragmentProfile extends BaseFragment {
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
-			CharacterProfile profile = args[0];
-			data.insertCharacter(profile, false);
-			data.deleteCharacter(profile, true);
-			isCached = true;
-
-			data.close();
+			try {
+				CharacterProfile profile = args[0];
+				data.insertCharacter(profile, false);
+				data.deleteCharacter(profile, true);
+				isCached = true;
+			} finally {
+				data.close();
+			}
 			return profile;
 		}
 

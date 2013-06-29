@@ -5,8 +5,8 @@ import com.cesarandres.ps2link.soe.content.world.Name_Multi;
 public class Faction {
 	
 	public static final String VS = "1";
-	public static final String TR = "2";
-	public static final String NC = "3";
+	public static final String NC = "2";
+	public static final String TR = "3";
 	
 	private String id;
 	private Name_Multi name;

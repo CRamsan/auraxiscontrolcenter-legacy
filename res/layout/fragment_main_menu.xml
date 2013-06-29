@@ -51,12 +51,13 @@
             <Button
                 android:id="@+id/buttonStats"
                 style="@style/ButtonStyle"
+                android:visibility="gone"
                 android:text="@string/text_menu_stats" />
 
             <Button
                 android:id="@+id/buttonNews"
                 style="@style/ButtonStyle"
-                android:text="@string/text_menu_community" />
+                android:text="@string/text_menu_reddit" />
         </LinearLayout>
     </ScrollView>
 
