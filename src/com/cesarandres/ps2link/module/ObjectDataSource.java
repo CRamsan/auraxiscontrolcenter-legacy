@@ -234,8 +234,8 @@ public class ObjectDataSource {
 		character.setCerts(certs);
 
 		BattleRank br = new BattleRank();
-		br.setValue(cursor.getInt(6));
-		br.setPercent_to_next(cursor.getInt(7));
+		br.setPercent_to_next(cursor.getInt(6));
+		br.setValue(cursor.getInt(7));
 		character.setBattle_rank(br);
 
 		Times times = new Times();

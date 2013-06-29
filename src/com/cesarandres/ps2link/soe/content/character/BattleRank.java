@@ -3,6 +3,7 @@ package com.cesarandres.ps2link.soe.content.character;
 public class BattleRank {
 	private int percent_to_next;
 	private int value;
+	
 	public int getPercent_to_next() {
 		return percent_to_next;
 	}
