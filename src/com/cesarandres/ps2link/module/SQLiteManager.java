@@ -60,7 +60,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
 
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 17;
+	public static final int DATABASE_VERSION = 18;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "

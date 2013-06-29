@@ -2,13 +2,11 @@ package com.cesarandres.ps2link.module;
 
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Region;
 
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
@@ -87,13 +85,16 @@ public class ObjectDataSource {
 	 */
 	public void open() throws SQLException {
 		database = dbHelper.getWritableDatabase();
+
 	}
 
 	/**
 	 * Close the database.
 	 */
 	public void close() {
+
 		dbHelper.close();
+
 	}
 
 	/**

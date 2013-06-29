@@ -10,9 +10,14 @@
     <string name="profile_list_add">Add</string>
     <string name="outfit_list_add">Add</string>
     <string name="text_menu_profiles">Profiles</string>
-    <string name="text_menu_servers">Servers/Continents</string>
+    <string name="text_menu_servers">Servers</string>
     <string name="text_menu_outfits">Outfits</string>
     <string name="text_menu_community">Community/News</string>
+    <string name="text_menu_reddit">Reddit</string>
     <string name="text_menu_stats">Stats</string>
+    <string name="minutes_played">Minutes Played:</string>
+    <string name="last_login">Last Login:</string>
+    <string name="hours_played">Hours Played:</string>
+    <string name="profile_friends">Friends</string>
 
 </resources>
