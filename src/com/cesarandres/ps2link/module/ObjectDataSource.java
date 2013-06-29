@@ -2,6 +2,7 @@ package com.cesarandres.ps2link.module;
 
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -54,11 +55,10 @@ public class ObjectDataSource {
 			SQLiteManager.CHARACTERS_COLUMN_WORLD_ID };
 
 	private String[] allColumnsMembers = { SQLiteManager.MEMBERS_COLUMN_ID,
-			SQLiteManager.MEMBERS_COLUMN_MEMBER_SINCE,
 			SQLiteManager.MEMBERS_COLUMN_RANK,
-			SQLiteManager.MEMBERS_COLUMN_ORDINAL,
 			SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID,
-			SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS };
+			SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
+			SQLiteManager.MEMBERS_COLUMN_NAME };
 
 	private String[] allColumnsOutfit = { SQLiteManager.OUTFIT_COLUMN_ID,
 			SQLiteManager.OUTFIT_COLUMN_NAME,
@@ -102,6 +102,11 @@ public class ObjectDataSource {
 	public void reset() {
 		dbHelper.onUpgrade(database, SQLiteManager.DATABASE_VERSION,
 				SQLiteManager.DATABASE_VERSION);
+	}
+
+	public static Cursor cursorToPosition(Cursor cursor, int index) {
+		cursor.moveToPosition(index);
+		return cursor;
 	}
 
 	public boolean insertCharacter(CharacterProfile character, boolean temp) {
@@ -213,7 +218,7 @@ public class ObjectDataSource {
 				null);
 	}
 
-	private CharacterProfile cursorToCharacterProfile(Cursor cursor) {
+	public CharacterProfile cursorToCharacterProfile(Cursor cursor) {
 		CharacterProfile character = new CharacterProfile();
 		character.setId(cursor.getString(0));
 		Name name = new Name();
@@ -302,7 +307,7 @@ public class ObjectDataSource {
 				SQLiteManager.FACTIONS_COLUMN_ID + " = " + id, null);
 	}
 
-	private Faction cursorToFaction(Cursor cursor) {
+	public Faction cursorToFaction(Cursor cursor) {
 		Faction faction = new Faction();
 		faction.setId(cursor.getString(0));
 		Name_Multi name = new Name_Multi();
@@ -377,14 +382,12 @@ public class ObjectDataSource {
 		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
-		values.put(SQLiteManager.MEMBERS_COLUMN_MEMBER_SINCE,
-				member.getMember_since());
 		values.put(SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
 				member.getOnline_status());
 		values.put(SQLiteManager.MEMBERS_COLUMN_RANK, member.getRank());
-		values.put(SQLiteManager.MEMBERS_COLUMN_ORDINAL,
-				member.getRank_ordinal());
 		values.put(SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID, outfit_id);
+		values.put(SQLiteManager.MEMBERS_COLUMN_NAME, member.getName()
+				.getFirst());
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
@@ -399,13 +402,15 @@ public class ObjectDataSource {
 				null);
 	}
 
-	private Member cursorToMember(Cursor cursor) {
+	public static Member cursorToMember(Cursor cursor) {
 		Member member = new Member();
 		member.setCharacter_id(cursor.getString(0));
-		member.setMember_since(cursor.getString(1));
-		member.setOnline_status(cursor.getString(2));
-		member.setRank(cursor.getString(3));
-		member.setRank_ordinal(cursor.getString(4));
+		member.setRank(cursor.getString(1));
+		member.setOutfit_id(cursor.getString(2));
+		member.setOnline_status(cursor.getString(3));
+		Name name = new Name();
+		name.setFirst(cursor.getString(4));
+		member.setName(name);
 		return member;
 	}
 
@@ -502,23 +507,16 @@ public class ObjectDataSource {
 		return member;
 	}
 
-	public Member getMember(int index, String outfit_id, boolean temp) {
+	public Cursor getMembersCursor(String outfit_id, boolean temp) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
 		if (temp) {
 			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
 		}
 		Cursor cursor = database.query(target, allColumnsMembers,
 				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = " + outfit_id,
-				null, null, null, null, "LIMIT 1 OFFSET " + index);
-		cursor.moveToFirst();
-		Member member = null;
-		while (!cursor.isAfterLast()) {
-			member = cursorToMember(cursor);
-			cursor.moveToNext();
-		}
-		// Make sure to close the cursor
-		cursor.close();
-		return member;
+				null, null, null, null, null);
+		int count = cursor.getCount();
+		return cursor;
 	}
 
 	public int updateMember(Member member, boolean temp) {
@@ -528,14 +526,9 @@ public class ObjectDataSource {
 		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
-		values.put(SQLiteManager.MEMBERS_COLUMN_MEMBER_SINCE,
-				member.getMember_since());
 		values.put(SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
 				member.getOnline_status());
 		values.put(SQLiteManager.MEMBERS_COLUMN_RANK, member.getRank());
-		values.put(SQLiteManager.MEMBERS_COLUMN_ORDINAL,
-				member.getRank_ordinal());
-
 		return database.update(target, values, SQLiteManager.MEMBERS_COLUMN_ID
 				+ " = " + member.getCharacter_id(), null);
 	}
@@ -549,11 +542,15 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
 		values.put(SQLiteManager.OUTFIT_COLUMN_ALIAS, outfit.getAlias());
-		values.put(SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID,outfit.getLeader_character_id());
-		values.put(SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT,outfit.getMember_count());
-		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,outfit.getLeader_character_id());
-		values.put(SQLiteManager.OUTFIT_COLUMN_WORDL_ID,outfit.getWorld_id());
-		values.put(SQLiteManager.OUTFIT_COLUMN_FACTION_ID,outfit.getFaction_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID,
+				outfit.getLeader_character_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT,
+				outfit.getMember_count());
+		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
+				outfit.getLeader_character_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_WORDL_ID, outfit.getWorld_id());
+		values.put(SQLiteManager.OUTFIT_COLUMN_FACTION_ID,
+				outfit.getFaction_id());
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
@@ -568,7 +565,7 @@ public class ObjectDataSource {
 				null);
 	}
 
-	private Outfit cursorToOutfit(Cursor cursor) {
+	public Outfit cursorToOutfit(Cursor cursor) {
 		Outfit outfit = new Outfit();
 		outfit.setId(cursor.getString(0));
 		outfit.setName(cursor.getString(1));
@@ -667,7 +664,7 @@ public class ObjectDataSource {
 				SQLiteManager.OUTFIT_COLUMN_ID + " = " + id, null);
 	}
 
-	private World cursorToWorld(Cursor cursor) {
+	public World cursorToWorld(Cursor cursor) {
 		World world = new World();
 
 		world.setWorld_id(cursor.getString(0));
