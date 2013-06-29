@@ -171,13 +171,15 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			ArrayList<CharacterProfile> list = profiles[0];
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
+			int result = -5;
 			for (int i = 0; i < count; i++) {
 				if (data.getCharacter(list.get(i).getId(), true) == null) {
 					data.insertCharacter(list.get(i), true);
 				} else {
-					data.updateCharacter(list.get(i), true);
+					result = data.updateCharacter(list.get(i), true);
 				}
 			}
+			result++;
 			data.close();
 			return true;
 		}
