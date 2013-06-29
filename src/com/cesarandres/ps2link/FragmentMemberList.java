@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,9 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 public class FragmentMemberList extends BaseFragment {
 
 	private static boolean isCached;
-	private Outfit outfit;
 	private ObjectDataSource data;
+	private int outfitSize;
+	private String outfitId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -89,14 +91,14 @@ public class FragmentMemberList extends BaseFragment {
 		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						new UnCacheOutfit().execute(outfit.getId());
+						new UnCacheOutfit().execute(outfitId);
 					}
 				});
 
 		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						new CacheOutfit().execute(outfit.getId());
+						new CacheOutfit().execute(outfitId);
 					}
 				});
 
@@ -104,16 +106,22 @@ public class FragmentMemberList extends BaseFragment {
 				.setText("List of Members");
 
 		data.open();
-		new UpdateOutfitFromTable().execute(getActivity().getIntent()
-				.getExtras().getString("outfit_id"));
-		
+		if (savedInstanceState == null) {
+			new UpdateOutfitFromTable().execute(getActivity().getIntent()
+					.getExtras().getString("outfit_id"));
+		} else {
+			this.outfitSize = savedInstanceState.getInt("outfitSize", 0);
+			this.outfitId = savedInstanceState.getString("outfitId");
+		}
 		return root;
 	}
 
 	@Override
 	public void onResume() {
-		
 		super.onResume();
+		if (outfitId != null) {
+			updateContent();
+		}
 	}
 
 	@Override
@@ -122,12 +130,18 @@ public class FragmentMemberList extends BaseFragment {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putInt("outfitSize", outfitSize);
+		savedInstanceState.putString("outfitId", outfitId);
+	}
+
+	@Override
 	public void onDestroyView() {
 		data.close();
 		super.onDestroy();
 	}
 
-	
 	private void downloadOutfitMembers(String outfit_id) {
 
 		RequestQueue volley = Volley.newRequestQueue(getActivity());
@@ -172,7 +186,7 @@ public class FragmentMemberList extends BaseFragment {
 		}
 	}
 
-	private static class memberItemAdapter extends BaseAdapter {
+	private static class MemberItemAdapter extends BaseAdapter {
 		private LayoutInflater mInflater;
 		private Cursor cursor;
 		private int size;
@@ -182,12 +196,12 @@ public class FragmentMemberList extends BaseFragment {
 		 * private ArrayList<Member> cacheA; private ArrayList<Member> cacheB;
 		 */
 
-		public memberItemAdapter(Context context, Outfit outfitView,
+		public MemberItemAdapter(Context context, int size, String outfitId,
 				ObjectDataSource data, boolean isCache) {
 			// Cache the LayoutInflate to avoid asking for a new one each time.
 			this.mInflater = LayoutInflater.from(context);
-			this.size = outfitView.getMember_count();
-			this.cursor = data.getMembersCursor(outfitView.getId(), !isCache);
+			this.size = size;
+			this.cursor = data.getMembersCursor(outfitId, !isCache);
 			/*
 			 * this.size = size; this.cacheFirst = 0; this.cacheSize = 2 *
 			 * this.size; this.cacheA = new ArrayList<Member>(size); this.cacheB
@@ -267,17 +281,20 @@ public class FragmentMemberList extends BaseFragment {
 	}
 
 	private void updateContent() {
-		ListView listRoot = (ListView) getActivity().findViewById(
-				R.id.listViewMemberList);
-		listRoot.setAdapter(new memberItemAdapter(getActivity(), outfit, data,
-				isCached));
+		if (this.outfitId != null) {
+			ListView listRoot = (ListView) getActivity().findViewById(
+					R.id.listViewMemberList);
 
+			listRoot.setAdapter(new MemberItemAdapter(getActivity(),
+					outfitSize, outfitId, data, isCached));
+		}
 	}
 
 	private class UpdateOutfitFromTable extends
 			AsyncTask<String, Integer, Outfit> {
 		@Override
 		protected Outfit doInBackground(String... args) {
+			Log.d("UpdateOutfitFromTable", "STARTING");
 			Outfit outfit = data.getOutfit(args[0], false);
 			if (outfit == null) {
 				outfit = data.getOutfit(args[0], true);
@@ -285,14 +302,16 @@ public class FragmentMemberList extends BaseFragment {
 			} else {
 				isCached = true;
 			}
+			Log.d("UpdateOutfitFromTable", "END");
 			return outfit;
 		}
 
 		@Override
 		protected void onPostExecute(Outfit result) {
-			outfit = result;
+			outfitId = result.getId();
+			outfitSize = result.getMember_count();
 			updateUI();
-			downloadOutfitMembers(outfit.getId());
+			downloadOutfitMembers(outfitId);
 		}
 	}
 
@@ -300,45 +319,18 @@ public class FragmentMemberList extends BaseFragment {
 			AsyncTask<ArrayList<Member>, Integer, Integer> {
 		@Override
 		protected Integer doInBackground(ArrayList<Member>... members) {
-			Member member;
-			boolean found = false;
-			int count = members[0].size();
-			ArrayList<Member> newMembers = new ArrayList<Member>(0);
-			ArrayList<Member> oldMembers = data.getAllMembers(outfit.getId(),
-					!isCached);
-			/*
-			 * if (oldMembers.size() == 0) { for (int i = 0; i < count; i++) {
-			 * data.insertMember(members[0].get(i), !isCached); } }
-			 */
-			for (int i = 0; i < count; i++) {
-				member = members[0].get(i);
-				for (int j = 0; j < oldMembers.size(); j++) {
-					if (oldMembers.get(j).getCharacter_id()
-							.equals(member.getCharacter_id())) {
-						data.updateMember(member, !isCached);
-						newMembers.add(oldMembers.get(j));
-						found = true;
-					}
-				}
-				if (!found) {
-					data.insertMember(member, outfit.getId(), !isCached);
-				}
-				found = false;
-			}
-			for (int i = 0; i < newMembers.size(); i++) {
-				member = newMembers.get(i);
-				for (int j = 0; j < oldMembers.size(); j++) {
-					if (oldMembers.get(j).getCharacter_id()
-							.equals(member.getCharacter_id())) {
-						oldMembers.remove(j);
-					}
-				}
-			}
-			for (int i = 0; i < oldMembers.size(); i++) {
-				data.deleteMember(oldMembers.get(i), !isCached);
-			}
+			Log.d("UpdateMembers", "STARTING");
+			ArrayList<Member> newMembers = members[0];
 
-			return data.countAllMembers(outfit.getId(), !isCached);
+			for (Member member : newMembers) {
+				if (data.getMember(member.getCharacter_id(), !isCached) == null) {
+					data.insertMember(member, outfitId, !isCached);
+				} else {
+					data.updateMember(member, !isCached);
+				}
+			}
+			Log.d("UpdateMembers", "END");
+			return data.countAllMembers(outfitId, !isCached);
 		}
 
 		@Override
@@ -350,6 +342,7 @@ public class FragmentMemberList extends BaseFragment {
 	private class CacheOutfit extends AsyncTask<String, Integer, Integer> {
 		@Override
 		protected Integer doInBackground(String... args) {
+			Log.d("CacheOutfit", "STARTING");
 			Outfit outfit = data.getOutfit(args[0], true);
 			data.insertOutfit(outfit, false);
 			data.deleteOutfit(outfit, true);
@@ -360,6 +353,7 @@ public class FragmentMemberList extends BaseFragment {
 				data.deleteMember(delMember, true);
 			}
 			isCached = true;
+			Log.d("CacheOutfit", "END");
 			return null;
 		}
 
@@ -373,6 +367,7 @@ public class FragmentMemberList extends BaseFragment {
 	private class UnCacheOutfit extends AsyncTask<String, Integer, Integer> {
 		@Override
 		protected Integer doInBackground(String... args) {
+			Log.d("UnCacheOutfit", "STARTING");
 			Outfit outfit = data.getOutfit(args[0], false);
 			data.insertOutfit(outfit, true);
 			data.deleteOutfit(outfit, false);
@@ -383,6 +378,7 @@ public class FragmentMemberList extends BaseFragment {
 				data.deleteMember(delMember, false);
 			}
 			isCached = false;
+			Log.d("UnCacheOutfit", "End");
 			return null;
 		}
 
