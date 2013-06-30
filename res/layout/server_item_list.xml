@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListItemStyle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/textViewServerListName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text="Watterson"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/textViewServerStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:text="OFFLINE"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textViewServerListRegion"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textViewServerListName"
-        android:layout_alignBottom="@+id/textViewServerListName"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_toLeftOf="@+id/textViewServerListName"
-        android:text="(Region)"
+        android:layout_weight="1"
+        android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/textViewServerListName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
