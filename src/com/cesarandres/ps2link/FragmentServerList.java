@@ -72,7 +72,7 @@ public class FragmentServerList extends BaseFragment {
 				intent.setClass(getActivity(), ActivityServer.class);
 				intent.putExtra("server", new Gson().toJson(myAdapter
 						.getItemAtPosition(myItemInt)));
-				//startActivity(intent);
+				// startActivity(intent);
 			}
 		});
 
@@ -80,7 +80,7 @@ public class FragmentServerList extends BaseFragment {
 				.setText("List of servers");
 		Button updateButton = (Button) root
 				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
+		updateButton.setVisibility(View.GONE);
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -104,6 +104,7 @@ public class FragmentServerList extends BaseFragment {
 	}
 
 	public void downloadServers() {
+		setUpdateButton(false);
 		URL url;
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,
@@ -127,6 +128,7 @@ public class FragmentServerList extends BaseFragment {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
+					setUpdateButton(true);
 				}
 			};
 			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(
@@ -138,6 +140,16 @@ public class FragmentServerList extends BaseFragment {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void setUpdateButton(boolean enabled) {
+		if (enabled) {
+			getActivity().findViewById(R.id.buttonFragmentUpdate)
+					.setVisibility(View.VISIBLE);
+		} else {
+			getActivity().findViewById(R.id.buttonFragmentUpdate)
+					.setVisibility(View.GONE);
+		}
 	}
 
 	private static class ServerItemAdapter extends BaseAdapter {
@@ -280,6 +292,11 @@ public class FragmentServerList extends BaseFragment {
 			data.close();
 			return success > 0;
 		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			setUpdateButton(true);
+		}
 	}
 
 	private class ReadServerTable extends
@@ -308,6 +325,7 @@ public class FragmentServerList extends BaseFragment {
 				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
 				downloadServers();
 			}
+			setUpdateButton(true);
 		}
 
 	}

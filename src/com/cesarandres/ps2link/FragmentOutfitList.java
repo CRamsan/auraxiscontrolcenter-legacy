@@ -12,16 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.Member;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
@@ -68,7 +66,7 @@ public class FragmentOutfitList extends BaseFragment {
 				startActivity(intent);
 			}
 		});
-		
+
 		Button searchButton = (Button) root
 				.findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
@@ -85,14 +83,19 @@ public class FragmentOutfitList extends BaseFragment {
 	}
 
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
 		new ReadOutfitsTable().execute();
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
 	}
 
 	@Override
@@ -134,6 +137,5 @@ public class FragmentOutfitList extends BaseFragment {
 					R.id.listViewOutfitList);
 			listRoot.setAdapter(new OutfitItemAdapter(getActivity(), result));
 		}
-
 	}
 }

@@ -19,5 +19,6 @@
     <string name="last_login">Last Login:</string>
     <string name="hours_played">Hours Played:</string>
     <string name="profile_friends">Friends</string>
+    <string name="show_offline">Show Offline</string>
 
 </resources>

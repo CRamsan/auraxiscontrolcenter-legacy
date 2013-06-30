@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/TitleBarStyle" >
 
     <TextView
         android:id="@+id/textViewFragmentTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" >
+        android:layout_height="wrap_content" >
+
+        <CheckBox
+            android:id="@+id/checkBoxShowOffline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="2dp"
+            android:text="@string/show_offline"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonFragmentAdd"
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="3dp"
             android:background="@drawable/ic_action_search"
             android:visibility="gone" />
@@ -30,6 +39,7 @@
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="3dp"
             android:background="@drawable/ic_action_refresh"
             android:visibility="gone" />
@@ -39,6 +49,7 @@
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="3dp"
             android:background="@drawable/ic_action_star"
             android:visibility="gone" />
@@ -48,6 +59,7 @@
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="3dp"
             android:background="@drawable/ic_action_user_add"
             android:visibility="gone" />
@@ -57,9 +69,10 @@
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="3dp"
             android:background="@drawable/ic_action_delete"
             android:visibility="gone" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
