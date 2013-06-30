@@ -72,7 +72,7 @@ public class FragmentServerList extends BaseFragment {
 				intent.setClass(getActivity(), ActivityServer.class);
 				intent.putExtra("server", new Gson().toJson(myAdapter
 						.getItemAtPosition(myItemInt)));
-				startActivity(intent);
+				//startActivity(intent);
 			}
 		});
 
