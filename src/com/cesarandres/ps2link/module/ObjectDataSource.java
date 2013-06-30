@@ -50,13 +50,14 @@ public class ObjectDataSource {
 			SQLiteManager.CHARACTERS_COLUMN_LAST_LOGIN,
 			SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED,
 			SQLiteManager.CHARACTERS_COLUMN_FACTION_ID,
-			SQLiteManager.CHARACTERS_COLUMN_WORLD_ID };
+			SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
+			SQLiteManager.CACHE_COLUMN_SAVES };
 
 	private String[] allColumnsMembers = { SQLiteManager.MEMBERS_COLUMN_ID,
 			SQLiteManager.MEMBERS_COLUMN_RANK,
 			SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID,
 			SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
-			SQLiteManager.MEMBERS_COLUMN_NAME };
+			SQLiteManager.MEMBERS_COLUMN_NAME, SQLiteManager.CACHE_COLUMN_SAVES };
 
 	private String[] allColumnsOutfit = { SQLiteManager.OUTFIT_COLUMN_ID,
 			SQLiteManager.OUTFIT_COLUMN_NAME,
@@ -65,7 +66,8 @@ public class ObjectDataSource {
 			SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT,
 			SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
 			SQLiteManager.OUTFIT_COLUMN_WORDL_ID,
-			SQLiteManager.OUTFIT_COLUMN_FACTION_ID };
+			SQLiteManager.OUTFIT_COLUMN_FACTION_ID,
+			SQLiteManager.CACHE_COLUMN_SAVES };
 
 	/**
 	 * Constructor that requires a reference to the current context.
@@ -138,7 +140,9 @@ public class ObjectDataSource {
 
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
-			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
 		}
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
@@ -158,18 +162,12 @@ public class ObjectDataSource {
 	public void deleteCharacter(CharacterProfile character, boolean temp) {
 		String id = character.getId();
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
-		}
 		database.delete(target,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + id, null);
 	}
 
 	public CharacterProfile getCharacter(String characterId, boolean temp) {
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
-		}
 		Cursor cursor = database.query(target, allColumnsCharacters,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + characterId, null,
 				null, null, null);
@@ -186,9 +184,7 @@ public class ObjectDataSource {
 
 	public int updateCharacter(CharacterProfile character, boolean temp) {
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
-		}
+
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character
@@ -254,9 +250,6 @@ public class ObjectDataSource {
 				0);
 
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_CHARACTERS_TMP_NAME;
-		}
 
 		Cursor cursor = database.query(target, allColumnsCharacters, null,
 				null, null, null, null);
@@ -378,9 +371,7 @@ public class ObjectDataSource {
 
 	public boolean insertMember(Member member, String outfit_id, boolean temp) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
-		}
+
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
 		values.put(SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
@@ -389,6 +380,11 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID, outfit_id);
 		values.put(SQLiteManager.MEMBERS_COLUMN_NAME, member.getName()
 				.getFirst());
+		if (temp) {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		}
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
@@ -396,9 +392,7 @@ public class ObjectDataSource {
 	public void deleteMember(Member member, boolean temp) {
 		String id = member.getCharacter_id();
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
-		}
+
 		String[] whereArgs = new String[] { id };
 		database.delete(target, SQLiteManager.MEMBERS_COLUMN_ID + " = ?",
 				whereArgs);
@@ -419,9 +413,7 @@ public class ObjectDataSource {
 	public ArrayList<Member> getAllMembers(String outfit_id, boolean temp) {
 		ArrayList<Member> members = new ArrayList<Member>(0);
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
-		}
+
 		String[] whereArgs = new String[] { outfit_id };
 		Cursor cursor = database.query(target, allColumnsMembers,
 				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
@@ -442,9 +434,7 @@ public class ObjectDataSource {
 			int index, int count) {
 		ArrayList<Member> members = new ArrayList<Member>(0);
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
-		}
+
 		String[] whereArgs = new String[] { outfit_id };
 		Cursor cursor = database.query(target, allColumnsMembers,
 				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
@@ -461,15 +451,23 @@ public class ObjectDataSource {
 		return members;
 	}
 
-	public int countAllMembers(String outfit_id, boolean temp) {
+	public int countAllMembers(String outfit_id, boolean showOffline) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+
+		Cursor cursor = null;
+		if (showOffline) {
+			String[] whereArgs = new String[] { outfit_id };
+			cursor = database.query(target, allColumnsMembers,
+					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
+					null, null, null);
+		} else {
+			String[] whereArgs = new String[] { outfit_id, "18" };
+			cursor = database.query(target, allColumnsMembers,
+					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ? AND "
+							+ SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS
+							+ " = ?", whereArgs, null, null, null);
+
 		}
-		String[] whereArgs = new String[] { outfit_id };
-		Cursor cursor = database.query(target, allColumnsMembers,
-				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
-				null, null, null);
 
 		cursor.moveToFirst();
 		int count = 0;
@@ -495,9 +493,7 @@ public class ObjectDataSource {
 
 	public Member getMember(String memberId, boolean temp) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
-		}
+
 		String[] whereArgs = new String[] { memberId };
 		Cursor cursor = database.query(target, allColumnsMembers,
 				SQLiteManager.MEMBERS_COLUMN_ID + " = ?", whereArgs, null,
@@ -513,28 +509,40 @@ public class ObjectDataSource {
 		return member;
 	}
 
-	public Cursor getMembersCursor(String outfit_id, boolean temp) {
+	public Cursor getMembersCursor(String outfit_id, boolean temp,
+			boolean showOffline) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
+
+		Cursor cursor = null;
+		if (showOffline) {
+			String[] whereArgs = new String[] { outfit_id, };
+			cursor = database.query(target, allColumnsMembers,
+					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
+					null, null, null);
+		} else {
+			String[] whereArgs = new String[] { outfit_id, "18" };
+			cursor = database.query(target, allColumnsMembers,
+					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ? AND "
+							+ SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS
+							+ " = ?", whereArgs, null, null, null);
 		}
-		String[] whereArgs = new String[] { outfit_id };
-		Cursor cursor = database.query(target, allColumnsMembers,
-				SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
-				null, null, null);
+
 		return cursor;
 	}
 
 	public int updateMember(Member member, boolean temp) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_MEMBERS_TMP_NAME;
-		}
+
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
 		values.put(SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
 				member.getOnline_status());
 		values.put(SQLiteManager.MEMBERS_COLUMN_RANK, member.getRank());
+		if (temp) {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		}
 		String[] whereArgs = new String[] { member.getCharacter_id() };
 		return database.update(target, values, SQLiteManager.MEMBERS_COLUMN_ID
 				+ " = ?", whereArgs);
@@ -542,9 +550,6 @@ public class ObjectDataSource {
 
 	public boolean insertOutfit(Outfit outfit, boolean temp) {
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
-		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
@@ -558,6 +563,11 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.OUTFIT_COLUMN_WORDL_ID, outfit.getWorld_id());
 		values.put(SQLiteManager.OUTFIT_COLUMN_FACTION_ID,
 				outfit.getFaction_id());
+		if (temp) {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		}
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
@@ -565,9 +575,7 @@ public class ObjectDataSource {
 	public void deleteOutfit(Outfit outfit, boolean temp) {
 		String id = outfit.getId();
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
-		}
+
 		database.delete(target, SQLiteManager.OUTFIT_COLUMN_ID + " = " + id,
 				null);
 	}
@@ -588,9 +596,7 @@ public class ObjectDataSource {
 	public ArrayList<Outfit> getAllOutfits(boolean temp) {
 		ArrayList<Outfit> outfits = new ArrayList<Outfit>(0);
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
-		}
+
 		Cursor cursor = database.query(target, allColumnsOutfit, null, null,
 				null, null, null);
 
@@ -617,9 +623,6 @@ public class ObjectDataSource {
 
 	public Outfit getOutfit(String outfitId, boolean temp) {
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
-		}
 
 		Cursor cursor = database.query(target, allColumnsOutfit,
 				SQLiteManager.OUTFIT_COLUMN_ID + " = " + outfitId, null, null,
@@ -637,9 +640,7 @@ public class ObjectDataSource {
 
 	public int updateOutfit(Outfit outfit, boolean temp) {
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
-		if (temp) {
-			target = SQLiteManager.TABLE_OUTFITS_TMP_NAME;
-		}
+
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
@@ -650,7 +651,11 @@ public class ObjectDataSource {
 				outfit.getMember_count());
 		values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
 				outfit.getLeader_character_id());
-
+		if (temp) {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		}
 		return database.update(target, values, SQLiteManager.OUTFIT_COLUMN_ID
 				+ " = " + outfit.getId(), null);
 	}

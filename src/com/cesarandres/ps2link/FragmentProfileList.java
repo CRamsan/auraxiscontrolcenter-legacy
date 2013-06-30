@@ -29,8 +29,6 @@ import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
  */
 public class FragmentProfileList extends BaseFragment {
 
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,6 +98,11 @@ public class FragmentProfileList extends BaseFragment {
 	}
 
 	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.fragment_profile_list_menu, menu);
 	}
@@ -127,6 +130,4 @@ public class FragmentProfileList extends BaseFragment {
 		}
 
 	}
-
-	
 }

@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,16 +48,23 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  */
 public class FragmentMemberList extends BaseFragment {
 
-	private static boolean isCached;
+	private boolean isCached;
+	private boolean shownOffline = false;;
 	private ObjectDataSource data;
 	private int outfitSize;
 	private String outfitId;
+	private ArrayList<AsyncTask> taskList;
+	private RequestQueue volley;
+	private FragmentMemberList tag = this;
+	public static final int SUCCESS = 0;
+	public static final int FAILED = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		data = new ObjectDataSource(getActivity());
+		volley = Volley.newRequestQueue(getActivity());
 	}
 
 	@Override
@@ -80,11 +89,24 @@ public class FragmentMemberList extends BaseFragment {
 
 		Button updateButton = (Button) root
 				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
+
+		CheckBox viewOffline = (CheckBox) root
+				.findViewById(R.id.checkBoxShowOffline);
+		viewOffline.setVisibility(View.VISIBLE);
+
+		viewOffline
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						shownOffline = isChecked;
+						updateContent();
+					}
+				});
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+				downloadOutfitMembers(outfitId);
 			}
 		});
 
@@ -105,15 +127,22 @@ public class FragmentMemberList extends BaseFragment {
 		((TextView) root.findViewById(R.id.textViewFragmentTitle))
 				.setText("List of Members");
 
+		return root;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		data.open();
+		taskList = new ArrayList<AsyncTask>();
 		if (savedInstanceState == null) {
 			new UpdateOutfitFromTable().execute(getActivity().getIntent()
 					.getExtras().getString("outfit_id"));
 		} else {
 			this.outfitSize = savedInstanceState.getInt("outfitSize", 0);
 			this.outfitId = savedInstanceState.getString("outfitId");
+			this.shownOffline = savedInstanceState.getBoolean("showOffline");
 		}
-		return root;
 	}
 
 	@Override
@@ -134,17 +163,22 @@ public class FragmentMemberList extends BaseFragment {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("outfitSize", outfitSize);
 		savedInstanceState.putString("outfitId", outfitId);
+		savedInstanceState.putBoolean("showOffline", shownOffline);
 	}
 
 	@Override
 	public void onDestroyView() {
+		for (AsyncTask task : taskList) {
+			task.cancel(true);
+		}
 		data.close();
 		super.onDestroy();
 	}
 
 	private void downloadOutfitMembers(String outfit_id) {
 
-		RequestQueue volley = Volley.newRequestQueue(getActivity());
+		setUpdateButton(false);
+		setAppendButtonVisibility(false);
 		URL url;
 		try {
 			url = SOECensus
@@ -165,7 +199,6 @@ public class FragmentMemberList extends BaseFragment {
 				public void onResponse(Outfit_member_response response) {
 					new UpdateMembers().execute(response.getOutfit_list()
 							.get(0).getMembers());
-
 				}
 			};
 
@@ -173,12 +206,14 @@ public class FragmentMemberList extends BaseFragment {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
+					setUpdateButton(true);
 				}
 			};
 
 			GsonRequest<Outfit_member_response> gsonOject = new GsonRequest<Outfit_member_response>(
 					url.toString(), Outfit_member_response.class, null,
 					success, error);
+			gsonOject.setTag(tag);
 			volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -197,11 +232,12 @@ public class FragmentMemberList extends BaseFragment {
 		 */
 
 		public MemberItemAdapter(Context context, int size, String outfitId,
-				ObjectDataSource data, boolean isCache) {
+				ObjectDataSource data, boolean isCache, boolean showOffline) {
 			// Cache the LayoutInflate to avoid asking for a new one each time.
 			this.mInflater = LayoutInflater.from(context);
-			this.size = size;
-			this.cursor = data.getMembersCursor(outfitId, !isCache);
+			this.size = data.countAllMembers(outfitId, showOffline);
+			this.cursor = data
+					.getMembersCursor(outfitId, !isCache, showOffline);
 			/*
 			 * this.size = size; this.cacheFirst = 0; this.cacheSize = 2 *
 			 * this.size; this.cacheA = new ArrayList<Member>(size); this.cacheB
@@ -266,7 +302,21 @@ public class FragmentMemberList extends BaseFragment {
 		}
 	}
 
-	private void updateUI() {
+	private void setUpdateButton(boolean enabled) {
+		if (enabled) {
+			getActivity().findViewById(R.id.buttonFragmentUpdate)
+					.setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.checkBoxShowOffline).setVisibility(
+					View.VISIBLE);
+		} else {
+			getActivity().findViewById(R.id.buttonFragmentUpdate)
+					.setVisibility(View.GONE);
+			getActivity().findViewById(R.id.checkBoxShowOffline).setVisibility(
+					View.GONE);
+		}
+	}
+
+	private void setAppendButton() {
 		if (isCached) {
 			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
 					.setVisibility(View.VISIBLE);
@@ -280,27 +330,53 @@ public class FragmentMemberList extends BaseFragment {
 		}
 	}
 
+	private void setAppendButtonVisibility(boolean visible) {
+		if (visible) {
+			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
+					.setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.buttonFragmentAddContact)
+					.setVisibility(View.VISIBLE);
+		} else {
+			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
+					.setVisibility(View.GONE);
+			getActivity().findViewById(R.id.buttonFragmentAddContact)
+					.setVisibility(View.GONE);
+		}
+	}
+
 	private void updateContent() {
 		if (this.outfitId != null) {
 			ListView listRoot = (ListView) getActivity().findViewById(
 					R.id.listViewMemberList);
 
 			listRoot.setAdapter(new MemberItemAdapter(getActivity(),
-					outfitSize, outfitId, data, isCached));
+					outfitSize, outfitId, data, isCached, shownOffline));
 		}
 	}
 
 	private class UpdateOutfitFromTable extends
 			AsyncTask<String, Integer, Outfit> {
+
+		@Override
+		protected void onPreExecute() {
+			setAppendButtonVisibility(false);
+			setUpdateButton(false);
+		}
+
 		@Override
 		protected Outfit doInBackground(String... args) {
 			Log.d("UpdateOutfitFromTable", "STARTING");
-			Outfit outfit = data.getOutfit(args[0], false);
-			if (outfit == null) {
-				outfit = data.getOutfit(args[0], true);
-				isCached = false;
-			} else {
-				isCached = true;
+			Outfit outfit = null;
+			try {
+				outfit = data.getOutfit(args[0], false);
+				if (outfit == null) {
+					outfit = data.getOutfit(args[0], true);
+					isCached = false;
+				} else {
+					isCached = true;
+				}
+			} catch (Exception e) {
+				Log.d("UpdateOutfitFromTable", "ENDED BY EXCEPTION");
 			}
 			Log.d("UpdateOutfitFromTable", "END");
 			return outfit;
@@ -308,84 +384,132 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Outfit result) {
-			outfitId = result.getId();
-			outfitSize = result.getMember_count();
-			updateUI();
-			downloadOutfitMembers(outfitId);
+			if (result == null) {
+				setUpdateButton(false);
+			} else {
+				outfitId = result.getId();
+				outfitSize = result.getMember_count();
+				setUpdateButton(false);
+				downloadOutfitMembers(outfitId);
+			}
 		}
 	}
 
 	private class UpdateMembers extends
 			AsyncTask<ArrayList<Member>, Integer, Integer> {
+
+		@Override
+		protected void onPreExecute() {
+			setAppendButtonVisibility(false);
+			setUpdateButton(false);
+		}
+
 		@Override
 		protected Integer doInBackground(ArrayList<Member>... members) {
 			Log.d("UpdateMembers", "STARTING");
 			ArrayList<Member> newMembers = members[0];
-
-			for (Member member : newMembers) {
-				if (data.getMember(member.getCharacter_id(), !isCached) == null) {
-					data.insertMember(member, outfitId, !isCached);
-				} else {
-					data.updateMember(member, !isCached);
+			try {
+				for (Member member : newMembers) {
+					if (data.getMember(member.getCharacter_id(), !isCached) == null) {
+						data.insertMember(member, outfitId, !isCached);
+					} else {
+						data.updateMember(member, !isCached);
+					}
 				}
+			} catch (Exception e) {
+				Log.d("UpdateMembers", "ENDED BY EXCEPTION");
 			}
 			Log.d("UpdateMembers", "END");
-			return data.countAllMembers(outfitId, !isCached);
+			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			setAppendButton();
+			setUpdateButton(true);
 			updateContent();
 		}
 	}
 
 	private class CacheOutfit extends AsyncTask<String, Integer, Integer> {
+
+		@Override
+		protected void onPreExecute() {
+			setAppendButtonVisibility(false);
+			setUpdateButton(false);
+			volley.cancelAll(tag);
+		}
+
 		@Override
 		protected Integer doInBackground(String... args) {
 			Log.d("CacheOutfit", "STARTING");
 			Outfit outfit = data.getOutfit(args[0], true);
-			data.insertOutfit(outfit, false);
-			data.deleteOutfit(outfit, true);
+			try {
+				data.insertOutfit(outfit, false);
+				data.deleteOutfit(outfit, true);
 
-			ArrayList<Member> members = data.getAllMembers(args[0], true);
-			data.insertAllMembers(members, args[0], false);
-			for (Member delMember : members) {
-				data.deleteMember(delMember, true);
+				ArrayList<Member> members = data.getAllMembers(args[0], true);
+				data.insertAllMembers(members, args[0], false);
+				for (Member delMember : members) {
+					data.deleteMember(delMember, true);
+				}
+				isCached = true;
+			} catch (Exception e) {
+				Log.d("CacheOutfit", "ENDED BY EXCEPTION");
+				return FAILED;
 			}
-			isCached = true;
 			Log.d("CacheOutfit", "END");
-			return null;
+			return SUCCESS;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			updateContent();
-			updateUI();
+			if (isCached) {
+				updateContent();
+				setAppendButton();
+			}
+			setUpdateButton(true);
 		}
 	}
 
 	private class UnCacheOutfit extends AsyncTask<String, Integer, Integer> {
+
+		@Override
+		protected void onPreExecute() {
+			setAppendButtonVisibility(false);
+			setUpdateButton(false);
+			volley.cancelAll(tag);
+		}
+
 		@Override
 		protected Integer doInBackground(String... args) {
 			Log.d("UnCacheOutfit", "STARTING");
 			Outfit outfit = data.getOutfit(args[0], false);
-			data.insertOutfit(outfit, true);
-			data.deleteOutfit(outfit, false);
+			try {
+				data.insertOutfit(outfit, true);
+				data.deleteOutfit(outfit, false);
 
-			ArrayList<Member> members = data.getAllMembers(args[0], false);
-			data.insertAllMembers(members, args[0], true);
-			for (Member delMember : members) {
-				data.deleteMember(delMember, false);
+				ArrayList<Member> members = data.getAllMembers(args[0], false);
+				data.insertAllMembers(members, args[0], true);
+				for (Member delMember : members) {
+					data.deleteMember(delMember, false);
+				}
+				isCached = false;
+			} catch (Exception e) {
+				Log.d("UnCacheOutfit", "ENDED BY EXCEPTION");
+				return FAILED;
 			}
-			isCached = false;
 			Log.d("UnCacheOutfit", "End");
-			return null;
+			return SUCCESS;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			updateContent();
-			updateUI();
+			if (!isCached) {
+				updateContent();
+				setAppendButton();
+			}
+			setUpdateButton(true);
 		}
 	}
 
