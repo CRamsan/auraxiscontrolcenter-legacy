@@ -16,7 +16,8 @@
         <item name="android:layout_marginRight">1dp</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@drawable/frame_button</item>
-    </style>
+        <item name="android:textColor">@color/WHITE</item>        
+        </style>
 
     <style name="TitleBarStyle">
         <item name="android:background">@drawable/fragment_title</item>
@@ -69,5 +70,6 @@
     </style>
 
     <color name="BLACK">#000000</color>
+    <color name="WHITE">#ffffff</color>
 
 </resources>

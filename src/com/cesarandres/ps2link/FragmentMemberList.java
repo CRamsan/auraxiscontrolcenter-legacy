@@ -67,6 +67,7 @@ public class FragmentMemberList extends BaseFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		taskList = new ArrayList<AsyncTask>();
 		data = new ObjectDataSource(getActivity());
 		volley = Volley.newRequestQueue(getActivity());
 	}
@@ -117,14 +118,18 @@ public class FragmentMemberList extends BaseFragment {
 		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						new UnCacheOutfit().execute(outfitId);
+						UnCacheOutfit task = new UnCacheOutfit();
+						taskList.add(task);
+						task.execute(outfitId);
 					}
 				});
 
 		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						new CacheOutfit().execute(outfitId);
+						CacheOutfit task = new CacheOutfit();
+						taskList.add(task);
+						task.execute(outfitId);
 					}
 				});
 
@@ -137,10 +142,11 @@ public class FragmentMemberList extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		data.open();
-		taskList = new ArrayList<AsyncTask>();
 		if (savedInstanceState == null) {
-			new UpdateOutfitFromTable().execute(getActivity().getIntent()
-					.getExtras().getString("outfit_id"));
+			UpdateOutfitFromTable task = new UpdateOutfitFromTable();
+			taskList.add(task);
+			task.execute(getActivity().getIntent().getExtras()
+					.getString("outfit_id"));
 		} else {
 			this.outfitSize = savedInstanceState.getInt("outfitSize", 0);
 			this.outfitId = savedInstanceState.getString("outfitId");
@@ -223,8 +229,9 @@ public class FragmentMemberList extends BaseFragment {
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
 				@Override
 				public void onResponse(Outfit_member_response response) {
-					new UpdateMembers().execute(response.getOutfit_list()
-							.get(0).getMembers());
+					UpdateMembers task = new UpdateMembers();
+					taskList.add(task);
+					task.execute(response.getOutfit_list().get(0).getMembers());
 				}
 			};
 
@@ -418,17 +425,22 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Outfit result) {
-			if (result == null) {
-				setUpdateButton(false);
-			} else {
-				outfitId = result.getId();
-				outfitName = result.getName();
-				outfitSize = result.getMember_count();
-				((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
-						.setText(outfitName);
-				setUpdateButton(false);
-				downloadOutfitMembers(outfitId);
+			if (!this.isCancelled()) {
+
+				if (result == null) {
+					setUpdateButton(false);
+				} else {
+					outfitId = result.getId();
+					outfitName = result.getName();
+					outfitSize = result.getMember_count();
+					((Button) getActivity().findViewById(
+							R.id.buttonFragmentTitle)).setText(outfitName);
+					setUpdateButton(false);
+					downloadOutfitMembers(outfitId);
+				}
 			}
+			taskList.remove(this);
+
 		}
 	}
 
@@ -462,9 +474,14 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			setAppendButton();
-			setUpdateButton(true);
-			updateContent();
+			if (!this.isCancelled()) {
+
+				setAppendButton();
+				setUpdateButton(true);
+				updateContent();
+			}
+			taskList.remove(this);
+
 		}
 	}
 
@@ -494,11 +511,15 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			if (isCached) {
-				updateContent();
-				setAppendButton();
+			if (!this.isCancelled()) {
+				if (isCached) {
+					updateContent();
+					setAppendButton();
+				}
+				setUpdateButton(true);
 			}
-			setUpdateButton(true);
+			taskList.remove(this);
+
 		}
 	}
 
@@ -528,11 +549,15 @@ public class FragmentMemberList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			if (!isCached) {
-				updateContent();
-				setAppendButton();
+			if (!this.isCancelled()) {
+				if (!isCached) {
+					updateContent();
+					setAppendButton();
+				}
+				setUpdateButton(true);
+
 			}
-			setUpdateButton(true);
+			taskList.remove(this);
 		}
 	}
 
