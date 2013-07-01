@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ListItemStyle"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/textViewOutfitName"
-        android:layout_width="0dp"
+        android:id="@+id/textViewLoading"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:maxLines="1"
         android:scrollHorizontally="true"
+        android:text="@string/loading"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/textViewOutfitAlias"
+    <ProgressBar
+        android:id="@+id/progressBar1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="2dp"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textViewOutfitCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:gravity="right"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_gravity="center_vertical" />
 
 </LinearLayout>
