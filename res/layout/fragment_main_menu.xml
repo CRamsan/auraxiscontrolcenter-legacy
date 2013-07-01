@@ -21,16 +21,21 @@
             <Button
                 android:id="@+id/buttonPreferedProfile"
                 style="@style/ButtonStyle"
+                android:drawableLeft="@drawable/ic_action_star_selected"
+                android:gravity="center"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonPreferedOutfit"
                 style="@style/ButtonStyle"
+                android:drawableLeft="@drawable/ic_action_star_selected"
+                android:gravity="center"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonPreferedServer"
                 style="@style/ButtonStyle"
+                android:gravity="center"
                 android:visibility="gone" />
 
             <Button
@@ -51,13 +56,19 @@
             <Button
                 android:id="@+id/buttonStats"
                 style="@style/ButtonStyle"
-                android:visibility="gone"
-                android:text="@string/text_menu_stats" />
+                android:text="@string/text_menu_stats"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonNews"
                 style="@style/ButtonStyle"
                 android:text="@string/text_menu_reddit" />
+
+            <Button
+                android:id="@+id/buttonTwitter"
+                style="@style/ButtonStyle"
+                android:text="@string/twitter_name" />
+
         </LinearLayout>
     </ScrollView>
 

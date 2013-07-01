@@ -159,14 +159,14 @@ public class ObjectDataSource {
 		return count;
 	}
 
-	public void deleteCharacter(CharacterProfile character, boolean temp) {
+	public void deleteCharacter(CharacterProfile character) {
 		String id = character.getId();
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		database.delete(target,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + id, null);
 	}
 
-	public CharacterProfile getCharacter(String characterId, boolean temp) {
+	public CharacterProfile getCharacter(String characterId) {
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		Cursor cursor = database.query(target, allColumnsCharacters,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + characterId, null,
@@ -209,7 +209,11 @@ public class ObjectDataSource {
 				character.getFaction_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
 				character.getWorld_id());
-
+		if (temp) {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		}
 		return database.update(target, values,
 				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + character.getId(),
 				null);
@@ -242,18 +246,32 @@ public class ObjectDataSource {
 		character.setFaction_id(cursor.getString(10));
 		character.setWorld_id(cursor.getString(11));
 
+		if (cursor.getInt(12) == 1) {
+			character.setCached(true);
+		} else {
+			character.setCached(false);
+		}
+
 		return character;
 	}
 
-	public ArrayList<CharacterProfile> daleteAllCharacterProfiles(boolean temp) {
+	public ArrayList<CharacterProfile> daleteAllCharacterProfiles(
+			boolean deleteAll) {
 		ArrayList<CharacterProfile> profiles = new ArrayList<CharacterProfile>(
 				0);
 
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 
-		Cursor cursor = database.query(target, allColumnsCharacters, null,
-				null, null, null, null);
+		Cursor cursor = null;
 
+		if (deleteAll) {
+			cursor = database.query(target, allColumnsCharacters, null, null,
+					null, null, null);
+		} else {
+			cursor = database.query(target, allColumnsCharacters,
+					SQLiteManager.CACHE_COLUMN_SAVES + " = 0", null, null,
+					null, null);
+		}
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			CharacterProfile character = cursorToCharacterProfile(cursor);
@@ -265,12 +283,20 @@ public class ObjectDataSource {
 		return profiles;
 	}
 
-	public ArrayList<CharacterProfile> getAllCharacterProfiles() {
+	public ArrayList<CharacterProfile> getAllCharacterProfiles(boolean temp) {
 		ArrayList<CharacterProfile> profiles = new ArrayList<CharacterProfile>(
 				0);
 
-		Cursor cursor = database.query(SQLiteManager.TABLE_CHARACTERS_NAME,
-				allColumnsCharacters, null, null, null, null, null);
+		Cursor cursor = null;
+
+		if (temp) {
+			cursor = database.query(SQLiteManager.TABLE_CHARACTERS_NAME,
+					allColumnsCharacters, null, null, null, null, null);
+		} else {
+			cursor = database.query(SQLiteManager.TABLE_CHARACTERS_NAME,
+					allColumnsCharacters, SQLiteManager.CACHE_COLUMN_SAVES
+							+ " = 1", null, null, null, null);
+		}
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -590,6 +616,12 @@ public class ObjectDataSource {
 		outfit.setTime_created(cursor.getString(5));
 		outfit.setWorld_id(cursor.getString(6));
 		outfit.setFaction_id(cursor.getString(7));
+		if (cursor.getInt(8) == 1) {
+			outfit.setCached(true);
+		} else {
+			outfit.setCached(false);
+		}
+
 		return outfit;
 	}
 
@@ -597,8 +629,15 @@ public class ObjectDataSource {
 		ArrayList<Outfit> outfits = new ArrayList<Outfit>(0);
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
 
-		Cursor cursor = database.query(target, allColumnsOutfit, null, null,
-				null, null, null);
+		Cursor cursor = null;
+		if (temp) {
+			cursor = database.query(target, allColumnsOutfit, null, null, null,
+					null, null);
+		} else {
+			cursor = database.query(target, allColumnsOutfit,
+					SQLiteManager.CACHE_COLUMN_SAVES + " = 1", null, null,
+					null, null);
+		}
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -621,7 +660,7 @@ public class ObjectDataSource {
 		return count;
 	}
 
-	public Outfit getOutfit(String outfitId, boolean temp) {
+	public Outfit getOutfit(String outfitId) {
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
 
 		Cursor cursor = database.query(target, allColumnsOutfit,

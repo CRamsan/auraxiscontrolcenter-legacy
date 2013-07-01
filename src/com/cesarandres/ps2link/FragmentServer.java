@@ -30,7 +30,7 @@ public class FragmentServer extends BaseFragment {
 			Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.fragment_server, container, false);
 		// Inflate the layout for this fragment
-		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("Server");
+		((Button)root.findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_servers));
 		
 		Button updateButton = (Button) root
 				.findViewById(R.id.buttonFragmentUpdate);

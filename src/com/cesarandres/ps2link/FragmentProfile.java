@@ -3,8 +3,10 @@ package com.cesarandres.ps2link;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,9 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -38,12 +44,21 @@ public class FragmentProfile extends BaseFragment {
 
 	private static boolean isCached;
 	private CharacterProfile profile;
+	private ArrayList<AsyncTask> taskList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		new UpdateProfileFromTable().execute(getActivity().getIntent()
-				.getExtras().getString("profileId"));
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		taskList = new ArrayList<AsyncTask>();
+		UpdateProfileFromTable task = new UpdateProfileFromTable();
+		taskList.add(task);
+		task.execute(getActivity().getIntent().getExtras()
+				.getString("profileId"));
 	}
 
 	@Override
@@ -54,7 +69,7 @@ public class FragmentProfile extends BaseFragment {
 		View root = inflater.inflate(R.layout.fragment_profile, container,
 				false);
 
-		Button updateButton = (Button) root
+		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
@@ -67,14 +82,37 @@ public class FragmentProfile extends BaseFragment {
 		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						new UnCacheProfile().execute(profile);
+						UnCacheProfile task = new UnCacheProfile();
+						taskList.add(task);
+						task.execute(profile);
 					}
 				});
 
 		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						new CacheProfile().execute(profile);
+						CacheProfile task = new CacheProfile();
+						taskList.add(task);
+						task.execute(profile);
+					}
+				});
+
+		((ToggleButton) root.findViewById(R.id.buttonFragmentStar))
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						SharedPreferences settings = getActivity()
+								.getSharedPreferences("PREFERENCES", 0);
+						SharedPreferences.Editor editor = settings.edit();
+						if (isChecked) {
+							editor.putString("preferedProfile", profile.getId());
+							editor.putString("preferedProfileName", profile
+									.getName().getFirst());
+						} else {
+							editor.putString("preferedProfileName", "");
+							editor.putString("preferedProfile", "");
+						}
+						editor.commit();
 					}
 				});
 
@@ -86,9 +124,17 @@ public class FragmentProfile extends BaseFragment {
 		super.onPause();
 	}
 
+	@Override
+	public void onDestroyView() {
+		for (AsyncTask task : taskList) {
+			task.cancel(true);
+		}
+		super.onDestroy();
+	}
+
 	private void updateUI(CharacterProfile character) {
 
-		((TextView) getActivity().findViewById(R.id.textViewFragmentTitle))
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
 				.setText(character.getName().getFirst());
 
 		TextView faction = ((TextView) getActivity().findViewById(
@@ -162,6 +208,19 @@ public class FragmentProfile extends BaseFragment {
 			getActivity().findViewById(R.id.buttonFragmentAddContact)
 					.setVisibility(View.VISIBLE);
 		}
+
+		ToggleButton star = (ToggleButton) getActivity().findViewById(
+				R.id.buttonFragmentStar);
+		star.setVisibility(View.VISIBLE);
+		SharedPreferences settings = getActivity().getSharedPreferences(
+				"PREFERENCES", 0);
+		String preferedProfileId = settings.getString("preferedProfile", "");
+		if (preferedProfileId.equals(character.getId())) {
+			star.setChecked(true);
+		} else {
+			star.setChecked(false);
+		}
+
 	}
 
 	private void downloadProfiles(String character_id) {
@@ -206,13 +265,11 @@ public class FragmentProfile extends BaseFragment {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
 			this.profile_id = args[0];
-			CharacterProfile profile = data
-					.getCharacter(this.profile_id, false);
+			CharacterProfile profile = data.getCharacter(this.profile_id);
 			if (profile == null) {
-				profile = data.getCharacter(args[0], true);
 				isCached = false;
 			} else {
-				isCached = true;
+				isCached = profile.isCached();
 			}
 			data.close();
 			return profile;
@@ -226,6 +283,7 @@ public class FragmentProfile extends BaseFragment {
 				profile = result;
 				updateUI(result);
 			}
+			taskList.remove(this);
 		}
 	}
 
@@ -237,8 +295,7 @@ public class FragmentProfile extends BaseFragment {
 			data.open();
 			try {
 				CharacterProfile profile = args[0];
-				data.insertCharacter(profile, false);
-				data.deleteCharacter(profile, true);
+				data.updateCharacter(profile, false);
 				isCached = true;
 			} finally {
 				data.close();
@@ -248,8 +305,11 @@ public class FragmentProfile extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(CharacterProfile result) {
-			profile = result;
-			updateUI(result);
+			if (!this.isCancelled()) {
+				profile = result;
+				updateUI(result);
+			}
+			taskList.remove(this);
 		}
 	}
 
@@ -260,8 +320,7 @@ public class FragmentProfile extends BaseFragment {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
 			CharacterProfile profile = args[0];
-			data.insertCharacter(profile, true);
-			data.deleteCharacter(profile, false);
+			data.updateCharacter(profile, true);
 			isCached = false;
 
 			data.close();
@@ -270,8 +329,11 @@ public class FragmentProfile extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(CharacterProfile result) {
-			profile = result;
-			updateUI(result);
+			if (!this.isCancelled()) {
+				profile = result;
+				updateUI(result);
+			}
+			taskList.remove(this);
 		}
 	}
 

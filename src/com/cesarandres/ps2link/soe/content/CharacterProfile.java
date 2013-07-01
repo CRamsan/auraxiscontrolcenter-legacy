@@ -14,6 +14,7 @@ public class CharacterProfile {
 	private Times times;
 	private String faction_id;
 	private String world_id;
+	private boolean cached;
 	
 	public Certs getCerts() {
 		return this.certs;
@@ -77,5 +78,13 @@ public class CharacterProfile {
 
 	public void setWorld_id(String world_id) {
 		this.world_id = world_id;
+	}
+
+	public boolean isCached() {
+		return cached;
+	}
+
+	public void setCached(boolean cached) {
+		this.cached = cached;
 	}
 }

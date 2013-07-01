@@ -1,18 +1,14 @@
 package com.cesarandres.ps2link;
 
-import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.google.gson.Gson;
-
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
+
+import com.cesarandres.ps2link.base.BaseFragment;
 
 /**
  * Created by cesar on 6/16/13.
@@ -33,10 +29,10 @@ public class FragmentReddit extends BaseFragment {
 		View root = inflater
 				.inflate(R.layout.fragment_reddit, container, false);
 
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("Reddit");
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_reddit));
 
-		Button updateButton = (Button) root
+		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 

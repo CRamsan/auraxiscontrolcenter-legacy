@@ -16,10 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -134,8 +134,8 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			}
 		});
 
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("Outfits Found");
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_outfits));
 
 		return root;
 	}
@@ -157,11 +157,17 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			ArrayList<Outfit> list = outfits[0];
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
+			Outfit outfit = null;
 			for (int i = 0; i < count; i++) {
-				if (data.getOutfit(list.get(i).getId(), true) == null) {
+				outfit = data.getOutfit(list.get(i).getId());
+				if (outfit == null) {
 					data.insertOutfit(list.get(i), true);
 				} else {
-					data.updateOutfit(list.get(i), true);
+					if (outfit.isCached()) {
+						data.updateOutfit(list.get(i), false);
+					} else {
+						data.updateOutfit(list.get(i), true);
+					}
 				}
 			}
 			data.close();

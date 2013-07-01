@@ -7,8 +7,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,9 +74,9 @@ public class FragmentServerList extends BaseFragment {
 			}
 		});
 
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("List of servers");
-		Button updateButton = (Button) root
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_servers));
+		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.GONE);
 

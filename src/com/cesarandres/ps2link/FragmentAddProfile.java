@@ -3,9 +3,7 @@ package com.cesarandres.ps2link;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -18,12 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -35,7 +31,6 @@ import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.response.Character_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
@@ -43,7 +38,6 @@ import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
-import com.google.gson.Gson;
 
 /**
  * Created by cesar on 6/16/13.
@@ -99,8 +93,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 				downloadProfiles();
 			}
 		});
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("Profiles Found");
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_profiles));
 		return root;
 	}
 
@@ -171,15 +165,19 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			ArrayList<CharacterProfile> list = profiles[0];
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
-			int result = -5;
+			CharacterProfile profile = null;
 			for (int i = 0; i < count; i++) {
-				if (data.getCharacter(list.get(i).getId(), true) == null) {
+				profile = data.getCharacter(list.get(i).getId());
+				if (profile == null) {
 					data.insertCharacter(list.get(i), true);
 				} else {
-					result = data.updateCharacter(list.get(i), true);
+					if (profile.isCached()) {
+						data.updateCharacter(list.get(i), false);
+					} else {
+						data.updateCharacter(list.get(i), true);
+					}
 				}
 			}
-			result++;
 			data.close();
 			return true;
 		}
