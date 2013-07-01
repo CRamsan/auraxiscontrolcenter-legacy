@@ -58,7 +58,6 @@ public class FragmentMemberList extends BaseFragment {
 	private String outfitId;
 	private String outfitName;
 	private ArrayList<AsyncTask> taskList;
-	private RequestQueue volley;
 	private FragmentMemberList tag = this;
 	public static final int SUCCESS = 0;
 	public static final int FAILED = 1;
@@ -69,7 +68,6 @@ public class FragmentMemberList extends BaseFragment {
 		setHasOptionsMenu(true);
 		taskList = new ArrayList<AsyncTask>();
 		data = new ObjectDataSource(getActivity());
-		volley = Volley.newRequestQueue(getActivity());
 	}
 
 	@Override
@@ -255,7 +253,7 @@ public class FragmentMemberList extends BaseFragment {
 					url.toString(), Outfit_member_response.class, null,
 					success, error);
 			gsonOject.setTag(tag);
-			volley.add(gsonOject);
+			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -468,7 +466,7 @@ public class FragmentMemberList extends BaseFragment {
 		protected void onPreExecute() {
 			setAppendButtonVisibility(false);
 			setUpdateButton(false);
-			volley.cancelAll(tag);
+			ApplicationPS2Link.volley.cancelAll(tag);
 		}
 
 		@Override
@@ -505,7 +503,7 @@ public class FragmentMemberList extends BaseFragment {
 		protected void onPreExecute() {
 			setAppendButtonVisibility(false);
 			setUpdateButton(false);
-			volley.cancelAll(tag);
+			ApplicationPS2Link.volley.cancelAll(tag);
 		}
 
 		@Override
