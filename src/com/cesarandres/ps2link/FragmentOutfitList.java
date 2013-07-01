@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +13,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -46,10 +42,11 @@ public class FragmentOutfitList extends BaseFragment {
 		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
+		updateButton.setEnabled(false);
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+				new ReadOutfitsTable().execute();
 			}
 		});
 
@@ -102,6 +99,12 @@ public class FragmentOutfitList extends BaseFragment {
 			AsyncTask<Integer, Integer, ArrayList<Outfit>> {
 
 		@Override
+		protected void onPreExecute() {
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+					false);
+		}
+
+		@Override
 		protected ArrayList<Outfit> doInBackground(Integer... params) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
@@ -112,11 +115,11 @@ public class FragmentOutfitList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<Outfit> result) {
-			Toast.makeText(getActivity(), "Used outfits from DB",
-					Toast.LENGTH_SHORT).show();
 			ListView listRoot = (ListView) getActivity().findViewById(
 					R.id.listViewOutfitList);
 			listRoot.setAdapter(new OutfitItemAdapter(getActivity(), result));
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+					true);
 		}
 	}
 }

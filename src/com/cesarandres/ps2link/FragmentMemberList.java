@@ -115,23 +115,28 @@ public class FragmentMemberList extends BaseFragment {
 			}
 		});
 
-		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						UnCacheOutfit task = new UnCacheOutfit();
-						taskList.add(task);
-						task.execute(outfitId);
-					}
-				});
+		ToggleButton append = ((ToggleButton) root
+				.findViewById(R.id.buttonFragmentAppend));
+		append.setVisibility(View.VISIBLE);
+		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					CacheOutfit task = new CacheOutfit();
+					taskList.add(task);
+					task.execute(outfitId);
+				} else {
+					UnCacheOutfit task = new UnCacheOutfit();
+					taskList.add(task);
+					task.execute(outfitId);
+				}
+			}
+		});
 
-		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						CacheOutfit task = new CacheOutfit();
-						taskList.add(task);
-						task.execute(outfitId);
-					}
-				});
+		root.findViewById(R.id.buttonFragmentUpdate)
+				.setVisibility(View.VISIBLE);
+		root.findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
+		root.findViewById(R.id.buttonFragmentStar).setVisibility(View.VISIBLE);
 
 		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText("");
 
@@ -153,6 +158,9 @@ public class FragmentMemberList extends BaseFragment {
 			this.outfitName = savedInstanceState.getString("outfitName");
 			this.shownOffline = savedInstanceState.getBoolean("showOffline");
 		}
+
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
+				.setText(outfitName);
 
 		((ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar))
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -336,31 +344,12 @@ public class FragmentMemberList extends BaseFragment {
 	}
 
 	private void setUpdateButton(boolean enabled) {
-		if (enabled) {
-			getActivity().findViewById(R.id.buttonFragmentUpdate)
-					.setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.toggleShowOffline).setVisibility(
-					View.VISIBLE);
-		} else {
-			getActivity().findViewById(R.id.buttonFragmentUpdate)
-					.setVisibility(View.GONE);
-			getActivity().findViewById(R.id.toggleShowOffline).setVisibility(
-					View.GONE);
-		}
-	}
-
-	private void setAppendButton() {
-		if (isCached) {
-			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setVisibility(View.GONE);
-		} else {
-			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setVisibility(View.GONE);
-			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setVisibility(View.VISIBLE);
-		}
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+				enabled);
+		getActivity().findViewById(R.id.toggleShowOffline).setEnabled(enabled);
+		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
+		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(
+				enabled);
 	}
 
 	private void setAppendButtonVisibility(boolean visible) {
@@ -375,19 +364,9 @@ public class FragmentMemberList extends BaseFragment {
 			star.setChecked(false);
 		}
 
-		if (visible) {
-			star.setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setVisibility(View.VISIBLE);
-		} else {
-			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setVisibility(View.GONE);
-			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setVisibility(View.GONE);
-			star.setVisibility(View.GONE);
-		}
+		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(
+				visible);
+		star.setEnabled(visible);
 	}
 
 	private void updateContent() {
@@ -426,7 +405,6 @@ public class FragmentMemberList extends BaseFragment {
 		@Override
 		protected void onPostExecute(Outfit result) {
 			if (!this.isCancelled()) {
-
 				if (result == null) {
 					setUpdateButton(false);
 				} else {
@@ -436,6 +414,7 @@ public class FragmentMemberList extends BaseFragment {
 					((Button) getActivity().findViewById(
 							R.id.buttonFragmentTitle)).setText(outfitName);
 					setUpdateButton(false);
+					updateContent();
 					downloadOutfitMembers(outfitId);
 				}
 			}
@@ -475,8 +454,6 @@ public class FragmentMemberList extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			if (!this.isCancelled()) {
-
-				setAppendButton();
 				setUpdateButton(true);
 				updateContent();
 			}
@@ -514,7 +491,6 @@ public class FragmentMemberList extends BaseFragment {
 			if (!this.isCancelled()) {
 				if (isCached) {
 					updateContent();
-					setAppendButton();
 				}
 				setUpdateButton(true);
 			}
@@ -552,7 +528,6 @@ public class FragmentMemberList extends BaseFragment {
 			if (!this.isCancelled()) {
 				if (!isCached) {
 					updateContent();
-					setAppendButton();
 				}
 				setUpdateButton(true);
 

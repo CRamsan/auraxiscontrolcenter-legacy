@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/horizontalScrollView1"
     style="@style/TitleBarStyle" >
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/buttonFragmentTitle"
@@ -15,11 +15,6 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
 
         <ToggleButton
             android:id="@+id/toggleShowOffline"
@@ -62,24 +57,17 @@
             android:textOn=""
             android:visibility="gone" />
 
-        <ImageButton
-            android:id="@+id/buttonFragmentAddContact"
+        <ToggleButton
+            android:id="@+id/buttonFragmentAppend"
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
             android:layout_margin="3dp"
-            android:src="@drawable/ic_action_user_add"
+            android:drawableRight="@drawable/ic_action_append"
+            android:textOff=""
+            android:textOn=""
             android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/buttonFragmentRemoveContact"
-            style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:src="@drawable/ic_action_delete"
-            android:visibility="gone" />
-
     </LinearLayout>
 
-</LinearLayout>
+</HorizontalScrollView>

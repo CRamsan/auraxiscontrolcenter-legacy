@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_main_activity">AURAXIS CONTROL CENTER</string>
-    <string name="app_name">AURAXIS CONTROL CENTER</string>
+    <string name="title_main_activity">Auraxis Control Center</string>
+    <string name="app_name">Auraxis Control Center</string>
+    <string name="fragment_title">AURAXIS CONTROL CENTER</string>
     <string name="profile_list_add">ADD</string>
     <string name="outfit_list_add">ADD</string>
     <string name="text_menu_profiles">PROFILES</string>
@@ -13,8 +14,9 @@
     <string name="last_login">LAST LOGIN:</string>
     <string name="hours_played">HOURS PLAYED:</string>
     <string name="profile_friends">FRIENDS</string>
-    <string name="show_offline">SHOW OFFLINE</string>
-    <string name="show_online">SHOW ONLINE</string>
+    <string name="show_offline">SHOW ALL</string>
+    <string name="show_online">HIDE OFFLINE</string>
     <string name="twitter_name">TWITTER</string>
+    <string name="loading">Loading...</string>
 
 </resources>

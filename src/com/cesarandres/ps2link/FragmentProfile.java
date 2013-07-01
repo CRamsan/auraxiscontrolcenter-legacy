@@ -79,47 +79,8 @@ public class FragmentProfile extends BaseFragment {
 			}
 		});
 
-		root.findViewById(R.id.buttonFragmentRemoveContact).setOnClickListener(
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						UnCacheProfile task = new UnCacheProfile();
-						taskList.add(task);
-						task.execute(profile);
-					}
-				});
-
-		root.findViewById(R.id.buttonFragmentAddContact).setOnClickListener(
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						CacheProfile task = new CacheProfile();
-						taskList.add(task);
-						task.execute(profile);
-					}
-				});
-
-		((ToggleButton) root.findViewById(R.id.buttonFragmentStar))
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						SharedPreferences settings = getActivity()
-								.getSharedPreferences("PREFERENCES", 0);
-						SharedPreferences.Editor editor = settings.edit();
-						if (isChecked) {
-							editor.putString("preferedProfile", profile.getId());
-							editor.putString("preferedProfileName", profile
-									.getName().getFirst());
-						} else {
-							editor.putString("preferedProfileName", "");
-							editor.putString("preferedProfile", "");
-						}
-						editor.commit();
-					}
-				});
-
-		root.findViewById(R.id.buttonFragmentRemoveContact).setVisibility(
-				View.VISIBLE);
-		root.findViewById(R.id.buttonFragmentAddContact).setVisibility(
-				View.VISIBLE);
+		root.findViewById(R.id.buttonFragmentAppend)
+				.setVisibility(View.VISIBLE);
 
 		return root;
 	}
@@ -131,10 +92,10 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	public void onDestroyView() {
+		super.onDestroyView();
 		for (AsyncTask task : taskList) {
 			task.cancel(true);
 		}
-		super.onDestroy();
 	}
 
 	private void updateUI(CharacterProfile character) {
@@ -202,21 +163,10 @@ public class FragmentProfile extends BaseFragment {
 					}
 				});
 
-		if (isCached) {
-			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setEnabled(true);
-			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setEnabled(false);
-		} else {
-			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setEnabled(false);
-			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setEnabled(true);
-		}
-
 		ToggleButton star = (ToggleButton) getActivity().findViewById(
 				R.id.buttonFragmentStar);
 		star.setVisibility(View.VISIBLE);
+		star.setOnCheckedChangeListener(null);
 		SharedPreferences settings = getActivity().getSharedPreferences(
 				"PREFERENCES", 0);
 		String preferedProfileId = settings.getString("preferedProfile", "");
@@ -226,10 +176,55 @@ public class FragmentProfile extends BaseFragment {
 			star.setChecked(false);
 		}
 
+		star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				SharedPreferences settings = getActivity()
+						.getSharedPreferences("PREFERENCES", 0);
+				SharedPreferences.Editor editor = settings.edit();
+				if (isChecked) {
+					editor.putString("preferedProfile", profile.getId());
+					editor.putString("preferedProfileName", profile.getName()
+							.getFirst());
+				} else {
+					editor.putString("preferedProfileName", "");
+					editor.putString("preferedProfile", "");
+				}
+				editor.commit();
+			}
+		});
+
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(
+				R.id.buttonFragmentAppend));
+		append.setOnCheckedChangeListener(null);
+		append.setChecked(isCached);
+		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					CacheProfile task = new CacheProfile();
+					taskList.add(task);
+					task.execute(profile);
+				} else {
+					UnCacheProfile task = new UnCacheProfile();
+					taskList.add(task);
+					task.execute(profile);
+				}
+			}
+		});
+	}
+
+	private void setActionBarEnabled(boolean enabled) {
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+				enabled);
+		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(
+				enabled);
+		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 	}
 
 	private void downloadProfiles(String character_id) {
 
+		setActionBarEnabled(false);
 		URL url;
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,
@@ -239,6 +234,7 @@ public class FragmentProfile extends BaseFragment {
 				@Override
 				public void onResponse(Character_response response) {
 					profile = response.getCharacter_list().get(0);
+					setActionBarEnabled(true);
 					updateUI(profile);
 				}
 			};
@@ -247,6 +243,7 @@ public class FragmentProfile extends BaseFragment {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
+					setActionBarEnabled(true);
 				}
 			};
 
@@ -264,6 +261,11 @@ public class FragmentProfile extends BaseFragment {
 			AsyncTask<String, Integer, CharacterProfile> {
 
 		private String profile_id;
+
+		@Override
+		protected void onPreExecute() {
+			setActionBarEnabled(false);
+		}
 
 		@Override
 		protected CharacterProfile doInBackground(String... args) {
@@ -288,12 +290,19 @@ public class FragmentProfile extends BaseFragment {
 				profile = result;
 				updateUI(result);
 			}
+			setActionBarEnabled(true);
 			taskList.remove(this);
 		}
 	}
 
 	private class CacheProfile extends
 			AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+
+		@Override
+		protected void onPreExecute() {
+			setActionBarEnabled(false);
+		}
+
 		@Override
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
@@ -313,6 +322,7 @@ public class FragmentProfile extends BaseFragment {
 			if (!this.isCancelled()) {
 				profile = result;
 				updateUI(result);
+				setActionBarEnabled(true);
 			}
 			taskList.remove(this);
 		}
@@ -320,6 +330,12 @@ public class FragmentProfile extends BaseFragment {
 
 	private class UnCacheProfile extends
 			AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+
+		@Override
+		protected void onPreExecute() {
+			setActionBarEnabled(false);
+		}
+
 		@Override
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
@@ -337,8 +353,10 @@ public class FragmentProfile extends BaseFragment {
 			if (!this.isCancelled()) {
 				profile = result;
 				updateUI(result);
+				setActionBarEnabled(true);
 			}
 			taskList.remove(this);
+
 		}
 	}
 

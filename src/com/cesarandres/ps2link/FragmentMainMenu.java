@@ -84,7 +84,7 @@ public class FragmentMainMenu extends BaseFragment {
 		});
 
 		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.app_name));
+				.setText(getString(R.string.fragment_title));
 
 		return root;
 	}
@@ -95,7 +95,8 @@ public class FragmentMainMenu extends BaseFragment {
 		SharedPreferences settings = getActivity().getSharedPreferences(
 				"PREFERENCES", 0);
 		String preferedProfileId = settings.getString("preferedProfile", "");
-		String preferedProfileName = settings.getString("preferedProfileName", "");
+		String preferedProfileName = settings.getString("preferedProfileName",
+				"");
 		final Button buttonPreferedProfile = (Button) getActivity()
 				.findViewById(R.id.buttonPreferedProfile);
 		if (!preferedProfileId.equals("")) {
@@ -119,7 +120,8 @@ public class FragmentMainMenu extends BaseFragment {
 		}
 
 		String preferedOutfitId = settings.getString("preferedOutfit", "");
-		String preferedOutfitName = settings.getString("preferedOutfitName", "");
+		String preferedOutfitName = settings
+				.getString("preferedOutfitName", "");
 		final Button buttonPreferedOutfit = (Button) getActivity()
 				.findViewById(R.id.buttonPreferedOutfit);
 		if (!preferedOutfitId.equals("")) {
