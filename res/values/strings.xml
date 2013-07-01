@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_main_activity">AuraxisControlCenter</string>
-    <string name="app_name">AuraxisControlCenter</string>
+    <string name="title_main_activity">AURAXIS CONTROL CENTER</string>
+    <string name="app_name">AURAXIS CONTROL CENTER</string>
     <string name="profile_list_add">ADD</string>
     <string name="outfit_list_add">ADD</string>
     <string name="text_menu_profiles">PROFILES</string>

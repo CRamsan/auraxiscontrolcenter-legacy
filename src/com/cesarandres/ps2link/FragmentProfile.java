@@ -116,6 +116,11 @@ public class FragmentProfile extends BaseFragment {
 					}
 				});
 
+		root.findViewById(R.id.buttonFragmentRemoveContact).setVisibility(
+				View.VISIBLE);
+		root.findViewById(R.id.buttonFragmentAddContact).setVisibility(
+				View.VISIBLE);
+
 		return root;
 	}
 
@@ -199,14 +204,14 @@ public class FragmentProfile extends BaseFragment {
 
 		if (isCached) {
 			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setVisibility(View.VISIBLE);
+					.setEnabled(true);
 			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setVisibility(View.GONE);
+					.setEnabled(false);
 		} else {
 			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
-					.setVisibility(View.GONE);
+					.setEnabled(false);
 			getActivity().findViewById(R.id.buttonFragmentAddContact)
-					.setVisibility(View.VISIBLE);
+					.setEnabled(true);
 		}
 
 		ToggleButton star = (ToggleButton) getActivity().findViewById(
