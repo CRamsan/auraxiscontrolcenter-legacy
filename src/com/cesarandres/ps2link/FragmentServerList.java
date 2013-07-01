@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -59,8 +58,6 @@ public class FragmentServerList extends BaseFragment {
 		View root = inflater.inflate(R.layout.fragment_server_list, container,
 				false);
 
-		new ReadServerTable().execute();
-
 		ListView listRoot = (ListView) root.findViewById(R.id.listViewServers);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -78,7 +75,7 @@ public class FragmentServerList extends BaseFragment {
 				.setText(getString(R.string.text_menu_servers));
 		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.GONE);
+		updateButton.setVisibility(View.VISIBLE);
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -92,7 +89,7 @@ public class FragmentServerList extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		new ReadServerTable().execute();
 	}
 
 	@Override
@@ -114,8 +111,6 @@ public class FragmentServerList extends BaseFragment {
 				public void onResponse(Server_response response) {
 					ListView listRoot = (ListView) getActivity().findViewById(
 							R.id.listViewServers);
-					Toast.makeText(getActivity(), "Data downloaded",
-							Toast.LENGTH_SHORT).show();
 					listRoot.setAdapter(new ServerItemAdapter(getActivity(),
 							response.getWorld_list()));
 					new UpdateServerTable().execute(response.getWorld_list());
@@ -141,13 +136,8 @@ public class FragmentServerList extends BaseFragment {
 	}
 
 	private void setUpdateButton(boolean enabled) {
-		if (enabled) {
-			getActivity().findViewById(R.id.buttonFragmentUpdate)
-					.setVisibility(View.VISIBLE);
-		} else {
-			getActivity().findViewById(R.id.buttonFragmentUpdate)
-					.setVisibility(View.GONE);
-		}
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+				enabled);
 	}
 
 	private static class ServerItemAdapter extends BaseAdapter {
@@ -301,6 +291,12 @@ public class FragmentServerList extends BaseFragment {
 			AsyncTask<Integer, Integer, ArrayList<World>> {
 
 		@Override
+		protected void onPreExecute() {
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+					false);
+		}
+
+		@Override
 		protected ArrayList<World> doInBackground(Integer... params) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
@@ -312,17 +308,15 @@ public class FragmentServerList extends BaseFragment {
 		@Override
 		protected void onPostExecute(ArrayList<World> result) {
 			if (result.size() == 0) {
-				Toast.makeText(getActivity(), "Not servers in DB",
-						Toast.LENGTH_SHORT).show();
 				downloadServers();
 			} else {
-				Toast.makeText(getActivity(), "Used servers from DB",
-						Toast.LENGTH_SHORT).show();
 				ListView listRoot = (ListView) getActivity().findViewById(
 						R.id.listViewServers);
 				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
 				downloadServers();
 			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+					true);
 			setUpdateButton(true);
 		}
 
