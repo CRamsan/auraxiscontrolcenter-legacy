@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PS2Link</string>
-    <string name="title_item_detail">Item Detail</string>
-    <string name="title_activity_activity_main_menu">MainMenu</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_activity__container">MainActivity</string>
-    <string name="profile_list_add">Add</string>
-    <string name="outfit_list_add">Add</string>
-    <string name="text_menu_profiles">Profiles</string>
-    <string name="text_menu_servers">Servers</string>
-    <string name="text_menu_outfits">Outfits</string>
-    <string name="text_menu_community">Community/News</string>
-    <string name="text_menu_reddit">Reddit</string>
-    <string name="text_menu_stats">Stats</string>
-    <string name="minutes_played">Minutes Played:</string>
-    <string name="last_login">Last Login:</string>
-    <string name="hours_played">Hours Played:</string>
-    <string name="profile_friends">Friends</string>
-    <string name="show_offline">Show Offline</string>
+    <string name="title_main_activity">AuraxisControlCenter</string>
+    <string name="app_name">AuraxisControlCenter</string>
+    <string name="profile_list_add">ADD</string>
+    <string name="outfit_list_add">ADD</string>
+    <string name="text_menu_profiles">PROFILES</string>
+    <string name="text_menu_servers">SERVERS</string>
+    <string name="text_menu_outfits">OUTFITS</string>
+    <string name="text_menu_reddit">REDDIT</string>
+    <string name="text_menu_stats">STATS</string>
+    <string name="last_login">LAST LOGIN:</string>
+    <string name="hours_played">HOURS PLAYED:</string>
+    <string name="profile_friends">FRIENDS</string>
+    <string name="show_offline">SHOW OFFLINE</string>
+    <string name="show_online">SHOW ONLINE</string>
+    <string name="twitter_name">TWITTER</string>
 
 </resources>

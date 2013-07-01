@@ -18,7 +18,7 @@
         android:theme="@style/PS2BaseTheme" >
         <activity
             android:name="com.cesarandres.ps2link.ActivityContainer"
-            android:label="@string/title_activity_activity__container" >
+            android:label="@string/title_main_activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

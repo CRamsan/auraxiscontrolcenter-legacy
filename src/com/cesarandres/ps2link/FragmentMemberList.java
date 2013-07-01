@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -18,10 +19,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -53,6 +56,7 @@ public class FragmentMemberList extends BaseFragment {
 	private ObjectDataSource data;
 	private int outfitSize;
 	private String outfitId;
+	private String outfitName;
 	private ArrayList<AsyncTask> taskList;
 	private RequestQueue volley;
 	private FragmentMemberList tag = this;
@@ -87,11 +91,11 @@ public class FragmentMemberList extends BaseFragment {
 			}
 		});
 
-		Button updateButton = (Button) root
+		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 
-		CheckBox viewOffline = (CheckBox) root
-				.findViewById(R.id.checkBoxShowOffline);
+		ToggleButton viewOffline = (ToggleButton) root
+				.findViewById(R.id.toggleShowOffline);
 		viewOffline.setVisibility(View.VISIBLE);
 
 		viewOffline
@@ -124,8 +128,7 @@ public class FragmentMemberList extends BaseFragment {
 					}
 				});
 
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("List of Members");
+		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText("");
 
 		return root;
 	}
@@ -141,8 +144,30 @@ public class FragmentMemberList extends BaseFragment {
 		} else {
 			this.outfitSize = savedInstanceState.getInt("outfitSize", 0);
 			this.outfitId = savedInstanceState.getString("outfitId");
+			this.outfitName = savedInstanceState.getString("outfitName");
 			this.shownOffline = savedInstanceState.getBoolean("showOffline");
 		}
+
+		((ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar))
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (outfitId != null && outfitName != null) {
+							SharedPreferences settings = getActivity()
+									.getSharedPreferences("PREFERENCES", 0);
+							SharedPreferences.Editor editor = settings.edit();
+							if (isChecked) {
+								editor.putString("preferedOutfit", outfitId);
+								editor.putString("preferedOutfitName",
+										outfitName);
+							} else {
+								editor.putString("preferedOutfit", "");
+								editor.putString("preferedOutfitName", "");
+							}
+							editor.commit();
+						}
+					}
+				});
 	}
 
 	@Override
@@ -163,6 +188,7 @@ public class FragmentMemberList extends BaseFragment {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("outfitSize", outfitSize);
 		savedInstanceState.putString("outfitId", outfitId);
+		savedInstanceState.putString("outfitName", outfitName);
 		savedInstanceState.putBoolean("showOffline", shownOffline);
 	}
 
@@ -306,12 +332,12 @@ public class FragmentMemberList extends BaseFragment {
 		if (enabled) {
 			getActivity().findViewById(R.id.buttonFragmentUpdate)
 					.setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.checkBoxShowOffline).setVisibility(
+			getActivity().findViewById(R.id.toggleShowOffline).setVisibility(
 					View.VISIBLE);
 		} else {
 			getActivity().findViewById(R.id.buttonFragmentUpdate)
 					.setVisibility(View.GONE);
-			getActivity().findViewById(R.id.checkBoxShowOffline).setVisibility(
+			getActivity().findViewById(R.id.toggleShowOffline).setVisibility(
 					View.GONE);
 		}
 	}
@@ -331,7 +357,19 @@ public class FragmentMemberList extends BaseFragment {
 	}
 
 	private void setAppendButtonVisibility(boolean visible) {
+		ToggleButton star = (ToggleButton) getActivity().findViewById(
+				R.id.buttonFragmentStar);
+		SharedPreferences settings = getActivity().getSharedPreferences(
+				"PREFERENCES", 0);
+		String preferedOutfitId = settings.getString("preferedOutfit", "");
+		if (preferedOutfitId.equals(outfitId)) {
+			star.setChecked(true);
+		} else {
+			star.setChecked(false);
+		}
+
 		if (visible) {
+			star.setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.buttonFragmentRemoveContact)
 					.setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.buttonFragmentAddContact)
@@ -341,6 +379,7 @@ public class FragmentMemberList extends BaseFragment {
 					.setVisibility(View.GONE);
 			getActivity().findViewById(R.id.buttonFragmentAddContact)
 					.setVisibility(View.GONE);
+			star.setVisibility(View.GONE);
 		}
 	}
 
@@ -368,13 +407,8 @@ public class FragmentMemberList extends BaseFragment {
 			Log.d("UpdateOutfitFromTable", "STARTING");
 			Outfit outfit = null;
 			try {
-				outfit = data.getOutfit(args[0], false);
-				if (outfit == null) {
-					outfit = data.getOutfit(args[0], true);
-					isCached = false;
-				} else {
-					isCached = true;
-				}
+				outfit = data.getOutfit(args[0]);
+				isCached = outfit.isCached();
 			} catch (Exception e) {
 				Log.d("UpdateOutfitFromTable", "ENDED BY EXCEPTION");
 			}
@@ -388,7 +422,10 @@ public class FragmentMemberList extends BaseFragment {
 				setUpdateButton(false);
 			} else {
 				outfitId = result.getId();
+				outfitName = result.getName();
 				outfitSize = result.getMember_count();
+				((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
+						.setText(outfitName);
 				setUpdateButton(false);
 				downloadOutfitMembers(outfitId);
 			}
@@ -443,16 +480,9 @@ public class FragmentMemberList extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... args) {
 			Log.d("CacheOutfit", "STARTING");
-			Outfit outfit = data.getOutfit(args[0], true);
+			Outfit outfit = data.getOutfit(args[0]);
 			try {
-				data.insertOutfit(outfit, false);
-				data.deleteOutfit(outfit, true);
-
-				ArrayList<Member> members = data.getAllMembers(args[0], true);
-				data.insertAllMembers(members, args[0], false);
-				for (Member delMember : members) {
-					data.deleteMember(delMember, true);
-				}
+				data.updateOutfit(outfit, false);
 				isCached = true;
 			} catch (Exception e) {
 				Log.d("CacheOutfit", "ENDED BY EXCEPTION");
@@ -484,16 +514,9 @@ public class FragmentMemberList extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... args) {
 			Log.d("UnCacheOutfit", "STARTING");
-			Outfit outfit = data.getOutfit(args[0], false);
 			try {
-				data.insertOutfit(outfit, true);
-				data.deleteOutfit(outfit, false);
-
-				ArrayList<Member> members = data.getAllMembers(args[0], false);
-				data.insertAllMembers(members, args[0], true);
-				for (Member delMember : members) {
-					data.deleteMember(delMember, false);
-				}
+				Outfit outfit = data.getOutfit(args[0]);
+				data.updateOutfit(outfit, true);
 				isCached = false;
 			} catch (Exception e) {
 				Log.d("UnCacheOutfit", "ENDED BY EXCEPTION");

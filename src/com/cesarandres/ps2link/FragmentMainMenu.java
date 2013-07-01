@@ -2,7 +2,9 @@ package com.cesarandres.ps2link;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
 /**
  * Created by cesar on 6/16/13.
@@ -71,8 +74,7 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
-		final Button buttonNews = (Button) root
-				.findViewById(R.id.buttonNews);
+		final Button buttonNews = (Button) root.findViewById(R.id.buttonNews);
 		buttonNews.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
@@ -81,9 +83,63 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
-		((TextView)root.findViewById(R.id.textViewFragmentTitle)).setText("PS2 Link");
-		
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.app_name));
+
 		return root;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		SharedPreferences settings = getActivity().getSharedPreferences(
+				"PREFERENCES", 0);
+		String preferedProfileId = settings.getString("preferedProfile", "");
+		String preferedProfileName = settings.getString("preferedProfileName", "");
+		final Button buttonPreferedProfile = (Button) getActivity()
+				.findViewById(R.id.buttonPreferedProfile);
+		if (!preferedProfileId.equals("")) {
+			buttonPreferedProfile
+					.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							SharedPreferences settings = getActivity()
+									.getSharedPreferences("PREFERENCES", 0);
+							Intent intent = new Intent();
+							intent.setClass(getActivity(),
+									ActivityProfile.class);
+							intent.putExtra("profileId",
+									settings.getString("preferedProfile", ""));
+							startActivity(intent);
+						}
+					});
+			buttonPreferedProfile.setText(preferedProfileName);
+			buttonPreferedProfile.setVisibility(View.VISIBLE);
+		} else {
+			buttonPreferedProfile.setVisibility(View.GONE);
+		}
+
+		String preferedOutfitId = settings.getString("preferedOutfit", "");
+		String preferedOutfitName = settings.getString("preferedOutfitName", "");
+		final Button buttonPreferedOutfit = (Button) getActivity()
+				.findViewById(R.id.buttonPreferedOutfit);
+		if (!preferedOutfitId.equals("")) {
+
+			buttonPreferedOutfit.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					SharedPreferences settings = getActivity()
+							.getSharedPreferences("PREFERENCES", 0);
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), ActivityMermberList.class);
+					intent.putExtra("outfit_id",
+							settings.getString("preferedOutfit", ""));
+					startActivity(intent);
+				}
+			});
+			buttonPreferedOutfit.setVisibility(View.VISIBLE);
+			buttonPreferedOutfit.setText(preferedOutfitName);
+		} else {
+			buttonPreferedOutfit.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

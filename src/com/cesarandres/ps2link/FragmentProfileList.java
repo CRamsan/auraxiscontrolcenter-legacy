@@ -3,8 +3,6 @@ package com.cesarandres.ps2link;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -42,10 +40,8 @@ public class FragmentProfileList extends BaseFragment {
 		View root = inflater.inflate(R.layout.fragment_profile_list, container,
 				false);
 
-		new ReadProfilesTable().execute();
-
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("List of Profiles");
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_profiles));
 
 		ListView listRoot = (ListView) root
 				.findViewById(R.id.listViewProfileList);
@@ -61,7 +57,7 @@ public class FragmentProfileList extends BaseFragment {
 			}
 		});
 
-		Button updateButton = (Button) root
+		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
@@ -71,7 +67,7 @@ public class FragmentProfileList extends BaseFragment {
 			}
 		});
 
-		Button searchButton = (Button) root
+		ImageButton searchButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 
@@ -102,11 +98,6 @@ public class FragmentProfileList extends BaseFragment {
 		super.onDestroyView();
 	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.fragment_profile_list_menu, menu);
-	}
-
 	private class ReadProfilesTable extends
 			AsyncTask<Integer, Integer, ArrayList<CharacterProfile>> {
 
@@ -115,7 +106,7 @@ public class FragmentProfileList extends BaseFragment {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
 			data.open();
 			ArrayList<CharacterProfile> tmpProfileList = data
-					.getAllCharacterProfiles();
+					.getAllCharacterProfiles(false);
 			data.close();
 			return tmpProfileList;
 		}

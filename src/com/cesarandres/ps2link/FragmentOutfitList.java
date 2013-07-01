@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -40,10 +40,10 @@ public class FragmentOutfitList extends BaseFragment {
 		// Inflate the layout for this fragment
 		View root = inflater.inflate(R.layout.fragment_outfit_list, container,
 				false);
-		((TextView) root.findViewById(R.id.textViewFragmentTitle))
-				.setText("List of Outfits");
+		((Button) root.findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_outfits));
 
-		Button updateButton = (Button) root
+		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
@@ -67,7 +67,7 @@ public class FragmentOutfitList extends BaseFragment {
 			}
 		});
 
-		Button searchButton = (Button) root
+		ImageButton searchButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 
@@ -96,25 +96,6 @@ public class FragmentOutfitList extends BaseFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.fragment_outfit_list_menu, menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.outfit_list_add:
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), ActivityAddOutfit.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	private class ReadOutfitsTable extends

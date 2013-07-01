@@ -30,16 +30,9 @@ public class ActivityContainer extends FragmentActivity implements
 		}
 
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			//ActionBar actionBar = getActionBar();
-			//actionBar.setDisplayHomeAsUpEnabled(true);
+			// ActionBar actionBar = getActionBar();
+			// actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_container_menu, menu);
-		return true;
 	}
 
 	@Override
