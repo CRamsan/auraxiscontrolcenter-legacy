@@ -411,7 +411,7 @@ public class FragmentMemberList extends BaseFragment {
 					outfitSize = result.getMember_count();
 					((Button) getActivity().findViewById(
 							R.id.buttonFragmentTitle)).setText(outfitName);
-					setUpdateButton(false);
+					setUpdateButton(true);
 					updateContent();
 					downloadOutfitMembers(outfitId);
 				}
@@ -436,7 +436,7 @@ public class FragmentMemberList extends BaseFragment {
 			ArrayList<Member> newMembers = members[0];
 			try {
 				for (Member member : newMembers) {
-					if (data.getMember(member.getCharacter_id(), !isCached) == null) {
+					if (data.getMember(member.getCharacter_id()) == null) {
 						data.insertMember(member, outfitId, !isCached);
 					} else {
 						data.updateMember(member, !isCached);
