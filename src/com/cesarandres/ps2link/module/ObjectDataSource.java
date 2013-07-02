@@ -399,17 +399,22 @@ public class ObjectDataSource {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
 
 		ContentValues values = new ContentValues();
-		values.put(SQLiteManager.MEMBERS_COLUMN_ID, member.getCharacter_id());
-		values.put(SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
-				member.getOnline_status());
-		values.put(SQLiteManager.MEMBERS_COLUMN_RANK, member.getRank());
-		values.put(SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID, outfit_id);
-		values.put(SQLiteManager.MEMBERS_COLUMN_NAME, member.getName()
-				.getFirst());
-		if (temp) {
-			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
-		} else {
-			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		try {
+			values.put(SQLiteManager.MEMBERS_COLUMN_ID,
+					member.getCharacter_id());
+			values.put(SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS,
+					member.getOnline_status());
+			values.put(SQLiteManager.MEMBERS_COLUMN_RANK, member.getRank());
+			values.put(SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID, outfit_id);
+			values.put(SQLiteManager.MEMBERS_COLUMN_NAME, member.getName()
+					.getFirst());
+			if (temp) {
+				values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+			} else {
+				values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+			}
+		} catch (NullPointerException e) {
+			return false;
 		}
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
@@ -487,11 +492,11 @@ public class ObjectDataSource {
 					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
 					null, null, null);
 		} else {
-			String[] whereArgs = new String[] { outfit_id, "18" };
+			String[] whereArgs = new String[] { outfit_id, "0" };
 			cursor = database.query(target, allColumnsMembers,
 					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ? AND "
 							+ SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS
-							+ " = ?", whereArgs, null, null, null);
+							+ " != ?", whereArgs, null, null, null);
 
 		}
 
@@ -517,7 +522,7 @@ public class ObjectDataSource {
 		return count;
 	}
 
-	public Member getMember(String memberId, boolean temp) {
+	public Member getMember(String memberId) {
 		String target = SQLiteManager.TABLE_MEMBERS_NAME;
 
 		String[] whereArgs = new String[] { memberId };
@@ -546,11 +551,11 @@ public class ObjectDataSource {
 					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs,
 					null, null, null);
 		} else {
-			String[] whereArgs = new String[] { outfit_id, "18" };
+			String[] whereArgs = new String[] { outfit_id, "0" };
 			cursor = database.query(target, allColumnsMembers,
 					SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ? AND "
 							+ SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS
-							+ " = ?", whereArgs, null, null, null);
+							+ " != ?", whereArgs, null, null, null);
 		}
 
 		return cursor;
