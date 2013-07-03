@@ -56,5 +56,13 @@ CREATE TABLE Outfits(
    ,FOREIGN KEY(world_id) REFERENCES Worlds(world_id)
    ,PRIMARY KEY (id)
 );
+
+CREATE TABLE tweets(
+   date Date
+   ,   id Int
+   ,   user varchar(-1)
+   ,   content varchar(-1)
+   ,PRIMARY KEY (id)
+);
 -- Relationships Creation (not supported by SQLite, could be simulated using triggers)
 -- Created at http://www.dbschemaeditor.com/

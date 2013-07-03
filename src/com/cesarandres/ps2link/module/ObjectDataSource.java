@@ -790,5 +790,90 @@ public class ObjectDataSource {
 				SQLiteManager.WORLDS_COLUMN_ID + " = " + world.getWorld_id(),
 				null);
 	}
+	
+	public World cursorToWorld(Cursor cursor) {
+		World world = new World();
+
+		world.setWorld_id(cursor.getString(0));
+		Name_Multi name = new Name_Multi();
+		name.setEn(cursor.getString(1));
+		world.setName(name);
+		world.setState(cursor.getString(2));
+
+		return world;
+	}
+	
+	public boolean insertCharacter(CharacterProfile character, boolean temp) {
+		ContentValues values = new ContentValues();
+		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character
+				.getName().getFirst());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST_LOWER, character
+				.getName().getFirst_lower());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_ACTIVE_PROFILE_ID,
+				character.getActive_profile_id());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_CURRENT_POINTS, character
+				.getCerts().getAvailable_points());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_CERT,
+				character.getCerts().getPercent_to_next());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_RANK_VALUE, character
+				.getBattle_rank().getValue());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_RANK,
+				character.getBattle_rank().getPercent_to_next());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_LAST_LOGIN, character
+				.getTimes().getLast_login());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character
+				.getTimes().getMinutes_played());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID,
+				character.getFaction_id());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
+				character.getWorld_id());
+
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
+		if (temp) {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
+		} else {
+			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
+		}
+		long insertId = database.insert(target, null, values);
+		return (insertId != -1);
+	}
+
+	public int insertAllCharacters(ArrayList<CharacterProfile> characterList,
+			boolean temp) {
+		int count = 0;
+		for (CharacterProfile character : characterList) {
+			if (insertCharacter(character, temp)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public void deleteCharacter(CharacterProfile character) {
+		String id = character.getId();
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
+		database.delete(target,
+				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + id, null);
+	}
+
+	public CharacterProfile getCharacter(String characterId) {
+		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
+		Cursor cursor = database.query(target, allColumnsCharacters,
+				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + characterId, null,
+				null, null, null);
+		cursor.moveToFirst();
+		CharacterProfile character = null;
+		while (!cursor.isAfterLast()) {
+			character = cursorToCharacterProfile(cursor);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return character;
+	}
+	
+	
+	
 
 }

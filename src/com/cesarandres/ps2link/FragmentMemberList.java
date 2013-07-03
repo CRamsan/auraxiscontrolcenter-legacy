@@ -209,6 +209,7 @@ public class FragmentMemberList extends BaseFragment {
 		for (AsyncTask task : taskList) {
 			task.cancel(true);
 		}
+		ApplicationPS2Link.volley.cancelAll(tag);
 		data.close();
 		super.onDestroy();
 	}

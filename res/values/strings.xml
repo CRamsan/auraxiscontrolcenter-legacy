@@ -18,5 +18,9 @@
     <string name="show_online">HIDE OFFLINE</string>
     <string name="twitter_name">TWITTER</string>
     <string name="loading">Loading...</string>
+    <string name="planetside2">Planetside2</string>
+    <string name="ps2dailydeals">PS2DailyDeals</string>
+    <string name="purrfectstorm">PurrfectStorm</string>
+    <string name="mhigby">MHigby</string>
 
 </resources>
