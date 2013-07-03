@@ -18,6 +18,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String TABLE_CHARACTERS_NAME = "characters";
 	public static final String TABLE_MEMBERS_NAME = "members";
 	public static final String TABLE_OUTFITS_NAME = "outfits";
+	public static final String TABLE_TWEETS_NAME = "tweets";
 
 	public static final String CACHE_COLUMN_SAVES = "cached";
 	
@@ -58,8 +59,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_WORDL_ID = "world_id";
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
 
+	public static final String TWEETS_COLUMN_DATE = "date";
+	public static final String TWEETS_COLUMN_ID = "date";
+	public static final String TWEETS_COLUMN_USER = "date";
+	public static final String TWEETS_COLUMN_CONTENT = "date";
+	
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 19;
+	public static final int DATABASE_VERSION = 20;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "
@@ -116,6 +122,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ TABLE_WORLDS_NAME + "(" + WORLDS_COLUMN_ID + "), "
 			+ "PRIMARY KEY (" + OUTFIT_COLUMN_ID + "));";
 
+	private static final String CREATE_TWEETS_TABLE = "create table "
+			+ TABLE_TWEETS_NAME + " ( " + TWEETS_COLUMN_ID + " Int, "
+			+ TWEETS_COLUMN_CONTENT + " varchar(-1), " 
+			+ TWEETS_COLUMN_USER+ " varchar(-1), " 
+			+ TWEETS_COLUMN_DATE+ " Date, " 
+			+ "PRIMARY KEY (" + TWEETS_COLUMN_ID + "));";
+	
 	/**
 	 * @param context
 	 *            reference to the activity that is accesing the database.
@@ -138,6 +151,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 		db.execSQL(CREATE_OUTFITS_TABLE);
 		db.execSQL(CREATE_MEMBERS_TABLE);
 		db.execSQL(CREATE_CHARACTERS_TABLE);
+		db.execSQL(CREATE_TWEETS_TABLE);
 	}
 
 	/*
@@ -154,6 +168,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFITS_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORLDS_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTIONS_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TWEETS_NAME);
 		onCreate(db);
 	}
 }
