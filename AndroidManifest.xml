@@ -43,6 +43,8 @@
         </activity>
         <activity android:name="com.cesarandres.ps2link.ActivityReddit" >
         </activity>
+        <activity android:name="com.cesarandres.ps2link.ActivityTwitter" >
+        </activity>
     </application>
 
 </manifest>

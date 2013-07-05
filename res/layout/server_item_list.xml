@@ -11,17 +11,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textViewServerListRegion"
+        android:id="@+id/textViewSpace"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textViewServerListRegion"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_weight="1"
         android:gravity="right"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -30,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="5dp"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

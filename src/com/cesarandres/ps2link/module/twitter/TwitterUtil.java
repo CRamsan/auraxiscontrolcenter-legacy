@@ -1,5 +1,6 @@
 package com.cesarandres.ps2link.module.twitter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.ResponseList;
@@ -12,9 +13,13 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterUtil {
 
-	public enum TwitterUser{PLANETSIDE2, PS2DEAL, MHIDGY, PURRFECTSTORM};
-	
-	public TwitterUtil() throws TwitterException {
+	public static final String PLANETSIDE2 = "planetside2";
+	public static final String PS2DAILYDEALS = "PS2DailyDeals";
+	public static final String MHIDGY = "mhigby";
+	public static final String PURRFECTSTORM = "PurrfectStorm";
+
+	public static ArrayList<PS2Tweet> getTweets(String[] users)
+			throws TwitterException {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)
 				.setOAuthConsumerKey("AdtZzl6c9v4QiqC6yHWSVw")
@@ -27,19 +32,21 @@ public class TwitterUtil {
 		TwitterFactory tf = new TwitterFactory(cb.build());
 
 		Twitter twitter = tf.getInstance();
-		String[] srch = new String[] { "PS2DailyDeals" };
-		ResponseList<User> users = twitter.lookupUsers(srch);
-		for (User user : users) {
+		ArrayList<PS2Tweet> twwetsFound = new ArrayList<PS2Tweet>();
+		ResponseList<User> usersFound = twitter.lookupUsers(users);
+		for (User user : usersFound) {
 			String url = user.getProfileImageURL();
-			System.out.println("Friend's Name " + user.getName());
 			if (user.getStatus() != null) {
-				System.out.println("Friend timeline");
 				List<Status> statusess = twitter
-						.getUserTimeline(user.getName());
+						.getUserTimeline(user.getScreenName());
 				for (Status status3 : statusess) {
-					System.out.println(status3.getText());
+					twwetsFound.add(new PS2Tweet(
+							Long.toString(status3.getId()), user.getName(), (int)(status3
+									.getCreatedAt().getTime() / 1000), status3
+									.getText(), user.getScreenName()));
 				}
 			}
 		}
+		return twwetsFound;
 	}
 }

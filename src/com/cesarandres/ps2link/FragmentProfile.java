@@ -5,6 +5,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
+
+import org.ocpsoft.prettytime.PrettyTime;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -93,6 +96,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
+		ApplicationPS2Link.volley.cancelAll(this);
 		for (AsyncTask task : taskList) {
 			task.cancel(true);
 		}
@@ -148,9 +152,10 @@ public class FragmentProfile extends BaseFragment {
 				.toString((Integer.parseInt(character.getTimes()
 						.getMinutes_played()) / 60)));
 
-		String lastLogin = DateFormat.getDateTimeInstance()
-				.format(new Date(Long.parseLong(character.getTimes()
-						.getLast_login()) * 1000));
+		PrettyTime p = new PrettyTime();
+		String lastLogin = p.format(new Date(Long.parseLong(character
+				.getTimes().getLast_login()) * 1000));
+
 		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin))
 				.setText(lastLogin);
 
@@ -250,6 +255,7 @@ public class FragmentProfile extends BaseFragment {
 			GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
 					url.toString(), Character_response.class, null, success,
 					error);
+			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

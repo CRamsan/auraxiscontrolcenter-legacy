@@ -83,6 +83,15 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
+		final Button buttonTwitter = (Button) root.findViewById(R.id.buttonTwitter);
+		buttonTwitter.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityTwitter.class);
+				startActivity(intent);
+			}
+		});
+		
 		((Button) root.findViewById(R.id.buttonFragmentTitle))
 				.setText(getString(R.string.fragment_title));
 

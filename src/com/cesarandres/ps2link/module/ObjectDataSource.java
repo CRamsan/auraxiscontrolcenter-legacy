@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.Member;
@@ -68,6 +69,11 @@ public class ObjectDataSource {
 			SQLiteManager.OUTFIT_COLUMN_WORDL_ID,
 			SQLiteManager.OUTFIT_COLUMN_FACTION_ID,
 			SQLiteManager.CACHE_COLUMN_SAVES };
+
+	private String[] allColumnsTweet = { SQLiteManager.TWEETS_COLUMN_ID,
+			SQLiteManager.TWEETS_COLUMN_DATE, SQLiteManager.TWEETS_COLUMN_USER,
+			SQLiteManager.TWEETS_COLUMN_TAG,
+			SQLiteManager.TWEETS_COLUMN_CONTENT };
 
 	/**
 	 * Constructor that requires a reference to the current context.
@@ -720,18 +726,6 @@ public class ObjectDataSource {
 				SQLiteManager.OUTFIT_COLUMN_ID + " = " + id, null);
 	}
 
-	public World cursorToWorld(Cursor cursor) {
-		World world = new World();
-
-		world.setWorld_id(cursor.getString(0));
-		Name_Multi name = new Name_Multi();
-		name.setEn(cursor.getString(1));
-		world.setName(name);
-		world.setState(cursor.getString(2));
-
-		return world;
-	}
-
 	public ArrayList<World> getAllWorlds() {
 		ArrayList<World> worlds = new ArrayList<World>(0);
 		Cursor cursor = database.query(SQLiteManager.TABLE_WORLDS_NAME,
@@ -790,7 +784,7 @@ public class ObjectDataSource {
 				SQLiteManager.WORLDS_COLUMN_ID + " = " + world.getWorld_id(),
 				null);
 	}
-	
+
 	public World cursorToWorld(Cursor cursor) {
 		World world = new World();
 
@@ -802,78 +796,158 @@ public class ObjectDataSource {
 
 		return world;
 	}
-	
-	public boolean insertCharacter(CharacterProfile character, boolean temp) {
-		ContentValues values = new ContentValues();
-		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character
-				.getName().getFirst());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST_LOWER, character
-				.getName().getFirst_lower());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_ACTIVE_PROFILE_ID,
-				character.getActive_profile_id());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_CURRENT_POINTS, character
-				.getCerts().getAvailable_points());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_CERT,
-				character.getCerts().getPercent_to_next());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_RANK_VALUE, character
-				.getBattle_rank().getValue());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_RANK,
-				character.getBattle_rank().getPercent_to_next());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_LAST_LOGIN, character
-				.getTimes().getLast_login());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character
-				.getTimes().getMinutes_played());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID,
-				character.getFaction_id());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
-				character.getWorld_id());
 
-		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		if (temp) {
-			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
-		} else {
-			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
-		}
+	public PS2Tweet cursorToTweet(Cursor cursor) {
+		PS2Tweet tweet = new PS2Tweet();
+		tweet.setDate(cursor.getInt(1));
+		tweet.setUser(cursor.getString(2));
+		tweet.setTag(cursor.getString(3));
+		tweet.setContent(cursor.getString(4));
+
+		return tweet;
+	}
+
+	public boolean insertTweet(PS2Tweet tweet) {
+		ContentValues values = new ContentValues();
+		values.put(SQLiteManager.TWEETS_COLUMN_ID, tweet.getId());
+		values.put(SQLiteManager.TWEETS_COLUMN_USER, tweet.getUser().toString());
+		values.put(SQLiteManager.TWEETS_COLUMN_DATE, tweet.getDate());
+		values.put(SQLiteManager.TWEETS_COLUMN_CONTENT, tweet.getContent());
+		values.put(SQLiteManager.TWEETS_COLUMN_TAG, tweet.getTag());
+
+		String target = SQLiteManager.TABLE_TWEETS_NAME;
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
 
-	public int insertAllCharacters(ArrayList<CharacterProfile> characterList,
-			boolean temp) {
+	public int insertAllTweets(ArrayList<PS2Tweet> tweetList) {
 		int count = 0;
-		for (CharacterProfile character : characterList) {
-			if (insertCharacter(character, temp)) {
+		for (PS2Tweet tweet : tweetList) {
+			if (insertTweet(tweet)) {
 				count++;
+			}else{
+				return count;
 			}
 		}
 		return count;
 	}
 
-	public void deleteCharacter(CharacterProfile character) {
-		String id = character.getId();
-		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		database.delete(target,
-				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + id, null);
+	public void deleteTweet(PS2Tweet tweet) {
+		String id = tweet.getId();
+		String target = SQLiteManager.TABLE_TWEETS_NAME;
+		database.delete(target, SQLiteManager.TWEETS_COLUMN_ID + " = " + id,
+				null);
 	}
 
-	public CharacterProfile getCharacter(String characterId) {
-		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
-		Cursor cursor = database.query(target, allColumnsCharacters,
-				SQLiteManager.CHARACTERS_COLUMN_ID + " = " + characterId, null,
-				null, null, null);
+	public ArrayList<PS2Tweet> getAllTweets(String[] users, String startDate,
+			String endDate) {
+		ArrayList<PS2Tweet> tweets = new ArrayList<PS2Tweet>(0);
+
+		String[] whereArgs = users;
+		String[] betweenArgs = new String[] { startDate, endDate };
+		Cursor cursor = null;
+
+		for (int i = 0; i < whereArgs.length; i++) {
+			cursor = database.query(SQLiteManager.TABLE_TWEETS_NAME,
+					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_USER + " = "
+							+ users[i] + SQLiteManager.TWEETS_COLUMN_DATE
+							+ " BETWEEN ? AND ?", betweenArgs, null, null,
+					SQLiteManager.TWEETS_COLUMN_DATE + " DESC ");
+
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				PS2Tweet tweet = cursorToTweet(cursor);
+				tweets.add(tweet);
+				cursor.moveToNext();
+			}
+			// Make sure to close the cursor
+			cursor.close();
+		}
+		return tweets;
+	}
+
+	public ArrayList<PS2Tweet> getAllTweets(String[] users) {
+		ArrayList<PS2Tweet> tweets = new ArrayList<PS2Tweet>(0);
+
+		String[] whereArgs = users;
+		Cursor cursor = null;
+
+		for (int i = 0; i < whereArgs.length; i++) {
+			cursor = database.query(SQLiteManager.TABLE_TWEETS_NAME,
+					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_TAG + " = ?",
+					new String[] { users[i] }, null, null,
+					SQLiteManager.TWEETS_COLUMN_DATE + " DESC ");
+
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				PS2Tweet tweet = cursorToTweet(cursor);
+				tweets.add(tweet);
+				cursor.moveToNext();
+			}
+			// Make sure to close the cursor
+			cursor.close();
+		}
+		return tweets;
+	}
+
+	public int countAllTweets(String[] users) {
+		String target = SQLiteManager.TABLE_TWEETS_NAME;
+		int count = 0;
+		Cursor cursor = null;
+		for (int i = 0; i < users.length; i++) {
+			cursor = database.query(target, allColumnsTweet,
+					SQLiteManager.TWEETS_COLUMN_USER + " = " + users[i], null,
+					null, null, null);
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				count++;
+				cursor.moveToNext();
+			}
+			// Make sure to close the cursor
+			cursor.close();
+		}
+		return count;
+	}
+
+	public ArrayList<PS2Tweet> getAllTweets(String[] users, int pageSize,
+			int pageNumber) {
+		ArrayList<PS2Tweet> tweets = new ArrayList<PS2Tweet>(0);
+
+		String[] whereArgs = users;
+		Cursor cursor = null;
+
+		for (int i = 0; i < whereArgs.length; i++) {
+			cursor = database.query(SQLiteManager.TABLE_TWEETS_NAME,
+					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_USER + " = "
+							+ users[i], null, null, null,
+					SQLiteManager.TWEETS_COLUMN_DATE + " DESC", " limit "
+							+ pageSize + " offset " + pageSize * pageNumber);
+
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				PS2Tweet tweet = cursorToTweet(cursor);
+				tweets.add(tweet);
+				cursor.moveToNext();
+			}
+			// Make sure to close the cursor
+			cursor.close();
+		}
+		return tweets;
+	}
+
+	public PS2Tweet getTweet(String tweetId) {
+		String target = SQLiteManager.TABLE_TWEETS_NAME;
+		Cursor cursor = database.query(target, allColumnsTweet,
+				SQLiteManager.TWEETS_COLUMN_ID + " = " + tweetId, null, null,
+				null, null);
 		cursor.moveToFirst();
-		CharacterProfile character = null;
+		PS2Tweet tweet = null;
 		while (!cursor.isAfterLast()) {
-			character = cursorToCharacterProfile(cursor);
+			tweet = cursorToTweet(cursor);
 			cursor.moveToNext();
 		}
 		// Make sure to close the cursor
 		cursor.close();
-		return character;
+		return tweet;
 	}
-	
-	
-	
-
 }
