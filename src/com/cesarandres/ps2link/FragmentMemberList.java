@@ -26,12 +26,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
@@ -97,16 +95,6 @@ public class FragmentMemberList extends BaseFragment {
 				.findViewById(R.id.toggleShowOffline);
 		viewOffline.setVisibility(View.VISIBLE);
 
-		viewOffline
-				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						shownOffline = isChecked;
-						updateContent();
-					}
-				});
-
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				downloadOutfitMembers(outfitId);
@@ -116,20 +104,6 @@ public class FragmentMemberList extends BaseFragment {
 		ToggleButton append = ((ToggleButton) root
 				.findViewById(R.id.buttonFragmentAppend));
 		append.setVisibility(View.VISIBLE);
-		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					CacheOutfit task = new CacheOutfit();
-					taskList.add(task);
-					task.execute(outfitId);
-				} else {
-					UnCacheOutfit task = new UnCacheOutfit();
-					taskList.add(task);
-					task.execute(outfitId);
-				}
-			}
-		});
 
 		root.findViewById(R.id.buttonFragmentUpdate)
 				.setVisibility(View.VISIBLE);
@@ -206,12 +180,12 @@ public class FragmentMemberList extends BaseFragment {
 
 	@Override
 	public void onDestroyView() {
+		super.onDestroyView();
 		for (AsyncTask task : taskList) {
 			task.cancel(true);
 		}
 		ApplicationPS2Link.volley.cancelAll(tag);
 		data.close();
-		super.onDestroy();
 	}
 
 	private void downloadOutfitMembers(String outfit_id) {
@@ -375,6 +349,49 @@ public class FragmentMemberList extends BaseFragment {
 
 			listRoot.setAdapter(new MemberItemAdapter(getActivity(),
 					outfitSize, outfitId, data, isCached, shownOffline));
+
+			listRoot.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> myAdapter, View myView,
+						int myItemInt, long mylng) {
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), ActivityProfile.class);
+					intent.putExtra("profileId", ((Member) myAdapter
+							.getItemAtPosition(myItemInt)).getCharacter_id());
+					startActivity(intent);
+				}
+			});
+
+			ToggleButton viewOffline = ((ToggleButton) getActivity().findViewById(
+					R.id.toggleShowOffline));
+			viewOffline
+					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							shownOffline = isChecked;
+							updateContent();
+						}
+					});
+
+			ToggleButton append = ((ToggleButton) getActivity().findViewById(
+					R.id.buttonFragmentAppend));
+			append.setOnCheckedChangeListener(null);
+			append.setChecked(isCached);
+			append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					if (isChecked) {
+						CacheOutfit task = new CacheOutfit();
+						taskList.add(task);
+						task.execute(outfitId);
+					} else {
+						UnCacheOutfit task = new UnCacheOutfit();
+						taskList.add(task);
+						task.execute(outfitId);
+					}
+				}
+			});
 		}
 	}
 

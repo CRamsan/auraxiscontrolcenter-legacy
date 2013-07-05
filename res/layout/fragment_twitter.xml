@@ -11,11 +11,11 @@
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
         style="@style/ListItemStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal" >
 
@@ -23,6 +23,7 @@
                 android:id="@+id/checkBoxTwitterPlanetside"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:text="@string/planetside2" />
 
             <CheckBox
@@ -46,7 +47,7 @@
     </HorizontalScrollView>
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/listViewTweetList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>

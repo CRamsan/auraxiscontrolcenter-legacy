@@ -60,12 +60,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
 
 	public static final String TWEETS_COLUMN_DATE = "date";
-	public static final String TWEETS_COLUMN_ID = "date";
-	public static final String TWEETS_COLUMN_USER = "date";
-	public static final String TWEETS_COLUMN_CONTENT = "date";
+	public static final String TWEETS_COLUMN_ID = "id";
+	public static final String TWEETS_COLUMN_USER = "user";
+	public static final String TWEETS_COLUMN_TAG = "tag";
+	public static final String TWEETS_COLUMN_CONTENT = "content";
 	
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 20;
+	public static final int DATABASE_VERSION = 25;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "
@@ -123,10 +124,12 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ "PRIMARY KEY (" + OUTFIT_COLUMN_ID + "));";
 
 	private static final String CREATE_TWEETS_TABLE = "create table "
-			+ TABLE_TWEETS_NAME + " ( " + TWEETS_COLUMN_ID + " Int, "
-			+ TWEETS_COLUMN_CONTENT + " varchar(-1), " 
+			+ TABLE_TWEETS_NAME + " ( " 
+			+ TWEETS_COLUMN_ID + " varchar(-1), "
+			+ TWEETS_COLUMN_DATE+ " Int, " 
 			+ TWEETS_COLUMN_USER+ " varchar(-1), " 
-			+ TWEETS_COLUMN_DATE+ " Date, " 
+			+ TWEETS_COLUMN_TAG+ " varchar(-1), " 
+			+ TWEETS_COLUMN_CONTENT + " varchar(-1), " 
 			+ "PRIMARY KEY (" + TWEETS_COLUMN_ID + "));";
 	
 	/**
