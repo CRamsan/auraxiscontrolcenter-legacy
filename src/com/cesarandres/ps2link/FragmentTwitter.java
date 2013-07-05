@@ -46,6 +46,7 @@ public class FragmentTwitter extends BaseFragment {
 	public static Bitmap purrfectstorm;
 	public static Bitmap mhigby;
 	private FragmentTwitter tag = this;
+	private ArrayList<AsyncTask> taskList;
 	private long currentTime;
 
 	private static final String MHIGBY = "checkBoxMHigby";
@@ -57,6 +58,7 @@ public class FragmentTwitter extends BaseFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		currentTime = System.currentTimeMillis();
+		taskList = new ArrayList<AsyncTask>();
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class FragmentTwitter extends BaseFragment {
 				false);
 
 		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_reddit));
+				.setText(getString(R.string.text_menu_twitter));
 
 		ImageButton updateButton = (ImageButton) root
 				.findViewById(R.id.buttonFragmentUpdate);
@@ -151,7 +153,7 @@ public class FragmentTwitter extends BaseFragment {
 
 		CheckBox ps2deals = ((CheckBox) root
 				.findViewById(R.id.checkBoxTwitterPS2Deals));
-		ps2deals.setChecked(settings.getBoolean(PURRFECTSTORM, false));
+		ps2deals.setChecked(settings.getBoolean(PS2DEALS, false));
 		ps2deals.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
@@ -161,7 +163,7 @@ public class FragmentTwitter extends BaseFragment {
 
 		CheckBox purrfectStorm = ((CheckBox) root
 				.findViewById(R.id.checkBoxTwitterPurrfectstorm));
-		purrfectStorm.setChecked(settings.getBoolean(PS2DEALS, false));
+		purrfectStorm.setChecked(settings.getBoolean(PURRFECTSTORM, false));
 		purrfectStorm.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
@@ -187,7 +189,9 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-
+		for (AsyncTask task : taskList) {
+			task.cancel(true);
+		}
 		SharedPreferences settings = getActivity().getSharedPreferences(
 				"PREFERENCES", 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -325,18 +329,24 @@ public class FragmentTwitter extends BaseFragment {
 			} catch (TwitterException e) {
 				e.printStackTrace();
 			}
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
-			data.insertAllTweets(tweetList);
-			data.close();
-
+			try {
+				ObjectDataSource data = new ObjectDataSource(getActivity());
+				data.open();
+				data.insertAllTweets(tweetList);
+				data.close();
+			} catch (Exception e) {
+				return null;
+			}
 			return users;
 		}
 
 		@Override
 		protected void onPostExecute(String[] result) {
-			new GetTweets().execute(result);
+			if (!this.isCancelled() && result != null) {
+				updateTweets();
+			}
 			setUpdateButton(true);
+			taskList.remove(this);
 		}
 	}
 
@@ -351,18 +361,25 @@ public class FragmentTwitter extends BaseFragment {
 		@Override
 		protected ArrayList<PS2Tweet> doInBackground(String... users) {
 			ArrayList<PS2Tweet> tweetList = new ArrayList<PS2Tweet>(0);
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
-			tweetList = data.getAllTweets(users);
-			Collections.sort(tweetList);
-			data.close();
+			try {
+				ObjectDataSource data = new ObjectDataSource(getActivity());
+				data.open();
+				tweetList = data.getAllTweets(users);
+				Collections.sort(tweetList);
+				data.close();
+			} catch (Exception e) {
+				return null;
+			}
 			return tweetList;
 		}
 
 		@Override
 		protected void onPostExecute(ArrayList<PS2Tweet> result) {
-			updateContent(result);
+			if (!this.isCancelled() && result != null) {
+				updateContent(result);
+			}
 			setUpdateButton(true);
+			taskList.remove(this);
 		}
 	}
 }

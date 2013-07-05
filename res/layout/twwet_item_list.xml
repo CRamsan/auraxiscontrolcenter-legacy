@@ -34,19 +34,23 @@
 
             <TextView
                 android:id="@+id/textViewTwitterTag"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:lines="1"
                 android:maxLines="1"
+                android:scrollHorizontally="true"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/textViewTwitterDate"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:gravity="right"
                 android:lines="1"
                 android:maxLines="1"
