@@ -92,9 +92,10 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 		
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.fragment_title));
-
+		Button titleButton = ((Button)  root.findViewById(R.id.buttonFragmentTitle));
+		titleButton.setText(getString(R.string.fragment_title));
+		titleButton.setCompoundDrawables(null, null, null, null);
+		
 		return root;
 	}
 

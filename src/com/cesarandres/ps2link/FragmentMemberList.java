@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -323,6 +324,23 @@ public class FragmentMemberList extends BaseFragment {
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(
 				enabled);
+		if (enabled) {
+			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			if (loadingView != null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutMemberList);
+				layout.removeView(loadingView);
+			}
+		} else {
+			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			if (loadingView == null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutMemberList);
+				loadingView = getActivity().getLayoutInflater().inflate(
+						R.layout.loading_view, null);
+				layout.addView(loadingView, 1);
+			}
+		}
 	}
 
 	private void setAppendButtonVisibility(boolean visible) {
@@ -362,8 +380,8 @@ public class FragmentMemberList extends BaseFragment {
 				}
 			});
 
-			ToggleButton viewOffline = ((ToggleButton) getActivity().findViewById(
-					R.id.toggleShowOffline));
+			ToggleButton viewOffline = ((ToggleButton) getActivity()
+					.findViewById(R.id.toggleShowOffline));
 			viewOffline
 					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 						@Override

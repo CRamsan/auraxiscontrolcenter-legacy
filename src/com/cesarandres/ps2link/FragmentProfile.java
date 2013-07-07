@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -225,6 +226,23 @@ public class FragmentProfile extends BaseFragment {
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(
 				enabled);
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
+		if (enabled) {
+			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			if (loadingView != null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutProfile);
+				layout.removeView(loadingView);
+			}
+		} else {
+			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			if (loadingView == null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutProfile);
+				loadingView = getActivity().getLayoutInflater().inflate(
+						R.layout.loading_view, null);
+				layout.addView(loadingView, 1);
+			}
+		}
 	}
 
 	private void downloadProfiles(String character_id) {

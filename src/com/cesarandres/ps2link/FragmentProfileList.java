@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -95,13 +96,17 @@ public class FragmentProfileList extends BaseFragment {
 		super.onDestroyView();
 	}
 
+	private void setUpdateButton(boolean enabled) {
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
+				enabled);
+	}
+
 	private class ReadProfilesTable extends
 			AsyncTask<Integer, Integer, ArrayList<CharacterProfile>> {
 
 		@Override
 		protected void onPreExecute() {
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-					false);
+			setUpdateButton(false);
 		}
 
 		@Override
@@ -119,8 +124,7 @@ public class FragmentProfileList extends BaseFragment {
 			ListView listRoot = (ListView) getActivity().findViewById(
 					R.id.listViewProfileList);
 			listRoot.setAdapter(new ProfileItemAdapter(getActivity(), result));
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-					true);
+			setUpdateButton(true);
 		}
 
 	}

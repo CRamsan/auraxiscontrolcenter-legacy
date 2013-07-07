@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayoutProfile"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -14,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:orientation="vertical"
             android:paddingLeft="5dp"
@@ -36,6 +37,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <LinearLayout
+                style="@style/ListItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp" >
@@ -45,6 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/br_on"
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -64,12 +67,17 @@
                     android:id="@+id/textViewNextRank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/br_off"
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
+
             </LinearLayout>
 
             <LinearLayout
+                style="@style/ListItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp" >
@@ -102,33 +110,53 @@
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textViewMinutesPlayed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hours_played"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
-                android:id="@+id/textViewProfileMinutesPlayed"
+            <LinearLayout
+                style="@style/ListItemStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textViewLastLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/last_login"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                <TextView
+                    android:id="@+id/textViewMinutesPlayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/hours_played"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
-                android:id="@+id/textViewProfileLastLogin"
+                <TextView
+                    android:id="@+id/textViewProfileMinutesPlayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ListItemStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textViewLastLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/last_login"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/textViewProfileLastLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonProfileFriends"
@@ -137,7 +165,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:drawableRight="@drawable/friends"
-                android:text="@string/profile_friends" />
+                android:text="@string/profile_friends"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

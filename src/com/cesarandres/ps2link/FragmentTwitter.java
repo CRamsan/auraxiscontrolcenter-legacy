@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -176,6 +177,7 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		updateTweets();
 		new UpdateTweets().execute(new String[] { TwitterUtil.PURRFECTSTORM,
 				TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2,
 				TwitterUtil.PS2DAILYDEALS });
@@ -217,6 +219,26 @@ public class FragmentTwitter extends BaseFragment {
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
 				enabled);
+	}
+
+	private void setUpdateView(boolean enabled) {
+		if (enabled) {
+			View loadingView = getActivity().findViewById(R.id.loadingItemList);
+			if (loadingView != null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutTwitter);
+				layout.removeView(loadingView);
+			}
+		} else {
+			View loadingView = getActivity().findViewById(R.id.loadingItemList);
+			if (loadingView == null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutTwitter);
+				loadingView = getActivity().getLayoutInflater().inflate(
+						R.layout.loading_item_list, null);
+				layout.addView(loadingView, 1);
+			}
+		}
 	}
 
 	private void updateTweets() {
@@ -318,7 +340,9 @@ public class FragmentTwitter extends BaseFragment {
 
 		@Override
 		protected void onPreExecute() {
+			taskList.add(this);
 			setUpdateButton(false);
+			setUpdateView(false);
 		}
 
 		@Override
@@ -342,10 +366,13 @@ public class FragmentTwitter extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(String[] result) {
-			if (!this.isCancelled() && result != null) {
-				updateTweets();
+			if (!this.isCancelled()) {
+				if (result != null) {
+					updateTweets();
+				}
+				setUpdateView(true);
+				setUpdateButton(true);
 			}
-			setUpdateButton(true);
 			taskList.remove(this);
 		}
 	}
@@ -355,6 +382,7 @@ public class FragmentTwitter extends BaseFragment {
 
 		@Override
 		protected void onPreExecute() {
+			taskList.add(this);
 			setUpdateButton(false);
 		}
 
@@ -375,10 +403,12 @@ public class FragmentTwitter extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<PS2Tweet> result) {
-			if (!this.isCancelled() && result != null) {
-				updateContent(result);
+			if (!this.isCancelled()) {
+				if (result != null) {
+					updateContent(result);
+				}
+				setUpdateButton(true);
 			}
-			setUpdateButton(true);
 			taskList.remove(this);
 		}
 	}
