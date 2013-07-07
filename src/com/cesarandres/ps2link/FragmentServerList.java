@@ -18,6 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -138,6 +139,23 @@ public class FragmentServerList extends BaseFragment {
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
 				enabled);
+		if (enabled) {
+			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			if (loadingView != null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutServerList);
+				layout.removeView(loadingView);
+			}
+		} else {
+			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			if (loadingView == null) {
+				LinearLayout layout = (LinearLayout) getActivity()
+						.findViewById(R.id.linearLayoutServerList);
+				loadingView = getActivity().getLayoutInflater().inflate(
+						R.layout.loading_view, null);
+				layout.addView(loadingView, 1);
+			}
+		}
 	}
 
 	private static class ServerItemAdapter extends BaseAdapter {
@@ -199,13 +217,12 @@ public class FragmentServerList extends BaseFragment {
 			}
 
 			// Bind the data efficiently with the holder.
-			if (this.serverList.get(position).getState().equals("online")) {
-
-				holder.serverstatus.setText("ONLINE");
+			String serverState = this.serverList.get(position).getState();
+			if (serverState.equals("online")) {
+				holder.serverstatus.setText(serverState.toUpperCase());
 				holder.serverstatus.setTextColor(Color.GREEN);
 			} else {
-
-				holder.serverstatus.setText("OFFLINE");
+				holder.serverstatus.setText(serverState.toUpperCase());
 				holder.serverstatus.setTextColor(Color.RED);
 			}
 
@@ -240,6 +257,11 @@ public class FragmentServerList extends BaseFragment {
 
 	private class UpdateServerTable extends
 			AsyncTask<ArrayList<World>, Integer, Boolean> {
+		@Override
+		protected void onPreExecute() {
+			setUpdateButton(false);
+		}
+
 		@Override
 		protected Boolean doInBackground(ArrayList<World>... worlds) {
 			int count = worlds[0].size();
@@ -292,8 +314,7 @@ public class FragmentServerList extends BaseFragment {
 
 		@Override
 		protected void onPreExecute() {
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-					false);
+			setUpdateButton(false);
 		}
 
 		@Override
@@ -315,8 +336,6 @@ public class FragmentServerList extends BaseFragment {
 				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
 				downloadServers();
 			}
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-					true);
 			setUpdateButton(true);
 		}
 

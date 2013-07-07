@@ -9,6 +9,7 @@
         layout="@layout/fragment_title" />
 
     <LinearLayout
+        android:id="@+id/linearLayoutTwitter"
         style="@style/FragmentStyle"
         android:orientation="vertical" >
 
@@ -53,7 +54,8 @@
         <ListView
             android:id="@+id/listViewTweetList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000" >
         </ListView>
     </LinearLayout>
 

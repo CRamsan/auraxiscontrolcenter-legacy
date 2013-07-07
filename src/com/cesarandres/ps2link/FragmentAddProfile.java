@@ -36,6 +36,7 @@ import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.soe.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
@@ -90,6 +91,9 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 				.findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				ListView listRoot = (ListView) getActivity().findViewById(
+						R.id.listFoundProfiles);
+				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 				downloadProfiles();
 			}
 		});

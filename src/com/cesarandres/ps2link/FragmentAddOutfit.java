@@ -36,6 +36,7 @@ import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.soe.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
@@ -78,7 +79,9 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 				.findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				@SuppressWarnings("unused")
+				ListView listRoot = (ListView) getActivity().findViewById(
+						R.id.listFoundOutfits);
+				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 				EditText searchField = (EditText) getActivity().findViewById(
 						R.id.fieldSearchOutfit);
 				URL url;

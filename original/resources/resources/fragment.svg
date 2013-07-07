@@ -409,6 +409,15 @@
          stdDeviation="0.11627487"
          id="feGaussianBlur4549-7-3-0" />
     </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter4543-1">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.0840334"
+         id="feGaussianBlur4545-7" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -417,9 +426,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="562.25053"
-     inkscape:cy="694.06481"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="271.04467"
+     inkscape:cy="320.40965"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -953,5 +962,22 @@
        inkscape:export-ydpi="90"
        sodipodi:nodetypes="cccc"
        transform="matrix(0.99060907,0,0,0.28345209,273.67728,499.94438)" />
+    <g
+       transform="translate(-4.2448102,563.36312)"
+       id="g4165-4"
+       inkscape:export-filename="C:\Users\cesar\workspace\PS2Link\original\resources\resources\fragment_center.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="500.29077"
+         inkscape:export-xdpi="500.29077"
+         inkscape:export-filename="C:\Users\cesar\workspace\PS2Link\original\resources\fragment.png"
+         sodipodi:nodetypes="ccccccc"
+         transform="matrix(1.8212685,0,0,1.8212685,217.81237,65.023926)"
+         inkscape:connector-curvature="0"
+         id="path3788-4-0"
+         d="m 16.085624,81.628055 0,-46.643961 65.041385,-0.415982 0.07781,46.556839 0.138661,0.3685 -65.132381,0 z"
+         style="fill:#18434f;fill-opacity:0.22222224;stroke:#287882;stroke-width:3.21973395;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4543-1)" />
+    </g>
   </g>
 </svg>
