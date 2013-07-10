@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cesarandres.ps2link"
-    android:versionCode="3"
-    android:versionName="1.3" >
+    android:versionCode="6"
+    android:versionName="1.5.0" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -44,6 +44,10 @@
         <activity android:name="com.cesarandres.ps2link.ActivityReddit" >
         </activity>
         <activity android:name="com.cesarandres.ps2link.ActivityTwitter" >
+        </activity>
+        <activity
+            android:name="com.cesarandres.ps2link.ActivityAbout"
+            android:theme="@style/PS2BaseThemeDialog" >
         </activity>
     </application>
 

@@ -73,26 +73,13 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 		View root = inflater.inflate(R.layout.fragment_add_profile, container,
 				false);
 
-		ListView listRoot = (ListView) root
-				.findViewById(R.id.listFoundProfiles);
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,
-					int myItemInt, long mylng) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((CharacterProfile) myAdapter
-						.getItemAtPosition(myItemInt)).getId());
-				startActivity(intent);
-			}
-		});
-
 		final ImageButton buttonCharacters = (ImageButton) root
 				.findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				ListView listRoot = (ListView) getActivity().findViewById(
 						R.id.listFoundProfiles);
+				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 				downloadProfiles();
 			}
@@ -105,6 +92,12 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 	@Override
 	public void onPause() {
 		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		ApplicationPS2Link.volley.cancelAll(this);
 	}
 
 	@Override
@@ -137,9 +130,22 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 							R.id.listFoundProfiles);
 					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
 							response.getCharacter_list()));
+					listRoot.setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> myAdapter,
+								View myView, int myItemInt, long mylng) {
+							Intent intent = new Intent();
+							intent.setClass(getActivity(),
+									ActivityProfile.class);
+							intent.putExtra("profileId",
+									((CharacterProfile) myAdapter
+											.getItemAtPosition(myItemInt))
+											.getId());
+							startActivity(intent);
+						}
+					});
 					new UpdateTmpProfileTable().execute(response
 							.getCharacter_list());
-
 				}
 			};
 
@@ -147,12 +153,18 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
+					ListView listRoot = (ListView) getActivity().findViewById(
+							R.id.listFoundProfiles);
+					if (listRoot != null) {
+						listRoot.setAdapter(null);
+					}
 				}
 			};
 
 			GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
 					url.toString(), Character_response.class, null, success,
 					error);
+			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

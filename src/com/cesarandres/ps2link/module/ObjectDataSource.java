@@ -73,7 +73,8 @@ public class ObjectDataSource {
 	private String[] allColumnsTweet = { SQLiteManager.TWEETS_COLUMN_ID,
 			SQLiteManager.TWEETS_COLUMN_DATE, SQLiteManager.TWEETS_COLUMN_USER,
 			SQLiteManager.TWEETS_COLUMN_TAG,
-			SQLiteManager.TWEETS_COLUMN_CONTENT };
+			SQLiteManager.TWEETS_COLUMN_CONTENT,
+			SQLiteManager.TWEETS_COLUMN_PICTURE };
 
 	/**
 	 * Constructor that requires a reference to the current context.
@@ -723,7 +724,7 @@ public class ObjectDataSource {
 	public void deleteWorld(World world) {
 		String id = world.getWorld_id();
 		database.delete(SQLiteManager.TABLE_WORLDS_NAME,
-				SQLiteManager.OUTFIT_COLUMN_ID + " = " + id, null);
+				SQLiteManager.WORLDS_COLUMN_ID + " = " + id, null);
 	}
 
 	public ArrayList<World> getAllWorlds() {
@@ -803,6 +804,7 @@ public class ObjectDataSource {
 		tweet.setUser(cursor.getString(2));
 		tweet.setTag(cursor.getString(3));
 		tweet.setContent(cursor.getString(4));
+		tweet.setUrl(cursor.getString(5));
 
 		return tweet;
 	}
@@ -814,6 +816,7 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.TWEETS_COLUMN_DATE, tweet.getDate());
 		values.put(SQLiteManager.TWEETS_COLUMN_CONTENT, tweet.getContent());
 		values.put(SQLiteManager.TWEETS_COLUMN_TAG, tweet.getTag());
+		values.put(SQLiteManager.TWEETS_COLUMN_PICTURE, tweet.getUrl());
 
 		String target = SQLiteManager.TABLE_TWEETS_NAME;
 		long insertId = database.insert(target, null, values);
@@ -825,7 +828,7 @@ public class ObjectDataSource {
 		for (PS2Tweet tweet : tweetList) {
 			if (insertTweet(tweet)) {
 				count++;
-			}else{
+			} else {
 				return count;
 			}
 		}

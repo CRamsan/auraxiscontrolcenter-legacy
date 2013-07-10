@@ -112,18 +112,25 @@ public class FragmentProfileList extends BaseFragment {
 		@Override
 		protected ArrayList<CharacterProfile> doInBackground(Integer... params) {
 			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
-			ArrayList<CharacterProfile> tmpProfileList = data
-					.getAllCharacterProfiles(false);
-			data.close();
+			ArrayList<CharacterProfile> tmpProfileList = null;
+			try {
+				data.open();
+				tmpProfileList = data.getAllCharacterProfiles(false);
+				data.close();
+			} catch (Exception e) {
+				return null;
+			}
 			return tmpProfileList;
 		}
 
 		@Override
 		protected void onPostExecute(ArrayList<CharacterProfile> result) {
-			ListView listRoot = (ListView) getActivity().findViewById(
-					R.id.listViewProfileList);
-			listRoot.setAdapter(new ProfileItemAdapter(getActivity(), result));
+			if (result != null) {
+				ListView listRoot = (ListView) getActivity().findViewById(
+						R.id.listViewProfileList);
+				listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
+						result));
+			}
 			setUpdateButton(true);
 		}
 

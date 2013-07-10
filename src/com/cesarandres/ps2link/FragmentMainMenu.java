@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
 /**
  * Created by cesar on 6/16/13.
@@ -83,7 +81,8 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
-		final Button buttonTwitter = (Button) root.findViewById(R.id.buttonTwitter);
+		final Button buttonTwitter = (Button) root
+				.findViewById(R.id.buttonTwitter);
 		buttonTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
@@ -91,11 +90,21 @@ public class FragmentMainMenu extends BaseFragment {
 				startActivity(intent);
 			}
 		});
-		
-		Button titleButton = ((Button)  root.findViewById(R.id.buttonFragmentTitle));
+
+		final Button buttonAbout = (Button) root.findViewById(R.id.buttonAbout);
+		buttonAbout.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityAbout.class);
+				startActivity(intent);
+			}
+		});
+
+		Button titleButton = ((Button) root
+				.findViewById(R.id.buttonFragmentTitle));
 		titleButton.setText(getString(R.string.fragment_title));
 		titleButton.setCompoundDrawables(null, null, null, null);
-		
+
 		return root;
 	}
 
