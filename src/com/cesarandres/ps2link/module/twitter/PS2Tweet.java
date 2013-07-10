@@ -1,20 +1,20 @@
 package com.cesarandres.ps2link.module.twitter;
 
-
 public class PS2Tweet implements Comparable<PS2Tweet> {
 	private String user;
 	private String content;
 	private String tag;
-	private Integer  date;
+	private Integer date;
+	private String url;
 	private String id;
 
-	public PS2Tweet(String id, String user, int date, String content,
-			String tag) {
+	public PS2Tweet(String id, String user, int date, String content, String tag, String url) {
 		this.user = user;
 		this.date = date;
 		this.content = content;
 		this.tag = tag;
 		this.id = id;
+		this.url = url;
 	}
 
 	public PS2Tweet() {
@@ -63,5 +63,13 @@ public class PS2Tweet implements Comparable<PS2Tweet> {
 	@Override
 	public int compareTo(PS2Tweet other) {
 		return this.date.compareTo(other.getDate()) * -1;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

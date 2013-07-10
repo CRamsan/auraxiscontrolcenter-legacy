@@ -43,7 +43,7 @@ public class TwitterUtil {
 					twwetsFound.add(new PS2Tweet(
 							Long.toString(status3.getId()), user.getName(), (int)(status3
 									.getCreatedAt().getTime() / 1000), status3
-									.getText(), user.getScreenName()));
+									.getText(), user.getScreenName(), user.getBiggerProfileImageURL()));
 				}
 			}
 		}

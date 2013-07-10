@@ -62,26 +62,15 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 		View root = inflater.inflate(R.layout.fragment_add_outfit, container,
 				false);
 
-		ListView listRoot = (ListView) root.findViewById(R.id.listFoundOutfits);
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,
-					int myItemInt, long mylng) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityMermberList.class);
-				intent.putExtra("outfit_id", ((Outfit) myAdapter
-						.getItemAtPosition(myItemInt)).getId());
-				startActivity(intent);
-			}
-		});
-
 		final ImageButton buttonOutfits = (ImageButton) root
 				.findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				ListView listRoot = (ListView) getActivity().findViewById(
 						R.id.listFoundOutfits);
+				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
+
 				EditText searchField = (EditText) getActivity().findViewById(
 						R.id.fieldSearchOutfit);
 				URL url;
@@ -108,6 +97,24 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 									.findViewById(R.id.listFoundOutfits);
 							listRoot.setAdapter(new OutfitItemAdapter(
 									getActivity(), response.getOutfit_list()));
+
+							listRoot.setOnItemClickListener(new OnItemClickListener() {
+								@Override
+								public void onItemClick(
+										AdapterView<?> myAdapter, View myView,
+										int myItemInt, long mylng) {
+									Intent intent = new Intent();
+									intent.setClass(getActivity(),
+											ActivityMermberList.class);
+									intent.putExtra(
+											"outfit_id",
+											((Outfit) myAdapter
+													.getItemAtPosition(myItemInt))
+													.getId());
+									startActivity(intent);
+								}
+							});
+
 							new UpdateTmpOutfitTable().execute(response
 									.getOutfit_list());
 							listRoot.setTextFilterEnabled(true);
@@ -119,12 +126,18 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 							error.equals(new Object());
+							ListView listRoot = (ListView) getActivity()
+									.findViewById(R.id.listFoundOutfits);
+							if (listRoot != null) {
+								listRoot.setAdapter(null);
+							}
 						}
 					};
 
 					GsonRequest<Outfit_response> gsonOject = new GsonRequest<Outfit_response>(
 							url.toString(), Outfit_response.class, null,
 							success, error);
+					gsonOject.setTag(this);
 					ApplicationPS2Link.volley.add(gsonOject);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
@@ -139,13 +152,19 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 
 		((Button) root.findViewById(R.id.buttonFragmentTitle))
 				.setText(getString(R.string.text_menu_outfits));
-
+		ApplicationPS2Link.volley.cancelAll(this);
 		return root;
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
 	}
 
 	@Override

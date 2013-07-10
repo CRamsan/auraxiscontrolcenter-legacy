@@ -11,6 +11,7 @@
     <string name="text_menu_outfits">OUTFITS</string>
     <string name="text_menu_twitter">TWITTER</string>
     <string name="text_menu_reddit">REDDIT</string>
+    <string name="text_menu_about">ABOUT</string>
     <string name="text_menu_stats">STATS</string>
     <string name="last_login">LAST LOGIN:</string>
     <string name="hours_played">HOURS PLAYED:</string>
@@ -23,5 +24,11 @@
     <string name="ps2dailydeals">PS2DailyDeals</string>
     <string name="purrfectstorm">PurrfectStorm</string>
     <string name="mhigby">MHigby</string>
+    <string name="author">by Cesar Ramirez - CRamsan</string>
+    <string name="about_text">If you like this app dont forget to rate it and share it. You can also contribute by discussing ideas on the forums or by sending a donation.</string>
+    <string name="forums">"Forums: "</string>
+    <string name="forum_link">http://acc.cesarandres.com/</string>
+    <string name="donations_link">http://cesarandres.com/</string>
+    <string name="donations">&quot;My Blog and Donations: &quot;</string>
 
 </resources>

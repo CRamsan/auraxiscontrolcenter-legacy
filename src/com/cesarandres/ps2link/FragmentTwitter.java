@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
@@ -48,8 +50,7 @@ public class FragmentTwitter extends BaseFragment {
 	public static Bitmap mhigby;
 	private FragmentTwitter tag = this;
 	private ArrayList<AsyncTask> taskList;
-	private long currentTime;
-
+	private boolean loaded = false;
 	private static final String MHIGBY = "checkBoxMHigby";
 	private static final String PURRFECTSTORM = "checkBoxPurrfect";
 	private static final String PS2DEALS = "checkBoxPS2Deals";
@@ -58,7 +59,6 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		currentTime = System.currentTimeMillis();
 		taskList = new ArrayList<AsyncTask>();
 	}
 
@@ -177,15 +177,31 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
 		updateTweets();
-		new UpdateTweets().execute(new String[] { TwitterUtil.PURRFECTSTORM,
-				TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2,
-				TwitterUtil.PS2DAILYDEALS });
+		if (savedInstanceState == null) {
+			new UpdateTweets().execute(new String[] {
+					TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY,
+					TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS });
+		} else {
+			this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
+			if (!this.loaded) {
+				new UpdateTweets().execute(new String[] {
+						TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY,
+						TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS });
+			}
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putBoolean("twitterLoader", loaded);
 	}
 
 	@Override
@@ -300,7 +316,7 @@ public class FragmentTwitter extends BaseFragment {
 			ViewHolder holder;
 
 			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.twwet_item_list, null);
+				convertView = mInflater.inflate(R.layout.tweet_item_list, null);
 
 				holder = new ViewHolder();
 				holder.tweetName = (TextView) convertView
@@ -311,18 +327,22 @@ public class FragmentTwitter extends BaseFragment {
 						.findViewById(R.id.textViewTwitterText);
 				holder.tweetDate = (TextView) convertView
 						.findViewById(R.id.textViewTwitterDate);
+				holder.userImage = (NetworkImageView) convertView
+						.findViewById(R.id.networkImageViewTweet);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-
-			holder.tweetName.setText(getItem(position).getUser());
-			holder.tweetText.setText(getItem(position).getContent());
-			holder.tweetTag.setText("@" + getItem(position).getTag());
+			PS2Tweet tweet = getItem(position);
+			holder.tweetName.setText(tweet.getUser());
+			holder.tweetText.setText(tweet.getContent());
+			Linkify.addLinks(holder.tweetText, Linkify.WEB_URLS);
+			holder.tweetTag.setText("@" + tweet.getTag());
 			PrettyTime p = new PrettyTime();
-			String updateTime = p.format(new Date(
-					getItem(position).getDate() * 1000l));
+			String updateTime = p.format(new Date(tweet.getDate() * 1000l));
 
+			holder.userImage.setImageUrl(tweet.getUrl(),
+					ApplicationPS2Link.mImageLoader);
 			holder.tweetDate.setText(updateTime);
 
 			return convertView;
@@ -333,6 +353,7 @@ public class FragmentTwitter extends BaseFragment {
 			TextView tweetTag;
 			TextView tweetText;
 			TextView tweetDate;
+			NetworkImageView userImage;
 		}
 	}
 
@@ -373,6 +394,7 @@ public class FragmentTwitter extends BaseFragment {
 				setUpdateView(true);
 				setUpdateButton(true);
 			}
+			loaded = true;
 			taskList.remove(this);
 		}
 	}

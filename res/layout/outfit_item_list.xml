@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:ellipsize="end"
+        android:lines="1"
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />

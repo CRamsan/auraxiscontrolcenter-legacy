@@ -69,6 +69,10 @@
                 style="@style/ButtonStyle"
                 android:text="@string/twitter_name" />
 
+            <Button
+                android:id="@+id/buttonAbout"
+                style="@style/ButtonStyle"
+                android:text="@string/text_menu_about" />
         </LinearLayout>
     </ScrollView>
 

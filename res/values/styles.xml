@@ -2,6 +2,8 @@
 
     <style name="PS2BaseTheme" parent="android:Theme.Black.NoTitleBar"></style>
 
+    <style name="PS2BaseThemeDialog" parent="android:Theme.Black.NoTitleBar"></style>
+
     <style name="ActivityStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
