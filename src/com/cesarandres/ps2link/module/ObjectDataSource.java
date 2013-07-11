@@ -74,7 +74,8 @@ public class ObjectDataSource {
 			SQLiteManager.TWEETS_COLUMN_DATE, SQLiteManager.TWEETS_COLUMN_USER,
 			SQLiteManager.TWEETS_COLUMN_TAG,
 			SQLiteManager.TWEETS_COLUMN_CONTENT,
-			SQLiteManager.TWEETS_COLUMN_PICTURE };
+			SQLiteManager.TWEETS_COLUMN_PICTURE, 
+			SQLiteManager.TWEETS_COLUMN_OWNER };
 
 	/**
 	 * Constructor that requires a reference to the current context.
@@ -800,16 +801,17 @@ public class ObjectDataSource {
 
 	public PS2Tweet cursorToTweet(Cursor cursor) {
 		PS2Tweet tweet = new PS2Tweet();
+		tweet.setId(cursor.getString(0));
 		tweet.setDate(cursor.getInt(1));
-		tweet.setUser(cursor.getString(2));
 		tweet.setTag(cursor.getString(3));
 		tweet.setContent(cursor.getString(4));
 		tweet.setUrl(cursor.getString(5));
+		tweet.setUser(cursor.getString(6));
 
 		return tweet;
 	}
 
-	public boolean insertTweet(PS2Tweet tweet) {
+	public boolean insertTweet(PS2Tweet tweet, String owner) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteManager.TWEETS_COLUMN_ID, tweet.getId());
 		values.put(SQLiteManager.TWEETS_COLUMN_USER, tweet.getUser().toString());
@@ -817,16 +819,17 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.TWEETS_COLUMN_CONTENT, tweet.getContent());
 		values.put(SQLiteManager.TWEETS_COLUMN_TAG, tweet.getTag());
 		values.put(SQLiteManager.TWEETS_COLUMN_PICTURE, tweet.getUrl());
+		values.put(SQLiteManager.TWEETS_COLUMN_OWNER, owner);
 
 		String target = SQLiteManager.TABLE_TWEETS_NAME;
 		long insertId = database.insert(target, null, values);
 		return (insertId != -1);
 	}
 
-	public int insertAllTweets(ArrayList<PS2Tweet> tweetList) {
+	public int insertAllTweets(ArrayList<PS2Tweet> tweetList, String owner) {
 		int count = 0;
 		for (PS2Tweet tweet : tweetList) {
-			if (insertTweet(tweet)) {
+			if (insertTweet(tweet, owner)) {
 				count++;
 			} else {
 				return count;
@@ -852,7 +855,7 @@ public class ObjectDataSource {
 
 		for (int i = 0; i < whereArgs.length; i++) {
 			cursor = database.query(SQLiteManager.TABLE_TWEETS_NAME,
-					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_USER + " = "
+					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_OWNER + " = "
 							+ users[i] + SQLiteManager.TWEETS_COLUMN_DATE
 							+ " BETWEEN ? AND ?", betweenArgs, null, null,
 					SQLiteManager.TWEETS_COLUMN_DATE + " DESC ");
@@ -877,7 +880,7 @@ public class ObjectDataSource {
 
 		for (int i = 0; i < whereArgs.length; i++) {
 			cursor = database.query(SQLiteManager.TABLE_TWEETS_NAME,
-					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_TAG + " = ?",
+					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_OWNER + " = ?",
 					new String[] { users[i] }, null, null,
 					SQLiteManager.TWEETS_COLUMN_DATE + " DESC ");
 
@@ -921,7 +924,7 @@ public class ObjectDataSource {
 
 		for (int i = 0; i < whereArgs.length; i++) {
 			cursor = database.query(SQLiteManager.TABLE_TWEETS_NAME,
-					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_USER + " = "
+					allColumnsTweet, SQLiteManager.TWEETS_COLUMN_OWNER+ " = "
 							+ users[i], null, null, null,
 					SQLiteManager.TWEETS_COLUMN_DATE + " DESC", " limit "
 							+ pageSize + " offset " + pageSize * pageNumber);
