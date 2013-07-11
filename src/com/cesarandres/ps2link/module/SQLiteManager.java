@@ -65,9 +65,10 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String TWEETS_COLUMN_TAG = "tag";
 	public static final String TWEETS_COLUMN_CONTENT = "content";
 	public static final String TWEETS_COLUMN_PICTURE = "picture";
+	public static final String TWEETS_COLUMN_OWNER = "owner";
 	
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 28;
+	public static final int DATABASE_VERSION = 29;
 
 	private static final String CREATE_WORLDS_TABLE = "create table "
 			+ TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, "
@@ -131,7 +132,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ TWEETS_COLUMN_USER+ " varchar(-1), " 
 			+ TWEETS_COLUMN_TAG+ " varchar(-1), " 
 			+ TWEETS_COLUMN_CONTENT + " varchar(-1), " 
-			+ TWEETS_COLUMN_PICTURE + " varchar(-1), " 
+			+ TWEETS_COLUMN_PICTURE + " varchar(-1), "
+			+ TWEETS_COLUMN_OWNER+ " varchar(-1), " 
 			+ "PRIMARY KEY (" + TWEETS_COLUMN_ID + "));";
 	
 	/**
@@ -168,16 +170,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHARACTERS_NAME);
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEMBERS_NAME);
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFITS_NAME);
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORLDS_NAME);
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTIONS_NAME);
-		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_TWEETS_NAME);
-		if(oldVersion < 28){
-			db.execSQL("DROP TABLE IF EXISTS " + TABLE_TWEETS_NAME);			
-		}
-		db.execSQL(CREATE_TWEETS_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TWEETS_NAME);			
+		db.execSQL(CREATE_TWEETS_TABLE);		
 		//onCreate(db);
 	}
 }

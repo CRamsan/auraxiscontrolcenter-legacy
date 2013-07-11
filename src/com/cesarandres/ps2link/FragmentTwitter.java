@@ -54,6 +54,7 @@ public class FragmentTwitter extends BaseFragment {
 	private static final String MHIGBY = "checkBoxMHigby";
 	private static final String PURRFECTSTORM = "checkBoxPurrfect";
 	private static final String PS2DEALS = "checkBoxPS2Deals";
+	private static final String PSTRAY = "checkBoxPSTRay";
 	private static final String PLANETSIDE2 = "checkBoxPS2";
 
 	@Override
@@ -123,6 +124,10 @@ public class FragmentTwitter extends BaseFragment {
 						R.id.checkBoxTwitterPurrfectstorm)).isChecked()) {
 					usersnames.add(TwitterUtil.PURRFECTSTORM);
 				}
+				if (((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterPSTray)).isChecked()) {
+					usersnames.add(TwitterUtil.PS_TRAY);
+				}
 				String[] stringArray = Arrays.copyOf(usersnames.toArray(),
 						usersnames.size(), String[].class);
 				new UpdateTweets().execute(stringArray);
@@ -171,6 +176,17 @@ public class FragmentTwitter extends BaseFragment {
 				updateTweets();
 			}
 		});
+		
+		CheckBox pstrayStorm = ((CheckBox) root
+				.findViewById(R.id.checkBoxTwitterPSTray));
+		pstrayStorm.setChecked(settings.getBoolean(PSTRAY, false));
+		pstrayStorm.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
 		return root;
 	}
 
@@ -182,13 +198,13 @@ public class FragmentTwitter extends BaseFragment {
 		if (savedInstanceState == null) {
 			new UpdateTweets().execute(new String[] {
 					TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY,
-					TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS });
+					TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS, TwitterUtil.PS_TRAY });
 		} else {
 			this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
 			if (!this.loaded) {
 				new UpdateTweets().execute(new String[] {
 						TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY,
-						TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS });
+						TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,TwitterUtil.PS_TRAY });
 			}
 		}
 	}
@@ -227,6 +243,10 @@ public class FragmentTwitter extends BaseFragment {
 				MHIGBY,
 				((CheckBox) getActivity().findViewById(
 						R.id.checkBoxTwitterMhigby)).isChecked());
+		editor.putBoolean(
+				PSTRAY,
+				((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterPSTray)).isChecked());
 		editor.commit();
 
 		ApplicationPS2Link.volley.cancelAll(tag);
@@ -274,6 +294,10 @@ public class FragmentTwitter extends BaseFragment {
 		if (((CheckBox) getActivity().findViewById(
 				R.id.checkBoxTwitterPurrfectstorm)).isChecked()) {
 			usersnames.add(TwitterUtil.PURRFECTSTORM);
+		}
+		if (((CheckBox) getActivity().findViewById(
+				R.id.checkBoxTwitterPSTray)).isChecked()) {
+			usersnames.add(TwitterUtil.PS_TRAY);
 		}
 		String[] stringArray = Arrays.copyOf(usersnames.toArray(),
 				usersnames.size(), String[].class);

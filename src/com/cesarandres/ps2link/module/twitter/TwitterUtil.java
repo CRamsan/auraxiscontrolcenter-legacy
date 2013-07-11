@@ -16,6 +16,7 @@ public class TwitterUtil {
 	public static final String PLANETSIDE2 = "planetside2";
 	public static final String PS2DAILYDEALS = "PS2DailyDeals";
 	public static final String MHIDGY = "mhigby";
+	public static final String PS_TRAY = "PS_TRay";
 	public static final String PURRFECTSTORM = "PurrfectStorm";
 
 	public static ArrayList<PS2Tweet> getTweets(String[] users)
@@ -40,10 +41,17 @@ public class TwitterUtil {
 				List<Status> statusess = twitter
 						.getUserTimeline(user.getScreenName());
 				for (Status status3 : statusess) {
-					twwetsFound.add(new PS2Tweet(
-							Long.toString(status3.getId()), user.getName(), (int)(status3
-									.getCreatedAt().getTime() / 1000), status3
-									.getText(), user.getScreenName(), user.getBiggerProfileImageURL()));
+					if(status3.isRetweet() || status3.isRetweetedByMe()){
+						twwetsFound.add(new PS2Tweet(
+								Long.toString(status3.getId()), status3.getRetweetedStatus().getUser().getName(), (int)(status3
+										.getCreatedAt().getTime() / 1000), status3
+										.getText(), status3.getRetweetedStatus().getUser().getScreenName(), status3.getRetweetedStatus().getUser().getBiggerProfileImageURL()));
+					}else{
+						twwetsFound.add(new PS2Tweet(
+								Long.toString(status3.getId()), status3.getUser().getName(), (int)(status3
+										.getCreatedAt().getTime() / 1000), status3
+										.getText(), user.getScreenName(), status3.getUser().getBiggerProfileImageURL()));
+					}
 				}
 			}
 		}
