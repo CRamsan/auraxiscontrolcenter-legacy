@@ -3,8 +3,8 @@ package com.cesarandres.ps2link;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,9 +75,10 @@ public class FragmentMainMenu extends BaseFragment {
 		final Button buttonNews = (Button) root.findViewById(R.id.buttonNews);
 		buttonNews.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityReddit.class);
-				startActivity(intent);
+				String url = "http://www.reddit.com/r/Planetside/";
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
 			}
 		});
 
