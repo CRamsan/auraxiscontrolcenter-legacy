@@ -57,4 +57,44 @@ public class TwitterUtil {
 		}
 		return twwetsFound;
 	}
+	
+	public static ArrayList<PS2Tweet> getTweets(String user)
+			throws TwitterException {
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(true)
+				.setOAuthConsumerKey("AdtZzl6c9v4QiqC6yHWSVw")
+				.setOAuthConsumerSecret(
+						"eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw")
+				.setOAuthAccessToken(
+						"752283427-RmHBauha1JAOWOcFkJvQvt7oLryQqDzBchGE33tG")
+				.setOAuthAccessTokenSecret(
+						"liJ8MHWltgNfVW9nORSPRNP6oogQNFr3D08eC0k8A");
+		TwitterFactory tf = new TwitterFactory(cb.build());
+
+		Twitter twitter = tf.getInstance();
+		ArrayList<PS2Tweet> twwetsFound = new ArrayList<PS2Tweet>();
+		String[] twitterUser = new String[]{user};
+		ResponseList<User> usersFound = twitter.lookupUsers(twitterUser);
+		for (User foundUser : usersFound) {
+			String url = foundUser.getProfileImageURL();
+			if (foundUser.getStatus() != null) {
+				List<Status> statusess = twitter
+						.getUserTimeline(foundUser.getScreenName());
+				for (Status status3 : statusess) {
+					if(status3.isRetweet() || status3.isRetweetedByMe()){
+						twwetsFound.add(new PS2Tweet(
+								Long.toString(status3.getId()), status3.getRetweetedStatus().getUser().getName(), (int)(status3
+										.getCreatedAt().getTime() / 1000), status3
+										.getText(), status3.getRetweetedStatus().getUser().getScreenName(), status3.getRetweetedStatus().getUser().getBiggerProfileImageURL()));
+					}else{
+						twwetsFound.add(new PS2Tweet(
+								Long.toString(status3.getId()), status3.getUser().getName(), (int)(status3
+										.getCreatedAt().getTime() / 1000), status3
+										.getText(), foundUser.getScreenName(), status3.getUser().getBiggerProfileImageURL()));
+					}
+				}
+			}
+		}
+		return twwetsFound;
+	}
 }

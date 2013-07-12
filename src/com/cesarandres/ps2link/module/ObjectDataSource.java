@@ -798,16 +798,15 @@ public class ObjectDataSource {
 
 		return world;
 	}
-
+	
 	public PS2Tweet cursorToTweet(Cursor cursor) {
 		PS2Tweet tweet = new PS2Tweet();
 		tweet.setId(cursor.getString(0));
 		tweet.setDate(cursor.getInt(1));
+		tweet.setUser(cursor.getString(2));
 		tweet.setTag(cursor.getString(3));
 		tweet.setContent(cursor.getString(4));
 		tweet.setUrl(cursor.getString(5));
-		tweet.setUser(cursor.getString(6));
-
 		return tweet;
 	}
 

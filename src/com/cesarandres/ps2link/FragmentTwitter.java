@@ -394,15 +394,14 @@ public class FragmentTwitter extends BaseFragment {
 		protected String[] doInBackground(String... users) {
 			ArrayList<PS2Tweet> tweetList = new ArrayList<PS2Tweet>(0);
 			try {
-				tweetList = TwitterUtil.getTweets(users);
-			} catch (TwitterException e) {
-				e.printStackTrace();
-			}
-			try {
-				ObjectDataSource data = new ObjectDataSource(getActivity());
-				data.open();
-				data.insertAllTweets(tweetList);
-				data.close();
+				for(String user : users){
+					tweetList = TwitterUtil.getTweets(user);
+					ObjectDataSource data = new ObjectDataSource(getActivity());
+					data.open();
+					data.insertAllTweets(tweetList, user);
+					data.close();
+
+				}
 			} catch (Exception e) {
 				return null;
 			}
