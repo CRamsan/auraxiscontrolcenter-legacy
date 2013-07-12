@@ -89,29 +89,7 @@ public class FragmentMemberList extends BaseFragment {
 			}
 		});
 
-		ImageButton updateButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentUpdate);
-
-		ToggleButton viewOffline = (ToggleButton) root
-				.findViewById(R.id.toggleShowOffline);
-		viewOffline.setVisibility(View.VISIBLE);
-
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				downloadOutfitMembers(outfitId);
-			}
-		});
-
-		ToggleButton append = ((ToggleButton) root
-				.findViewById(R.id.buttonFragmentAppend));
-		append.setVisibility(View.VISIBLE);
-
-		root.findViewById(R.id.buttonFragmentUpdate)
-				.setVisibility(View.VISIBLE);
-		root.findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
-		root.findViewById(R.id.buttonFragmentStar).setVisibility(View.VISIBLE);
-
-		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText("");
+		
 
 		return root;
 	}
@@ -119,6 +97,24 @@ public class FragmentMemberList extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		ToggleButton viewOffline = (ToggleButton) getActivity().findViewById(R.id.toggleShowOffline);
+		viewOffline.setVisibility(View.VISIBLE);
+
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				downloadOutfitMembers(outfitId);
+			}
+		});
+
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
+		append.setVisibility(View.VISIBLE);
+
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.buttonFragmentStar).setVisibility(View.VISIBLE);
+		
 		data.open();
 		if (savedInstanceState == null) {
 			UpdateOutfitFromTable task = new UpdateOutfitFromTable();

@@ -72,24 +72,21 @@ public class FragmentServerList extends BaseFragment {
 			}
 		});
 
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_servers));
-		ImageButton updateButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
-
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				downloadServers();
-			}
-		});
-
 		return root;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_servers));
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				downloadServers();
+			}
+		});
+
 		new ReadServerTable().execute();
 	}
 

@@ -56,6 +56,19 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				downloadProfiles(profile.getId());
+			}
+		});
+
+		getActivity().findViewById(R.id.buttonFragmentAppend).setVisibility(View.VISIBLE);
+
+		
 		taskList = new ArrayList<AsyncTask>();
 		UpdateProfileFromTable task = new UpdateProfileFromTable();
 		taskList.add(task);
@@ -69,21 +82,11 @@ public class FragmentProfile extends BaseFragment {
 		// Inflate the layout for this fragment
 
 		View root = inflater.inflate(R.layout.fragment_profile, container,false);
-
-		ImageButton updateButton = (ImageButton) root.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
-
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				downloadProfiles(profile.getId());
-			}
-		});
-
-		root.findViewById(R.id.buttonFragmentAppend).setVisibility(View.VISIBLE);
-
 		return root;
 	}
 
+	
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -205,7 +208,7 @@ public class FragmentProfile extends BaseFragment {
 			if (loadingView == null) {
 				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
 				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
-				layout.addView(loadingView, 1);
+				layout.addView(loadingView, 0);
 			}
 		}
 	}

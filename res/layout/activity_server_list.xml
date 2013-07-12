@@ -6,10 +6,21 @@
 
     <include layout="@layout/activity_background" />
 
-    <fragment
-        android:id="@+id/activity_server_list"
-        android:name="com.cesarandres.ps2link.FragmentServerList"
-        style="@style/EmbeddedFragmentStyle"
-        tools:layout="@layout/fragment_server_list" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/fragment_title" />
+
+        <fragment
+            android:id="@+id/activity_server_list"
+            android:name="com.cesarandres.ps2link.FragmentServerList"
+            style="@style/EmbeddedFragmentStyle"
+            tools:layout="@layout/fragment_server_list" />
+    </LinearLayout>
 
 </FrameLayout>

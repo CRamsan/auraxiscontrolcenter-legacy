@@ -33,22 +33,10 @@ public class FragmentOutfitList extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		// Inflate the layout for this fragment
 		View root = inflater.inflate(R.layout.fragment_outfit_list, container,
 				false);
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_outfits));
-
-		ImageButton updateButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
-		updateButton.setEnabled(false);
-
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new ReadOutfitsTable().execute();
-			}
-		});
 
 		ListView listRoot = (ListView) root
 				.findViewById(R.id.listViewOutfitList);
@@ -64,8 +52,14 @@ public class FragmentOutfitList extends BaseFragment {
 			}
 		});
 
-		ImageButton searchButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentAdd);
+		return root;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_outfits));
+		ImageButton searchButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +70,17 @@ public class FragmentOutfitList extends BaseFragment {
 			}
 		});
 
-		return root;
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+		updateButton.setEnabled(false);
+
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				new ReadOutfitsTable().execute();
+			}
+		});
+
+
 	}
 
 	@Override

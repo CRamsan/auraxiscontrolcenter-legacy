@@ -101,12 +101,16 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
-		Button titleButton = ((Button) root
+		return root;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		Button titleButton = ((Button) getActivity()
 				.findViewById(R.id.buttonFragmentTitle));
 		titleButton.setText(getString(R.string.fragment_title));
 		titleButton.setCompoundDrawables(null, null, null, null);
-
-		return root;
 	}
 
 	@Override
