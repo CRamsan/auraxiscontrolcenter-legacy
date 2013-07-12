@@ -17,6 +17,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_horizontal"
@@ -33,6 +35,7 @@
         android:background="@drawable/br_on"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/BLACK" />
+        android:textColor="@color/BLACK"
+        android:visibility="gone" />
 
 </LinearLayout>

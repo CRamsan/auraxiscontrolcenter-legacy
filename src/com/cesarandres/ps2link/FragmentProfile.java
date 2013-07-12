@@ -2,10 +2,8 @@ package com.cesarandres.ps2link;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -37,7 +35,7 @@ import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.response.Character_response;
+import com.cesarandres.ps2link.soe.content.response.Character_response_list;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
@@ -70,11 +68,9 @@ public class FragmentProfile extends BaseFragment {
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 
-		View root = inflater.inflate(R.layout.fragment_profile, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_profile, container,false);
 
-		ImageButton updateButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentUpdate);
+		ImageButton updateButton = (ImageButton) root.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +79,7 @@ public class FragmentProfile extends BaseFragment {
 			}
 		});
 
-		root.findViewById(R.id.buttonFragmentAppend)
-				.setVisibility(View.VISIBLE);
+		root.findViewById(R.id.buttonFragmentAppend).setVisibility(View.VISIBLE);
 
 		return root;
 	}
@@ -105,63 +100,42 @@ public class FragmentProfile extends BaseFragment {
 
 	private void updateUI(CharacterProfile character) {
 
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
-				.setText(character.getName().getFirst());
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(character.getName().getFirst());
 
-		TextView faction = ((TextView) getActivity().findViewById(
-				R.id.textViewProfileServer));
+		TextView faction = ((TextView) getActivity().findViewById(R.id.textViewProfileServer));
 		faction.setText("");
 		if (character.getFaction_id().equals(Faction.VS)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vs_icon,
-					0, 0, 0);
+			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vs_icon,0, 0, 0);
 		} else if (character.getFaction_id().equals(Faction.NC)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.nc_icon,
-					0, 0, 0);
+			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.nc_icon,0, 0, 0);
 		} else if (character.getFaction_id().equals(Faction.TR)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tr_icon,
-					0, 0, 0);
+			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tr_icon,0, 0, 0);
 		}
 
-		TextView initialBR = ((TextView) getActivity().findViewById(
-				R.id.textViewCurrentRank));
-		initialBR.setText(Integer.toString(character.getBattle_rank()
-				.getValue()));
+		TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
+		initialBR.setText(Integer.toString(character.getBattle_rank().getValue()));
 		initialBR.setTextColor(Color.BLACK);
 
-		TextView nextBR = ((TextView) getActivity().findViewById(
-				R.id.textViewNextRank));
-		nextBR.setText(Integer
-				.toString(character.getBattle_rank().getValue() + 1));
+		TextView nextBR = ((TextView) getActivity().findViewById(R.id.textViewNextRank));
+		nextBR.setText(Integer.toString(character.getBattle_rank().getValue() + 1));
 		nextBR.setTextColor(Color.BLACK);
 
 		int progressBR = (character.getBattle_rank().getPercent_to_next());
-		((ProgressBar) getActivity().findViewById(
-				R.id.progressBarProfileBRProgress))
-				.setProgress((int) (progressBR));
+		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileBRProgress)).setProgress((int) (progressBR));
 
-		Float progressCerts = Float.parseFloat(character.getCerts()
-				.getPercent_to_next());
-		((ProgressBar) getActivity().findViewById(
-				R.id.progressBarProfileCertsProgress))
-				.setProgress((int) (progressCerts * 100));
-		TextView certs = ((TextView) getActivity().findViewById(
-				R.id.textViewProfileCertsValue));
+		Float progressCerts = Float.parseFloat(character.getCerts().getPercent_to_next());
+		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
+		TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
 		certs.setText(character.getCerts().getAvailable_points());
 
-		((TextView) getActivity().findViewById(
-				R.id.textViewProfileMinutesPlayed)).setText(Integer
-				.toString((Integer.parseInt(character.getTimes()
-						.getMinutes_played()) / 60)));
+		((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes().getMinutes_played()) / 60)));
 
 		PrettyTime p = new PrettyTime();
-		String lastLogin = p.format(new Date(Long.parseLong(character
-				.getTimes().getLast_login()) * 1000));
+		String lastLogin = p.format(new Date(Long.parseLong(character.getTimes().getLast_login()) * 1000));
 
-		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin))
-				.setText(lastLogin);
+		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
 
-		((Button) getActivity().findViewById(R.id.buttonProfileFriends))
-				.setOnClickListener(new View.OnClickListener() {
+		((Button) getActivity().findViewById(R.id.buttonProfileFriends)).setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Toast.makeText(getActivity(),
 								"This will be implemented later",
@@ -173,8 +147,7 @@ public class FragmentProfile extends BaseFragment {
 				R.id.buttonFragmentStar);
 		star.setVisibility(View.VISIBLE);
 		star.setOnCheckedChangeListener(null);
-		SharedPreferences settings = getActivity().getSharedPreferences(
-				"PREFERENCES", 0);
+		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		String preferedProfileId = settings.getString("preferedProfile", "");
 		if (preferedProfileId.equals(character.getId())) {
 			star.setChecked(true);
@@ -185,13 +158,11 @@ public class FragmentProfile extends BaseFragment {
 		star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				SharedPreferences settings = getActivity()
-						.getSharedPreferences("PREFERENCES", 0);
+				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 				SharedPreferences.Editor editor = settings.edit();
 				if (isChecked) {
 					editor.putString("preferedProfile", profile.getId());
-					editor.putString("preferedProfileName", profile.getName()
-							.getFirst());
+					editor.putString("preferedProfileName", profile.getName().getFirst());
 				} else {
 					editor.putString("preferedProfileName", "");
 					editor.putString("preferedProfile", "");
@@ -200,8 +171,7 @@ public class FragmentProfile extends BaseFragment {
 			}
 		});
 
-		ToggleButton append = ((ToggleButton) getActivity().findViewById(
-				R.id.buttonFragmentAppend));
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
 		append.setOnCheckedChangeListener(null);
 		append.setChecked(isCached);
 		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -221,25 +191,20 @@ public class FragmentProfile extends BaseFragment {
 	}
 
 	private void setActionBarEnabled(boolean enabled) {
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-				enabled);
-		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(
-				enabled);
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
+		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 		if (enabled) {
 			View loadingView = getActivity().findViewById(R.id.loadingLayout);
 			if (loadingView != null) {
-				LinearLayout layout = (LinearLayout) getActivity()
-						.findViewById(R.id.linearLayoutProfile);
+				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
 				layout.removeView(loadingView);
 			}
 		} else {
 			View loadingView = getActivity().findViewById(R.id.loadingLayout);
 			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity()
-						.findViewById(R.id.linearLayoutProfile);
-				loadingView = getActivity().getLayoutInflater().inflate(
-						R.layout.loading_view, null);
+				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
+				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
 				layout.addView(loadingView, 1);
 			}
 		}
@@ -250,12 +215,11 @@ public class FragmentProfile extends BaseFragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,
-					PS2Collection.CHARACTER, character_id, null);
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,PS2Collection.CHARACTER, character_id, null);
 
-			Listener<Character_response> success = new Response.Listener<Character_response>() {
+			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
 				@Override
-				public void onResponse(Character_response response) {
+				public void onResponse(Character_response_list response) {
 					profile = response.getCharacter_list().get(0);
 					setActionBarEnabled(true);
 					updateUI(profile);
@@ -270,8 +234,8 @@ public class FragmentProfile extends BaseFragment {
 				}
 			};
 
-			GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
-					url.toString(), Character_response.class, null, success,
+			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(
+					url.toString(), Character_response_list.class, null, success,
 					error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
@@ -281,8 +245,7 @@ public class FragmentProfile extends BaseFragment {
 		}
 	}
 
-	private class UpdateProfileFromTable extends
-			AsyncTask<String, Integer, CharacterProfile> {
+	private class UpdateProfileFromTable extends AsyncTask<String, Integer, CharacterProfile> {
 
 		private String profile_id;
 
@@ -333,7 +296,11 @@ public class FragmentProfile extends BaseFragment {
 			data.open();
 			try {
 				CharacterProfile profile = args[0];
-				data.updateCharacter(profile, false);
+				if(data.getCharacter(profile.getId()) == null){
+					data.insertCharacter(profile, false);
+				}else{
+					data.updateCharacter(profile, false);
+				}
 				isCached = true;
 			} finally {
 				data.close();

@@ -14,7 +14,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.content.World;
-import com.cesarandres.ps2link.soe.content.response.Character_response;
+import com.cesarandres.ps2link.soe.content.response.Character_response_list;
 import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
 import com.cesarandres.ps2link.soe.content.response.Outfit_response;
 import com.cesarandres.ps2link.soe.content.response.Server_response;
