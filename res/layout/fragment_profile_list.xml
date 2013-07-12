@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayoutProfileList"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listViewProfileList"
+    style="@style/FragmentStyle" >
 
-    <include
-        android:layout_height="wrap_content"
-        layout="@layout/fragment_title" />
-
-    <ListView
-        android:id="@+id/listViewProfileList"
-        style="@style/FragmentStyle" >
-    </ListView>
-
-</LinearLayout>
+</ListView>

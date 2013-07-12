@@ -1,68 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:id="@+id/linearLayoutTwitter"
+    style="@style/FragmentStyle"
     android:orientation="vertical" >
 
-    <include
-        android:layout_height="wrap_content"
-        layout="@layout/fragment_title" />
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        style="@style/ListItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:id="@+id/linearLayoutTwitter"
-        style="@style/FragmentStyle"
-        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView1"
-            style="@style/ListItemStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
+            <CheckBox
+                android:id="@+id/checkBoxTwitterPlanetside"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal" >
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="@string/planetside2" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxTwitterPlanetside"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="@string/planetside2" />
+            <CheckBox
+                android:id="@+id/checkBoxTwitterPS2Deals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps2dailydeals" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxTwitterPS2Deals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ps2dailydeals" />
+            <CheckBox
+                android:id="@+id/checkBoxTwitterPSTray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps_tray" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxTwitterPSTray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ps_tray" />
+            <CheckBox
+                android:id="@+id/checkBoxTwitterPurrfectstorm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/purrfectstorm" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxTwitterPurrfectstorm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/purrfectstorm" />
+            <CheckBox
+                android:id="@+id/checkBoxTwitterMhigby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mhigby" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
-                <CheckBox
-                    android:id="@+id/checkBoxTwitterMhigby"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mhigby" />
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <ListView
-            android:id="@+id/listViewTweetList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="#00000000" >
-        </ListView>
-    </LinearLayout>
+    <ListView
+        android:id="@+id/listViewTweetList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000" >
+    </ListView>
 
 </LinearLayout>

@@ -6,10 +6,21 @@
 
     <include layout="@layout/activity_background" />
 
-    <fragment
-        android:id="@+id/activity_outfit_list"
-        android:name="com.cesarandres.ps2link.FragmentOutfitList"
-        style="@style/EmbeddedFragmentStyle"
-        tools:layout="@layout/fragment_outfit_list" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/fragment_title" />
+
+        <fragment
+            android:id="@+id/activity_outfit_list"
+            android:name="com.cesarandres.ps2link.FragmentOutfitList"
+            style="@style/EmbeddedFragmentStyle"
+            tools:layout="@layout/fragment_outfit_list" />
+    </LinearLayout>
 
 </FrameLayout>

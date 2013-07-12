@@ -62,7 +62,16 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 		View root = inflater.inflate(R.layout.fragment_add_outfit, container,
 				false);
 
-		final ImageButton buttonOutfits = (ImageButton) root
+		ApplicationPS2Link.volley.cancelAll(this);
+		return root;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
+				.setText(getString(R.string.text_menu_outfits));
+		final ImageButton buttonOutfits = (ImageButton) getActivity()
 				.findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -70,90 +79,10 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 						R.id.listFoundOutfits);
 				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
-
-				EditText searchField = (EditText) getActivity().findViewById(
-						R.id.fieldSearchOutfit);
-				URL url;
-				try {
-					url = SOECensus.generateGameDataRequest(
-							Verb.GET,
-							Game.PS2,
-							PS2Collection.OUTFIT,
-							"",
-							QueryString
-									.generateQeuryString()
-									.AddComparison(
-											"name",
-											SearchModifier.STARTSWITH,
-											URLEncoder.encode(searchField
-													.getText().toString(),
-													"UTF-8"))
-									.AddCommand(QueryCommand.LIMIT, "10"));
-
-					Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
-						@Override
-						public void onResponse(Outfit_response response) {
-							ListView listRoot = (ListView) getActivity()
-									.findViewById(R.id.listFoundOutfits);
-							listRoot.setAdapter(new OutfitItemAdapter(
-									getActivity(), response.getOutfit_list()));
-
-							listRoot.setOnItemClickListener(new OnItemClickListener() {
-								@Override
-								public void onItemClick(
-										AdapterView<?> myAdapter, View myView,
-										int myItemInt, long mylng) {
-									Intent intent = new Intent();
-									intent.setClass(getActivity(),
-											ActivityMermberList.class);
-									intent.putExtra(
-											"outfit_id",
-											((Outfit) myAdapter
-													.getItemAtPosition(myItemInt))
-													.getId());
-									startActivity(intent);
-								}
-							});
-
-							new UpdateTmpOutfitTable().execute(response
-									.getOutfit_list());
-							listRoot.setTextFilterEnabled(true);
-
-						}
-					};
-
-					ErrorListener error = new Response.ErrorListener() {
-						@Override
-						public void onErrorResponse(VolleyError error) {
-							error.equals(new Object());
-							ListView listRoot = (ListView) getActivity()
-									.findViewById(R.id.listFoundOutfits);
-							if (listRoot != null) {
-								listRoot.setAdapter(null);
-							}
-						}
-					};
-
-					GsonRequest<Outfit_response> gsonOject = new GsonRequest<Outfit_response>(
-							url.toString(), Outfit_response.class, null,
-							success, error);
-					gsonOject.setTag(this);
-					ApplicationPS2Link.volley.add(gsonOject);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+				downloadOutfits();
 			}
 		});
 
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_outfits));
-		ApplicationPS2Link.volley.cancelAll(this);
-		return root;
 	}
 
 	@Override
@@ -167,8 +96,77 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 
 	}
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
+	public void downloadOutfits() {
+		EditText searchField = (EditText) getActivity().findViewById(
+				R.id.fieldSearchOutfit);
+		URL url;
+		try {
+			url = SOECensus.generateGameDataRequest(
+					Verb.GET,
+					Game.PS2,
+					PS2Collection.OUTFIT,
+					"",
+					QueryString
+							.generateQeuryString()
+							.AddComparison(
+									"name",
+									SearchModifier.STARTSWITH,
+									URLEncoder.encode(searchField.getText()
+											.toString(), "UTF-8"))
+							.AddCommand(QueryCommand.LIMIT, "10"));
+
+			Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
+				@Override
+				public void onResponse(Outfit_response response) {
+					ListView listRoot = (ListView) getActivity().findViewById(
+							R.id.listFoundOutfits);
+					listRoot.setAdapter(new OutfitItemAdapter(getActivity(),
+							response.getOutfit_list()));
+
+					listRoot.setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> myAdapter,
+								View myView, int myItemInt, long mylng) {
+							Intent intent = new Intent();
+							intent.setClass(getActivity(),
+									ActivityMermberList.class);
+							intent.putExtra("outfit_id", ((Outfit) myAdapter
+									.getItemAtPosition(myItemInt)).getId());
+							startActivity(intent);
+						}
+					});
+
+					new UpdateTmpOutfitTable().execute(response
+							.getOutfit_list());
+					listRoot.setTextFilterEnabled(true);
+
+				}
+			};
+
+			ErrorListener error = new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					error.equals(new Object());
+					ListView listRoot = (ListView) getActivity().findViewById(
+							R.id.listFoundOutfits);
+					if (listRoot != null) {
+						listRoot.setAdapter(null);
+					}
+				}
+			};
+
+			GsonRequest<Outfit_response> gsonOject = new GsonRequest<Outfit_response>(
+					url.toString(), Outfit_response.class, null, success, error);
+			gsonOject.setTag(this);
+			ApplicationPS2Link.volley.add(gsonOject);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private class UpdateTmpOutfitTable extends
@@ -195,5 +193,11 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			data.close();
 			return true;
 		}
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub
+
 	}
 }

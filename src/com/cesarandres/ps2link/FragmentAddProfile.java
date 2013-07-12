@@ -59,19 +59,27 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_add_profile, container,false);
+		View root = inflater.inflate(R.layout.fragment_add_profile, container,
+				false);
 
-		final ImageButton buttonCharacters = (ImageButton) root.findViewById(R.id.imageButtonSearchProfile);
+		return root;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
+		final ImageButton buttonCharacters = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+				ListView listRoot = (ListView) getActivity().findViewById(
+						R.id.listFoundProfiles);
 				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 				downloadProfiles();
 			}
 		});
-		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
-		return root;
+
 	}
 
 	@Override
@@ -111,14 +119,21 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
 				@Override
 				public void onResponse(Character_response_list response) {
-					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
-					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),response.getCharacter_name_list(), false));
+					ListView listRoot = (ListView) getActivity().findViewById(
+							R.id.listFoundProfiles);
+					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
+							response.getCharacter_name_list(), false));
 					listRoot.setOnItemClickListener(new OnItemClickListener() {
 						@Override
-						public void onItemClick(AdapterView<?> myAdapter,View myView, int myItemInt, long mylng) {
+						public void onItemClick(AdapterView<?> myAdapter,
+								View myView, int myItemInt, long mylng) {
 							Intent intent = new Intent();
-							intent.setClass(getActivity(),ActivityProfile.class);
-							intent.putExtra("profileId",((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId());
+							intent.setClass(getActivity(),
+									ActivityProfile.class);
+							intent.putExtra("profileId",
+									((CharacterProfile) myAdapter
+											.getItemAtPosition(myItemInt))
+											.getId());
 							startActivity(intent);
 						}
 					});
@@ -129,7 +144,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
-					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+					ListView listRoot = (ListView) getActivity().findViewById(
+							R.id.listFoundProfiles);
 					if (listRoot != null) {
 						listRoot.setAdapter(null);
 					}
@@ -137,7 +153,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			};
 
 			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(
-					url.toString(), Character_response_list.class, null, success,error);
+					url.toString(), Character_response_list.class, null,
+					success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {

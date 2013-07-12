@@ -30,21 +30,24 @@ public class FragmentServer extends BaseFragment {
 			Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.fragment_server, container, false);
 		// Inflate the layout for this fragment
-		((Button)root.findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_servers));
-		
-		Button updateButton = (Button) root
-				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
+				
+		return root;
+	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((Button)getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_servers));
+		Button updateButton = (Button) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				
 			}
 		});
-		
-		return root;
-	}
 
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();

@@ -36,8 +36,6 @@ public class FragmentProfileList extends BaseFragment {
 		// Inflate the layout for this fragment
 		View root = inflater.inflate(R.layout.fragment_profile_list, container,false);
 
-		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
-
 		ListView listRoot = (ListView) root.findViewById(R.id.listViewProfileList);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -48,8 +46,14 @@ public class FragmentProfileList extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+		return root;
+	}
 
-		ImageButton updateButton = (ImageButton) root.findViewById(R.id.buttonFragmentUpdate);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +62,7 @@ public class FragmentProfileList extends BaseFragment {
 			}
 		});
 
-		ImageButton searchButton = (ImageButton) root.findViewById(R.id.buttonFragmentAdd);
+		ImageButton searchButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
@@ -69,9 +73,8 @@ public class FragmentProfileList extends BaseFragment {
 			}
 		});
 
-		return root;
 	}
-
+	
 	@Override
 	public void onPause() {
 		super.onPause();

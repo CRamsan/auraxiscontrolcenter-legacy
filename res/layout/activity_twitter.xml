@@ -6,10 +6,23 @@
 
     <include layout="@layout/activity_background" />
 
-    <fragment
-        android:id="@+id/activity_twitter"
-        android:name="com.cesarandres.ps2link.FragmentTwitter"
-        style="@style/EmbeddedFragmentStyle"
-        tools:layout="@layout/fragment_reddit" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/fragment_title" />
+
+        <fragment
+            android:id="@+id/activity_twitter"
+            android:name="com.cesarandres.ps2link.FragmentTwitter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_twitter" />
+
+    </LinearLayout>
 
 </FrameLayout>

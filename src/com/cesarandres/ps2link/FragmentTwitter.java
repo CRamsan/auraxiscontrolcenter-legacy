@@ -71,13 +71,6 @@ public class FragmentTwitter extends BaseFragment {
 		View root = inflater.inflate(R.layout.fragment_twitter, container,
 				false);
 
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_twitter));
-
-		ImageButton updateButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
-
 		ListView listRoot = (ListView) root
 				.findViewById(R.id.listViewTweetList);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
@@ -102,35 +95,6 @@ public class FragmentTwitter extends BaseFragment {
 							.parse(links.get(0)));
 					startActivity(browserIntent);
 				}
-			}
-		});
-
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				ArrayList<String> usersnames = new ArrayList<String>();
-				if (((CheckBox) getActivity().findViewById(
-						R.id.checkBoxTwitterMhigby)).isChecked()) {
-					usersnames.add(TwitterUtil.MHIDGY);
-				}
-				if (((CheckBox) getActivity().findViewById(
-						R.id.checkBoxTwitterPlanetside)).isChecked()) {
-					usersnames.add(TwitterUtil.PLANETSIDE2);
-				}
-				if (((CheckBox) getActivity().findViewById(
-						R.id.checkBoxTwitterPS2Deals)).isChecked()) {
-					usersnames.add(TwitterUtil.PS2DAILYDEALS);
-				}
-				if (((CheckBox) getActivity().findViewById(
-						R.id.checkBoxTwitterPurrfectstorm)).isChecked()) {
-					usersnames.add(TwitterUtil.PURRFECTSTORM);
-				}
-				if (((CheckBox) getActivity().findViewById(
-						R.id.checkBoxTwitterPSTray)).isChecked()) {
-					usersnames.add(TwitterUtil.PS_TRAY);
-				}
-				String[] stringArray = Arrays.copyOf(usersnames.toArray(),
-						usersnames.size(), String[].class);
-				new UpdateTweets().execute(stringArray);
 			}
 		});
 
@@ -193,7 +157,38 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_twitter));
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				ArrayList<String> usersnames = new ArrayList<String>();
+				if (((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterMhigby)).isChecked()) {
+					usersnames.add(TwitterUtil.MHIDGY);
+				}
+				if (((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterPlanetside)).isChecked()) {
+					usersnames.add(TwitterUtil.PLANETSIDE2);
+				}
+				if (((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterPS2Deals)).isChecked()) {
+					usersnames.add(TwitterUtil.PS2DAILYDEALS);
+				}
+				if (((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterPurrfectstorm)).isChecked()) {
+					usersnames.add(TwitterUtil.PURRFECTSTORM);
+				}
+				if (((CheckBox) getActivity().findViewById(
+						R.id.checkBoxTwitterPSTray)).isChecked()) {
+					usersnames.add(TwitterUtil.PS_TRAY);
+				}
+				String[] stringArray = Arrays.copyOf(usersnames.toArray(),
+						usersnames.size(), String[].class);
+				new UpdateTweets().execute(stringArray);
+			}
+		});
+		
 		updateTweets();
 		if (savedInstanceState == null) {
 			new UpdateTweets().execute(new String[] {
