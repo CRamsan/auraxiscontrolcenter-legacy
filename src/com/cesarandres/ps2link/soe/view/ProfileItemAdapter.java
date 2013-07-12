@@ -23,18 +23,19 @@ public class ProfileItemAdapter extends BaseAdapter {
 	private static Bitmap vs_icon;
 	private static Bitmap nc_icon;
 	private static Bitmap tr_icon;
-
+	private boolean full;
+		
 	public ProfileItemAdapter(Context context,
-			List<CharacterProfile> profileList) {
+			List<CharacterProfile> profileList, boolean full) {
 		// Cache the LayoutInflate to avoid asking for a new one each time.
 		this.mInflater = LayoutInflater.from(context);
 		this.profileList = new ArrayList<CharacterProfile>(profileList);
-		vs_icon = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.vs_icon);
-		tr_icon = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.tr_icon);
-		nc_icon = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.nc_icon);
+		this.full = full;
+		if(this.full){
+			vs_icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.vs_icon);
+			tr_icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.tr_icon);
+			nc_icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.nc_icon);
+		}
 	}
 
 	@Override
@@ -71,12 +72,12 @@ public class ProfileItemAdapter extends BaseAdapter {
 			// views
 			// we want to bind data to.
 			holder = new ViewHolder();
-			holder.faction = (ImageView) convertView
-					.findViewById(R.id.imageViewFaction);
-			holder.battleRank = (TextView) convertView
-					.findViewById(R.id.textViewBattleRank);
-			holder.name = (TextView) convertView
-					.findViewById(R.id.textViewProfileCharacterName);
+			if(full){
+				holder.faction = (ImageView) convertView.findViewById(R.id.imageViewFaction);
+				holder.battleRank = (TextView) convertView.findViewById(R.id.textViewBattleRank);
+				holder.battleRank.setVisibility(View.VISIBLE);
+			}
+			holder.name = (TextView) convertView.findViewById(R.id.textViewProfileCharacterName);
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView
@@ -85,20 +86,17 @@ public class ProfileItemAdapter extends BaseAdapter {
 		}
 
 		// Bind the data efficiently with the holder.
-		if (this.profileList.get(position).getFaction_id().equals(Faction.VS)) {
-			holder.faction.setImageBitmap(vs_icon);
-		} else if (this.profileList.get(position).getFaction_id()
-				.equals(Faction.NC)) {
-			holder.faction.setImageBitmap(nc_icon);
-		} else if (this.profileList.get(position).getFaction_id()
-				.equals(Faction.TR)) {
-			holder.faction.setImageBitmap(tr_icon);
+		if(this.full){
+			if (this.profileList.get(position).getFaction_id().equals(Faction.VS)) {
+				holder.faction.setImageBitmap(vs_icon);
+			} else if (this.profileList.get(position).getFaction_id().equals(Faction.NC)) {
+				holder.faction.setImageBitmap(nc_icon);
+			} else if (this.profileList.get(position).getFaction_id().equals(Faction.TR)) {
+				holder.faction.setImageBitmap(tr_icon);
+			}
+			holder.battleRank.setText(Integer.toString(this.profileList.get(position).getBattle_rank().getValue()));
 		}
-
-		holder.name
-				.setText(this.profileList.get(position).getName().getFirst());
-		holder.battleRank.setText(Integer.toString(this.profileList
-				.get(position).getBattle_rank().getValue()));
+		holder.name.setText(this.profileList.get(position).getName().getFirst());
 
 		return convertView;
 	}

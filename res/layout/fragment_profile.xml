@@ -118,16 +118,16 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/textViewMinutesPlayed"
+                    android:id="@+id/TextViewProfileLoginStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:text="@string/hours_played"
+                    android:text="@string/login_status"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
-                    android:id="@+id/textViewProfileMinutesPlayed"
+                    android:id="@+id/TextViewProfileLoginStatusText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -152,6 +152,30 @@
 
                 <TextView
                     android:id="@+id/textViewProfileLastLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ListItemStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textViewMinutesPlayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/hours_played"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/textViewProfileMinutesPlayed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"

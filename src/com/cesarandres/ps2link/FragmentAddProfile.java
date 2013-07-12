@@ -31,7 +31,7 @@ import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.response.Character_response;
+import com.cesarandres.ps2link.soe.content.response.Character_response_list;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
@@ -45,10 +45,6 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  */
 public class FragmentAddProfile extends BaseFragment implements OnClickListener {
 
-	public static Bitmap vs_icon;
-	public static Bitmap nc_icon;
-	public static Bitmap tr_icon;
-
 	public interface NameToSearchListener {
 		void onProfileSelected(CharacterProfile profile);
 	}
@@ -57,35 +53,24 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
-		vs_icon = BitmapFactory.decodeResource(getActivity().getResources(),
-				R.drawable.vs_icon);
-		tr_icon = BitmapFactory.decodeResource(getActivity().getResources(),
-				R.drawable.tr_icon);
-		nc_icon = BitmapFactory.decodeResource(getActivity().getResources(),
-				R.drawable.nc_icon);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_add_profile, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_add_profile, container,false);
 
-		final ImageButton buttonCharacters = (ImageButton) root
-				.findViewById(R.id.imageButtonSearchProfile);
+		final ImageButton buttonCharacters = (ImageButton) root.findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				ListView listRoot = (ListView) getActivity().findViewById(
-						R.id.listFoundProfiles);
+				ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
 				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 				downloadProfiles();
 			}
 		});
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_profiles));
+		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
 		return root;
 	}
 
@@ -112,7 +97,7 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
 					Game.PS2,
-					PS2Collection.CHARACTER,
+					PS2Collection.CHARACTER_NAME,
 					"",
 					QueryString
 							.generateQeuryString()
@@ -121,31 +106,22 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 									SearchModifier.STARTSWITH,
 									searchField.getText().toString()
 											.toLowerCase())
-							.AddCommand(QueryCommand.LIMIT, "10"));
+							.AddCommand(QueryCommand.LIMIT, "100"));
 
-			Listener<Character_response> success = new Response.Listener<Character_response>() {
+			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
 				@Override
-				public void onResponse(Character_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(
-							R.id.listFoundProfiles);
-					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
-							response.getCharacter_list()));
+				public void onResponse(Character_response_list response) {
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+					listRoot.setAdapter(new ProfileItemAdapter(getActivity(),response.getCharacter_name_list(), false));
 					listRoot.setOnItemClickListener(new OnItemClickListener() {
 						@Override
-						public void onItemClick(AdapterView<?> myAdapter,
-								View myView, int myItemInt, long mylng) {
+						public void onItemClick(AdapterView<?> myAdapter,View myView, int myItemInt, long mylng) {
 							Intent intent = new Intent();
-							intent.setClass(getActivity(),
-									ActivityProfile.class);
-							intent.putExtra("profileId",
-									((CharacterProfile) myAdapter
-											.getItemAtPosition(myItemInt))
-											.getId());
+							intent.setClass(getActivity(),ActivityProfile.class);
+							intent.putExtra("profileId",((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId());
 							startActivity(intent);
 						}
 					});
-					new UpdateTmpProfileTable().execute(response
-							.getCharacter_list());
 				}
 			};
 
@@ -153,17 +129,15 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
-					ListView listRoot = (ListView) getActivity().findViewById(
-							R.id.listFoundProfiles);
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
 					if (listRoot != null) {
 						listRoot.setAdapter(null);
 					}
 				}
 			};
 
-			GsonRequest<Character_response> gsonOject = new GsonRequest<Character_response>(
-					url.toString(), Character_response.class, null, success,
-					error);
+			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(
+					url.toString(), Character_response_list.class, null, success,error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {

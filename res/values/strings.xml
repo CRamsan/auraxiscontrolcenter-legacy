@@ -31,5 +31,6 @@
     <string name="donations_link">http://cesarandres.com/</string>
     <string name="donations">&quot;My Blog and Donations: &quot;</string>
     <string name="ps_tray">PS_TRay</string>
+    <string name="login_status">STATUS</string>
 
 </resources>

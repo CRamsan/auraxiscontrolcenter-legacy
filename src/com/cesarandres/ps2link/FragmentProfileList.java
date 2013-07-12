@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -35,28 +34,22 @@ public class FragmentProfileList extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_profile_list, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_profile_list, container,false);
 
-		((Button) root.findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_profiles));
+		((Button) root.findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
 
-		ListView listRoot = (ListView) root
-				.findViewById(R.id.listViewProfileList);
+		ListView listRoot = (ListView) root.findViewById(R.id.listViewProfileList);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,
-					int myItemInt, long mylng) {
+			public void onItemClick(AdapterView<?> myAdapter, View myView,int myItemInt, long mylng) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((CharacterProfile) myAdapter
-						.getItemAtPosition(myItemInt)).getId());
+				intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId());
 				startActivity(intent);
 			}
 		});
 
-		ImageButton updateButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentUpdate);
+		ImageButton updateButton = (ImageButton) root.findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +58,7 @@ public class FragmentProfileList extends BaseFragment {
 			}
 		});
 
-		ImageButton searchButton = (ImageButton) root
-				.findViewById(R.id.buttonFragmentAdd);
+		ImageButton searchButton = (ImageButton) root.findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
@@ -126,13 +118,10 @@ public class FragmentProfileList extends BaseFragment {
 		@Override
 		protected void onPostExecute(ArrayList<CharacterProfile> result) {
 			if (result != null) {
-				ListView listRoot = (ListView) getActivity().findViewById(
-						R.id.listViewProfileList);
-				listRoot.setAdapter(new ProfileItemAdapter(getActivity(),
-						result));
+				ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewProfileList);
+				listRoot.setAdapter(new ProfileItemAdapter(getActivity(),result, true));
 			}
 			setUpdateButton(true);
 		}
-
 	}
 }
