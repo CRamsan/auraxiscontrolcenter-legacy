@@ -24,17 +24,16 @@ public class ProfileItemAdapter extends BaseAdapter {
 	private static Bitmap nc_icon;
 	private static Bitmap tr_icon;
 	private boolean full;
-		
-	public ProfileItemAdapter(Context context,
-			List<CharacterProfile> profileList, boolean full) {
+
+	public ProfileItemAdapter(Context context, List<CharacterProfile> profileList, boolean full) {
 		// Cache the LayoutInflate to avoid asking for a new one each time.
 		this.mInflater = LayoutInflater.from(context);
 		this.profileList = new ArrayList<CharacterProfile>(profileList);
 		this.full = full;
-		if(this.full){
-			vs_icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.vs_icon);
-			tr_icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.tr_icon);
-			nc_icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.nc_icon);
+		if (this.full) {
+			vs_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.vs_icon);
+			tr_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.tr_icon);
+			nc_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.nc_icon);
 		}
 	}
 
@@ -72,7 +71,7 @@ public class ProfileItemAdapter extends BaseAdapter {
 			// views
 			// we want to bind data to.
 			holder = new ViewHolder();
-			if(full){
+			if (full) {
 				holder.faction = (ImageView) convertView.findViewById(R.id.imageViewFaction);
 				holder.battleRank = (TextView) convertView.findViewById(R.id.textViewBattleRank);
 				holder.battleRank.setVisibility(View.VISIBLE);
@@ -86,7 +85,7 @@ public class ProfileItemAdapter extends BaseAdapter {
 		}
 
 		// Bind the data efficiently with the holder.
-		if(this.full){
+		if (this.full) {
 			if (this.profileList.get(position).getFaction_id().equals(Faction.VS)) {
 				holder.faction.setImageBitmap(vs_icon);
 			} else if (this.profileList.get(position).getFaction_id().equals(Faction.NC)) {

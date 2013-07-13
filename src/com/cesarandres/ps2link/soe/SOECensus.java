@@ -2,13 +2,10 @@ package com.cesarandres.ps2link.soe;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
 
 import com.cesarandres.ps2link.soe.util.Collections.EQ2Collection;
 import com.cesarandres.ps2link.soe.util.Collections.ImageCollection;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.util.QueryString;
 
 /**
@@ -79,26 +76,18 @@ public class SOECensus {
 		}
 	}
 
-	public static URL generateGameImageRequest(Game game,
-			ImageCollection collection, String identifier)
-			throws MalformedURLException {
-		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
-				+ IMG + "/" + game.toString() + "/" + collection + "/"
-				+ identifier + "/" + ITEM);
+	public static URL generateGameImageRequest(Game game, ImageCollection collection, String identifier) throws MalformedURLException {
+		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + IMG + "/" + game.toString() + "/" + collection + "/" + identifier + "/" + ITEM);
 		return requestDataURL;
 	}
 
-	public static URL generateGameImageRequest(Game game,
-			ImageCollection collection, String identifier, ImageType type)
-			throws MalformedURLException {
-		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
-				+ IMG + "/" + game.toString() + "/" + "icon" + "/" + identifier
-				+ "/" + type.toString() + "/" + ITEM);
+	public static URL generateGameImageRequest(Game game, ImageCollection collection, String identifier, ImageType type) throws MalformedURLException {
+		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + IMG + "/" + game.toString() + "/" + "icon" + "/" + identifier + "/"
+				+ type.toString() + "/" + ITEM);
 		return requestDataURL;
 	}
 
-	public static URL generateGameDataRequest(Verb verb, Game game,
-			PS2Collection collection, String identifier, QueryString query)
+	public static URL generateGameDataRequest(Verb verb, Game game, PS2Collection collection, String identifier, QueryString query)
 			throws MalformedURLException {
 		if (identifier == null) {
 			identifier = "";
@@ -106,23 +95,18 @@ public class SOECensus {
 		if (query == null) {
 			query = new QueryString();
 		}
-		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
-				+ verb.toString() + "/" + game.toString() + "/"
-				+ collection.toString() + "/" + identifier + "?"
-				+ query.toString());
+		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + game.toString() + "/" + collection.toString() + "/"
+				+ identifier + "?" + query.toString());
 		return requestDataURL;
 	}
 
-	public static URL generateGameDataRequest(Verb verb, Game game,
-			EQ2Collection collection, String identifier, QueryString query)
+	public static URL generateGameDataRequest(Verb verb, Game game, EQ2Collection collection, String identifier, QueryString query)
 			throws MalformedURLException {
 		if (identifier == null) {
 			identifier = "";
 		}
-		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/"
-				+ verb.toString() + "/" + game.toString() + "/"
-				+ collection.toString() + "/" + identifier + "?"
-				+ query.toString());
+		URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + game.toString() + "/" + collection.toString() + "/"
+				+ identifier + "?" + query.toString());
 		return requestDataURL;
 	}
 }

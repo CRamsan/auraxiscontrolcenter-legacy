@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,22 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
-import com.cesarandres.ps2link.base.BaseFragment;
 
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentMainMenu extends BaseFragment {
+public class FragmentMainMenu extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		try {
-			mListener = (OnFragmentEventListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnArticleSelectedListener");
-		}
 	}
 
 	@Override
@@ -36,19 +30,17 @@ public class FragmentMainMenu extends BaseFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_main_menu, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
 		final Button buttonCharacters = (Button) root.findViewById(R.id.buttonCharacters);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfileList.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_PROFILE_LIST);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_PROFILE_LIST.toString());
 				startActivity(intent);
 			}
 		});
@@ -57,8 +49,8 @@ public class FragmentMainMenu extends BaseFragment {
 		buttonServers.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityServerList.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_SERVER_LIST);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_SERVER_LIST.toString());
 				startActivity(intent);
 			}
 		});
@@ -67,8 +59,8 @@ public class FragmentMainMenu extends BaseFragment {
 		buttonOutfit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityOutfitList.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_OUTFIT_LIST);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_OUTFIT_LIST.toString());
 				startActivity(intent);
 			}
 		});
@@ -87,8 +79,8 @@ public class FragmentMainMenu extends BaseFragment {
 		buttonTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityTwitter.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_TWITTER);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_TWITTER.toString());
 				startActivity(intent);
 			}
 		});
@@ -108,8 +100,7 @@ public class FragmentMainMenu extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Button titleButton = ((Button) getActivity()
-				.findViewById(R.id.buttonFragmentTitle));
+		Button titleButton = ((Button) getActivity().findViewById(R.id.buttonFragmentTitle));
 		titleButton.setText(getString(R.string.fragment_title));
 		titleButton.setCompoundDrawables(null, null, null, null);
 	}
@@ -117,27 +108,21 @@ public class FragmentMainMenu extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		SharedPreferences settings = getActivity().getSharedPreferences(
-				"PREFERENCES", 0);
+		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		String preferedProfileId = settings.getString("preferedProfile", "");
-		String preferedProfileName = settings.getString("preferedProfileName",
-				"");
-		final Button buttonPreferedProfile = (Button) getActivity()
-				.findViewById(R.id.buttonPreferedProfile);
+		String preferedProfileName = settings.getString("preferedProfileName", "");
+		final Button buttonPreferedProfile = (Button) getActivity().findViewById(R.id.buttonPreferedProfile);
 		if (!preferedProfileId.equals("")) {
-			buttonPreferedProfile
-					.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View v) {
-							SharedPreferences settings = getActivity()
-									.getSharedPreferences("PREFERENCES", 0);
-							Intent intent = new Intent();
-							intent.setClass(getActivity(),
-									ActivityProfile.class);
-							intent.putExtra("profileId",
-									settings.getString("preferedProfile", ""));
-							startActivity(intent);
-						}
-					});
+			buttonPreferedProfile.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), ActivityContainerSingle.class);
+					intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_PROFILE.toString());
+					intent.putExtra("profileId", settings.getString("preferedProfile", ""));
+					startActivity(intent);
+				}
+			});
 			buttonPreferedProfile.setText(preferedProfileName);
 			buttonPreferedProfile.setVisibility(View.VISIBLE);
 		} else {
@@ -145,20 +130,17 @@ public class FragmentMainMenu extends BaseFragment {
 		}
 
 		String preferedOutfitId = settings.getString("preferedOutfit", "");
-		String preferedOutfitName = settings
-				.getString("preferedOutfitName", "");
-		final Button buttonPreferedOutfit = (Button) getActivity()
-				.findViewById(R.id.buttonPreferedOutfit);
+		String preferedOutfitName = settings.getString("preferedOutfitName", "");
+		final Button buttonPreferedOutfit = (Button) getActivity().findViewById(R.id.buttonPreferedOutfit);
 		if (!preferedOutfitId.equals("")) {
 
 			buttonPreferedOutfit.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					SharedPreferences settings = getActivity()
-							.getSharedPreferences("PREFERENCES", 0);
+					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityMermberList.class);
-					intent.putExtra("outfit_id",
-							settings.getString("preferedOutfit", ""));
+					intent.setClass(getActivity(), ActivityContainerSingle.class);
+					intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
+					intent.putExtra("outfit_id", settings.getString("preferedOutfit", ""));
 					startActivity(intent);
 				}
 			});

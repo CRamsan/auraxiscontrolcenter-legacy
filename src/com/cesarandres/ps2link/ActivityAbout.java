@@ -29,7 +29,6 @@ public class ActivityAbout extends BaseActivity {
 				navigateUp();
 			}
 		});
-		((Button) findViewById(R.id.buttonFragmentTitle))
-		.setText(getString(R.string.text_menu_about));
+		((Button) findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_about));
 	}
 }

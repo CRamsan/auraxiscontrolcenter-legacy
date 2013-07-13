@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
@@ -22,7 +23,7 @@ import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentOutfitList extends BaseFragment {
+public class FragmentOutfitList extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,23 +32,19 @@ public class FragmentOutfitList extends BaseFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_outfit_list, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_outfit_list, container, false);
 
-		ListView listRoot = (ListView) root
-				.findViewById(R.id.listViewOutfitList);
+		ListView listRoot = (ListView) root.findViewById(R.id.listViewOutfitList);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,
-					int myItemInt, long mylng) {
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityMermberList.class);
-				intent.putExtra("outfit_id", ((Outfit) myAdapter
-						.getItemAtPosition(myItemInt)).getId());
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
+				intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId());
 				startActivity(intent);
 			}
 		});
@@ -65,7 +62,8 @@ public class FragmentOutfitList extends BaseFragment {
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityAddOutfit.class);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_ADD_OUTFIT.toString());
 				startActivity(intent);
 			}
 		});
@@ -79,7 +77,6 @@ public class FragmentOutfitList extends BaseFragment {
 				new ReadOutfitsTable().execute();
 			}
 		});
-
 
 	}
 
@@ -99,13 +96,11 @@ public class FragmentOutfitList extends BaseFragment {
 		super.onDestroyView();
 	}
 
-	private class ReadOutfitsTable extends
-			AsyncTask<Integer, Integer, ArrayList<Outfit>> {
+	private class ReadOutfitsTable extends AsyncTask<Integer, Integer, ArrayList<Outfit>> {
 
 		@Override
 		protected void onPreExecute() {
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-					false);
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(false);
 		}
 
 		@Override
@@ -119,11 +114,9 @@ public class FragmentOutfitList extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<Outfit> result) {
-			ListView listRoot = (ListView) getActivity().findViewById(
-					R.id.listViewOutfitList);
+			ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewOutfitList);
 			listRoot.setAdapter(new OutfitItemAdapter(getActivity(), result));
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-					true);
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(true);
 		}
 	}
 }

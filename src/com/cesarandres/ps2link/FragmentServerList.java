@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -42,7 +43,7 @@ import com.google.gson.Gson;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentServerList extends BaseFragment {
+public class FragmentServerList extends Fragment {
 
 	public static final int SQL_READER = 235;
 
@@ -53,21 +54,18 @@ public class FragmentServerList extends BaseFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_server_list, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_server_list, container, false);
 
 		ListView listRoot = (ListView) root.findViewById(R.id.listViewServers);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,
-					int myItemInt, long mylng) {
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityServer.class);
-				intent.putExtra("server", new Gson().toJson(myAdapter
-						.getItemAtPosition(myItemInt)));
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_SERVER.toString());
+				intent.putExtra("server", new Gson().toJson(myAdapter.getItemAtPosition(myItemInt)));
 				// startActivity(intent);
 			}
 		});
@@ -100,17 +98,14 @@ public class FragmentServerList extends BaseFragment {
 		setUpdateButton(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,
-					PS2Collection.WORLD, "", QueryString.generateQeuryString()
-							.AddCommand(QueryCommand.LIMIT, "10"));
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.WORLD, "",
+					QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10"));
 
 			Listener<Server_response> success = new Response.Listener<Server_response>() {
 				@Override
 				public void onResponse(Server_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(
-							R.id.listViewServers);
-					listRoot.setAdapter(new ServerItemAdapter(getActivity(),
-							response.getWorld_list()));
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+					listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
 					new UpdateServerTable().execute(response.getWorld_list());
 				}
 			};
@@ -122,8 +117,7 @@ public class FragmentServerList extends BaseFragment {
 					setUpdateButton(true);
 				}
 			};
-			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(
-					url.toString(), Server_response.class, null, success, error);
+			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(url.toString(), Server_response.class, null, success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
@@ -134,22 +128,18 @@ public class FragmentServerList extends BaseFragment {
 	}
 
 	private void setUpdateButton(boolean enabled) {
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-				enabled);
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
 		if (enabled) {
 			View loadingView = getActivity().findViewById(R.id.loadingLayout);
 			if (loadingView != null) {
-				LinearLayout layout = (LinearLayout) getActivity()
-						.findViewById(R.id.linearLayoutServerList);
+				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutServerList);
 				layout.removeView(loadingView);
 			}
 		} else {
 			View loadingView = getActivity().findViewById(R.id.loadingLayout);
 			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity()
-						.findViewById(R.id.linearLayoutServerList);
-				loadingView = getActivity().getLayoutInflater().inflate(
-						R.layout.loading_view, null);
+				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutServerList);
+				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
 				layout.addView(loadingView, 1);
 			}
 		}
@@ -193,19 +183,15 @@ public class FragmentServerList extends BaseFragment {
 			// supplied
 			// by ListView is null.
 			if (convertView == null) {
-				convertView = mInflater
-						.inflate(R.layout.server_item_list, null);
+				convertView = mInflater.inflate(R.layout.server_item_list, null);
 
 				// Creates a ViewHolder and store references to the two children
 				// views
 				// we want to bind data to.
 				holder = new ViewHolder();
-				holder.serverstatus = (TextView) convertView
-						.findViewById(R.id.textViewServerStatus);
-				holder.serverName = (TextView) convertView
-						.findViewById(R.id.textViewServerListName);
-				holder.serverRegion = (TextView) convertView
-						.findViewById(R.id.textViewServerListRegion);
+				holder.serverstatus = (TextView) convertView.findViewById(R.id.textViewServerStatus);
+				holder.serverName = (TextView) convertView.findViewById(R.id.textViewServerListName);
+				holder.serverRegion = (TextView) convertView.findViewById(R.id.textViewServerListRegion);
 				convertView.setTag(holder);
 			} else {
 				// Get the ViewHolder back to get fast access to the TextView
@@ -231,9 +217,7 @@ public class FragmentServerList extends BaseFragment {
 				holder.serverRegion.setText("(US EAST)");
 			} else if (name.equals("Connery")) {
 				holder.serverRegion.setText("(US WEST)");
-			} else if (name.equals("Mallory") || name.equals("Ceres")
-					|| name.equals("Miller") || name.equals("Cobalt")
-					|| name.equals("Woodman")) {
+			} else if (name.equals("Mallory") || name.equals("Ceres") || name.equals("Miller") || name.equals("Cobalt") || name.equals("Woodman")) {
 				holder.serverRegion.setText("(EU)");
 			} else {
 				holder.serverRegion.setText("");
@@ -252,8 +236,7 @@ public class FragmentServerList extends BaseFragment {
 		}
 	}
 
-	private class UpdateServerTable extends
-			AsyncTask<ArrayList<World>, Integer, Boolean> {
+	private class UpdateServerTable extends AsyncTask<ArrayList<World>, Integer, Boolean> {
 		@Override
 		protected void onPreExecute() {
 			setUpdateButton(false);
@@ -272,8 +255,7 @@ public class FragmentServerList extends BaseFragment {
 			for (int i = 0; i < count; i++) {
 				world = worlds[0].get(i);
 				for (int j = 0; j < oldWorlds.size(); j++) {
-					if (oldWorlds.get(j).getWorld_id()
-							.equals(world.getWorld_id())) {
+					if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
 						data.updateWorld(world);
 						newWorlds.add(oldWorlds.get(j));
 						found = true;
@@ -287,8 +269,7 @@ public class FragmentServerList extends BaseFragment {
 			for (int i = 0; i < newWorlds.size(); i++) {
 				world = newWorlds.get(i);
 				for (int j = 0; j < oldWorlds.size(); j++) {
-					if (oldWorlds.get(j).getWorld_id()
-							.equals(world.getWorld_id())) {
+					if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
 						oldWorlds.remove(j);
 					}
 				}
@@ -306,8 +287,7 @@ public class FragmentServerList extends BaseFragment {
 		}
 	}
 
-	private class ReadServerTable extends
-			AsyncTask<Integer, Integer, ArrayList<World>> {
+	private class ReadServerTable extends AsyncTask<Integer, Integer, ArrayList<World>> {
 
 		@Override
 		protected void onPreExecute() {
@@ -328,8 +308,7 @@ public class FragmentServerList extends BaseFragment {
 			if (result.size() == 0) {
 				downloadServers();
 			} else {
-				ListView listRoot = (ListView) getActivity().findViewById(
-						R.id.listViewServers);
+				ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
 				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
 				downloadServers();
 			}

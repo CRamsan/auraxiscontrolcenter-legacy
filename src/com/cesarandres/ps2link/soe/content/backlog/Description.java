@@ -1,48 +1,58 @@
-
 package com.cesarandres.ps2link.soe.content.backlog;
 
-public class Description{
-   	private String de;
-   	private String en;
-   	private String es;
-   	private String fr;
-   	private String it;
-   	private String tr;
+public class Description {
+	private String de;
+	private String en;
+	private String es;
+	private String fr;
+	private String it;
+	private String tr;
 
- 	public String getDe(){
+	public String getDe() {
 		return this.de;
 	}
-	public void setDe(String de){
+
+	public void setDe(String de) {
 		this.de = de;
 	}
- 	public String getEn(){
+
+	public String getEn() {
 		return this.en;
 	}
-	public void setEn(String en){
+
+	public void setEn(String en) {
 		this.en = en;
 	}
- 	public String getEs(){
+
+	public String getEs() {
 		return this.es;
 	}
-	public void setEs(String es){
+
+	public void setEs(String es) {
 		this.es = es;
 	}
- 	public String getFr(){
+
+	public String getFr() {
 		return this.fr;
 	}
-	public void setFr(String fr){
+
+	public void setFr(String fr) {
 		this.fr = fr;
 	}
- 	public String getIt(){
+
+	public String getIt() {
 		return this.it;
 	}
-	public void setIt(String it){
+
+	public void setIt(String it) {
 		this.it = it;
 	}
- 	public String getTr(){
+
+	public String getTr() {
 		return this.tr;
 	}
-	public void setTr(String tr){
+
+	public void setTr(String tr) {
 		this.tr = tr;
 	}
 }

@@ -11,6 +11,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -43,7 +44,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
+public class FragmentAddOutfit extends Fragment implements OnClickListener {
 
 	public interface NameToSearchListener {
 		void onoutfitSelected(Outfit outfit);
@@ -56,11 +57,9 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_add_outfit, container,
-				false);
+		View root = inflater.inflate(R.layout.fragment_add_outfit, container, false);
 
 		ApplicationPS2Link.volley.cancelAll(this);
 		return root;
@@ -69,14 +68,11 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle))
-				.setText(getString(R.string.text_menu_outfits));
-		final ImageButton buttonOutfits = (ImageButton) getActivity()
-				.findViewById(R.id.imageButtonSearchOutfit);
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_outfits));
+		final ImageButton buttonOutfits = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				ListView listRoot = (ListView) getActivity().findViewById(
-						R.id.listFoundOutfits);
+				ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
 				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 				downloadOutfits();
@@ -97,8 +93,7 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 	}
 
 	public void downloadOutfits() {
-		EditText searchField = (EditText) getActivity().findViewById(
-				R.id.fieldSearchOutfit);
+		EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchOutfit);
 		URL url;
 		try {
 			url = SOECensus.generateGameDataRequest(
@@ -106,38 +101,28 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 					Game.PS2,
 					PS2Collection.OUTFIT,
 					"",
-					QueryString
-							.generateQeuryString()
-							.AddComparison(
-									"name",
-									SearchModifier.STARTSWITH,
-									URLEncoder.encode(searchField.getText()
-											.toString(), "UTF-8"))
+					QueryString.generateQeuryString()
+							.AddComparison("name", SearchModifier.STARTSWITH, URLEncoder.encode(searchField.getText().toString(), "UTF-8"))
 							.AddCommand(QueryCommand.LIMIT, "10"));
 
 			Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
 				@Override
 				public void onResponse(Outfit_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(
-							R.id.listFoundOutfits);
-					listRoot.setAdapter(new OutfitItemAdapter(getActivity(),
-							response.getOutfit_list()));
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
+					listRoot.setAdapter(new OutfitItemAdapter(getActivity(), response.getOutfit_list()));
 
 					listRoot.setOnItemClickListener(new OnItemClickListener() {
 						@Override
-						public void onItemClick(AdapterView<?> myAdapter,
-								View myView, int myItemInt, long mylng) {
+						public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 							Intent intent = new Intent();
-							intent.setClass(getActivity(),
-									ActivityMermberList.class);
-							intent.putExtra("outfit_id", ((Outfit) myAdapter
-									.getItemAtPosition(myItemInt)).getId());
+							intent.setClass(getActivity(), ActivityContainerSingle.class);
+							intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
+							intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId());
 							startActivity(intent);
 						}
 					});
 
-					new UpdateTmpOutfitTable().execute(response
-							.getOutfit_list());
+					new UpdateTmpOutfitTable().execute(response.getOutfit_list());
 					listRoot.setTextFilterEnabled(true);
 
 				}
@@ -147,16 +132,14 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
-					ListView listRoot = (ListView) getActivity().findViewById(
-							R.id.listFoundOutfits);
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
 					if (listRoot != null) {
 						listRoot.setAdapter(null);
 					}
 				}
 			};
 
-			GsonRequest<Outfit_response> gsonOject = new GsonRequest<Outfit_response>(
-					url.toString(), Outfit_response.class, null, success, error);
+			GsonRequest<Outfit_response> gsonOject = new GsonRequest<Outfit_response>(url.toString(), Outfit_response.class, null, success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
@@ -169,8 +152,7 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 
 	}
 
-	private class UpdateTmpOutfitTable extends
-			AsyncTask<ArrayList<Outfit>, Integer, Boolean> {
+	private class UpdateTmpOutfitTable extends AsyncTask<ArrayList<Outfit>, Integer, Boolean> {
 		@Override
 		protected Boolean doInBackground(ArrayList<Outfit>... outfits) {
 			int count = outfits[0].size();
