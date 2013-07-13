@@ -3,7 +3,7 @@
     android:id="@+id/fragmentTitleLoading"
     style="@style/TitleBarStyle"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,21 +31,21 @@
             android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/buttonFragmentAdd"
-            style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:src="@drawable/ic_action_search"
-            android:visibility="gone" />
-
-        <ImageButton
             android:id="@+id/buttonFragmentUpdate"
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:src="@drawable/ic_action_refresh"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/buttonFragmentAdd"
+            style="@style/ActionBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:src="@drawable/ic_action_search"
             android:visibility="gone" />
 
         <ToggleButton
@@ -71,6 +71,14 @@
             android:textOff=""
             android:textOn=""
             android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBarFragmentTitleLoading"
+            style="@style/ActionBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </HorizontalScrollView>

@@ -10,8 +10,7 @@ import com.cesarandres.ps2link.R;
 
 public class LoadingItemAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
-	
-	
+
 	public LoadingItemAdapter(Context context) {
 		// Cache the LayoutInflate to avoid asking for a new one each time.
 		this.mInflater = LayoutInflater.from(context);
@@ -37,7 +36,7 @@ public class LoadingItemAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.loading_item_list, null);
-		} 
+		}
 
 		return convertView;
 	}

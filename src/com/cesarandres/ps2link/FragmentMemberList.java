@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -330,11 +332,11 @@ public class FragmentMemberList extends BaseFragment {
 		} else {
 			View loadingView = getActivity().findViewById(R.id.loadingLayout);
 			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity()
-						.findViewById(R.id.linearLayoutMemberList);
-				loadingView = getActivity().getLayoutInflater().inflate(
-						R.layout.loading_view, null);
-				layout.addView(loadingView, 1);
+				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutMemberList);
+				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
+				layout.addView(loadingView, 0);
+				Animation animationRotate = AnimationUtils.loadAnimation(getActivity(), R.animator.animation_view_rotate);
+				loadingView.startAnimation(animationRotate);
 			}
 		}
 	}

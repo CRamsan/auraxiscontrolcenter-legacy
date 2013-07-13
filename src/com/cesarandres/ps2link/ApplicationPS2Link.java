@@ -11,6 +11,21 @@ public class ApplicationPS2Link extends Application {
 
 	public static RequestQueue volley;
 	public static ImageLoader mImageLoader;
+	
+	public static final String ACTIVITY_MODE_KEY = "activity_mode";
+	public enum ActivityMode {
+		ACTIVITY_ADD_OUTFIT,
+		ACTIVITY_ADD_PROFILE,
+		ACTIVITY_MEMBER_LIST,
+		ACTIVITY_OUTFIT_LIST,
+		ACTIVITY_PROFILE,
+		ACTIVITY_PROFILE_LIST,
+		ACTIVITY_SERVER,
+		ACTIVITY_SERVER_LIST,
+		ACTIVITY_TWITTER
+	}
+	
+	
 
 	@Override
 	public void onCreate() {
