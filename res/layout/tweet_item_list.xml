@@ -52,7 +52,8 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/networkImageViewTweet"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:focusable="false" />
 
         <TextView
             android:id="@+id/textViewTwitterText"

@@ -14,6 +14,7 @@ public class CharacterProfile {
 	private Times times;
 	private String faction_id;
 	private String world_id;
+	private int online_status;
 	private boolean cached;
 
 	public Certs getCerts() {
@@ -86,5 +87,13 @@ public class CharacterProfile {
 
 	public void setCached(boolean cached) {
 		this.cached = cached;
+	}
+
+	public int getOnline_status() {
+		return online_status;
+	}
+
+	public void setOnline_status(int online_status) {
+		this.online_status = online_status;
 	}
 }

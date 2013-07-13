@@ -37,7 +37,10 @@ import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.response.Character_response_list;
+import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
@@ -125,6 +128,18 @@ public class FragmentProfile extends Fragment {
 		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
 		TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
 		certs.setText(character.getCerts().getAvailable_points());
+		
+		TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
+		String onlineStatusText = "UNKOWN";
+		if(character.getOnline_status() == 0){
+			onlineStatusText = "OFFLINE";
+			loginStatus.setText(onlineStatusText);
+			loginStatus.setTextColor(Color.RED);			
+		}else{
+			onlineStatusText = "ONLINE";
+			loginStatus.setText(onlineStatusText);
+			loginStatus.setTextColor(Color.GREEN);
+		}
 
 		((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
 				.getMinutes_played()) / 60)));
@@ -189,18 +204,11 @@ public class FragmentProfile extends Fragment {
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 		if (enabled) {
-			View loadingView = getActivity().findViewById(R.id.loadingItemList);
-			if (loadingView != null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
-				layout.removeView(loadingView);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
 		} else {
-			View loadingView = getActivity().findViewById(R.id.loadingItemList);
-			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
-				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_item_list, null);
-				layout.addView(loadingView, 0);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -215,6 +223,41 @@ public class FragmentProfile extends Fragment {
 				@Override
 				public void onResponse(Character_response_list response) {
 					profile = response.getCharacter_list().get(0);
+					setActionBarEnabled(true);
+					updateUI(profile);
+					downloadOnlineStatus(response.getCharacter_list().get(0).getId());
+				}
+			};
+
+			ErrorListener error = new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					error.equals(new Object());
+					setActionBarEnabled(true);
+				}
+			};
+
+			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(url.toString(), Character_response_list.class, null,
+					success, error);
+			gsonOject.setTag(this);
+			ApplicationPS2Link.volley.add(gsonOject);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void downloadOnlineStatus(String character_id) {
+
+		setActionBarEnabled(false);
+		URL url;
+		try {
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
+
+			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
+				@Override
+				public void onResponse(Character_response_list response) {
+					profile.setOnline_status(response.getCharacters_online_status_list().get(0).getOnline_status());
 					setActionBarEnabled(true);
 					updateUI(profile);
 				}
@@ -237,7 +280,7 @@ public class FragmentProfile extends Fragment {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private class UpdateProfileFromTable extends AsyncTask<String, Integer, CharacterProfile> {
 
 		private String profile_id;

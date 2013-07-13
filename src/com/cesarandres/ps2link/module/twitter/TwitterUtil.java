@@ -60,7 +60,7 @@ public class TwitterUtil {
 						name = status3.getRetweetedStatus().getUser().getName();
 						tag = status3.getRetweetedStatus().getUser().getScreenName();
 						imgUrl = status3.getRetweetedStatus().getUser().getBiggerProfileImageURL();
-						text = status3.getText() + "\n Retweeted by " + status3.getUser().getScreenName();
+						text = status3.getText() + "\nRetweeted by " + status3.getUser().getScreenName();
 					} else {
 						name = status3.getUser().getName();
 						tag = foundUser.getScreenName();

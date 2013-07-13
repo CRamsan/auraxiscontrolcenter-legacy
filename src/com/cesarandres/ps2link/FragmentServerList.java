@@ -130,18 +130,11 @@ public class FragmentServerList extends Fragment {
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
 		if (enabled) {
-			View loadingView = getActivity().findViewById(R.id.loadingLayout);
-			if (loadingView != null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutServerList);
-				layout.removeView(loadingView);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
 		} else {
-			View loadingView = getActivity().findViewById(R.id.loadingLayout);
-			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutServerList);
-				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
-				layout.addView(loadingView, 1);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
 		}
 	}
 

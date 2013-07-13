@@ -2,9 +2,6 @@ package com.cesarandres.ps2link;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,14 +20,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 import com.cesarandres.ps2link.module.twitter.TwitterUtil;
-import com.cesarandres.ps2link.soe.content.Member;
 import com.cesarandres.ps2link.soe.view.TwitterItemAdapter;
 
 /**
@@ -63,29 +57,6 @@ public class FragmentTwitter extends Fragment {
 		// Inflate the layout for this fragment
 
 		View root = inflater.inflate(R.layout.fragment_twitter, container, false);
-
-		ListView listRoot = (ListView) root.findViewById(R.id.listViewTweetList);
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				String text = ((PS2Tweet) myAdapter.getItemAtPosition(myItemInt)).getContent();
-				ArrayList<String> links = new ArrayList<String>();
-				String regex = "\\(?\\b(http://|www[.])[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-				Pattern p = Pattern.compile(regex);
-				Matcher m = p.matcher(text);
-				while (m.find()) {
-					String urlStr = m.group();
-					if (urlStr.startsWith("(") && urlStr.endsWith(")")) {
-						urlStr = urlStr.substring(1, urlStr.length() - 1);
-					}
-					links.add(urlStr);
-				}
-				if (links.size() > 0) {
-					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.get(0)));
-					startActivity(browserIntent);
-				}
-			}
-		});
 
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 
@@ -217,18 +188,11 @@ public class FragmentTwitter extends Fragment {
 
 	private void setUpdateView(boolean enabled) {
 		if (enabled) {
-			View loadingView = getActivity().findViewById(R.id.loadingItemList);
-			if (loadingView != null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTwitter);
-				layout.removeView(loadingView);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
 		} else {
-			View loadingView = getActivity().findViewById(R.id.loadingItemList);
-			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTwitter);
-				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_item_list, null);
-				layout.addView(loadingView, 1);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
 		}
 	}
 
