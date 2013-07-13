@@ -26,11 +26,6 @@ public class ActivityContainer extends FragmentActivity implements
 		if (findViewById(R.id.second_pane) != null) {
 			mTwoPane = true;
 		}
-
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			// ActionBar actionBar = getActionBar();
-			// actionBar.setDisplayHomeAsUpEnabled(true);
-		}
 	}
 
 	@Override

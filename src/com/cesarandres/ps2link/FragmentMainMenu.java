@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseFragment;
 
 /**
@@ -42,32 +43,32 @@ public class FragmentMainMenu extends BaseFragment {
 		View root = inflater.inflate(R.layout.fragment_main_menu, container,
 				false);
 
-		final Button buttonCharacters = (Button) root
-				.findViewById(R.id.buttonCharacters);
+		final Button buttonCharacters = (Button) root.findViewById(R.id.buttonCharacters);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityProfileList.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_PROFILE_LIST);
 				startActivity(intent);
 			}
 		});
 
-		final Button buttonServers = (Button) root
-				.findViewById(R.id.buttonServers);
+		final Button buttonServers = (Button) root.findViewById(R.id.buttonServers);
 		buttonServers.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityServerList.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_SERVER_LIST);
 				startActivity(intent);
 			}
 		});
 
-		final Button buttonOutfit = (Button) root
-				.findViewById(R.id.buttonOutfit);
+		final Button buttonOutfit = (Button) root.findViewById(R.id.buttonOutfit);
 		buttonOutfit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityOutfitList.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_OUTFIT_LIST);
 				startActivity(intent);
 			}
 		});
@@ -82,12 +83,12 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
-		final Button buttonTwitter = (Button) root
-				.findViewById(R.id.buttonTwitter);
+		final Button buttonTwitter = (Button) root.findViewById(R.id.buttonTwitter);
 		buttonTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityTwitter.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY,ActivityMode.ACTIVITY_TWITTER);
 				startActivity(intent);
 			}
 		});

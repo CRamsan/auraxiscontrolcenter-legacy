@@ -1,30 +1,22 @@
 package com.cesarandres.ps2link;
 
-import android.app.ActionBar;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cesarandres.ps2link.base.BaseActivity;
+
 /**
  * Created by cesar on 6/16/13.
  */
-public class ActivityAbout extends FragmentActivity {
+public class ActivityAbout extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			// ActionBar actionBar = getActionBar();
-			// actionBar.setDisplayHomeAsUpEnabled(true);
-		}
 		TextView forums = (TextView) findViewById(R.id.textViewAboutForumLink);
 		forums.setText(R.string.forum_link);
 		TextView donations = (TextView) findViewById(R.id.textViewAboutDonationsUrl);
@@ -39,9 +31,5 @@ public class ActivityAbout extends FragmentActivity {
 		});
 		((Button) findViewById(R.id.buttonFragmentTitle))
 		.setText(getString(R.string.text_menu_about));
-	}
-
-	private void navigateUp() {
-		finish();
 	}
 }

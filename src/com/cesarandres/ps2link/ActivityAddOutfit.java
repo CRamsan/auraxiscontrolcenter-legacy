@@ -1,5 +1,7 @@
 package com.cesarandres.ps2link;
 
+import com.cesarandres.ps2link.base.BaseActivity;
+
 import android.app.ActionBar;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +13,7 @@ import android.widget.Button;
 /**
  * Created by cesar on 6/16/13.
  */
-public class ActivityAddOutfit extends FragmentActivity {
+public class ActivityAddOutfit extends BaseActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,5 @@ public class ActivityAddOutfit extends FragmentActivity {
 		});
 	}
 
-	private void navigateUp() {
-		finish();
-	}
+
 }

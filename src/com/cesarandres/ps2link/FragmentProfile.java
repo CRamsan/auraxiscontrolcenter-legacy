@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -105,14 +106,13 @@ public class FragmentProfile extends BaseFragment {
 
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(character.getName().getFirst());
 
-		TextView faction = ((TextView) getActivity().findViewById(R.id.textViewProfileServer));
-		faction.setText("");
+		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
 		if (character.getFaction_id().equals(Faction.VS)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vs_icon,0, 0, 0);
+			faction.setImageResource(R.drawable.vs_icon);
 		} else if (character.getFaction_id().equals(Faction.NC)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.nc_icon,0, 0, 0);
+			faction.setImageResource(R.drawable.nc_icon);
 		} else if (character.getFaction_id().equals(Faction.TR)) {
-			faction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tr_icon,0, 0, 0);
+			faction.setImageResource(R.drawable.tr_icon);
 		}
 
 		TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
@@ -198,16 +198,16 @@ public class FragmentProfile extends BaseFragment {
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 		if (enabled) {
-			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			View loadingView = getActivity().findViewById(R.id.loadingItemList);
 			if (loadingView != null) {
 				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
 				layout.removeView(loadingView);
 			}
 		} else {
-			View loadingView = getActivity().findViewById(R.id.loadingLayout);
+			View loadingView = getActivity().findViewById(R.id.loadingItemList);
 			if (loadingView == null) {
 				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutProfile);
-				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
+				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_item_list, null);
 				layout.addView(loadingView, 0);
 			}
 		}
