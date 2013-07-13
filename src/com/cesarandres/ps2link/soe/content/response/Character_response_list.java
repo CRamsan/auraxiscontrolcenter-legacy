@@ -12,8 +12,7 @@ public class Character_response_list {
 		return this.character_name_list;
 	}
 
-	public void setCharacter_name_list(
-			ArrayList<CharacterProfile> character_name_list) {
+	public void setCharacter_name_list(ArrayList<CharacterProfile> character_name_list) {
 		this.character_name_list = character_name_list;
 	}
 

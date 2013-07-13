@@ -1,7 +1,6 @@
 package com.cesarandres.ps2link.soe.content;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Outfit {
 	private String id;

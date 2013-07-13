@@ -15,7 +15,7 @@ public class CharacterProfile {
 	private String faction_id;
 	private String world_id;
 	private boolean cached;
-	
+
 	public Certs getCerts() {
 		return this.certs;
 	}

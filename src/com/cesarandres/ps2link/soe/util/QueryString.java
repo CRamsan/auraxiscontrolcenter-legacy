@@ -9,8 +9,7 @@ import java.util.ArrayList;
  */
 public class QueryString {
 	public static enum SearchModifier {
-		EQUALS("="), LESSTHAN("=<"), GREATERTHAN("=>"), LESSEQUALTHAN("=["), GREATEREQUALTHAN(
-				"=]"), STARTSWITH("=^"), NOTCONTAIN("=!");
+		EQUALS("="), LESSTHAN("=<"), GREATERTHAN("=>"), LESSEQUALTHAN("=["), GREATEREQUALTHAN("=]"), STARTSWITH("=^"), NOTCONTAIN("=!");
 
 		private final String mod;
 
@@ -25,9 +24,15 @@ public class QueryString {
 	}
 
 	public static enum QueryCommand {
-		SHOW("c:show"), HIDE("c:hide"), SORT("c:sort"), HAS("c:has"), RESOLVE(
-				"c:resolve"), CASE("c:case"), LIMIT("c:limit"), LIMITPERDB(
-				"c:limitPerDB"), START("c:start");
+		SHOW("c:show"),
+		HIDE("c:hide"),
+		SORT("c:sort"),
+		HAS("c:has"),
+		RESOLVE("c:resolve"),
+		CASE("c:case"),
+		LIMIT("c:limit"),
+		LIMITPERDB("c:limitPerDB"),
+		START("c:start");
 
 		private final String command;
 
@@ -54,8 +59,7 @@ public class QueryString {
 		return new QueryString();
 	}
 
-	public QueryString AddComparison(String key, SearchModifier modifier,
-			String value) {
+	public QueryString AddComparison(String key, SearchModifier modifier, String value) {
 		this.listtOfParameters.add(new Condition(key, modifier, value));
 		return this;
 	}

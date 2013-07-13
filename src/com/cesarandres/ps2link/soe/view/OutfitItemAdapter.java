@@ -57,12 +57,9 @@ public class OutfitItemAdapter extends BaseAdapter {
 			// views
 			// we want to bind data to.
 			holder = new ViewHolder();
-			holder.outfitName = (TextView) convertView
-					.findViewById(R.id.textViewOutfitName);
-			holder.outfitAlias = (TextView) convertView
-					.findViewById(R.id.textViewOutfitAlias);
-			holder.memberCount = (TextView) convertView
-					.findViewById(R.id.textViewOutfitCount);
+			holder.outfitName = (TextView) convertView.findViewById(R.id.textViewOutfitName);
+			holder.outfitAlias = (TextView) convertView.findViewById(R.id.textViewOutfitAlias);
+			holder.memberCount = (TextView) convertView.findViewById(R.id.textViewOutfitCount);
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView
@@ -71,8 +68,7 @@ public class OutfitItemAdapter extends BaseAdapter {
 		}
 
 		holder.outfitName.setText(this.outfitList.get(position).getName());
-		holder.memberCount.setText("Members: "
-				+ this.outfitList.get(position).getMember_count());
+		holder.memberCount.setText("Members: " + this.outfitList.get(position).getMember_count());
 		String tag = this.outfitList.get(position).getAlias();
 		if (tag.length() > 0) {
 			holder.outfitAlias.setText("(" + tag + ")");

@@ -19,82 +19,58 @@ public class TwitterUtil {
 	public static final String PS_TRAY = "PS_TRay";
 	public static final String PURRFECTSTORM = "PurrfectStorm";
 
-	public static ArrayList<PS2Tweet> getTweets(String[] users)
-			throws TwitterException {
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true)
-				.setOAuthConsumerKey("AdtZzl6c9v4QiqC6yHWSVw")
-				.setOAuthConsumerSecret(
-						"eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw")
-				.setOAuthAccessToken(
-						"752283427-RmHBauha1JAOWOcFkJvQvt7oLryQqDzBchGE33tG")
-				.setOAuthAccessTokenSecret(
-						"liJ8MHWltgNfVW9nORSPRNP6oogQNFr3D08eC0k8A");
-		TwitterFactory tf = new TwitterFactory(cb.build());
+	public static final String CONSUMER_SECRET = "eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw";
+	public static final String CONSUMER_KEY = "AdtZzl6c9v4QiqC6yHWSVw";
+	public static final String ACCESS_TOKEN = "752283427-RmHBauha1JAOWOcFkJvQvt7oLryQqDzBchGE33tG";
+	public static final String ACCESS_TOKEN_SECRET = "liJ8MHWltgNfVW9nORSPRNP6oogQNFr3D08eC0k8A";
 
-		Twitter twitter = tf.getInstance();
-		ArrayList<PS2Tweet> twwetsFound = new ArrayList<PS2Tweet>();
-		ResponseList<User> usersFound = twitter.lookupUsers(users);
-		for (User user : usersFound) {
-			String url = user.getProfileImageURL();
-			if (user.getStatus() != null) {
-				List<Status> statusess = twitter
-						.getUserTimeline(user.getScreenName());
-				for (Status status3 : statusess) {
-					if(status3.isRetweet() || status3.isRetweetedByMe()){
-						twwetsFound.add(new PS2Tweet(
-								Long.toString(status3.getId()), status3.getRetweetedStatus().getUser().getName(), (int)(status3
-										.getCreatedAt().getTime() / 1000), status3
-										.getText(), status3.getRetweetedStatus().getUser().getScreenName(), status3.getRetweetedStatus().getUser().getBiggerProfileImageURL()));
-					}else{
-						twwetsFound.add(new PS2Tweet(
-								Long.toString(status3.getId()), status3.getUser().getName(), (int)(status3
-										.getCreatedAt().getTime() / 1000), status3
-										.getText(), user.getScreenName(), status3.getUser().getBiggerProfileImageURL()));
-					}
-				}
-			}
-		}
-		return twwetsFound;
+	public static ArrayList<PS2Tweet> getTweets(String[] users) throws TwitterException {
+		Twitter twitter = configureTwtitter();
+		ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
+		tweetsFound = retrieveTweets(twitter, users);
+		return tweetsFound;
 	}
-	
-	public static ArrayList<PS2Tweet> getTweets(String user)
-			throws TwitterException {
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true)
-				.setOAuthConsumerKey("AdtZzl6c9v4QiqC6yHWSVw")
-				.setOAuthConsumerSecret(
-						"eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw")
-				.setOAuthAccessToken(
-						"752283427-RmHBauha1JAOWOcFkJvQvt7oLryQqDzBchGE33tG")
-				.setOAuthAccessTokenSecret(
-						"liJ8MHWltgNfVW9nORSPRNP6oogQNFr3D08eC0k8A");
-		TwitterFactory tf = new TwitterFactory(cb.build());
 
+	public static ArrayList<PS2Tweet> getTweets(String user) throws TwitterException {
+		Twitter twitter = configureTwtitter();
+		ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
+		String[] twitterUser = new String[] { user };
+		tweetsFound = retrieveTweets(twitter, twitterUser);
+		return tweetsFound;
+	}
+
+	private static Twitter configureTwtitter() {
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(true).setOAuthConsumerKey(CONSUMER_KEY).setOAuthConsumerSecret(CONSUMER_SECRET).setOAuthAccessToken(ACCESS_TOKEN)
+				.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
-		ArrayList<PS2Tweet> twwetsFound = new ArrayList<PS2Tweet>();
-		String[] twitterUser = new String[]{user};
-		ResponseList<User> usersFound = twitter.lookupUsers(twitterUser);
+		return twitter;
+	}
+
+	private static ArrayList<PS2Tweet> retrieveTweets(Twitter twitter, String[] users) throws TwitterException {
+		ResponseList<User> usersFound = twitter.lookupUsers(users);
+		ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
 		for (User foundUser : usersFound) {
-			String url = foundUser.getProfileImageURL();
 			if (foundUser.getStatus() != null) {
-				List<Status> statusess = twitter
-						.getUserTimeline(foundUser.getScreenName());
+				List<Status> statusess = twitter.getUserTimeline(foundUser.getScreenName());
+				String name, tag, imgUrl, text;
 				for (Status status3 : statusess) {
-					if(status3.isRetweet() || status3.isRetweetedByMe()){
-						twwetsFound.add(new PS2Tweet(
-								Long.toString(status3.getId()), status3.getRetweetedStatus().getUser().getName(), (int)(status3
-										.getCreatedAt().getTime() / 1000), status3
-										.getText(), status3.getRetweetedStatus().getUser().getScreenName(), status3.getRetweetedStatus().getUser().getBiggerProfileImageURL()));
-					}else{
-						twwetsFound.add(new PS2Tweet(
-								Long.toString(status3.getId()), status3.getUser().getName(), (int)(status3
-										.getCreatedAt().getTime() / 1000), status3
-										.getText(), foundUser.getScreenName(), status3.getUser().getBiggerProfileImageURL()));
+					if (status3.isRetweet() || status3.isRetweetedByMe()) {
+						name = status3.getRetweetedStatus().getUser().getName();
+						tag = status3.getRetweetedStatus().getUser().getScreenName();
+						imgUrl = status3.getRetweetedStatus().getUser().getBiggerProfileImageURL();
+						text = status3.getText() + "\n Retweeted by " + status3.getUser().getScreenName();
+					} else {
+						name = status3.getUser().getName();
+						tag = foundUser.getScreenName();
+						imgUrl = status3.getUser().getBiggerProfileImageURL();
+						text = status3.getText();
 					}
+					tweetsFound.add(new PS2Tweet(Long.toString(status3.getId()), name, (int) (status3.getCreatedAt().getTime() / 1000), text, tag, imgUrl));
 				}
 			}
 		}
-		return twwetsFound;
+		return tweetsFound;
 	}
 }

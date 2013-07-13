@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
@@ -22,7 +23,7 @@ import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentProfileList extends BaseFragment {
+public class FragmentProfileList extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,17 +32,17 @@ public class FragmentProfileList extends BaseFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_profile_list, container,false);
+		View root = inflater.inflate(R.layout.fragment_profile_list, container, false);
 
 		ListView listRoot = (ListView) root.findViewById(R.id.listViewProfileList);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,int myItemInt, long mylng) {
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_PROFILE.toString());
 				intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId());
 				startActivity(intent);
 			}
@@ -68,13 +69,14 @@ public class FragmentProfileList extends BaseFragment {
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityAddProfile.class);
+				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_ADD_PROFILE.toString());
 				startActivity(intent);
 			}
 		});
 
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -92,12 +94,10 @@ public class FragmentProfileList extends BaseFragment {
 	}
 
 	private void setUpdateButton(boolean enabled) {
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(
-				enabled);
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
 	}
 
-	private class ReadProfilesTable extends
-			AsyncTask<Integer, Integer, ArrayList<CharacterProfile>> {
+	private class ReadProfilesTable extends AsyncTask<Integer, Integer, ArrayList<CharacterProfile>> {
 
 		@Override
 		protected void onPreExecute() {
@@ -122,7 +122,7 @@ public class FragmentProfileList extends BaseFragment {
 		protected void onPostExecute(ArrayList<CharacterProfile> result) {
 			if (result != null) {
 				ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewProfileList);
-				listRoot.setAdapter(new ProfileItemAdapter(getActivity(),result, true));
+				listRoot.setAdapter(new ProfileItemAdapter(getActivity(), result, true));
 			}
 			setUpdateButton(true);
 		}

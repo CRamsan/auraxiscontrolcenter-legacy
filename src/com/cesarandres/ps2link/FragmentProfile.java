@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -43,7 +43,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentProfile extends BaseFragment {
+public class FragmentProfile extends Fragment {
 
 	private static boolean isCached;
 	private CharacterProfile profile;
@@ -57,7 +57,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
@@ -69,25 +69,20 @@ public class FragmentProfile extends BaseFragment {
 
 		getActivity().findViewById(R.id.buttonFragmentAppend).setVisibility(View.VISIBLE);
 
-		
 		taskList = new ArrayList<AsyncTask>();
 		UpdateProfileFromTable task = new UpdateProfileFromTable();
 		taskList.add(task);
-		task.execute(getActivity().getIntent().getExtras()
-				.getString("profileId"));
+		task.execute(getActivity().getIntent().getExtras().getString("profileId"));
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 
-		View root = inflater.inflate(R.layout.fragment_profile, container,false);
+		View root = inflater.inflate(R.layout.fragment_profile, container, false);
 		return root;
 	}
 
-	
-	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -131,7 +126,8 @@ public class FragmentProfile extends BaseFragment {
 		TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
 		certs.setText(character.getCerts().getAvailable_points());
 
-		((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes().getMinutes_played()) / 60)));
+		((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
+				.getMinutes_played()) / 60)));
 
 		PrettyTime p = new PrettyTime();
 		String lastLogin = p.format(new Date(Long.parseLong(character.getTimes().getLast_login()) * 1000));
@@ -139,15 +135,12 @@ public class FragmentProfile extends BaseFragment {
 		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
 
 		((Button) getActivity().findViewById(R.id.buttonProfileFriends)).setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						Toast.makeText(getActivity(),
-								"This will be implemented later",
-								Toast.LENGTH_SHORT).show();
-					}
-				});
+			public void onClick(View v) {
+				Toast.makeText(getActivity(), "This will be implemented later", Toast.LENGTH_SHORT).show();
+			}
+		});
 
-		ToggleButton star = (ToggleButton) getActivity().findViewById(
-				R.id.buttonFragmentStar);
+		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar);
 		star.setVisibility(View.VISIBLE);
 		star.setOnCheckedChangeListener(null);
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -159,8 +152,7 @@ public class FragmentProfile extends BaseFragment {
 		}
 
 		star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 				SharedPreferences.Editor editor = settings.edit();
 				if (isChecked) {
@@ -178,8 +170,7 @@ public class FragmentProfile extends BaseFragment {
 		append.setOnCheckedChangeListener(null);
 		append.setChecked(isCached);
 		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					CacheProfile task = new CacheProfile();
 					taskList.add(task);
@@ -218,7 +209,7 @@ public class FragmentProfile extends BaseFragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2,PS2Collection.CHARACTER, character_id, null);
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id, null);
 
 			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
 				@Override
@@ -237,9 +228,8 @@ public class FragmentProfile extends BaseFragment {
 				}
 			};
 
-			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(
-					url.toString(), Character_response_list.class, null, success,
-					error);
+			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(url.toString(), Character_response_list.class, null,
+					success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
@@ -285,8 +275,7 @@ public class FragmentProfile extends BaseFragment {
 		}
 	}
 
-	private class CacheProfile extends
-			AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+	private class CacheProfile extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
 		@Override
 		protected void onPreExecute() {
@@ -299,9 +288,9 @@ public class FragmentProfile extends BaseFragment {
 			data.open();
 			try {
 				CharacterProfile profile = args[0];
-				if(data.getCharacter(profile.getId()) == null){
+				if (data.getCharacter(profile.getId()) == null) {
 					data.insertCharacter(profile, false);
-				}else{
+				} else {
 					data.updateCharacter(profile, false);
 				}
 				isCached = true;
@@ -322,8 +311,7 @@ public class FragmentProfile extends BaseFragment {
 		}
 	}
 
-	private class UnCacheProfile extends
-			AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+	private class UnCacheProfile extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
 		@Override
 		protected void onPreExecute() {

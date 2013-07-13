@@ -5,16 +5,16 @@ public class PS2Tweet implements Comparable<PS2Tweet> {
 	private String content;
 	private String tag;
 	private Integer date;
-	private String url;
+	private String imgUrl;
 	private String id;
 
-	public PS2Tweet(String id, String user, int date, String content, String tag, String url) {
+	public PS2Tweet(String id, String user, int date, String content, String tag, String imgUrl) {
 		this.user = user;
 		this.date = date;
 		this.content = content;
 		this.tag = tag;
 		this.id = id;
-		this.url = url;
+		this.imgUrl = imgUrl;
 	}
 
 	public PS2Tweet() {
@@ -65,11 +65,11 @@ public class PS2Tweet implements Comparable<PS2Tweet> {
 		return this.date.compareTo(other.getDate()) * -1;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 }

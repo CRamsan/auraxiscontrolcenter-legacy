@@ -1,7 +1,6 @@
 package com.cesarandres.ps2link.soe.volley;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
@@ -12,12 +11,6 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.content.World;
-import com.cesarandres.ps2link.soe.content.response.Character_response_list;
-import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
-import com.cesarandres.ps2link.soe.content.response.Outfit_response;
-import com.cesarandres.ps2link.soe.content.response.Server_response;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -41,8 +34,7 @@ public class GsonRequest<T> extends Request<T> {
 	 * @param headers
 	 *            Map of request headers
 	 */
-	public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
-			Listener<T> listener, ErrorListener errorListener) {
+	public GsonRequest(String url, Class<T> clazz, Map<String, String> headers, Listener<T> listener, ErrorListener errorListener) {
 		super(Method.GET, url, errorListener);
 		this.clazz = clazz;
 		this.headers = headers;
@@ -62,11 +54,9 @@ public class GsonRequest<T> extends Request<T> {
 	@Override
 	protected Response<T> parseNetworkResponse(NetworkResponse response) {
 		try {
-			String json = new String(response.data,
-					HttpHeaderParser.parseCharset(response.headers));
+			String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
 			Object jsonObject = gson.fromJson(json, clazz);
-			return (Response<T>) Response.success(jsonObject,
-					HttpHeaderParser.parseCacheHeaders(response));
+			return (Response<T>) Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
 		} catch (UnsupportedEncodingException e) {
 			return Response.error(new ParseError(e));
 		} catch (JsonSyntaxException e) {

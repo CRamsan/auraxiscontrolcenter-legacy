@@ -25,25 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityProfileList" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityProfile" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityServerList" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityServer" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityOutfitList" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityMermberList" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityAddProfile" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityAddOutfit" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityReddit" >
-        </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityTwitter" >
+        <activity android:name="com.cesarandres.ps2link.ActivityContainerSingle" >
         </activity>
         <activity
             android:name="com.cesarandres.ps2link.ActivityAbout"
