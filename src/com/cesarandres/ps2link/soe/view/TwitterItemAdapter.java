@@ -61,6 +61,7 @@ public class TwitterItemAdapter extends DBItemAdapter {
 		holder.tweetName.setText(tweet.getUser());
 		holder.tweetText.setText(tweet.getContent());
 		Linkify.addLinks(holder.tweetText, Linkify.WEB_URLS);
+		holder.tweetText.setFocusable(false);
 		holder.tweetTag.setText("@" + tweet.getTag());
 		PrettyTime p = new PrettyTime();
 		String updateTime = p.format(new Date(tweet.getDate() * 1000l));

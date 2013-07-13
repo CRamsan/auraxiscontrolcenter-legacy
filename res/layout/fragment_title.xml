@@ -14,20 +14,21 @@
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
             android:drawableLeft="@drawable/ic_action_back"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ToggleButton
-            android:id="@+id/toggleShowOffline"
+        <ProgressBar
+            android:id="@+id/progressBarFragmentTitleLoading"
             style="@style/ActionBarButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textOff="@string/show_offline"
-            android:textOn="@string/show_online"
+            android:layout_height="fill_parent"
+            android:layout_margin="3dp"
+            android:maxHeight="15dp"
+            android:minHeight="15dp"
+            android:scaleType="centerInside"
             android:visibility="gone" />
 
         <ImageButton
@@ -37,6 +38,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:src="@drawable/ic_action_refresh"
+            android:visibility="gone" />
+
+        <ToggleButton
+            android:id="@+id/toggleShowOffline"
+            style="@style/ActionBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textOff="@string/show_offline"
+            android:textOn="@string/show_online"
             android:visibility="gone" />
 
         <ImageButton
@@ -71,14 +83,6 @@
             android:textOff=""
             android:textOn=""
             android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/progressBarFragmentTitleLoading"
-            style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:visibility="gone" />
-
     </LinearLayout>
 
 </HorizontalScrollView>

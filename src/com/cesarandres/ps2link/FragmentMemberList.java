@@ -13,15 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
@@ -168,7 +165,7 @@ public class FragmentMemberList extends Fragment {
 			task.cancel(true);
 		}
 		ApplicationPS2Link.volley.cancelAll(tag);
-		
+
 	}
 
 	private void downloadOutfitMembers(String outfit_id) {
@@ -212,27 +209,17 @@ public class FragmentMemberList extends Fragment {
 		}
 	}
 
-	
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
 		getActivity().findViewById(R.id.toggleShowOffline).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
 		if (enabled) {
-			View loadingView = getActivity().findViewById(R.id.loadingLayout);
-			if (loadingView != null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutMemberList);
-				layout.removeView(loadingView);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
 		} else {
-			View loadingView = getActivity().findViewById(R.id.loadingLayout);
-			if (loadingView == null) {
-				LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutMemberList);
-				loadingView = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
-				layout.addView(loadingView, 0);
-				Animation animationRotate = AnimationUtils.loadAnimation(getActivity(), R.animator.animation_view_rotate);
-				loadingView.startAnimation(animationRotate);
-			}
+			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
+			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
 		}
 	}
 
