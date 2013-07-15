@@ -55,6 +55,7 @@ public class ObjectDataSource {
 			SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED,
 			SQLiteManager.CHARACTERS_COLUMN_FACTION_ID,
 			SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
+			SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME,
 			SQLiteManager.CACHE_COLUMN_SAVES };
 
 	private String[] allColumnsMembers = {
@@ -83,7 +84,7 @@ public class ObjectDataSource {
 			SQLiteManager.TWEETS_COLUMN_TAG,
 			SQLiteManager.TWEETS_COLUMN_CONTENT,
 			SQLiteManager.TWEETS_COLUMN_PICTURE,
-			SQLiteManager.TWEETS_COLUMN_OWNER};
+			SQLiteManager.TWEETS_COLUMN_OWNER };
 
 	/**
 	 * Constructor that requires a reference to the current context.
@@ -141,6 +142,11 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character.getTimes().getMinutes_played());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID, character.getFaction_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID, character.getWorld_id());
+		if (character.getOutfit() == null) {
+			values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, "NONE");
+		} else {
+			values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfit().getName());
+		}
 
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		if (temp) {
@@ -198,6 +204,7 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character.getTimes().getMinutes_played());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID, character.getFaction_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID, character.getWorld_id());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfitName());
 		if (temp) {
 			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
 		} else {
@@ -233,7 +240,9 @@ public class ObjectDataSource {
 		character.setFaction_id(cursor.getString(10));
 		character.setWorld_id(cursor.getString(11));
 
-		if (cursor.getInt(12) == 1) {
+		character.setOutfitName(cursor.getString(12));
+
+		if (cursor.getInt(13) == 1) {
 			character.setCached(true);
 		} else {
 			character.setCached(false);

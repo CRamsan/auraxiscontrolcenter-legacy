@@ -20,7 +20,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +36,9 @@ import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.response.Character_response_list;
-import com.cesarandres.ps2link.soe.util.QueryString;
+import com.cesarandres.ps2link.soe.content.response.Server_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
@@ -50,6 +50,7 @@ public class FragmentProfile extends Fragment {
 
 	private static boolean isCached;
 	private CharacterProfile profile;
+	private String profileId;
 	private ArrayList<AsyncTask> taskList;
 
 	@Override
@@ -66,7 +67,7 @@ public class FragmentProfile extends Fragment {
 
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				downloadProfiles(profile.getId());
+				downloadProfiles(profileId);
 			}
 		});
 
@@ -75,7 +76,8 @@ public class FragmentProfile extends Fragment {
 		taskList = new ArrayList<AsyncTask>();
 		UpdateProfileFromTable task = new UpdateProfileFromTable();
 		taskList.add(task);
-		task.execute(getActivity().getIntent().getExtras().getString("profileId"));
+		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+		task.execute(this.profileId);
 	}
 
 	@Override
@@ -104,6 +106,8 @@ public class FragmentProfile extends Fragment {
 
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(character.getName().getFirst());
 
+		updateServer(character.getWorld_id());
+		
 		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
 		if (character.getFaction_id().equals(Faction.VS)) {
 			faction.setImageResource(R.drawable.vs_icon);
@@ -128,14 +132,14 @@ public class FragmentProfile extends Fragment {
 		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
 		TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
 		certs.setText(character.getCerts().getAvailable_points());
-		
+
 		TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
 		String onlineStatusText = "UNKOWN";
-		if(character.getOnline_status() == 0){
+		if (character.getOnline_status() == 0) {
 			onlineStatusText = "OFFLINE";
 			loginStatus.setText(onlineStatusText);
-			loginStatus.setTextColor(Color.RED);			
-		}else{
+			loginStatus.setTextColor(Color.RED);
+		} else {
 			onlineStatusText = "ONLINE";
 			loginStatus.setText(onlineStatusText);
 			loginStatus.setTextColor(Color.GREEN);
@@ -154,6 +158,8 @@ public class FragmentProfile extends Fragment {
 				Toast.makeText(getActivity(), "This will be implemented later", Toast.LENGTH_SHORT).show();
 			}
 		});
+
+		((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
 
 		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar);
 		star.setVisibility(View.VISIBLE);
@@ -199,6 +205,41 @@ public class FragmentProfile extends Fragment {
 		});
 	}
 
+	private void updateServer(String world_id) {
+
+		URL url;
+		try {
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.WORLD, "",
+					QueryString.generateQeuryString().AddComparison("world_id", SearchModifier.EQUALS, world_id));
+
+			Listener<Server_response> success = new Response.Listener<Server_response>() {
+				@Override
+				public void onResponse(Server_response response) {
+					if (response.getWorld_list().size() > 0) {
+						((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(response.getWorld_list().get(0).getName().getEn());
+					} else {
+						((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
+					}
+
+				}
+			};
+
+			ErrorListener error = new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					error.equals(new Object());
+					((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
+				}
+			};
+			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(url.toString(), Server_response.class, null, success, error);
+			gsonOject.setTag(this);
+			ApplicationPS2Link.volley.add(gsonOject);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private void setActionBarEnabled(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
@@ -217,8 +258,8 @@ public class FragmentProfile extends Fragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id, null);
-
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id,
+					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world"));
 			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
 				@Override
 				public void onResponse(Character_response_list response) {
@@ -226,6 +267,10 @@ public class FragmentProfile extends Fragment {
 					setActionBarEnabled(true);
 					updateUI(profile);
 					downloadOnlineStatus(response.getCharacter_list().get(0).getId());
+					
+					UpdateProfileToTable task = new UpdateProfileToTable();
+					taskList.add(task);
+					task.execute(profile);
 				}
 			};
 
@@ -280,7 +325,7 @@ public class FragmentProfile extends Fragment {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private class UpdateProfileFromTable extends AsyncTask<String, Integer, CharacterProfile> {
 
 		private String profile_id;
@@ -313,6 +358,34 @@ public class FragmentProfile extends Fragment {
 				profile = result;
 				updateUI(result);
 			}
+			setActionBarEnabled(true);
+			taskList.remove(this);
+		}
+	}
+
+	private class UpdateProfileToTable extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
+
+		@Override
+		protected void onPreExecute() {
+			setActionBarEnabled(false);
+		}
+
+		@Override
+		protected CharacterProfile doInBackground(CharacterProfile... args) {
+			CharacterProfile profile = null;
+			ObjectDataSource data = new ObjectDataSource(getActivity());
+			try {
+				data.open();
+				profile = args[0];
+				data.updateCharacter(profile, !profile.isCached());
+			} finally {
+				data.close();
+			}
+			return profile;
+		}
+
+		@Override
+		protected void onPostExecute(CharacterProfile result) {
 			setActionBarEnabled(true);
 			taskList.remove(this);
 		}

@@ -14,6 +14,8 @@ public class CharacterProfile {
 	private Times times;
 	private String faction_id;
 	private String world_id;
+	private Outfit outfit;
+	private String outfitName;
 	private int online_status;
 	private boolean cached;
 
@@ -95,5 +97,21 @@ public class CharacterProfile {
 
 	public void setOnline_status(int online_status) {
 		this.online_status = online_status;
+	}
+
+	public Outfit getOutfit() {
+		return outfit;
+	}
+
+	public void setOutfit(Outfit outfit) {
+		this.outfit = outfit;
+	}
+
+	public String getOutfitName() {
+		return outfitName;
+	}
+
+	public void setOutfitName(String outfitName) {
+		this.outfitName = outfitName;
 	}
 }
