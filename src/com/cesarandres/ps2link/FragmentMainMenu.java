@@ -155,9 +155,4 @@ public class FragmentMainMenu extends Fragment {
 	public void onPause() {
 		super.onPause();
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item);
-	}
 }

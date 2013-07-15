@@ -32,5 +32,10 @@
     <string name="donations">&quot;My Blog and Donations: &quot;</string>
     <string name="ps_tray">PS_TRay</string>
     <string name="login_status">STATUS</string>
+    <string name="server">SERVER:</string>
+    <string name="outfit">OUTFIT:</string>
+    <string name="killboard">KILLBOARD</string>
+    <string name="events">EVENTS</string>
+    <string name="unkown">UNKOWN</string>
 
 </resources>
