@@ -204,7 +204,11 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character.getTimes().getMinutes_played());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID, character.getFaction_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID, character.getWorld_id());
-		values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfitName());
+		if (character.getOutfitName() != null) {
+			values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfitName());
+		}else if(character.getOutfit() != null ){
+			values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfit().getName());
+		}
 		if (temp) {
 			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
 		} else {

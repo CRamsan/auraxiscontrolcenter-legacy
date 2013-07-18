@@ -52,6 +52,7 @@ public class FragmentProfile extends Fragment {
 	private CharacterProfile profile;
 	private String profileId;
 	private ArrayList<AsyncTask> taskList;
+	private ObjectDataSource data;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class FragmentProfile extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		this.data = ((ActivityContainerSingle) getActivity()).getData();
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
@@ -107,7 +108,7 @@ public class FragmentProfile extends Fragment {
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(character.getName().getFirst());
 
 		updateServer(character.getWorld_id());
-		
+
 		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
 		if (character.getFaction_id().equals(Faction.VS)) {
 			faction.setImageResource(R.drawable.vs_icon);
@@ -159,7 +160,15 @@ public class FragmentProfile extends Fragment {
 			}
 		});
 
-		((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
+		if (character.getOutfitName() == null) {
+			if (character.getOutfit() == null) {
+				((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
+			} else {
+				((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfit().getName());
+			}
+		} else {
+			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
+		}
 
 		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar);
 		star.setVisibility(View.VISIBLE);
@@ -265,9 +274,10 @@ public class FragmentProfile extends Fragment {
 				public void onResponse(Character_response_list response) {
 					profile = response.getCharacter_list().get(0);
 					setActionBarEnabled(true);
+					profile.setCached(isCached);
 					updateUI(profile);
 					downloadOnlineStatus(response.getCharacter_list().get(0).getId());
-					
+
 					UpdateProfileToTable task = new UpdateProfileToTable();
 					taskList.add(task);
 					task.execute(profile);
@@ -337,28 +347,29 @@ public class FragmentProfile extends Fragment {
 
 		@Override
 		protected CharacterProfile doInBackground(String... args) {
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
 			this.profile_id = args[0];
 			CharacterProfile profile = data.getCharacter(this.profile_id);
-			if (profile == null) {
-				isCached = false;
-			} else {
-				isCached = profile.isCached();
+			try {
+				if (profile == null) {
+					isCached = false;
+				} else {
+					isCached = profile.isCached();
+				}
+			} finally {
 			}
-			data.close();
 			return profile;
 		}
 
 		@Override
 		protected void onPostExecute(CharacterProfile result) {
+			setActionBarEnabled(true);
 			if (result == null) {
 				downloadProfiles(profile_id);
 			} else {
 				profile = result;
 				updateUI(result);
+				downloadProfiles(result.getId());
 			}
-			setActionBarEnabled(true);
 			taskList.remove(this);
 		}
 	}
@@ -373,13 +384,10 @@ public class FragmentProfile extends Fragment {
 		@Override
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
 			CharacterProfile profile = null;
-			ObjectDataSource data = new ObjectDataSource(getActivity());
 			try {
-				data.open();
 				profile = args[0];
 				data.updateCharacter(profile, !profile.isCached());
 			} finally {
-				data.close();
 			}
 			return profile;
 		}
@@ -400,8 +408,6 @@ public class FragmentProfile extends Fragment {
 
 		@Override
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
 			try {
 				CharacterProfile profile = args[0];
 				if (data.getCharacter(profile.getId()) == null) {
@@ -411,7 +417,7 @@ public class FragmentProfile extends Fragment {
 				}
 				isCached = true;
 			} finally {
-				data.close();
+
 			}
 			return profile;
 		}
@@ -436,13 +442,12 @@ public class FragmentProfile extends Fragment {
 
 		@Override
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
-			CharacterProfile profile = args[0];
-			data.updateCharacter(profile, true);
-			isCached = false;
-
-			data.close();
+			try {
+				CharacterProfile profile = args[0];
+				data.updateCharacter(profile, true);
+				isCached = false;
+			} finally {
+			}
 			return profile;
 		}
 

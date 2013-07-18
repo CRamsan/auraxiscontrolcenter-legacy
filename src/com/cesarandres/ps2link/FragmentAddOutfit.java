@@ -88,6 +88,7 @@ public class FragmentAddOutfit extends Fragment implements OnClickListener {
 
 	@Override
 	public void onStop() {
+		ApplicationPS2Link.volley.cancelAll(this);
 		super.onStop();
 
 	}
