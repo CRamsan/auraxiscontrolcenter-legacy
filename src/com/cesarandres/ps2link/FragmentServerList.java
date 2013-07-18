@@ -46,10 +46,12 @@ import com.google.gson.Gson;
 public class FragmentServerList extends Fragment {
 
 	public static final int SQL_READER = 235;
+	private ArrayList<AsyncTask> taskList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		taskList = new ArrayList<AsyncTask>();
 		setHasOptionsMenu(true);
 	}
 
@@ -64,9 +66,8 @@ public class FragmentServerList extends Fragment {
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_SERVER.toString());
-				intent.putExtra("server", new Gson().toJson(myAdapter.getItemAtPosition(myItemInt)));
-				// startActivity(intent);
+				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MAP.toString());
+				//startActivity(intent);
 			}
 		});
 
@@ -229,9 +230,18 @@ public class FragmentServerList extends Fragment {
 		}
 	}
 
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		for (AsyncTask task : taskList) {
+			task.cancel(true);
+		}
+	}
+
 	private class UpdateServerTable extends AsyncTask<ArrayList<World>, Integer, Boolean> {
 		@Override
 		protected void onPreExecute() {
+			taskList.add(this);
 			setUpdateButton(false);
 		}
 
@@ -276,7 +286,10 @@ public class FragmentServerList extends Fragment {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			setUpdateButton(true);
+			if (!this.isCancelled()) {
+				setUpdateButton(true);
+			}
+			taskList.remove(this);
 		}
 	}
 
@@ -284,6 +297,7 @@ public class FragmentServerList extends Fragment {
 
 		@Override
 		protected void onPreExecute() {
+			taskList.add(this);
 			setUpdateButton(false);
 		}
 
@@ -298,14 +312,17 @@ public class FragmentServerList extends Fragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<World> result) {
-			if (result.size() == 0) {
-				downloadServers();
-			} else {
-				ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-				listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
-				downloadServers();
+			if (!this.isCancelled()) {
+				if (result.size() == 0) {
+					downloadServers();
+				} else {
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+					listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
+					downloadServers();
+				}
+				setUpdateButton(true);
 			}
-			setUpdateButton(true);
+			taskList.remove(this);
 		}
 
 	}

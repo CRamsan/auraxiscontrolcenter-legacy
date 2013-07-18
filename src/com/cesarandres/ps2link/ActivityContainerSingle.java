@@ -32,6 +32,9 @@ public class ActivityContainerSingle extends BaseActivity {
 		case ACTIVITY_ADD_OUTFIT:
 			setContentView(R.layout.activity_add_outfit);
 			break;
+		case ACTIVITY_MAP:
+			setContentView(R.layout.activity_map);
+			break;
 		case ACTIVITY_ADD_PROFILE:
 			setContentView(R.layout.activity_add_profile);
 			break;
@@ -45,6 +48,8 @@ public class ActivityContainerSingle extends BaseActivity {
 			break;
 		case ACTIVITY_PROFILE:
 			setContentView(R.layout.activity_profile);
+			setData(new ObjectDataSource(this));
+			data.open();
 			break;
 		case ACTIVITY_PROFILE_LIST:
 			setContentView(R.layout.activity_profile_list);
@@ -103,6 +108,7 @@ public class ActivityContainerSingle extends BaseActivity {
 		switch (ActivityMode.valueOf(getActivityMode())) {
 		case ACTIVITY_TWITTER:
 		case ACTIVITY_MEMBER_LIST:
+		case ACTIVITY_PROFILE:
 			data.close();
 			break;
 		default:

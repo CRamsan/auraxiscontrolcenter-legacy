@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TiledMap">
+        <attr name="tileWidth" format="integer" />
+        <attr name="tileHeigth" format="integer" />
+        <attr name="colums" format="integer" />
+        <attr name="rows" format="integer" />
+    </declare-styleable>
+
+</resources>
