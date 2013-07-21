@@ -35,7 +35,7 @@ import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.response.Character_response_list;
+import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.content.response.Server_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
@@ -62,7 +62,7 @@ public class FragmentProfile extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.data = ((ActivityContainerSingle) getActivity()).getData();
+		this.data = ((ActivityProfile) getActivity()).getData();
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 
@@ -111,11 +111,11 @@ public class FragmentProfile extends Fragment {
 
 		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
 		if (character.getFaction_id().equals(Faction.VS)) {
-			faction.setImageResource(R.drawable.vs_icon);
+			faction.setImageResource(R.drawable.icon_faction_vs);
 		} else if (character.getFaction_id().equals(Faction.NC)) {
-			faction.setImageResource(R.drawable.nc_icon);
+			faction.setImageResource(R.drawable.icon_faction_nc);
 		} else if (character.getFaction_id().equals(Faction.TR)) {
-			faction.setImageResource(R.drawable.tr_icon);
+			faction.setImageResource(R.drawable.icon_faction_tr);
 		}
 
 		TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
@@ -269,9 +269,9 @@ public class FragmentProfile extends Fragment {
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id,
 					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world"));
-			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
+			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
-				public void onResponse(Character_response_list response) {
+				public void onResponse(Character_list_response response) {
 					profile = response.getCharacter_list().get(0);
 					setActionBarEnabled(true);
 					profile.setCached(isCached);
@@ -292,7 +292,7 @@ public class FragmentProfile extends Fragment {
 				}
 			};
 
-			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(url.toString(), Character_response_list.class, null,
+			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
 					success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
@@ -309,9 +309,9 @@ public class FragmentProfile extends Fragment {
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
 
-			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
+			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
-				public void onResponse(Character_response_list response) {
+				public void onResponse(Character_list_response response) {
 					profile.setOnline_status(response.getCharacters_online_status_list().get(0).getOnline_status());
 					setActionBarEnabled(true);
 					updateUI(profile);
@@ -326,7 +326,7 @@ public class FragmentProfile extends Fragment {
 				}
 			};
 
-			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(url.toString(), Character_response_list.class, null,
+			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
 					success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);

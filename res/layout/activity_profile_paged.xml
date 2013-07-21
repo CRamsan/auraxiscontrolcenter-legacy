@@ -16,11 +16,18 @@
             android:layout_height="wrap_content"
             layout="@layout/fragment_title" />
 
-        <fragment
-            android:id="@+id/activity_profile"
-            android:name="com.cesarandres.ps2link.FragmentProfile"
-            style="@style/EmbeddedFragmentStyle"
-            tools:layout="@layout/fragment_profile" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/profilePager"
+            style="@style/FragmentStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <android.support.v4.view.PagerTitleStrip
+                android:id="@+id/profilePagerTitleStrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top" />
+        </android.support.v4.view.ViewPager>
     </LinearLayout>
 
 </FrameLayout>

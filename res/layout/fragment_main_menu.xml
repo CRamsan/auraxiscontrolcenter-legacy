@@ -12,14 +12,14 @@
         <Button
             android:id="@+id/buttonPreferedProfile"
             style="@style/ButtonStyle"
-            android:drawableLeft="@drawable/ic_action_star_selected"
+            android:drawableLeft="@drawable/icon_star_selected"
             android:gravity="center"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonPreferedOutfit"
             style="@style/ButtonStyle"
-            android:drawableLeft="@drawable/ic_action_star_selected"
+            android:drawableLeft="@drawable/icon_star_selected"
             android:gravity="center"
             android:visibility="gone" />
 

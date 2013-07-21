@@ -37,5 +37,6 @@
     <string name="killboard">KILLBOARD</string>
     <string name="events">EVENTS</string>
     <string name="unkown">UNKOWN</string>
+    <string name="text_friends">FRIENDS</string>
 
 </resources>

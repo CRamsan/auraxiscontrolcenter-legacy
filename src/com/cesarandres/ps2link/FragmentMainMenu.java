@@ -117,7 +117,8 @@ public class FragmentMainMenu extends Fragment {
 				public void onClick(View v) {
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityContainerSingle.class);
+					//intent.setClass(getActivity(), ActivityContainerSingle.class);
+					intent.setClass(getActivity(), ActivityProfile.class);
 					intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_PROFILE.toString());
 					intent.putExtra("profileId", settings.getString("preferedProfile", ""));
 					startActivity(intent);

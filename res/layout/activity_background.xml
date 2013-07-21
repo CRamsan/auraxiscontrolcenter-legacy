@@ -5,5 +5,5 @@
     android:layout_height="fill_parent"
     android:background="@color/BLACK"
     android:scaleType="fitStart"
-    android:src="@drawable/background" />
+    android:src="@drawable/ps2_activity_background" />
 
