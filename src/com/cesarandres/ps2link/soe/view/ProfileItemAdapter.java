@@ -31,9 +31,9 @@ public class ProfileItemAdapter extends BaseAdapter {
 		this.profileList = new ArrayList<CharacterProfile>(profileList);
 		this.full = full;
 		if (this.full) {
-			vs_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.vs_icon);
-			tr_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.tr_icon);
-			nc_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.nc_icon);
+			vs_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_vs);
+			tr_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_tr);
+			nc_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_nc);
 		}
 	}
 

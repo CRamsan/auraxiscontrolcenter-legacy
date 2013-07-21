@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
-public class Character_response_list {
+public class Character_list_response {
 	private ArrayList<CharacterProfile> character_name_list;
 	private ArrayList<CharacterProfile> character_list;
 	private ArrayList<CharacterProfile> characters_online_status_list;

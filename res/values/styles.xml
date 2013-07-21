@@ -17,12 +17,12 @@
         <item name="android:layout_marginLeft">1dp</item>
         <item name="android:layout_marginRight">1dp</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:background">@drawable/frame_button</item>
+        <item name="android:background">@drawable/ps2_button</item>
         <item name="android:textColor">@color/WHITE</item>
     </style>
 
     <style name="TitleBarStyle">
-        <item name="android:background">@drawable/fragment_title</item>
+        <item name="android:background">@drawable/frame_title</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -31,14 +31,14 @@
     </style>
 
     <style name="FragmentStyle">
-        <item name="android:background">@drawable/fragment</item>
+        <item name="android:background">@drawable/frame_bottom</item>
         <item name="android:cacheColorHint">#00000000</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
     </style>
 
     <style name="FragmentCenterStyle">
-        <item name="android:background">@drawable/fragment_center</item>
+        <item name="android:background">@drawable/frame_center</item>
         <item name="android:cacheColorHint">#00000000</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
@@ -51,7 +51,7 @@
         <item name="android:layout_marginRight">1dp</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
-        <item name="android:background">@drawable/fragment_frame</item>
+        <item name="android:background">@drawable/frame_module</item>
     </style>
 
     <style name="EmbeddedFragmentStyle">
@@ -65,7 +65,7 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:typeface">monospace</item>
-        <item name="android:background">@drawable/menu_item</item>
+        <item name="android:background">@drawable/ps2_button_bold</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
@@ -76,7 +76,7 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:typeface">monospace</item>
-        <item name="android:background">@drawable/menu_item_green</item>
+        <item name="android:background">@drawable/ps2_button_bold_green</item>
     </style>
 
     <color name="BLACK">#000000</color>

@@ -30,7 +30,7 @@ import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.response.Character_response_list;
+import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
@@ -106,9 +106,9 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 							.AddComparison("name.first_lower", SearchModifier.STARTSWITH, searchField.getText().toString().toLowerCase())
 							.AddCommand(QueryCommand.LIMIT, "100"));
 
-			Listener<Character_response_list> success = new Response.Listener<Character_response_list>() {
+			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
-				public void onResponse(Character_response_list response) {
+				public void onResponse(Character_list_response response) {
 					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
 					listRoot.setAdapter(new ProfileItemAdapter(getActivity(), response.getCharacter_name_list(), false));
 					listRoot.setOnItemClickListener(new OnItemClickListener() {
@@ -135,7 +135,7 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 				}
 			};
 
-			GsonRequest<Character_response_list> gsonOject = new GsonRequest<Character_response_list>(url.toString(), Character_response_list.class, null,
+			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
 					success, error);
 			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollViewLayoutProfile"
-    style="@style/FragmentStyle" >
+    style="@style/ListItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/linearLayoutProfile"
@@ -31,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/br_on"
+                android:background="@drawable/battle_rank_on"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -44,7 +46,7 @@
                 android:layout_weight="10"
                 android:indeterminate="false"
                 android:progress="0"
-                android:progressDrawable="@drawable/progress_bar_state_br" />
+                android:progressDrawable="@drawable/ps2_progress_bar_state_br" />
 
             <TextView
                 android:id="@+id/textViewNextRank"
@@ -53,7 +55,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/br_off"
+                android:background="@drawable/battle_rank_off"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
@@ -73,14 +75,14 @@
                 android:layout_weight="10"
                 android:indeterminate="false"
                 android:progress="0"
-                android:progressDrawable="@drawable/progress_bar_state_certs" />
+                android:progressDrawable="@drawable/ps2_progress_bar_state_certs" />
 
             <ImageView
                 android:id="@+id/imageViewProfileCert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/cert" />
+                android:src="@drawable/certification" />
 
             <TextView
                 android:id="@+id/textViewProfileCertsValue"
