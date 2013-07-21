@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/loadingItemList"
-    style="@style/ListItemStyle"
+    style="@style/LayoutFrameStyle"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -14,7 +14,7 @@
         android:layout_gravity="center_vertical"
         android:maxLines="1"
         android:scrollHorizontally="true"
-        android:text="@string/loading"
+        android:text="@string/text_loading"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ProgressBar

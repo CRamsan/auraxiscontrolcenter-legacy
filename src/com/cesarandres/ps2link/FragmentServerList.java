@@ -77,7 +77,7 @@ public class FragmentServerList extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_servers));
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_servers));
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 		updateButton.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +177,7 @@ public class FragmentServerList extends Fragment {
 			// supplied
 			// by ListView is null.
 			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.server_item_list, null);
+				convertView = mInflater.inflate(R.layout.layout_server_item, null);
 
 				// Creates a ViewHolder and store references to the two children
 				// views

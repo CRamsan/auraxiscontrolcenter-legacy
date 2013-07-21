@@ -101,7 +101,7 @@ public class FragmentMainMenu extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Button titleButton = ((Button) getActivity().findViewById(R.id.buttonFragmentTitle));
-		titleButton.setText(getString(R.string.fragment_title));
+		titleButton.setText(getString(R.string.app_name_capital));
 		titleButton.setCompoundDrawables(null, null, null, null);
 	}
 

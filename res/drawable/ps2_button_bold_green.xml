@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/menu_item_green_disabled_selected" android:state_enabled="false" android:state_focused="true"/>
-    <item android:drawable="@drawable/menu_item_disabled_green" android:state_enabled="false"/>
-    <item android:drawable="@drawable/menu_item_green_pressed" android:state_enabled="true" android:state_pressed="true"/>
-    <item android:drawable="@drawable/menu_item_green_selected" android:state_enabled="true" android:state_focused="true"/>
-    <item android:drawable="@drawable/menu_item__green_normal" android:state_enabled="true"/>
+    <item android:drawable="@drawable/ps2_button_green_disabled_selected" android:state_enabled="false" android:state_focused="true"/>
+    <item android:drawable="@drawable/ps2_button_disabled_green" android:state_enabled="false"/>
+    <item android:drawable="@drawable/ps2_button_green_pressed" android:state_enabled="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/ps2_button_green_selected" android:state_enabled="true" android:state_focused="true"/>
+    <item android:drawable="@drawable/ps2_button_green_normal" android:state_enabled="true"/>
 
 </selector>

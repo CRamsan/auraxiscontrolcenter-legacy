@@ -53,7 +53,7 @@ public class FragmentProfileList extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 

@@ -65,7 +65,7 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_profiles));
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
 		final ImageButton buttonCharacters = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchProfile);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

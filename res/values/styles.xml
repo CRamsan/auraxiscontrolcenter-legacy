@@ -1,13 +1,8 @@
 <resources>
 
-    <style name="PS2BaseTheme" parent="android:Theme.Black.NoTitleBar"></style>
+    <style name="PS2Theme" parent="android:Theme.Black.NoTitleBar"></style>
 
-    <style name="PS2BaseThemeDialog" parent="android:Theme.Black.NoTitleBar"></style>
-
-    <style name="ActivityStyle">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-    </style>
+    <style name="PS2ThemeDialog" parent="android:Theme.Black.NoTitleBar"></style>
 
     <style name="ActionBarButtonStyle">
         <item name="android:minHeight">1dp</item>
@@ -17,11 +12,15 @@
         <item name="android:layout_marginLeft">1dp</item>
         <item name="android:layout_marginRight">1dp</item>
         <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:visibility">gone</item>
         <item name="android:background">@drawable/ps2_button</item>
         <item name="android:textColor">@color/WHITE</item>
     </style>
 
-    <style name="TitleBarStyle">
+    <style name="ActionBarTitleBarStyle">
         <item name="android:background">@drawable/frame_title</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_width">fill_parent</item>
@@ -30,7 +29,7 @@
         <item name="android:typeface">monospace</item>
     </style>
 
-    <style name="FragmentStyle">
+    <style name="FragmentBottomStyle">
         <item name="android:background">@drawable/frame_bottom</item>
         <item name="android:cacheColorHint">#00000000</item>
         <item name="android:layout_width">fill_parent</item>
@@ -44,7 +43,7 @@
         <item name="android:layout_height">fill_parent</item>
     </style>
 
-    <style name="ListItemStyle">
+    <style name="LayoutFrameStyle">
         <item name="android:layout_marginBottom">1dp</item>
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:layout_marginLeft">1dp</item>
@@ -54,7 +53,7 @@
         <item name="android:background">@drawable/frame_module</item>
     </style>
 
-    <style name="EmbeddedFragmentStyle">
+    <style name="LayoutFillParentStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
     </style>

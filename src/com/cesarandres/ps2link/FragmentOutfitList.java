@@ -55,7 +55,7 @@ public class FragmentOutfitList extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_outfits));
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_outfits));
 		ImageButton searchButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
 

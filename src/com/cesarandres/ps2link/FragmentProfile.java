@@ -154,12 +154,6 @@ public class FragmentProfile extends Fragment {
 
 		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
 
-		((Button) getActivity().findViewById(R.id.buttonProfileFriends)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Toast.makeText(getActivity(), "This will be implemented later", Toast.LENGTH_SHORT).show();
-			}
-		});
-
 		if (character.getOutfitName() == null) {
 			if (character.getOutfit() == null) {
 				((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");

@@ -42,7 +42,7 @@ public class MemberItemAdapter extends DBItemAdapter {
 		ViewHolder holder;
 
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.member_item_list, null);
+			convertView = mInflater.inflate(R.layout.layout_member_item, null);
 
 			holder = new ViewHolder();
 			holder.memberName = (TextView) convertView.findViewById(R.id.textViewMemberListName);
