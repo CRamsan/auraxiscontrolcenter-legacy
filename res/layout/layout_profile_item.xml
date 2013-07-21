@@ -5,25 +5,37 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
+    <ImageView
+        android:id="@+id/imageViewFaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerInside" />
+
     <TextView
-        android:id="@+id/textViewFriendName"
+        android:id="@+id/textViewProfileCharacterName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="10"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
         android:ellipsize="end"
+        android:gravity="center_horizontal"
         android:lines="1"
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textViewFriendtatus"
+        android:id="@+id/textViewBattleRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:background="@drawable/battle_rank_on"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/BLACK"
+        android:visibility="gone" />
 
 </LinearLayout>

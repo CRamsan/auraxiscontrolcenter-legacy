@@ -68,7 +68,7 @@ public class FragmentAddOutfit extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_outfits));
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_outfits));
 		final ImageButton buttonOutfits = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

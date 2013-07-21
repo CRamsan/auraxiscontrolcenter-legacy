@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragmentTitleLoading"
-    style="@style/TitleBarStyle"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    style="@style/ActionBarTitleBarStyle" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -12,77 +10,50 @@
         <Button
             android:id="@+id/buttonFragmentTitle"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:drawableLeft="@drawable/icon_back"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="visible" />
 
         <ProgressBar
             android:id="@+id/progressBarFragmentTitleLoading"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_margin="3dp"
             android:maxHeight="15dp"
             android:minHeight="15dp"
-            android:scaleType="centerInside"
-            android:visibility="gone" />
+            android:scaleType="centerInside" />
 
         <ImageButton
             android:id="@+id/buttonFragmentUpdate"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:src="@drawable/icon_refresh"
-            android:visibility="gone" />
+            android:src="@drawable/icon_refresh" />
 
         <ToggleButton
             android:id="@+id/toggleShowOffline"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textOff="@string/show_offline"
-            android:textOn="@string/show_online"
-            android:visibility="gone" />
+            android:textOff="@string/text_show_offline"
+            android:textOn="@string/text_show_online" />
 
         <ImageButton
             android:id="@+id/buttonFragmentAdd"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:src="@drawable/icon_search"
-            android:visibility="gone" />
+            android:src="@drawable/icon_search" />
 
         <ToggleButton
             android:id="@+id/buttonFragmentStar"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="3dp"
             android:drawableRight="@drawable/ps2_button_action_star"
-            android:textOff=""
-            android:textOn=""
-            android:visibility="gone" />
+            android:textOff="@string/text_empty"
+            android:textOn="@string/text_empty" />
 
         <ToggleButton
             android:id="@+id/buttonFragmentAppend"
             style="@style/ActionBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="3dp"
             android:drawableRight="@drawable/ps2_button_action_append"
-            android:textOff=""
-            android:textOn=""
-            android:visibility="gone" />
+            android:textOff="@string/text_empty"
+            android:textOn="@string/text_empty" />
     </LinearLayout>
 
 </HorizontalScrollView>

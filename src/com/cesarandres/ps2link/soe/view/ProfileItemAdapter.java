@@ -65,7 +65,7 @@ public class ProfileItemAdapter extends BaseAdapter {
 		// supplied
 		// by ListView is null.
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.profile_item_list, null);
+			convertView = mInflater.inflate(R.layout.layout_profile_item, null);
 
 			// Creates a ViewHolder and store references to the two children
 			// views

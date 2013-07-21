@@ -35,7 +35,7 @@ public class LoadingItemAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.loading_item_list, null);
+			convertView = mInflater.inflate(R.layout.layout_loading_item, null);
 		}
 
 		return convertView;

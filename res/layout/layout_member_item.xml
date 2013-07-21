@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ListItemStyle"
+    style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/textViewOutfitName"
+        android:id="@+id/textViewMemberListName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
+        android:layout_weight="10"
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
@@ -18,22 +18,19 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textViewOutfitAlias"
+        android:id="@+id/textViewMemberListRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="2dp"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/textViewOutfitCount"
+        android:id="@+id/textViewMemberListStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:gravity="right"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

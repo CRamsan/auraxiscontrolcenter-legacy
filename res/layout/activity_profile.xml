@@ -1,8 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ActivityStyle"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    style="@style/LayoutFillParentStyle" >
 
     <include layout="@layout/activity_background" />
 
@@ -19,7 +17,7 @@
         <fragment
             android:id="@+id/activity_profile"
             android:name="com.cesarandres.ps2link.FragmentProfile"
-            style="@style/EmbeddedFragmentStyle"
+            style="@style/LayoutFillParentStyle"
             tools:layout="@layout/fragment_profile" />
     </LinearLayout>
 

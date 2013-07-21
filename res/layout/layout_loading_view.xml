@@ -13,7 +13,7 @@
         android:layout_gravity="center_vertical"
         android:maxLines="1"
         android:scrollHorizontally="true"
-        android:text="@string/loading"
+        android:text="@string/text_loading"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ProgressBar

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main_menu"
-    style="@style/FragmentStyle" >
+    style="@style/FragmentBottomStyle" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,38 +32,32 @@
         <Button
             android:id="@+id/buttonCharacters"
             style="@style/ButtonStyle"
-            android:text="@string/text_menu_profiles" />
+            android:text="@string/title_profiles" />
 
         <Button
             android:id="@+id/buttonServers"
             style="@style/ButtonStyle"
-            android:text="@string/text_menu_servers" />
+            android:text="@string/title_servers" />
 
         <Button
             android:id="@+id/buttonOutfit"
             style="@style/ButtonStyle"
-            android:text="@string/text_menu_outfits" />
-
-        <Button
-            android:id="@+id/buttonStats"
-            style="@style/ButtonStyle"
-            android:text="@string/text_menu_stats"
-            android:visibility="gone" />
+            android:text="@string/title_outfits" />
 
         <Button
             android:id="@+id/buttonNews"
             style="@style/ButtonStyle"
-            android:text="@string/text_menu_reddit" />
+            android:text="@string/title_reddit" />
 
         <Button
             android:id="@+id/buttonTwitter"
             style="@style/ButtonStyle"
-            android:text="@string/twitter_name" />
+            android:text="@string/title_twitter" />
 
         <Button
             android:id="@+id/buttonAbout"
             style="@style/ButtonStyle"
-            android:text="@string/text_menu_about" />
+            android:text="@string/title_about" />
     </LinearLayout>
 
 </ScrollView>

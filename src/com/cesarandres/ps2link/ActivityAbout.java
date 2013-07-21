@@ -18,9 +18,9 @@ public class ActivityAbout extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 		TextView forums = (TextView) findViewById(R.id.textViewAboutForumLink);
-		forums.setText(R.string.forum_link);
+		forums.setText(R.string.link_forum);
 		TextView donations = (TextView) findViewById(R.id.textViewAboutDonationsUrl);
-		donations.setText(R.string.donations_link);
+		donations.setText(R.string.link_donations);
 		Linkify.addLinks(forums, Linkify.WEB_URLS);
 		Linkify.addLinks(donations, Linkify.WEB_URLS);
 		Button titleBack = (Button) findViewById(R.id.buttonFragmentTitle);
@@ -29,6 +29,6 @@ public class ActivityAbout extends BaseActivity {
 				navigateUp();
 			}
 		});
-		((Button) findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_about));
+		((Button) findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_about));
 	}
 }

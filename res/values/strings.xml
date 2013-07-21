@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_main_activity">Auraxis Control Center</string>
     <string name="app_name">Auraxis Control Center</string>
-    <string name="fragment_title">AURAXIS CONTROL CENTER</string>
-    <string name="profile_list_add">ADD</string>
-    <string name="outfit_list_add">ADD</string>
-    <string name="text_menu_profiles">PROFILES</string>
-    <string name="text_menu_servers">SERVERS</string>
-    <string name="text_menu_outfits">OUTFITS</string>
-    <string name="text_menu_twitter">TWITTER</string>
-    <string name="text_menu_reddit">REDDIT</string>
-    <string name="text_menu_about">ABOUT</string>
-    <string name="text_menu_stats">STATS</string>
-    <string name="last_login">LAST LOGIN:</string>
-    <string name="hours_played">HOURS PLAYED:</string>
-    <string name="profile_friends">FRIENDS</string>
-    <string name="show_offline">SHOW ALL</string>
-    <string name="show_online">HIDE OFFLINE</string>
-    <string name="twitter_name">TWITTER</string>
-    <string name="loading">Loading...</string>
-    <string name="planetside2">Planetside2</string>
-    <string name="ps2dailydeals">PS2DailyDeals</string>
-    <string name="purrfectstorm">PurrfectStorm</string>
-    <string name="mhigby">MHigby</string>
-    <string name="author">by Cesar Ramirez - CRamsan</string>
-    <string name="about_text">If you like this app dont forget to rate it and share it. You can also contribute by discussing ideas on the forums or by sending a donation.</string>
-    <string name="forums">"Forums: "</string>
-    <string name="forum_link">http://acc.cesarandres.com/</string>
-    <string name="donations_link">http://cesarandres.com/</string>
-    <string name="donations">&quot;My Blog and Donations: &quot;</string>
-    <string name="ps_tray">PS_TRay</string>
-    <string name="login_status">STATUS</string>
-    <string name="server">SERVER:</string>
-    <string name="outfit">OUTFIT:</string>
-    <string name="killboard">KILLBOARD</string>
-    <string name="events">EVENTS</string>
-    <string name="unkown">UNKOWN</string>
-    <string name="text_friends">FRIENDS</string>
+    <string name="app_name_capital">AURAXIS CONTROL CENTER</string>
+    
+    <string name="title_killboard">KILLBOARD</string>
+    <string name="title_profiles">PROFILES</string>
+    <string name="title_friends">FRIENDS</string>
+    <string name="title_servers">SERVERS</string>
+    <string name="title_outfits">OUTFITS</string>
+    <string name="title_twitter">TWITTER</string>
+    <string name="title_server">SERVER</string>
+    <string name="title_outfit">OUTFIT</string>
+    <string name="title_events">EVENTS</string>
+    <string name="title_unkown">UNKOWN</string>
+    <string name="title_reddit">REDDIT</string>
+    <string name="title_about">ABOUT</string>
+    
+    <string name="text_hours_played">HOURS PLAYED</string>
+    <string name="text_show_online">HIDE OFFLINE</string>
+    <string name="text_last_login">LAST LOGIN</string>
+    <string name="text_show_offline">SHOW ALL</string>
+    <string name="text_loading">Loading...</string>
+    <string name="text_status">STATUS</string>
+    <string name="text_add">ADD</string>
+    <string name="text_empty"></string>
+    
+    <string name="twitter_ps2dailydeals">PS2DailyDeals</string>
+    <string name="twitter_planetside2">Planetside2</string>
+    <string name="twitter_purrfectstorm">PurrfectStorm</string>
+    <string name="twitter_ps_tray">PS_TRay</string>
+    <string name="twitter_mhigby">MHigby</string>
+    
+    <string name="content_forums">"Forums: "</string>
+    <string name="content_author">by Cesar Ramirez - CRamsan</string>
+    <string name="content_donations">&quot;My Blog and Donations: &quot;</string>
+    <string name="content_about">If you like this app dont forget to rate it and share it. You can also contribute by discussing ideas on the forums or by sending a donation.</string>
+    
+    <string name="link_forum">http://acc.cesarandres.com/</string>
+    <string name="link_donations">http://cesarandres.com/</string>
 
 </resources>

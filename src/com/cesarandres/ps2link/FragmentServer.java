@@ -34,7 +34,7 @@ public class FragmentServer extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.text_menu_servers));
+		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_servers));
 		Button updateButton = (Button) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 		updateButton.setOnClickListener(new View.OnClickListener() {
