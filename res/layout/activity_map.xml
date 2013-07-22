@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/activity_map"
-            android:name="com.cesarandres.ps2link.FragmentMap"
+            android:name="com.cesarandres.ps2link.lib.FragmentMap"
             style="@style/LayoutFillParentStyle"
             tools:layout="@layout/fragment_outfit_list" />
     </LinearLayout>

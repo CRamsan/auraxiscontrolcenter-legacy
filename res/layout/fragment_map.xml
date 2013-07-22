@@ -4,10 +4,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <com.cesarandres.ps2link.soe.view.TiledMap
+    <com.cesarandres.ps2link.lib.soe.view.TiledMap
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-    </com.cesarandres.ps2link.soe.view.TiledMap>
+    </com.cesarandres.ps2link.lib.soe.view.TiledMap>
 
 </LinearLayout>

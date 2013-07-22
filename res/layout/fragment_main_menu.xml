@@ -55,6 +55,12 @@
             android:text="@string/title_twitter" />
 
         <Button
+            android:id="@+id/buttonFullVersion"
+            style="@style/ButtonStyle"
+            android:text="@string/title_full_version"
+            android:visibility="gone" />
+
+        <Button
             android:id="@+id/buttonAbout"
             style="@style/ButtonStyle"
             android:text="@string/title_about" />
