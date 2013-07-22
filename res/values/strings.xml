@@ -15,6 +15,7 @@
     <string name="title_events">EVENTS</string>
     <string name="title_unkown">UNKOWN</string>
     <string name="title_reddit">REDDIT</string>
+    <string name="title_full_version">FULL VERSION</string>
     <string name="title_about">ABOUT</string>
     
     <string name="text_hours_played">HOURS PLAYED</string>
@@ -25,6 +26,8 @@
     <string name="text_status">STATUS</string>
     <string name="text_add">ADD</string>
     <string name="text_empty"></string>
+    <string name="text_sure">Sure!</string>
+    <string name="text_not_right_now">Not right now</string>
     
     <string name="twitter_ps2dailydeals">PS2DailyDeals</string>
     <string name="twitter_planetside2">Planetside2</string>
@@ -34,6 +37,7 @@
     
     <string name="content_forums">"Forums: "</string>
     <string name="content_author">by Cesar Ramirez - CRamsan</string>
+    <string name="content_new_paid_version">Hello Auraxian, now there is also a paid version of this app. The paid version will have more advanced features and will also help fund the development of this app. Do you want to check it out?</string>
     <string name="content_donations">&quot;My Blog and Donations: &quot;</string>
     <string name="content_about">If you like this app dont forget to rate it and share it. You can also contribute by discussing ideas on the forums or by sending a donation.</string>
     

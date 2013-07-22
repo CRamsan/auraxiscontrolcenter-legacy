@@ -19,7 +19,7 @@
 
         <fragment
             android:id="@+id/activity_add_outfit"
-            android:name="com.cesarandres.ps2link.FragmentAddOutfit"
+            android:name="com.cesarandres.ps2link.lib.FragmentAddOutfit"
             style="@style/LayoutFillParentStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
