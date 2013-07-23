@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/activity_profile_list"
-            android:name="com.cesarandres.ps2link.lib.FragmentProfileList"
+            android:name="com.cesarandres.ps2link.FragmentProfileList"
             style="@style/LayoutFillParentStyle"
             tools:layout="@layout/fragment_profile_list" />
     </LinearLayout>

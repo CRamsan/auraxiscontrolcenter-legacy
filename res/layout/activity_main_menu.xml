@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/activity_main_menu"
-            android:name="com.cesarandres.ps2link.lib.FragmentMainMenu"
+            android:name="com.cesarandres.ps2link.FragmentMainMenu"
             style="@style/LayoutFillParentStyle"
             tools:layout="@layout/fragment_main_menu" />
     </LinearLayout>

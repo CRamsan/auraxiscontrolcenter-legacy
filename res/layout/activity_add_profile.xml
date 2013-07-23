@@ -17,7 +17,7 @@
 
         <fragment
             android:id="@+id/activity_add_profile"
-            android:name="com.cesarandres.ps2link.lib.FragmentAddProfile"
+            android:name="com.cesarandres.ps2link.FragmentAddProfile"
             style="@style/LayoutFillParentStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

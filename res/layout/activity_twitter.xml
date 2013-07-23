@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/activity_twitter"
-            android:name="com.cesarandres.ps2link.lib.FragmentTwitter"
+            android:name="com.cesarandres.ps2link.FragmentTwitter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/fragment_twitter" />
