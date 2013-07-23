@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/activity_server"
-            android:name="com.cesarandres.ps2link.lib.FragmentServer"
+            android:name="com.cesarandres.ps2link.FragmentServer"
             style="@style/LayoutFillParentStyle"
             tools:layout="@layout/fragment_server" />
     </LinearLayout>
