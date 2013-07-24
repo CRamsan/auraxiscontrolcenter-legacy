@@ -10,6 +10,12 @@ public class CharacterFriend {
 	private String last_login_time;
 	private int online;
 
+	public CharacterFriend(){
+		this.name = new Name();
+		this.last_login_time = "";
+		this.online = 0;
+	}
+	
 	public String getCharacter_id() {
 		return character_id;
 	}

@@ -53,9 +53,11 @@ public class FragmentFriendList extends Fragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+				String id = ((CharacterFriend) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id();
+
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((CharacterFriend) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id());
+				intent.putExtra("profileId", id);
 				startActivity(intent);
 			}
 		});

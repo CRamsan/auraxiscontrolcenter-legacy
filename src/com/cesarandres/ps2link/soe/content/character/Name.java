@@ -5,6 +5,11 @@ public class Name {
 	private String first;
 	private String first_lower;
 
+	public Name() {
+		this.first = "";
+		this.first_lower = "";
+	}
+
 	public String getFirst() {
 		return first;
 	}

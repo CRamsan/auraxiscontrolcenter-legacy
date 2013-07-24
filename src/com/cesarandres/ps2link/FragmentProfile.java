@@ -266,6 +266,7 @@ public class FragmentProfile extends Fragment {
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
 				public void onResponse(Character_list_response response) {
+									
 					profile = response.getCharacter_list().get(0);
 					setActionBarEnabled(true);
 					profile.setCached(isCached);
