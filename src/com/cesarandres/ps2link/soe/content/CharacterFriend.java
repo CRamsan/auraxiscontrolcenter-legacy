@@ -2,20 +2,12 @@ package com.cesarandres.ps2link.soe.content;
 
 import com.cesarandres.ps2link.soe.content.character.Name;
 
-
-
 public class CharacterFriend {
 	private Name name;
 	private String character_id;
 	private String last_login_time;
 	private int online;
 
-	public CharacterFriend(){
-		this.name = new Name();
-		this.last_login_time = "";
-		this.online = 0;
-	}
-	
 	public String getCharacter_id() {
 		return character_id;
 	}
@@ -46,5 +38,13 @@ public class CharacterFriend {
 
 	public void setName(Name name) {
 		this.name = name;
+	}
+
+	public boolean isValid() {
+		if (this.name != null && this.character_id != null && this.last_login_time != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
