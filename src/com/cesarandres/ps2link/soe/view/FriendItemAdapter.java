@@ -20,6 +20,14 @@ public class FriendItemAdapter extends BaseAdapter {
 
 	public FriendItemAdapter(Context context, ArrayList<CharacterFriend> friends) {
 		this.mInflater = LayoutInflater.from(context);
+
+		for (int i = 0; i < friends.size(); i++) {
+			if (!friends.get(i).isValid()) {
+				friends.remove(i);
+				i--;
+			}
+		}
+
 		this.friends = friends;
 	}
 
