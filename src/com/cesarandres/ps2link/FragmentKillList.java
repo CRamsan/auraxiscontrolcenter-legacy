@@ -56,9 +56,9 @@ public class FragmentKillList extends Fragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+				/*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 				FragmentKillEvent newFragment = new FragmentKillEvent((CharacterEvent) myAdapter.getItemAtPosition(myItemInt));
-				newFragment.show(fragmentManager, "characterEvent");
+				newFragment.show(fragmentManager, "characterEvent");*/
 			}
 		});
 
