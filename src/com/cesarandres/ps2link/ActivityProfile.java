@@ -22,6 +22,7 @@ public class ActivityProfile extends BaseActivity {
 
 	private static final int PROFILE = 0;
 	private static final int FRIENDS = 1;
+	private static final int KILLBOARD = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,10 @@ public class ActivityProfile extends BaseActivity {
 					case FRIENDS:
 						((FragmentFriendList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, FRIENDS)))
 								.downloadFriendsList(profileId);
+						break;
+					case KILLBOARD:
+						((FragmentKillList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, KILLBOARD)))
+								.downloadKillList(profileId);
 						break;
 					default:
 						break;
@@ -127,6 +132,9 @@ public class ActivityProfile extends BaseActivity {
 			case FRIENDS:
 				fragment = new FragmentFriendList();
 				break;
+			case KILLBOARD:
+				fragment = new FragmentKillList();
+				break;
 			default:
 				break;
 			}
@@ -138,7 +146,7 @@ public class ActivityProfile extends BaseActivity {
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 3;
 		}
 
 		@Override
@@ -148,6 +156,8 @@ public class ActivityProfile extends BaseActivity {
 				return "OVERVIEW";
 			case FRIENDS:
 				return "FRIENDS";
+			case KILLBOARD:
+				return "KILLBOARD";
 			default:
 				return "OVERVIEW";
 			}
