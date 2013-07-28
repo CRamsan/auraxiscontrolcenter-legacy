@@ -3,16 +3,18 @@ package com.cesarandres.ps2link.soe.content;
 public class CharacterEvent {
 	private CharacterProfileLimited attacker;
 	private CharacterProfileLimited character;
-	private String attacker_character_id = "5428010618041058369";
-	private String attacker_vehicle_id = "0";
-	private String attacker_weapon_id = "7211";
-	private String character_id = "5428037660460403521";
-	private String is_critical = "0";
-	private String is_headshot = "0";
-	private String table_type = "kills";
-	private String timestamp = "1374629753";
-	private String world_id = "18";
-	private String zone_id = "8";
+	private String attacker_character_id;
+	private String attacker_vehicle_id;
+	private String attacker_weapon_id;
+	private String character_id;
+	private String is_critical;
+	private String is_headshot;
+	private String weapon_name;
+	private String table_type;
+	private String imagePath;
+	private String timestamp;
+	private String world_id;
+	private String zone_id;
 
 	public CharacterProfileLimited getAttacker() {
 		return attacker;
@@ -108,5 +110,21 @@ public class CharacterEvent {
 
 	public void setZone_id(String zone_id) {
 		this.zone_id = zone_id;
+	}
+
+	public String getWeapon_name() {
+		return weapon_name;
+	}
+
+	public void setWeapon_name(String weapon_name) {
+		this.weapon_name = weapon_name;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }
