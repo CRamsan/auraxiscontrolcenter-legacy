@@ -307,7 +307,11 @@ public class FragmentProfile extends Fragment {
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
 				public void onResponse(Character_list_response response) {
-					profile.setOnline_status(response.getCharacters_online_status_list().get(0).getOnline_status());
+					int status = 0;
+					if(response.getCharacters_online_status_list() != null && response.getCharacters_online_status_list().size() > 0){
+						status = response.getCharacters_online_status_list().get(0).getOnline_status();
+					}
+					profile.setOnline_status(status);
 					setActionBarEnabled(true);
 					updateUI(profile);
 				}
