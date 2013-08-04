@@ -118,6 +118,7 @@ public class KillItemAdapter extends BaseAdapter {
 		try {
 			if (getItem(position).getAttacker().getId().equals(this.characterId)) {
 				holder.name.setText(getItem(position).getCharacter().getName().getFirst());
+				getItem(position).setImportant_character_id(getItem(position).getCharacter_id());
 				if (getItem(position).getCharacter().getId().equals(this.characterId)) {
 					holder.action.setText("SUICIDE");
 					holder.action.setTextColor(Color.RED);
@@ -136,6 +137,7 @@ public class KillItemAdapter extends BaseAdapter {
 				holder.action.setText("KILLED BY");
 				holder.action.setTextColor(Color.RED);
 				holder.name.setText(getItem(position).getAttacker().getName().getFirst());
+				getItem(position).setImportant_character_id(getItem(position).getAttacker_character_id());
 				if (getItem(position).getAttacker().getFaction_id().equals(Faction.VS)) {
 					holder.faction.setImageBitmap(icon_vs);
 				} else if (getItem(position).getAttacker().getFaction_id().equals(Faction.NC)) {

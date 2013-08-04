@@ -44,23 +44,6 @@ public class ActivityContainer extends BaseActivity {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		if (!ApplicationPS2Link.isFull()) {
-			final Button buttonFullVersion = (Button) findViewById(R.id.buttonFullVersion);
-			buttonFullVersion.setVisibility(View.VISIBLE);
-			buttonFullVersion.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					String url = "https://play.google.com/store/apps/details?id=com.cesarandres.ps2link.key";
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
-				}
-			});
-		}
-	}
-
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			finish();
