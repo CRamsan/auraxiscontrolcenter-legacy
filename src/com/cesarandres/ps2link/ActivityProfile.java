@@ -28,37 +28,35 @@ public class ActivityProfile extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (ApplicationPS2Link.isFull()) {
-			setContentView(R.layout.activity_profile_full);
+		setContentView(R.layout.activity_profile_full);
 
-			mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-			mViewPager = (ViewPager) findViewById(R.id.profilePager);
-			mViewPager.setAdapter(mSectionsPagerAdapter);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		mViewPager = (ViewPager) findViewById(R.id.profilePager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-			findViewById(R.id.buttonFragmentUpdate).setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					String profileId = getIntent().getExtras().getString("profileId");
-					switch (mViewPager.getCurrentItem()) {
-					case PROFILE:
-						((FragmentProfile) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, PROFILE)))
-								.downloadProfiles(profileId);
-						break;
-					case FRIENDS:
-						((FragmentFriendList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, FRIENDS)))
-								.downloadFriendsList(profileId);
-						break;
-					case KILLBOARD:
-						((FragmentKillList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, KILLBOARD)))
-								.downloadKillList(profileId);
-						break;
-					default:
-						break;
-					}
+		findViewById(R.id.buttonFragmentUpdate).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String profileId = getIntent().getExtras().getString("profileId");
+				switch (mViewPager.getCurrentItem()) {
+				case PROFILE:
+					((FragmentProfile) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, PROFILE)))
+							.downloadProfiles(profileId);
+					break;
+				case FRIENDS:
+					((FragmentFriendList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, FRIENDS)))
+							.downloadFriendsList(profileId);
+					break;
+				case KILLBOARD:
+
+					((FragmentKillList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, KILLBOARD)))
+							.downloadKillList(profileId);
+					break;
+				default:
+					break;
 				}
-			});
-		} else {
-			setContentView(R.layout.activity_profile_free);
-		}
+			}
+		});
+
 		Bundle extras = getIntent().getExtras();
 		String activityMode = "";
 		if (extras != null) {

@@ -3,6 +3,7 @@ package com.cesarandres.ps2link.soe.content;
 public class CharacterEvent {
 	private CharacterProfileLimited attacker;
 	private CharacterProfileLimited character;
+	private String important_character_id;
 	private String attacker_character_id;
 	private String attacker_vehicle_id;
 	private String attacker_weapon_id;
@@ -126,5 +127,13 @@ public class CharacterEvent {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public String getImportant_character_id() {
+		return important_character_id;
+	}
+
+	public void setImportant_character_id(String important_character_id) {
+		this.important_character_id = important_character_id;
 	}
 }

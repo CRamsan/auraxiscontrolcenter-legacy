@@ -47,22 +47,25 @@ public class FragmentFriendList extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_friend_list, container, false);
+		View root;
+		if (ApplicationPS2Link.isFull()) {
+			root = inflater.inflate(R.layout.fragment_friend_list, container, false);
+			ListView listRoot = (ListView) root.findViewById(R.id.listViewFriendList);
+			listRoot.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+					String id = ((CharacterFriend) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id();
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), ActivityProfile.class);
+					intent.putExtra("profileId", id);
+					startActivity(intent);
+				}
+			});
 
-		ListView listRoot = (ListView) root.findViewById(R.id.listViewFriendList);
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				String id = ((CharacterFriend) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id();
-
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", id);
-				startActivity(intent);
-			}
-		});
-
-		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+			this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+		} else {
+			root = inflater.inflate(R.layout.fragment_not_available, container, false);
+		}
 
 		return root;
 	}
@@ -108,37 +111,38 @@ public class FragmentFriendList extends Fragment {
 	}
 
 	public void downloadFriendsList(String character_id) {
+		if (ApplicationPS2Link.isFull()) {
+			setUpdateButton(false);
+			URL url;
+			try {
+				url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_FRIEND, character_id, QueryString.generateQeuryString()
+						.AddCommand(QueryCommand.RESOLVE, "character_name"));
 
-		setUpdateButton(false);
-		URL url;
-		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_FRIEND, character_id, QueryString.generateQeuryString()
-					.AddCommand(QueryCommand.RESOLVE, "character_name"));
+				Listener<Character_friend_list_response> success = new Response.Listener<Character_friend_list_response>() {
+					@Override
+					public void onResponse(Character_friend_list_response response) {
+						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewFriendList);
+						listRoot.setAdapter(new FriendItemAdapter(getActivity(), response.getCharacters_friend_list().get(0).getFriend_list()));
+						setUpdateButton(true);
+					}
+				};
 
-			Listener<Character_friend_list_response> success = new Response.Listener<Character_friend_list_response>() {
-				@Override
-				public void onResponse(Character_friend_list_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewFriendList);
-					listRoot.setAdapter(new FriendItemAdapter(getActivity(), response.getCharacters_friend_list().get(0).getFriend_list()));
-					setUpdateButton(true);
-				}
-			};
+				ErrorListener error = new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						error.equals(new Object());
+						setUpdateButton(true);
+					}
+				};
 
-			ErrorListener error = new Response.ErrorListener() {
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					error.equals(new Object());
-					setUpdateButton(true);
-				}
-			};
-
-			GsonRequest<Character_friend_list_response> gsonOject = new GsonRequest<Character_friend_list_response>(url.toString(),
-					Character_friend_list_response.class, null, success, error);
-			gsonOject.setTag(this);
-			ApplicationPS2Link.volley.add(gsonOject);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				GsonRequest<Character_friend_list_response> gsonOject = new GsonRequest<Character_friend_list_response>(url.toString(),
+						Character_friend_list_response.class, null, success, error);
+				gsonOject.setTag(this);
+				ApplicationPS2Link.volley.add(gsonOject);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
