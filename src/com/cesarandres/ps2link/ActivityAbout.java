@@ -1,17 +1,16 @@
 package com.cesarandres.ps2link;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.cesarandres.ps2link.base.BaseActivity;
-
 /**
  * Created by cesar on 6/16/13.
  */
-public class ActivityAbout extends BaseActivity {
+public class ActivityAbout extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,7 @@ public class ActivityAbout extends BaseActivity {
 		Button titleBack = (Button) findViewById(R.id.buttonFragmentTitle);
 		titleBack.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				navigateUp();
+				finish();
 			}
 		});
 		((Button) findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_about));

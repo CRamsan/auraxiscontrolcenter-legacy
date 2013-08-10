@@ -4,66 +4,111 @@
     style="@style/FragmentBottomStyle" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/buttonPreferedProfile"
-            style="@style/ButtonStyle"
-            android:drawableLeft="@drawable/icon_star_selected"
-            android:gravity="center"
-            android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/buttonPreferedOutfit"
-            style="@style/ButtonStyle"
-            android:drawableLeft="@drawable/icon_star_selected"
-            android:gravity="center"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/buttonPreferedProfile"
+                style="@style/ButtonStyle"
+                android:drawableLeft="@drawable/icon_star_selected"
+                android:gravity="center"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/buttonPreferedServer"
-            style="@style/ButtonStyle"
-            android:gravity="center"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/buttonPreferedOutfit"
+                style="@style/ButtonStyle"
+                android:drawableLeft="@drawable/icon_star_selected"
+                android:gravity="center"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/buttonCharacters"
-            style="@style/ButtonStyle"
-            android:text="@string/title_profiles" />
+            <Button
+                android:id="@+id/buttonPreferedServer"
+                style="@style/ButtonStyle"
+                android:gravity="center"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/buttonServers"
-            style="@style/ButtonStyle"
-            android:text="@string/title_servers" />
+            <Button
+                android:id="@+id/buttonCharacters"
+                style="@style/ButtonStyle"
+                android:text="@string/title_profiles" />
 
-        <Button
-            android:id="@+id/buttonOutfit"
-            style="@style/ButtonStyle"
-            android:text="@string/title_outfits" />
+            <Button
+                android:id="@+id/buttonServers"
+                style="@style/ButtonStyle"
+                android:text="@string/title_servers" />
 
-        <Button
-            android:id="@+id/buttonNews"
-            style="@style/ButtonStyle"
-            android:text="@string/title_reddit" />
+            <Button
+                android:id="@+id/buttonOutfit"
+                style="@style/ButtonStyle"
+                android:text="@string/title_outfits" />
 
-        <Button
-            android:id="@+id/buttonTwitter"
-            style="@style/ButtonStyle"
-            android:text="@string/title_twitter" />
+            <Button
+                android:id="@+id/buttonNews"
+                style="@style/ButtonStyle"
+                android:text="@string/title_reddit" />
 
-        <Button
-            android:id="@+id/buttonFullVersion"
-            style="@style/ButtonStyle"
-            android:text="@string/title_full_version"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/buttonTwitter"
+                style="@style/ButtonStyle"
+                android:text="@string/title_twitter" />
 
-        <Button
-            android:id="@+id/buttonAbout"
-            style="@style/ButtonStyle"
-            android:text="@string/title_about" />
+            <Button
+                android:id="@+id/buttonFullVersion"
+                style="@style/ButtonStyle"
+                android:text="@string/title_full_version"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/buttonAbout"
+                style="@style/ButtonStyle"
+                android:text="@string/title_about" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" >
+
+            <ImageButton
+                android:id="@+id/buttonPS2"
+                style="@style/ActionBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_ps2"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/buttonNC"
+                style="@style/ActionBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_faction_nc"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/buttonTR"
+                style="@style/ActionBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_faction_tr"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/buttonVS"
+                style="@style/ActionBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_faction_vs"
+                android:visibility="visible" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

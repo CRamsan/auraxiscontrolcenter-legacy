@@ -10,8 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.base.BitmapWorkerTask;
 
 /**
  * Created by cesar on 6/16/13.
@@ -101,6 +108,72 @@ public class FragmentMainMenu extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		Button titleButton = ((Button) getActivity().findViewById(R.id.buttonFragmentTitle));
 		titleButton.setText(getString(R.string.app_name_capital));
+
+		final ImageButton buttonPS2Background = (ImageButton) getActivity().findViewById(R.id.buttonPS2);
+		buttonPS2Background.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (ApplicationPS2Link.isFull()) {
+					ImageView background = ((ImageView) getActivity().findViewById(R.id.imageViewBackground));
+					background.setImageResource(R.drawable.ps2_activity_background);
+					background.setScaleType(ScaleType.FIT_START);
+
+					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.PS2.toString());
+					editor.commit();
+
+				}
+			}
+		});
+
+		final ImageButton buttonNCBackground = (ImageButton) getActivity().findViewById(R.id.buttonNC);
+		buttonNCBackground.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (ApplicationPS2Link.isFull()) {
+					BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
+					task.execute("nc_wallpaper.jpg");
+					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.NC.toString());
+					editor.commit();
+				} else {
+					Toast.makeText(getActivity(), "Background available in paid version", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
+		final ImageButton buttonTRBackground = (ImageButton) getActivity().findViewById(R.id.buttonTR);
+		buttonTRBackground.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (ApplicationPS2Link.isFull()) {
+					BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
+					task.execute("tr_wallpaper.jpg");
+					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.TR.toString());
+					editor.commit();
+				} else {
+					Toast.makeText(getActivity(), "Background available in paid version", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
+		final ImageButton buttonVSBackground = (ImageButton) getActivity().findViewById(R.id.buttonVS);
+		buttonVSBackground.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (ApplicationPS2Link.isFull()) {
+					BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
+					task.execute("vs_wallpaper.jpg");
+					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.VS.toString());
+					editor.commit();
+				} else {
+					Toast.makeText(getActivity(), "Background available in paid version", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
 		titleButton.setCompoundDrawables(null, null, null, null);
 	}
 
@@ -166,4 +239,5 @@ public class FragmentMainMenu extends Fragment {
 	public void onPause() {
 		super.onPause();
 	}
+
 }
