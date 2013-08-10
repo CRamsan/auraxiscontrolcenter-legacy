@@ -4,9 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import android.app.Application;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -18,10 +16,12 @@ public class ApplicationPS2Link extends Application {
 	public static RequestQueue volley;
 	public static ImageLoader mImageLoader;
 	private static boolean full = false;
-
+	private static WallPaperMode wallpaper = WallPaperMode.PS2;
+	private static Bitmap background;
+	
 	public static final String ACTIVITY_MODE_KEY = "activity_mode";
 
-	public enum ActivityMode {
+	public static enum ActivityMode {
 		ACTIVITY_ADD_OUTFIT,
 		ACTIVITY_ADD_PROFILE,
 		ACTIVITY_MEMBER_LIST,
@@ -34,6 +34,14 @@ public class ApplicationPS2Link extends Application {
 		ACTIVITY_TWITTER
 	}
 
+	public static enum WallPaperMode {
+		PS2,
+		NC,
+		TR,
+		VS
+	}
+
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -69,6 +77,22 @@ public class ApplicationPS2Link extends Application {
 
 	public static void setFull(boolean full) {
 		ApplicationPS2Link.full = full;
+	}
+
+	public static WallPaperMode getWallpaperMode() {
+		return wallpaper;
+	}
+
+	public static void setWallpaperMode(WallPaperMode wallpaper) {
+		ApplicationPS2Link.wallpaper = wallpaper;
+	}
+
+	public static Bitmap getBackground() {
+		return background;
+	}
+
+	public static void setBackground(Bitmap background) {
+		ApplicationPS2Link.background = background;
 	}
 
 }

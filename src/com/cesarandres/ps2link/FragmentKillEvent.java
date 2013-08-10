@@ -39,6 +39,9 @@ public class FragmentKillEvent extends DialogFragment {
 
 	private CharacterEvent event;
 
+	public FragmentKillEvent() {
+	}
+
 	public FragmentKillEvent(CharacterEvent event) {
 		this.event = event;
 	}
