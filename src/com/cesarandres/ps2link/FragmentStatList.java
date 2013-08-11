@@ -3,14 +3,11 @@ package com.cesarandres.ps2link;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -19,17 +16,14 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterEvent;
-import com.cesarandres.ps2link.soe.content.response.Characters_event_list_response;
+import com.cesarandres.ps2link.soe.adapter.StatItemAdapter;
+import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.KillItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
@@ -51,18 +45,7 @@ public class FragmentStatList extends Fragment {
 		// Inflate the layout for this fragment
 		View root;
 		if (ApplicationPS2Link.isFull()) {
-			root = inflater.inflate(R.layout.fragment_server_list, container, false);
-			ListView listRoot = (ListView) root.findViewById(R.id.listViewKillList);
-			listRoot.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityProfile.class);
-					intent.putExtra("profileId", ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id());
-					startActivity(intent);
-				}
-			});
-
+			root = inflater.inflate(R.layout.fragment_stat_list, container, false);
 			this.profileId = getActivity().getIntent().getExtras().getString("profileId");
 		} else {
 			root = inflater.inflate(R.layout.fragment_not_available, container, false);
@@ -78,7 +61,7 @@ public class FragmentStatList extends Fragment {
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_friends));
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
-		downloadKillList(this.profileId);
+		downloadStatList(this.profileId);
 	}
 
 	@Override
@@ -110,20 +93,19 @@ public class FragmentStatList extends Fragment {
 
 	}
 
-	public void downloadKillList(String character_id) {
+	public void downloadStatList(String character_id) {
 		if (ApplicationPS2Link.isFull()) {
 			setUpdateButton(false);
 			URL url;
 			try {
-
-				url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_EVENT, character_id,
-						QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
-								.AddComparison("type", SearchModifier.EQUALS, "DEATH,KILL"));
-				Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
+				url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id, QueryString.generateQeuryString()
+						.AddCommand(QueryCommand.RESOLVE, "stat_history").AddCommand(QueryCommand.HIDE, "name,battle_rank,certs,times,daily_ribbon"));
+				Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 					@Override
-					public void onResponse(Characters_event_list_response response) {
-						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
-						listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
+					public void onResponse(Character_list_response response) {
+
+						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewStatList);
+						listRoot.setAdapter(new StatItemAdapter(getActivity(), response.getCharacter_list().get(0).getStats().getStat_history(), profileId));
 						setUpdateButton(true);
 					}
 				};
@@ -136,8 +118,8 @@ public class FragmentStatList extends Fragment {
 					}
 				};
 
-				GsonRequest<Characters_event_list_response> gsonOject = new GsonRequest<Characters_event_list_response>(url.toString(),
-						Characters_event_list_response.class, null, success, error);
+				GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
+						success, error);
 				gsonOject.setTag(this);
 				ApplicationPS2Link.volley.add(gsonOject);
 			} catch (MalformedURLException e) {

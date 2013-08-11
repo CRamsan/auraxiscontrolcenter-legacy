@@ -74,6 +74,30 @@ public class Stat {
 		this.month = month;
 	}
 
+	public float getToday() {
+		return Float.parseFloat(this.day.d01);
+	}
+
+	public void setToday(float value) {
+		this.day.d01 = Float.toString(value);
+	}
+
+	public float getThisWeek() {
+		return Float.parseFloat(this.week.w01);
+	}
+
+	public void setThisWeek(float value) {
+		this.week.w01 = Float.toString(value);
+	}
+
+	public float getThisMonth() {
+		return Float.parseFloat(this.month.m01);
+	}
+
+	public void setThisMonth(float value) {
+		this.month.m01 = Float.toString(value);
+	}
+
 	public class Day {
 		public String d01;
 		public String d02;
