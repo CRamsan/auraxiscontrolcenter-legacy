@@ -4,6 +4,8 @@ import com.cesarandres.ps2link.soe.content.backlog.Times;
 import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
+import com.cesarandres.ps2link.soe.content.character.Stat;
+import com.cesarandres.ps2link.soe.content.character.Stats;
 
 public class CharacterProfile {
 	private String id;
@@ -16,6 +18,7 @@ public class CharacterProfile {
 	private String world_id;
 	private Outfit outfit;
 	private String outfitName;
+	private Stats stats;
 	private int online_status;
 	private boolean cached;
 
@@ -113,5 +116,13 @@ public class CharacterProfile {
 
 	public void setOutfitName(String outfitName) {
 		this.outfitName = outfitName;
+	}
+
+	public Stats getStats() {
+		return stats;
+	}
+
+	public void setStats(Stats stats) {
+		this.stats = stats;
 	}
 }
