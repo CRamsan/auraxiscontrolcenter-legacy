@@ -46,31 +46,27 @@ public class BaseActivity extends FragmentActivity {
 		SharedPreferences settings = getSharedPreferences("PREFERENCES", 0);
 		String preferedWallpaper = settings.getString("preferedWallpaper", WallPaperMode.PS2.toString());
 		ApplicationPS2Link.setWallpaperMode(WallPaperMode.valueOf(preferedWallpaper));
-		if (ApplicationPS2Link.isFull()) {
-			if (ApplicationPS2Link.getBackground() == null) {
-				BitmapWorkerTask task = new BitmapWorkerTask((ImageView) findViewById(R.id.imageViewBackground), this);
-				if (currentTask != null) {
-					currentTask.cancel(true);
-				}
-				currentTask = task;
-				switch (WallPaperMode.valueOf(preferedWallpaper)) {
-				case NC:
-					task.execute("nc_wallpaper.jpg");
-					break;
-				case TR:
-					task.execute("tr_wallpaper.jpg");
-					break;
-				case VS:
-					task.execute("vs_wallpaper.jpg");
-					break;
-				}
-			} else {
-				if (!WallPaperMode.valueOf(preferedWallpaper).equals(WallPaperMode.PS2)) {
-					ImageView background = (ImageView) findViewById(R.id.imageViewBackground);
-					background.setImageBitmap(ApplicationPS2Link.getBackground());
-					background.setScaleType(ScaleType.CENTER_CROP);
-				}
+		if (ApplicationPS2Link.getBackground() == null) {
+			BitmapWorkerTask task = new BitmapWorkerTask((ImageView) findViewById(R.id.imageViewBackground), this);
+			if (currentTask != null) {
+				currentTask.cancel(true);
 			}
+			currentTask = task;
+			switch (WallPaperMode.valueOf(preferedWallpaper)) {
+			case NC:
+				task.execute("nc_wallpaper.jpg");
+				break;
+			case TR:
+				task.execute("tr_wallpaper.jpg");
+				break;
+			case VS:
+				task.execute("vs_wallpaper.jpg");
+				break;
+			}
+		} else {
+			ImageView background = (ImageView) findViewById(R.id.imageViewBackground);
+			background.setImageBitmap(ApplicationPS2Link.getBackground());
+			background.setScaleType(ScaleType.CENTER_CROP);
 		}
 	}
 

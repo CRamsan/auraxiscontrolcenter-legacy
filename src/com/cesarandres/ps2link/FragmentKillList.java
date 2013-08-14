@@ -50,24 +50,19 @@ public class FragmentKillList extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View root;
-		if (ApplicationPS2Link.isFull()) {
-			root = inflater.inflate(R.layout.fragment_kill_list, container, false);
-			ListView listRoot = (ListView) root.findViewById(R.id.listViewKillList);
-			listRoot.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityProfile.class);
-					intent.putExtra("profileId", ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id());
-					startActivity(intent);
-				}
-			});
+		root = inflater.inflate(R.layout.fragment_kill_list, container, false);
+		ListView listRoot = (ListView) root.findViewById(R.id.listViewKillList);
+		listRoot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityProfile.class);
+				intent.putExtra("profileId", ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id());
+				startActivity(intent);
+			}
+		});
 
-			this.profileId = getActivity().getIntent().getExtras().getString("profileId");
-		} else {
-			root = inflater.inflate(R.layout.fragment_not_available, container, false);
-		}
-
+		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
 		return root;
 	}
 
@@ -111,39 +106,37 @@ public class FragmentKillList extends Fragment {
 	}
 
 	public void downloadKillList(String character_id) {
-		if (ApplicationPS2Link.isFull()) {
-			setUpdateButton(false);
-			URL url;
-			try {
+		setUpdateButton(false);
+		URL url;
+		try {
 
-				url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_EVENT, character_id,
-						QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
-								.AddComparison("type", SearchModifier.EQUALS, "DEATH,KILL"));
-				Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
-					@Override
-					public void onResponse(Characters_event_list_response response) {
-						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
-						listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
-						setUpdateButton(true);
-					}
-				};
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_EVENT, character_id,
+					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
+							.AddComparison("type", SearchModifier.EQUALS, "DEATH,KILL"));
+			Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
+				@Override
+				public void onResponse(Characters_event_list_response response) {
+					ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
+					listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
+					setUpdateButton(true);
+				}
+			};
 
-				ErrorListener error = new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						error.equals(new Object());
-						setUpdateButton(true);
-					}
-				};
+			ErrorListener error = new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					error.equals(new Object());
+					setUpdateButton(true);
+				}
+			};
 
-				GsonRequest<Characters_event_list_response> gsonOject = new GsonRequest<Characters_event_list_response>(url.toString(),
-						Characters_event_list_response.class, null, success, error);
-				gsonOject.setTag(this);
-				ApplicationPS2Link.volley.add(gsonOject);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			GsonRequest<Characters_event_list_response> gsonOject = new GsonRequest<Characters_event_list_response>(url.toString(),
+					Characters_event_list_response.class, null, success, error);
+			gsonOject.setTag(this);
+			ApplicationPS2Link.volley.add(gsonOject);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

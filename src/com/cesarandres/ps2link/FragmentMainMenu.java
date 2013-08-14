@@ -112,65 +112,51 @@ public class FragmentMainMenu extends Fragment {
 		final ImageButton buttonPS2Background = (ImageButton) getActivity().findViewById(R.id.buttonPS2);
 		buttonPS2Background.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (ApplicationPS2Link.isFull()) {
-					ImageView background = ((ImageView) getActivity().findViewById(R.id.imageViewBackground));
-					background.setImageResource(R.drawable.ps2_activity_background);
-					background.setScaleType(ScaleType.FIT_START);
+				ImageView background = ((ImageView) getActivity().findViewById(R.id.imageViewBackground));
+				background.setImageResource(R.drawable.ps2_activity_background);
+				background.setScaleType(ScaleType.FIT_START);
 
-					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.PS2.toString());
-					editor.commit();
-
-				}
+				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.PS2.toString());
+				editor.commit();
 			}
 		});
 
 		final ImageButton buttonNCBackground = (ImageButton) getActivity().findViewById(R.id.buttonNC);
 		buttonNCBackground.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (ApplicationPS2Link.isFull()) {
-					BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
-					task.execute("nc_wallpaper.jpg");
-					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.NC.toString());
-					editor.commit();
-				} else {
-					Toast.makeText(getActivity(), "Background available in paid version", Toast.LENGTH_SHORT).show();
-				}
+				BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
+				task.execute("nc_wallpaper.jpg");
+				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.NC.toString());
+				editor.commit();
 			}
 		});
 
 		final ImageButton buttonTRBackground = (ImageButton) getActivity().findViewById(R.id.buttonTR);
 		buttonTRBackground.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (ApplicationPS2Link.isFull()) {
-					BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
-					task.execute("tr_wallpaper.jpg");
-					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.TR.toString());
-					editor.commit();
-				} else {
-					Toast.makeText(getActivity(), "Background available in paid version", Toast.LENGTH_SHORT).show();
-				}
+				BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
+				task.execute("tr_wallpaper.jpg");
+				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.TR.toString());
+				editor.commit();
+
 			}
 		});
 
 		final ImageButton buttonVSBackground = (ImageButton) getActivity().findViewById(R.id.buttonVS);
 		buttonVSBackground.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (ApplicationPS2Link.isFull()) {
-					BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
-					task.execute("vs_wallpaper.jpg");
-					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.VS.toString());
-					editor.commit();
-				} else {
-					Toast.makeText(getActivity(), "Background available in paid version", Toast.LENGTH_SHORT).show();
-				}
+				BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
+				task.execute("vs_wallpaper.jpg");
+				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putString("preferedWallpaper", ApplicationPS2Link.WallPaperMode.VS.toString());
+				editor.commit();
 			}
 		});
 
