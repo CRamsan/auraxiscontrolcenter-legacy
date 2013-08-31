@@ -16,7 +16,7 @@ The Plan
 
 License
 =======
-This application is governed by the MIT License, you can read more about it below:
+This application uses the MIT License for the source code and where explicitly stated. The images provided by SOE were retrieved from https://census.soe.com/ and SOE reserves all rights and title.
 
 The MIT License (MIT)
 
