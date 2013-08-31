@@ -13,6 +13,7 @@ The Plan
 * Fix the standart background not staying set.
 * Add some toasts to provide feedback.
 * Implement the correct use of fragments.
+* Adding a link to http://www.reddit.com/r/Planetsidelore
 
 License
 =======
