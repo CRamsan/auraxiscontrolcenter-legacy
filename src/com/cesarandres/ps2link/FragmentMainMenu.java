@@ -81,6 +81,16 @@ public class FragmentMainMenu extends Fragment {
 			}
 		});
 
+		final Button buttonLore = (Button) root.findViewById(R.id.buttonLore);
+		buttonLore.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String url = "http://www.reddit.com/r/Planetsidelore/";
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+		
 		final Button buttonTwitter = (Button) root.findViewById(R.id.buttonTwitter);
 		buttonTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -207,18 +217,6 @@ public class FragmentMainMenu extends Fragment {
 			buttonPreferedOutfit.setVisibility(View.GONE);
 		}
 
-		if (!ApplicationPS2Link.isFull()) {
-			final Button buttonFullVersion = (Button) getActivity().findViewById(R.id.buttonFullVersion);
-			buttonFullVersion.setVisibility(View.VISIBLE);
-			buttonFullVersion.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					String url = "https://play.google.com/store/apps/details?id=com.cesarandres.ps2link.key";
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
-				}
-			});
-		}
 	}
 
 	@Override

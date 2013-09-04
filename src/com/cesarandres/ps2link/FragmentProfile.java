@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.volley.Response;
@@ -266,16 +267,19 @@ public class FragmentProfile extends Fragment {
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
 				public void onResponse(Character_list_response response) {
-									
-					profile = response.getCharacter_list().get(0);
-					setActionBarEnabled(true);
-					profile.setCached(isCached);
-					updateUI(profile);
-					downloadOnlineStatus(response.getCharacter_list().get(0).getId());
+					try {
+						profile = response.getCharacter_list().get(0);
+						setActionBarEnabled(true);
+						profile.setCached(isCached);
+						updateUI(profile);
+						downloadOnlineStatus(response.getCharacter_list().get(0).getId());
 
-					UpdateProfileToTable task = new UpdateProfileToTable();
-					taskList.add(task);
-					task.execute(profile);
+						UpdateProfileToTable task = new UpdateProfileToTable();
+						taskList.add(task);
+						task.execute(profile);
+					} catch (Exception e) {
+						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+					}
 				}
 			};
 
@@ -308,12 +312,16 @@ public class FragmentProfile extends Fragment {
 				@Override
 				public void onResponse(Character_list_response response) {
 					int status = 0;
-					if(response.getCharacters_online_status_list() != null && response.getCharacters_online_status_list().size() > 0){
-						status = response.getCharacters_online_status_list().get(0).getOnline_status();
+					try {
+						if (response.getCharacters_online_status_list() != null && response.getCharacters_online_status_list().size() > 0) {
+							status = response.getCharacters_online_status_list().get(0).getOnline_status();
+						}
+						profile.setOnline_status(status);
+						setActionBarEnabled(true);
+						updateUI(profile);
+					} catch (Exception e) {
+						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					}
-					profile.setOnline_status(status);
-					setActionBarEnabled(true);
-					updateUI(profile);
 				}
 			};
 

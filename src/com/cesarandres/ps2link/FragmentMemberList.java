@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.volley.Response;
@@ -183,9 +184,13 @@ public class FragmentMemberList extends Fragment {
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
 				@Override
 				public void onResponse(Outfit_member_response response) {
-					UpdateMembers task = new UpdateMembers();
-					taskList.add(task);
-					task.execute(response.getOutfit_list().get(0).getMembers());
+					try {
+						UpdateMembers task = new UpdateMembers();
+						taskList.add(task);
+						task.execute(response.getOutfit_list().get(0).getMembers());
+					} catch (Exception e) {
+						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+					}
 				}
 			};
 
@@ -193,6 +198,7 @@ public class FragmentMemberList extends Fragment {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
+					Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					setUpdateButton(true);
 				}
 			};

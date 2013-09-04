@@ -56,15 +56,14 @@
                 android:text="@string/title_reddit" />
 
             <Button
+                android:id="@+id/buttonLore"
+                style="@style/ButtonStyle"
+                android:text="@string/title_reddit_lore" />
+
+            <Button
                 android:id="@+id/buttonTwitter"
                 style="@style/ButtonStyle"
                 android:text="@string/title_twitter" />
-
-            <Button
-                android:id="@+id/buttonFullVersion"
-                style="@style/ButtonStyle"
-                android:text="@string/title_full_version"
-                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonAbout"

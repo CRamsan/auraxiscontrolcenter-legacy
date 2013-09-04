@@ -3,7 +3,7 @@ package com.cesarandres.ps2link.soe.content;
 import java.util.ArrayList;
 
 public class Outfit {
-	private String id;
+	private String outfit_id;
 	private String name;
 	private String alias;
 	private String leader_character_id;
@@ -23,11 +23,11 @@ public class Outfit {
 	}
 
 	public String getId() {
-		return this.id;
+		return this.outfit_id;
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.outfit_id = id;
 	}
 
 	public String getLeader_character_id() {

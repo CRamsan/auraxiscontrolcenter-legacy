@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -44,12 +45,8 @@ public class FragmentStatList extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View root;
-		if (ApplicationPS2Link.isFull()) {
-			root = inflater.inflate(R.layout.fragment_stat_list, container, false);
-			this.profileId = getActivity().getIntent().getExtras().getString("profileId");
-		} else {
-			root = inflater.inflate(R.layout.fragment_not_available, container, false);
-		}
+		root = inflater.inflate(R.layout.fragment_stat_list, container, false);
+		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
 
 		return root;
 	}
@@ -94,38 +91,44 @@ public class FragmentStatList extends Fragment {
 	}
 
 	public void downloadStatList(String character_id) {
-		if (ApplicationPS2Link.isFull()) {
-			setUpdateButton(false);
-			URL url;
-			try {
-				url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id, QueryString.generateQeuryString()
-						.AddCommand(QueryCommand.RESOLVE, "stat_history").AddCommand(QueryCommand.HIDE, "name,battle_rank,certs,times,daily_ribbon"));
-				Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
-					@Override
-					public void onResponse(Character_list_response response) {
-
+		setUpdateButton(false);
+		URL url;
+		try {
+			url = SOECensus.generateGameDataRequest(
+					Verb.GET,
+					Game.PS2,
+					PS2Collection.CHARACTER,
+					character_id,
+					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "stat_history")
+							.AddCommand(QueryCommand.HIDE, "name,battle_rank,certs,times,daily_ribbon"));
+			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
+				@Override
+				public void onResponse(Character_list_response response) {
+					try {
 						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewStatList);
 						listRoot.setAdapter(new StatItemAdapter(getActivity(), response.getCharacter_list().get(0).getStats().getStat_history(), profileId));
-						setUpdateButton(true);
+					} catch (Exception e) {
+						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					}
-				};
+					setUpdateButton(true);
+				}
+			};
 
-				ErrorListener error = new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						error.equals(new Object());
-						setUpdateButton(true);
-					}
-				};
+			ErrorListener error = new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					error.equals(new Object());
+					setUpdateButton(true);
+				}
+			};
 
-				GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
-						success, error);
-				gsonOject.setTag(this);
-				ApplicationPS2Link.volley.add(gsonOject);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
+					success, error);
+			gsonOject.setTag(this);
+			ApplicationPS2Link.volley.add(gsonOject);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

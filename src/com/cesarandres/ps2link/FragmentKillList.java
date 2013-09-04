@@ -14,12 +14,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
@@ -116,8 +116,12 @@ public class FragmentKillList extends Fragment {
 			Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
 				@Override
 				public void onResponse(Characters_event_list_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
-					listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
+					try {
+						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
+						listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
+					} catch (Exception e) {
+						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+					}
 					setUpdateButton(true);
 				}
 			};
@@ -126,6 +130,7 @@ public class FragmentKillList extends Fragment {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
+					Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					setUpdateButton(true);
 				}
 			};
