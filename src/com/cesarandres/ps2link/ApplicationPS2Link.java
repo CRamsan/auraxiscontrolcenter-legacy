@@ -59,26 +59,6 @@ public class ApplicationPS2Link extends Application {
 		return "android:switcher:" + viewId + ":" + index;
 	}
 
-	public static String generateMD5(String input) throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		md.update(input.getBytes());
-		byte[] mdbytes = md.digest();
-
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < mdbytes.length; i++) {
-			sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
-		}
-		return sb.toString();
-	}
-
-	public static boolean isFull() {
-		return full;
-	}
-
-	public static void setFull(boolean full) {
-		ApplicationPS2Link.full = full;
-	}
-
 	public static WallPaperMode getWallpaperMode() {
 		return wallpaper;
 	}

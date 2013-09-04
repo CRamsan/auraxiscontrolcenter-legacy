@@ -14,6 +14,7 @@
     <string name="title_events">EVENTS</string>
     <string name="title_unkown">UNKOWN</string>
     <string name="title_reddit">REDDIT</string>
+    <string name="title_reddit_lore">FAN-LORE</string>
     <string name="title_about">ABOUT</string>
     <string name="title_full_version">FULL VERSION</string>
     <string name="text_hours_played">HOURS PLAYED</string>
@@ -36,7 +37,7 @@
     <string name="content_donations">&quot;My Blog and Donations: &quot;</string>
     <string name="content_about">If you like this app dont forget to rate it and share it. You can also contribute by discussing ideas on the forums or by sending a donation.</string>
     <string name="content_new_paid_version">Hello Auraxian, now there is also a paid version of this app. The paid version will have more advanced features and will also help fund the development of this app. Do you want to check it out?</string>
-    <string name="content_not_available">This feature is only available in the paid version.</string>
+    <string name="content_not_available">Content currently not available.</string>
     <string name="link_forum">http://acc.cesarandres.com/</string>
     <string name="link_donations">http://cesarandres.com/</string>
 
