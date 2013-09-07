@@ -8,9 +8,7 @@ Currently all the features available on the app are available here. Due to time 
 The Plan
 ========
 
-* Remove the paid version.
 * Fix some FCs
-* Fix the standart background not staying set.
 * Add some toasts to provide feedback.
 * Implement the correct use of fragments.
 * Adding a link to http://www.reddit.com/r/Planetsidelore
