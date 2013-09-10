@@ -98,7 +98,7 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2,
+					Game.PS2V1,
 					PS2Collection.CHARACTER_NAME,
 					"",
 					QueryString.generateQeuryString()

@@ -175,7 +175,7 @@ public class FragmentMemberList extends Fragment {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2,
+					Game.PS2V1,
 					PS2Collection.OUTFIT,
 					"",
 					QueryString.generateQeuryString().AddComparison("id", SearchModifier.EQUALS, outfit_id)

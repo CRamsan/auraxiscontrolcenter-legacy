@@ -213,7 +213,7 @@ public class FragmentProfile extends Fragment {
 
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.WORLD, "",
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.WORLD, "",
 					QueryString.generateQeuryString().AddComparison("world_id", SearchModifier.EQUALS, world_id));
 
 			Listener<Server_response> success = new Response.Listener<Server_response>() {
@@ -262,7 +262,7 @@ public class FragmentProfile extends Fragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTER, character_id,
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTER, character_id,
 					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world"));
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
@@ -306,7 +306,7 @@ public class FragmentProfile extends Fragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
 
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override

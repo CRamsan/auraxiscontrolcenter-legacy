@@ -97,7 +97,7 @@ public class FragmentServerList extends Fragment {
 		setUpdateButton(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.WORLD, "",
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.WORLD, "",
 					QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10"));
 
 			Listener<Server_response> success = new Response.Listener<Server_response>() {
