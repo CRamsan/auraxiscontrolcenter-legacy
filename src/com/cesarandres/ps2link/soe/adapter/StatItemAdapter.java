@@ -23,11 +23,17 @@ public class StatItemAdapter extends BaseAdapter {
 		this.stats = stats;
 		Stat kills = null;
 		Stat deaths = null;
+		Stat score = null;
+		Stat time = null;
 		for (Stat stat : stats) {
 			if (stat.getStat_name().equals("kills")) {
 				kills = stat;
 			} else if (stat.getStat_name().equals("deaths")) {
 				deaths = stat;
+			}else if (stat.getStat_name().equals("score")) {
+				score = stat;
+			} else if (stat.getStat_name().equals("time")) {
+				time = stat;
 			}
 		}
 		Stat kdr = new Stat();
@@ -54,6 +60,30 @@ public class StatItemAdapter extends BaseAdapter {
 		kdr.setThisMonth(kills.getThisMonth() / deaths.getThisMonth());
 		this.stats.add(0, kdr);
 
+		Stat sph = new Stat();
+		if (time.getAll_time().equals("0")) {
+			time.setAll_time("1");
+		}
+		if (time.getToday() == 0) {
+			time.setToday(1);
+		}
+		if (time.getThisWeek() == 0) {
+			time.setThisWeek(1);
+		}
+		if (time.getThisMonth() == 0) {
+			time.setThisWeek(1);
+		}
+		sph.setDay(sph.new Day());
+		sph.setWeek(sph.new Week());
+		sph.setMonth(sph.new Month());
+
+		sph.setStat_name("Score/Hour");
+		sph.setAll_time(Float.toString(Float.parseFloat(score.getAll_time()) / Float.parseFloat(time.getAll_time())));
+		sph.setToday(score.getToday() / time.getToday());
+		sph.setThisWeek(score.getThisWeek() / time.getThisWeek());
+		sph.setThisMonth(score.getThisMonth() / time.getThisMonth());
+		this.stats.add(0, sph);
+		
 	}
 
 	@Override

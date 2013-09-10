@@ -99,7 +99,7 @@ public class FragmentAddOutfit extends Fragment implements OnClickListener {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2,
+					Game.PS2V1,
 					PS2Collection.OUTFIT,
 					"",
 					QueryString.generateQeuryString()

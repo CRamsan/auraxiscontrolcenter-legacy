@@ -8,7 +8,7 @@ import com.cesarandres.ps2link.soe.content.character.Stat;
 import com.cesarandres.ps2link.soe.content.character.Stats;
 
 public class CharacterProfile {
-	private String character_id;
+	private String id;
 	private Name name;
 	private String active_profile_id;
 	private Certs certs;
@@ -31,11 +31,11 @@ public class CharacterProfile {
 	}
 
 	public String getId() {
-		return this.character_id;
+		return this.id;
 	}
 
 	public void setId(String id) {
-		this.character_id = id;
+		this.id = id;
 	}
 
 	public Name getName() {
