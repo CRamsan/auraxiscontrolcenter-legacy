@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.content.character.Stat;
-import com.cesarandres.ps2link.soe.content.character.Stat.Day;
 
 public class StatItemAdapter extends BaseAdapter {
 
@@ -30,7 +29,7 @@ public class StatItemAdapter extends BaseAdapter {
 				kills = stat;
 			} else if (stat.getStat_name().equals("deaths")) {
 				deaths = stat;
-			}else if (stat.getStat_name().equals("score")) {
+			} else if (stat.getStat_name().equals("score")) {
 				score = stat;
 			} else if (stat.getStat_name().equals("time")) {
 				time = stat;
@@ -78,12 +77,12 @@ public class StatItemAdapter extends BaseAdapter {
 		sph.setMonth(sph.new Month());
 
 		sph.setStat_name("Score/Hour");
-		sph.setAll_time(Float.toString(Float.parseFloat(score.getAll_time()) / Float.parseFloat(time.getAll_time())));
-		sph.setToday(score.getToday() / time.getToday());
-		sph.setThisWeek(score.getThisWeek() / time.getThisWeek());
-		sph.setThisMonth(score.getThisMonth() / time.getThisMonth());
+		sph.setAll_time(Float.toString(Float.parseFloat(score.getAll_time()) / (Float.parseFloat(time.getAll_time()) / 3600f)));
+		sph.setToday(score.getToday() / (time.getToday() / 3600f));
+		sph.setThisWeek(score.getThisWeek() / (time.getThisWeek() / 3600f));
+		sph.setThisMonth(score.getThisMonth() / (time.getThisMonth() / 3600f));
 		this.stats.add(0, sph);
-		
+
 	}
 
 	@Override
