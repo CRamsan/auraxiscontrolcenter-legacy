@@ -1,8 +1,5 @@
 package com.cesarandres.ps2link;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import android.app.Application;
 import android.graphics.Bitmap;
 
