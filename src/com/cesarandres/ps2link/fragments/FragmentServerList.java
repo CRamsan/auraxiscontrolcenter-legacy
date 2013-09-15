@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,11 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -41,7 +44,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentServerList extends Fragment {
+public class FragmentServerList extends BaseFragment {
 
 	public static final int SQL_READER = 235;
 	private ArrayList<AsyncTask> taskList;

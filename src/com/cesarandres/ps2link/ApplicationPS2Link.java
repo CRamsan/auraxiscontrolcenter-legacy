@@ -12,7 +12,6 @@ public class ApplicationPS2Link extends Application {
 
 	public static RequestQueue volley;
 	public static ImageLoader mImageLoader;
-	private static boolean full = false;
 	private static WallPaperMode wallpaper = WallPaperMode.PS2;
 	private static Bitmap background;
 	
@@ -30,6 +29,7 @@ public class ApplicationPS2Link extends Application {
 		ACTIVITY_SERVER_LIST,
 		ACTIVITY_TWITTER,
 		ACTIVITY_WDS
+		ACTIVITY_MAIN_MENU
 	}
 
 	public static enum WallPaperMode {

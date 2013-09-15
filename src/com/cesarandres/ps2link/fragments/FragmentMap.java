@@ -1,8 +1,7 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.view.DBItemAdapter;
 
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentMap extends Fragment {
+public class FragmentMap extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,6 +20,11 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.R.drawable;
+import com.cesarandres.ps2link.R.id;
+import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;

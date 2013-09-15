@@ -1,11 +1,10 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
+import com.cesarandres.ps2link.ActivityAbout;
+import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityProfile;
+import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.base.BitmapWorkerTask;
 
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentMainMenu extends Fragment {
+public class FragmentMainMenu extends BaseFragment {
 
 	@Override
 	public void onAttach(Activity activity) {

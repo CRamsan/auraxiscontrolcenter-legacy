@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,13 +20,18 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityProfile;
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.R.id;
+import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -44,7 +49,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentMemberList extends Fragment {
+public class FragmentVehicleList extends Fragment {
 
 	private boolean isCached;
 	private boolean shownOffline = false;;
@@ -53,7 +58,7 @@ public class FragmentMemberList extends Fragment {
 	private String outfitId;
 	private String outfitName;
 	private ArrayList<AsyncTask> taskList;
-	private FragmentMemberList tag = this;
+	private FragmentVehicleList tag = this;
 	public static final int SUCCESS = 0;
 	public static final int FAILED = 1;
 
@@ -178,19 +183,15 @@ public class FragmentMemberList extends Fragment {
 					Game.PS2V2,
 					PS2Collection.OUTFIT,
 					"",
-					QueryString.generateQeuryString().AddComparison("outfit_id", SearchModifier.EQUALS, outfit_id)
+					QueryString.generateQeuryString().AddComparison("id", SearchModifier.EQUALS, outfit_id)
 							.AddCommand(QueryCommand.RESOLVE, "member_online_status,member,member_character(name,type.faction)"));
 
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
 				@Override
 				public void onResponse(Outfit_member_response response) {
-					try {
-						UpdateMembers task = new UpdateMembers();
-						taskList.add(task);
-						task.execute(response.getOutfit_list().get(0).getMembers());
-					} catch (Exception e) {
-						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-					}
+					UpdateMembers task = new UpdateMembers();
+					taskList.add(task);
+					task.execute(response.getOutfit_list().get(0).getMembers());
 				}
 			};
 
@@ -198,7 +199,6 @@ public class FragmentMemberList extends Fragment {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 					error.equals(new Object());
-					Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					setUpdateButton(true);
 				}
 			};

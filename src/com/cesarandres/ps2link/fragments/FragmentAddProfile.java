@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,7 +9,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,10 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cesarandres.ps2link.ActivityProfile;
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -41,7 +44,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentAddProfile extends Fragment implements OnClickListener {
+public class FragmentAddProfile extends BaseFragment implements OnClickListener {
 
 	public interface NameToSearchListener {
 		void onProfileSelected(CharacterProfile profile);

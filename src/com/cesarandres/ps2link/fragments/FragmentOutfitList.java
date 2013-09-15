@@ -1,11 +1,10 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
@@ -23,7 +26,7 @@ import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentOutfitList extends Fragment {
+public class FragmentOutfitList extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -1,17 +1,30 @@
 package com.cesarandres.ps2link;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseActivity;
+import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks;
+import com.cesarandres.ps2link.fragments.FragmentAddOutfit;
+import com.cesarandres.ps2link.fragments.FragmentAddProfile;
+import com.cesarandres.ps2link.fragments.FragmentMainMenu;
+import com.cesarandres.ps2link.fragments.FragmentMap;
+import com.cesarandres.ps2link.fragments.FragmentMemberList;
+import com.cesarandres.ps2link.fragments.FragmentOutfitList;
+import com.cesarandres.ps2link.fragments.FragmentProfileList;
+import com.cesarandres.ps2link.fragments.FragmentServer;
+import com.cesarandres.ps2link.fragments.FragmentServerList;
+import com.cesarandres.ps2link.fragments.FragmentTwitter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**
  * Created by cesar on 6/16/13.
  */
-public class ActivityContainerSingle extends BaseActivity {
+public class ActivityContainerSingle extends BaseActivity implements FragmentCallbacks {
 
 	private String activityMode;
 	private ObjectDataSource data;
@@ -21,49 +34,50 @@ public class ActivityContainerSingle extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		Bundle extras = getIntent().getExtras();
-		String activityMode = "";
+		String activityMode = "ACTIVITY_MAIN_MENU";
 		if (extras != null) {
 			activityMode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
 		}
 
 		setActivityMode(activityMode);
 
+		setContentView(R.layout.activity_single_pane);
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		BaseFragment newFragment = null;
 		switch (ActivityMode.valueOf(getActivityMode())) {
 		case ACTIVITY_ADD_OUTFIT:
-			setContentView(R.layout.activity_add_outfit);
+			newFragment = new FragmentAddOutfit();
 			break;
 		case ACTIVITY_MAP:
-			setContentView(R.layout.activity_map);
+			newFragment = new FragmentMap();
 			break;
 		case ACTIVITY_ADD_PROFILE:
-			setContentView(R.layout.activity_add_profile);
+			newFragment = new FragmentAddProfile();
 			break;
 		case ACTIVITY_MEMBER_LIST:
-			setContentView(R.layout.activity_member_list);
+			newFragment = new FragmentMemberList();
 			setData(new ObjectDataSource(this));
 			data.open();
 			break;
 		case ACTIVITY_OUTFIT_LIST:
-			setContentView(R.layout.activity_outfit_list);
-			break;
-		case ACTIVITY_PROFILE:
-			setContentView(R.layout.activity_profile_full);
-			setData(new ObjectDataSource(this));
-			data.open();
+			newFragment = new FragmentOutfitList();
 			break;
 		case ACTIVITY_PROFILE_LIST:
-			setContentView(R.layout.activity_profile_list);
+			newFragment = new FragmentProfileList();
 			break;
 		case ACTIVITY_SERVER:
-			setContentView(R.layout.activity_server);
+			newFragment = new FragmentServer();
 			break;
 		case ACTIVITY_SERVER_LIST:
-			setContentView(R.layout.activity_server_list);
+			newFragment = new FragmentServerList();
 			break;
 		case ACTIVITY_TWITTER:
-			setContentView(R.layout.activity_twitter);
+			newFragment = new FragmentTwitter();
 			setData(new ObjectDataSource(this));
 			data.open();
+			break;
+		case ACTIVITY_MAIN_MENU:
+			newFragment = new FragmentMainMenu();
 			break;
 		case ACTIVITY_WDS:
 			setContentView(R.layout.activity_wds);
@@ -71,6 +85,9 @@ public class ActivityContainerSingle extends BaseActivity {
 		default:
 			break;
 		}
+		transaction.replace(R.id.activityFrameLayout, newFragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
 
 		Button titleBack = (Button) findViewById(R.id.buttonFragmentTitle);
 		titleBack.setOnClickListener(new View.OnClickListener() {
@@ -133,5 +150,11 @@ public class ActivityContainerSingle extends BaseActivity {
 
 	public void setData(ObjectDataSource data) {
 		this.data = data;
+	}
+
+	@Override
+	public void onItemSelected(String id) {
+		// TODO Auto-generated method stub
+
 	}
 }

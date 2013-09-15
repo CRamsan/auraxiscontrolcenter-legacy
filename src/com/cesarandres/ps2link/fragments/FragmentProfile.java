@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +29,13 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cesarandres.ps2link.ActivityProfile;
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.R.drawable;
+import com.cesarandres.ps2link.R.id;
+import com.cesarandres.ps2link.R.layout;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -46,7 +53,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentProfile extends Fragment {
+public class FragmentProfile extends BaseFragment {
 
 	private static boolean isCached;
 	private CharacterProfile profile;
