@@ -111,7 +111,7 @@ public class FragmentFriendList extends Fragment {
 		setUpdateButton(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2, PS2Collection.CHARACTERS_FRIEND, character_id, QueryString.generateQeuryString()
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTERS_FRIEND, character_id, QueryString.generateQeuryString()
 					.AddCommand(QueryCommand.RESOLVE, "character_name"));
 
 			Listener<Character_friend_list_response> success = new Response.Listener<Character_friend_list_response>() {
