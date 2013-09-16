@@ -65,6 +65,9 @@ public class ActivityContainerSingle extends BaseActivity {
 			setData(new ObjectDataSource(this));
 			data.open();
 			break;
+		case ACTIVITY_WDS:
+			setContentView(R.layout.activity_wds);
+			break;
 		default:
 			break;
 		}

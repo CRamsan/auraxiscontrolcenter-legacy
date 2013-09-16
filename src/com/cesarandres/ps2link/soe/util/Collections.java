@@ -72,6 +72,7 @@ public class Collections {
 		VEHICLE("vehicle"),
 		WORLD("world"),
 		WORLD_EVENT("world_event"),
+		WORLD_STAT_HISTORY("world_stat_history"),
 		ZONE("zone");
 
 		private final String collection;

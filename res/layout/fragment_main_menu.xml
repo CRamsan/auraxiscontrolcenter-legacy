@@ -46,6 +46,11 @@
                 android:text="@string/title_servers" />
 
             <Button
+                android:id="@+id/buttonWDS"
+                style="@style/ButtonStyle"
+                android:text="@string/title_wds" />
+
+            <Button
                 android:id="@+id/buttonOutfit"
                 style="@style/ButtonStyle"
                 android:text="@string/title_outfits" />

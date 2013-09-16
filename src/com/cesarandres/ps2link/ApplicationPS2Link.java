@@ -28,7 +28,8 @@ public class ApplicationPS2Link extends Application {
 		ACTIVITY_PROFILE_LIST,
 		ACTIVITY_SERVER,
 		ACTIVITY_SERVER_LIST,
-		ACTIVITY_TWITTER
+		ACTIVITY_TWITTER,
+		ACTIVITY_WDS
 	}
 
 	public static enum WallPaperMode {
