@@ -55,6 +55,7 @@ public class QueryString {
 		this.listtOfParameters = new ArrayList<SearchParameter>(1);
 	}
 
+	//TODO Fix THIS!
 	public static QueryString generateQeuryString() {
 		return new QueryString();
 	}

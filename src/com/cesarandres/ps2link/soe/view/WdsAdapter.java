@@ -86,6 +86,7 @@ public class WdsAdapter extends BaseAdapter {
 
 			holder = new ViewHolder();
 			holder.faction = (ImageView) convertView.findViewById(R.id.imageViewWdsStatItemFaction);
+			holder.server = (TextView) convertView.findViewById(R.id.TextViewWdsStatItemServer);	
 			holder.name = (TextView) convertView.findViewById(R.id.TextViewWdsStatItemName);
 			holder.total = (TextView) convertView.findViewById(R.id.TextViewWdsStatItemTotal);
 			holder.today = (TextView) convertView.findViewById(R.id.TextViewWdsStatItemToday);
@@ -100,6 +101,8 @@ public class WdsAdapter extends BaseAdapter {
 			}
 		}
 
+		updateServer(getItem(position).getWorld_id(), PS2Collection.WORLD, holder.server, convertView);
+		
 		if (getItem(position).getFaction().equals(VS)) {
 			holder.faction.setImageBitmap(icon_vs);
 		} else if (getItem(position).getFaction().equals(NC)) {
@@ -112,21 +115,22 @@ public class WdsAdapter extends BaseAdapter {
 		holder.total.setText(getItem(position).getAll_time());
 		holder.today.setText(Integer.toString(getItem(position).getToday()));
 		holder.week.setText(Integer.toString(getItem(position).getThisWeek()));
-		holder.month.setText(Integer.toString(getItem(position).getThisMonth()));
-
+		holder.month.setText(Integer.toString(getItem(position).getThisMonth()));		
+		
 		return convertView;
 	}
 
 	static class ViewHolder {
 		ImageView faction;
 		TextView name;
+		TextView server;
 		TextView total;
 		TextView today;
 		TextView week;
 		TextView month;
 	}
 
-	private void updateServer(String world_id, PS2Collection collection, final TextView name, final NetworkImageView image, final int position, View view) {
+	private void updateServer(String world_id, PS2Collection collection, final TextView name, View view) {
 
 		URL url;
 		try {
