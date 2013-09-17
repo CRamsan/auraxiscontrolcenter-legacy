@@ -1,6 +1,8 @@
 package com.cesarandres.ps2link.soe.content;
 
-public class WDS_Stat {
+import java.util.Comparator;
+
+public class WDS_Stat implements Comparable<WDS_Stat> {
 
 	private String all_time;
 	private String last_save;
@@ -11,6 +13,7 @@ public class WDS_Stat {
 	private String type_name;
 	private String type;
 	private String world_id;
+	private String world_name;
 	private Day day;
 	private Week week;
 	private Month month;
@@ -135,6 +138,14 @@ public class WDS_Stat {
 		this.world_id = world_id;
 	}
 
+	public String getWorld_name() {
+		return world_name;
+	}
+
+	public void setWorld_name(String world_name) {
+		this.world_name = world_name;
+	}
+
 	public class Day {
 		public String d01;
 		public String d02;
@@ -197,4 +208,12 @@ public class WDS_Stat {
 		public String m12;
 	}
 
+	@Override
+	public int compareTo(WDS_Stat another) {
+		if (this.getWorld_id().equals(another.getWorld_id())) {
+			return this.getFaction().compareTo(another.getFaction());
+		} else {
+			return this.getWorld_id().compareTo(another.getWorld_id());
+		}
+	}
 }
