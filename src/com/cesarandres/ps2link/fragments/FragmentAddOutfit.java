@@ -47,7 +47,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
+public class FragmentAddOutfit extends BaseFragment {
 
 	public interface NameToSearchListener {
 		void onoutfitSelected(Outfit outfit);
@@ -118,11 +118,8 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 					listRoot.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-							Intent intent = new Intent();
-							intent.setClass(getActivity(), ActivityContainerSingle.class);
-							intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
-							intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id());
-							startActivity(intent);
+							mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
+									new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId() });
 						}
 					});
 
@@ -179,11 +176,5 @@ public class FragmentAddOutfit extends BaseFragment implements OnClickListener {
 			data.close();
 			return true;
 		}
-	}
-
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		// TODO Auto-generated method stub
-
 	}
 }

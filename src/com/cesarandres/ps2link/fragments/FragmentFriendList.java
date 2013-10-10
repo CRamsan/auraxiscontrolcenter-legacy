@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,10 +28,12 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.R.id;
 import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.R.string;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterFriend;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.response.Character_friend_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
@@ -42,7 +45,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentFriendList extends Fragment {
+public class FragmentFriendList extends BaseFragment {
 
 	private String profileId;
 
@@ -62,15 +65,12 @@ public class FragmentFriendList extends Fragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				String id = ((CharacterFriend) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id();
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", id);
-				startActivity(intent);
+				mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+						new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId() });
 			}
 		});
 
-		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+		this.profileId = getArguments().getString("PARAM_0");
 
 		return root;
 	}

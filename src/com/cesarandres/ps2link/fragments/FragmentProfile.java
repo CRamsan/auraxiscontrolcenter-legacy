@@ -79,7 +79,7 @@ public class FragmentProfile extends BaseFragment {
 		taskList = new ArrayList<AsyncTask>();
 		UpdateProfileFromTable task = new UpdateProfileFromTable();
 		taskList.add(task);
-		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+		this.profileId = getArguments().getString("PARAM_0");
 		task.execute(this.profileId);
 	}
 

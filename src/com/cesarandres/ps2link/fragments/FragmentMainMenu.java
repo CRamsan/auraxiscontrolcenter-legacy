@@ -21,6 +21,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.base.BitmapWorkerTask;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
 /**
  * Created by cesar on 6/16/13.
@@ -46,10 +47,7 @@ public class FragmentMainMenu extends BaseFragment {
 		final Button buttonCharacters = (Button) root.findViewById(R.id.buttonCharacters);
 		buttonCharacters.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_PROFILE_LIST.toString());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_PROFILE_LIST.toString(), null);
 			}
 		});
 
@@ -66,20 +64,14 @@ public class FragmentMainMenu extends BaseFragment {
 		final Button buttonServers = (Button) root.findViewById(R.id.buttonServers);
 		buttonServers.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_SERVER_LIST.toString());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_SERVER_LIST.toString(), null);
 			}
 		});
 
 		final Button buttonOutfit = (Button) root.findViewById(R.id.buttonOutfit);
 		buttonOutfit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_OUTFIT_LIST.toString());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_OUTFIT_LIST.toString(), null);
 			}
 		});
 
@@ -106,10 +98,7 @@ public class FragmentMainMenu extends BaseFragment {
 		final Button buttonTwitter = (Button) root.findViewById(R.id.buttonTwitter);
 		buttonTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_TWITTER.toString());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_TWITTER.toString(), null);
 			}
 		});
 
@@ -195,11 +184,10 @@ public class FragmentMainMenu extends BaseFragment {
 		if (!preferedProfileId.equals("")) {
 			buttonPreferedProfile.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
+
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityProfile.class);
-					intent.putExtra("profileId", settings.getString("preferedProfile", ""));
-					startActivity(intent);
+					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+							new String[] { settings.getString("preferedProfile", "") });
 				}
 			});
 			buttonPreferedProfile.setText(preferedProfileName);
@@ -216,11 +204,8 @@ public class FragmentMainMenu extends BaseFragment {
 			buttonPreferedOutfit.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityContainerSingle.class);
-					intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
-					intent.putExtra("outfit_id", settings.getString("preferedOutfit", ""));
-					startActivity(intent);
+					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
+							new String[] { settings.getString("preferedOutfit", "") });
 				}
 			});
 			buttonPreferedOutfit.setVisibility(View.VISIBLE);

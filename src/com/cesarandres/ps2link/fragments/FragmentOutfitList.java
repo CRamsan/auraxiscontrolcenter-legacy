@@ -20,6 +20,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
@@ -44,11 +45,8 @@ public class FragmentOutfitList extends BaseFragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
-				intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
+						new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId() });
 			}
 		});
 
@@ -64,10 +62,7 @@ public class FragmentOutfitList extends BaseFragment {
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_ADD_OUTFIT.toString());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ADD_OUTFIT.toString(), null);
 			}
 		});
 

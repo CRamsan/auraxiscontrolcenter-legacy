@@ -44,7 +44,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentAddProfile extends BaseFragment implements OnClickListener {
+public class FragmentAddProfile extends BaseFragment {
 
 	public interface NameToSearchListener {
 		void onProfileSelected(CharacterProfile profile);
@@ -91,10 +91,6 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 		ApplicationPS2Link.volley.cancelAll(this);
 	}
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-	}
-
 	private void downloadProfiles() {
 		EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchProfile);
 		URL url;
@@ -116,10 +112,8 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 					listRoot.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-							Intent intent = new Intent();
-							intent.setClass(getActivity(), ActivityProfile.class);
-							intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId());
-							startActivity(intent);
+							mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+									new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId() });
 						}
 					});
 				}
@@ -143,31 +137,6 @@ public class FragmentAddProfile extends BaseFragment implements OnClickListener 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-
-	private class UpdateTmpProfileTable extends AsyncTask<ArrayList<CharacterProfile>, Integer, Boolean> {
-		@Override
-		protected Boolean doInBackground(ArrayList<CharacterProfile>... profiles) {
-			int count = profiles[0].size();
-			ArrayList<CharacterProfile> list = profiles[0];
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
-			CharacterProfile profile = null;
-			for (int i = 0; i < count; i++) {
-				profile = data.getCharacter(list.get(i).getCharacterId());
-				if (profile == null) {
-					data.insertCharacter(list.get(i), true);
-				} else {
-					if (profile.isCached()) {
-						data.updateCharacter(list.get(i), false);
-					} else {
-						data.updateCharacter(list.get(i), true);
-					}
-				}
-			}
-			data.close();
-			return true;
 		}
 	}
 }

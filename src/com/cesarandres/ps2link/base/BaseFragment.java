@@ -11,12 +11,12 @@ public class BaseFragment extends Fragment {
 	protected FragmentCallbacks mCallbacks = dummyCallbacks;
 
 	public interface FragmentCallbacks {
-		public void onItemSelected(String id);
+		public void onItemSelected(String id, String args[]);
 	}
 
 	private static FragmentCallbacks dummyCallbacks = new FragmentCallbacks() {
 		@Override
-		public void onItemSelected(String id) {
+		public void onItemSelected(String id, String args[]) {
 		}
 	};
 

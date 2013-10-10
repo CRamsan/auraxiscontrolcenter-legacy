@@ -5,7 +5,6 @@ import java.net.URL;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +22,12 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ActivityProfile;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.R.id;
-import com.cesarandres.ps2link.R.layout;
-import com.cesarandres.ps2link.R.string;
+import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterEvent;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.response.Characters_event_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
@@ -41,7 +39,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentKillList extends Fragment {
+public class FragmentKillList extends BaseFragment {
 
 	private String profileId;
 
@@ -61,14 +59,12 @@ public class FragmentKillList extends Fragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+						new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });
 			}
 		});
 
-		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+		this.profileId = getArguments().getString("PARAM_0");
 		return root;
 	}
 

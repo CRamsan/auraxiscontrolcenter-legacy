@@ -32,7 +32,7 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 	private ObjectDataSource data;
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 	private ViewPager mViewPager;
-
+	private String profileId;
 	private static final int PROFILE = 0;
 	private static final int FRIENDS = 1;
 	private static final int STATS = 2;
@@ -50,7 +50,6 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 
 		findViewById(R.id.buttonFragmentUpdate).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				String profileId = getIntent().getExtras().getString("profileId");
 				switch (mViewPager.getCurrentItem()) {
 				case PROFILE:
 					((FragmentProfile) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, PROFILE)))
@@ -75,6 +74,8 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 			}
 		});
 
+		profileId = getIntent().getExtras().getString("PARAM_0");
+				
 		Bundle extras = getIntent().getExtras();
 		String activityMode = "";
 		if (extras != null) {
@@ -90,18 +91,6 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 				navigateUp();
 			}
 		});
-
-		SharedPreferences settings = getSharedPreferences("PREFERENCES", 0);
-		boolean isFirstRun = settings.getBoolean("isfirstrun", true);
-		if (isFirstRun) {
-			SharedPreferences.Editor editor = settings.edit();
-			editor.putBoolean("isfirstrun", false);
-			editor.commit();
-
-			DialogFragment newFragment = new WellcomeDialogFragment();
-			newFragment.show(getSupportFragmentManager(), "Wellcome");
-		}
-
 	}
 
 	@Override
@@ -168,8 +157,8 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 			default:
 				break;
 			}
-			Bundle args = new Bundle();
-			args.putInt("", 0);
+			Bundle args = new Bundle();			
+			args.putString("PARAM_0", profileId);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -197,7 +186,7 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 	}
 
 	@Override
-	public void onItemSelected(String id) {
+	public void onItemSelected(String id, String args[]) {
 		// TODO Auto-generated method stub
 
 	}
@@ -210,31 +199,5 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	public static class WellcomeDialogFragment extends DialogFragment {
 
-		public static WellcomeDialogFragment newInstance() {
-			WellcomeDialogFragment d = new WellcomeDialogFragment();
-			return d;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			// Use the Builder class for convenient dialog construction
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setMessage(R.string.content_new_paid_version).setPositiveButton(R.string.text_sure, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					String url = "https://play.google.com/store/apps/details?id=com.cesarandres.ps2link.key";
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
-				}
-			}).setNegativeButton(R.string.text_not_right_now, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-
-				}
-			});
-			// Create the AlertDialog object and return it
-			return builder.create();
-		}
-	}
 }

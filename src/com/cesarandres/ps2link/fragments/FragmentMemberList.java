@@ -35,6 +35,7 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Member;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
@@ -76,10 +77,8 @@ public class FragmentMemberList extends BaseFragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+						new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
 			}
 		});
 
@@ -254,10 +253,8 @@ public class FragmentMemberList extends BaseFragment {
 			listRoot.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityProfile.class);
-					intent.putExtra("profileId", ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id());
-					startActivity(intent);
+					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+							new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
 				}
 			});
 

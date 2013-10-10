@@ -44,10 +44,8 @@ public class FragmentProfileList extends BaseFragment {
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+						new String[]{((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId()});
 			}
 		});
 		return root;
@@ -71,10 +69,7 @@ public class FragmentProfileList extends BaseFragment {
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_ADD_PROFILE.toString());
-				startActivity(intent);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ADD_PROFILE.toString(), null);
 			}
 		});
 

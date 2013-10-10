@@ -14,7 +14,7 @@ public class ApplicationPS2Link extends Application {
 	public static ImageLoader mImageLoader;
 	private static WallPaperMode wallpaper = WallPaperMode.PS2;
 	private static Bitmap background;
-	
+
 	public static final String ACTIVITY_MODE_KEY = "activity_mode";
 
 	public static enum ActivityMode {
@@ -33,13 +33,9 @@ public class ApplicationPS2Link extends Application {
 	}
 
 	public static enum WallPaperMode {
-		PS2,
-		NC,
-		TR,
-		VS
+		PS2, NC, TR, VS
 	}
 
-	
 	@Override
 	public void onCreate() {
 		super.onCreate();
