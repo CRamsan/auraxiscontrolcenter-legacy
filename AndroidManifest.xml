@@ -28,6 +28,8 @@
         </activity>
         <activity android:name="com.cesarandres.ps2link.ActivityProfile" >
         </activity>
+        <activity android:name="com.cesarandres.ps2link.ActivityOutfit" >
+        </activity>
         <activity
             android:name="com.cesarandres.ps2link.ActivityAbout"
             android:theme="@style/PS2ThemeDialog" >

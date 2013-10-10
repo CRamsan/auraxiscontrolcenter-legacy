@@ -2,13 +2,12 @@ package com.cesarandres.ps2link.soe.content;
 
 import com.cesarandres.ps2link.soe.content.character.Name;
 
-
-
 public class Member {
 	private String character_id;
 	private String online_status;
 	private String rank;
 	private String outfit_id;
+	private CharacterProfile character;
 	private Name name;
 
 	public String getCharacter_id() {
@@ -49,5 +48,13 @@ public class Member {
 
 	public void setOutfit_id(String outfit_id) {
 		this.outfit_id = outfit_id;
+	}
+
+	public CharacterProfile getCharacter() {
+		return character;
+	}
+
+	public void setCharacter(CharacterProfile character) {
+		this.character = character;
 	}
 }

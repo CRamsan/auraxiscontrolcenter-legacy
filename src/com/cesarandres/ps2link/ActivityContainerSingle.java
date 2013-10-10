@@ -20,7 +20,7 @@ import com.cesarandres.ps2link.fragments.FragmentAddOutfit;
 import com.cesarandres.ps2link.fragments.FragmentAddProfile;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
 import com.cesarandres.ps2link.fragments.FragmentMap;
-import com.cesarandres.ps2link.fragments.FragmentMemberList;
+import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
 import com.cesarandres.ps2link.fragments.FragmentProfileList;
 import com.cesarandres.ps2link.fragments.FragmentServer;
@@ -171,6 +171,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 				intent.putExtra("PARAM_" + i, args[i]);
 			}
 		}
+		intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, id);
 		startActivity(intent);
 	}
 
@@ -196,6 +197,9 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 		case ACTIVITY_PROFILE:
 			newActivityClass = ActivityProfile.class;
 			break;
+		case ACTIVITY_MEMBER_LIST:
+			newActivityClass = ActivityOutfit.class;
+			break;
 		default:
 			break;
 		}
@@ -213,9 +217,6 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 			break;
 		case ACTIVITY_ADD_PROFILE:
 			newFragment = new FragmentAddProfile();
-			break;
-		case ACTIVITY_MEMBER_LIST:
-			newFragment = new FragmentMemberList();
 			break;
 		case ACTIVITY_OUTFIT_LIST:
 			newFragment = new FragmentOutfitList();

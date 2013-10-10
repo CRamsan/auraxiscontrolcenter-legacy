@@ -17,6 +17,7 @@ public class CharacterProfile {
 	private String world_id;
 	private Outfit outfit;
 	private String outfitName;
+	private Profile profile;
 	private Stats stats;
 	private int online_status;
 	private boolean cached;
@@ -123,5 +124,13 @@ public class CharacterProfile {
 
 	public void setStats(Stats stats) {
 		this.stats = stats;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }

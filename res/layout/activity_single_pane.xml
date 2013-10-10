@@ -22,8 +22,9 @@
 
         <FrameLayout
             android:id="@+id/activityFrameLayout"
+            style="@style/FragmentBottomStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent" >
         </FrameLayout>
     </LinearLayout>
 
