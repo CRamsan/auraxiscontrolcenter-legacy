@@ -162,32 +162,16 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 
 		Class newActivityClass = getActivityByMode(id);
 		if (newActivityClass != null) {
-			Intent intent = new Intent();
-			intent.setClass(ActivityContainerSingle.this, newActivityClass);
-
-			if (args != null && args.length > 0) {
-				for (int i = 0; i < args.length; i++) {
-					intent.putExtra("PARAM_" + i, args[i]);
-				}
-			}
-			startActivity(intent);
-
 		} else {
-			setActivityMode(id);
-			BaseFragment newFragment = getFragmentByMode(getActivityMode());
-			if (args != null && args.length > 0) {
-				Bundle bundle = new Bundle();
-				for (int i = 0; i < args.length; i++) {
-					bundle.putString("PARAM_" + i, args[i]);
-				}
-				newFragment.setArguments(bundle);
-			}
-
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			transaction.replace(R.id.activityFrameLayout, newFragment);
-			transaction.addToBackStack(null);
-			transaction.commit();
+			newActivityClass = ActivityContainerSingle.class;
 		}
+		Intent intent = new Intent(this, newActivityClass);
+		if (args != null && args.length > 0) {
+			for (int i = 0; i < args.length; i++) {
+				intent.putExtra("PARAM_" + i, args[i]);
+			}
+		}
+		startActivity(intent);
 	}
 
 	public String getActivityMode() {
