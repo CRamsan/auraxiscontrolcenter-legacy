@@ -130,7 +130,7 @@ public class ObjectDataSource {
 
 	public boolean insertCharacter(CharacterProfile character, boolean temp) {
 		ContentValues values = new ContentValues();
-		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getCharacterId());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character.getName().getFirst());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST_LOWER, character.getName().getFirst_lower());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ACTIVE_PROFILE_ID, character.getActive_profile_id());
@@ -169,7 +169,7 @@ public class ObjectDataSource {
 	}
 
 	public void deleteCharacter(CharacterProfile character) {
-		String id = character.getId();
+		String id = character.getCharacterId();
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 		database.delete(target, SQLiteManager.CHARACTERS_COLUMN_ID + " = " + id, null);
 	}
@@ -192,7 +192,7 @@ public class ObjectDataSource {
 		String target = SQLiteManager.TABLE_CHARACTERS_NAME;
 
 		ContentValues values = new ContentValues();
-		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getId());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_ID, character.getCharacterId());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST, character.getName().getFirst());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_NAME_FIRST_LOWER, character.getName().getFirst_lower());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_ACTIVE_PROFILE_ID, character.getActive_profile_id());
@@ -214,12 +214,12 @@ public class ObjectDataSource {
 		} else {
 			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
 		}
-		return database.update(target, values, SQLiteManager.CHARACTERS_COLUMN_ID + " = " + character.getId(), null);
+		return database.update(target, values, SQLiteManager.CHARACTERS_COLUMN_ID + " = " + character.getCharacterId(), null);
 	}
 
 	public CharacterProfile cursorToCharacterProfile(Cursor cursor) {
 		CharacterProfile character = new CharacterProfile();
-		character.setId(cursor.getString(0));
+		character.setCharacterId(cursor.getString(0));
 		Name name = new Name();
 		name.setFirst(cursor.getString(1));
 		name.setFirst_lower(cursor.getString(2));
@@ -548,7 +548,7 @@ public class ObjectDataSource {
 	public boolean insertOutfit(Outfit outfit, boolean temp) {
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
 		ContentValues values = new ContentValues();
-		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
+		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getOutfit_Id());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
 		values.put(SQLiteManager.OUTFIT_COLUMN_ALIAS, outfit.getAlias());
 		values.put(SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID, outfit.getLeader_character_id());
@@ -566,7 +566,7 @@ public class ObjectDataSource {
 	}
 
 	public void deleteOutfit(Outfit outfit, boolean temp) {
-		String id = outfit.getId();
+		String id = outfit.getOutfit_Id();
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
 
 		database.delete(target, SQLiteManager.OUTFIT_COLUMN_ID + " = " + id, null);
@@ -574,7 +574,7 @@ public class ObjectDataSource {
 
 	public Outfit cursorToOutfit(Cursor cursor) {
 		Outfit outfit = new Outfit();
-		outfit.setId(cursor.getString(0));
+		outfit.setOutfit_Id(cursor.getString(0));
 		outfit.setName(cursor.getString(1));
 		outfit.setAlias(cursor.getString(2));
 		outfit.setLeader_character_id(cursor.getString(3));
@@ -642,7 +642,7 @@ public class ObjectDataSource {
 		String target = SQLiteManager.TABLE_OUTFITS_NAME;
 
 		ContentValues values = new ContentValues();
-		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getId());
+		values.put(SQLiteManager.OUTFIT_COLUMN_ID, outfit.getOutfit_Id());
 		values.put(SQLiteManager.OUTFIT_COLUMN_NAME, outfit.getName());
 		values.put(SQLiteManager.OUTFIT_COLUMN_ALIAS, outfit.getAlias());
 		values.put(SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID, outfit.getLeader_character_id());
@@ -653,7 +653,7 @@ public class ObjectDataSource {
 		} else {
 			values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
 		}
-		return database.update(target, values, SQLiteManager.OUTFIT_COLUMN_ID + " = " + outfit.getId(), null);
+		return database.update(target, values, SQLiteManager.OUTFIT_COLUMN_ID + " = " + outfit.getOutfit_Id(), null);
 	}
 
 	public boolean insertWorld(World world) {

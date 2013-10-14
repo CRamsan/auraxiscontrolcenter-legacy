@@ -47,7 +47,9 @@ public class SOECensus {
 	}
 
 	public static enum Game {
-		PS2("ps2"), EQ2("eq2"), PS2V1("ps2:v1"), PS2V2("ps2:v2"), PS2BETA("ps2-beta");
+		PS2("ps2"), EQ2("eq2"), @Deprecated
+		PS2V1("ps2:v1"), PS2V2("ps2:v2"), @Deprecated
+		PS2BETA("ps2-beta");
 
 		private final String game;
 

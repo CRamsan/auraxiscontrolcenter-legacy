@@ -110,8 +110,13 @@ public class FragmentKillList extends Fragment {
 		URL url;
 		try {
 
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTERS_EVENT, character_id,
-					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
+			url = SOECensus.generateGameDataRequest(
+					Verb.GET,
+					Game.PS2V2,
+					PS2Collection.CHARACTERS_EVENT,
+					null,
+					QueryString.generateQeuryString().AddComparison("character_id", SearchModifier.EQUALS, character_id)
+							.AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
 							.AddComparison("type", SearchModifier.EQUALS, "DEATH,KILL"));
 			Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
 				@Override

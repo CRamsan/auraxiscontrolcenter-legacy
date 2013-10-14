@@ -1,6 +1,5 @@
 package com.cesarandres.ps2link.soe.content;
 
-import java.util.Comparator;
 
 public class WDS_Stat implements Comparable<WDS_Stat> {
 

@@ -174,7 +174,7 @@ public class FragmentVehicleList extends Fragment {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2V1,
+					Game.PS2V2,
 					PS2Collection.OUTFIT,
 					"",
 					QueryString.generateQeuryString().AddComparison("id", SearchModifier.EQUALS, outfit_id)
@@ -307,7 +307,7 @@ public class FragmentVehicleList extends Fragment {
 				if (result == null) {
 					setUpdateButton(false);
 				} else {
-					outfitId = result.getId();
+					outfitId = result.getOutfit_Id();
 					outfitName = result.getName();
 					outfitSize = result.getMember_count();
 					((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);

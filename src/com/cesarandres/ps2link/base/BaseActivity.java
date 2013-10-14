@@ -1,11 +1,6 @@
 package com.cesarandres.ps2link.base;
 
-import java.security.NoSuchAlgorithmException;
-
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;

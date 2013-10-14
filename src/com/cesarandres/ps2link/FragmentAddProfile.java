@@ -98,7 +98,7 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2V1,
+					Game.PS2V2,
 					PS2Collection.CHARACTER_NAME,
 					"",
 					QueryString.generateQeuryString()
@@ -115,7 +115,7 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 						public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 							Intent intent = new Intent();
 							intent.setClass(getActivity(), ActivityProfile.class);
-							intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId());
+							intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId());
 							startActivity(intent);
 						}
 					});
@@ -152,7 +152,7 @@ public class FragmentAddProfile extends Fragment implements OnClickListener {
 			data.open();
 			CharacterProfile profile = null;
 			for (int i = 0; i < count; i++) {
-				profile = data.getCharacter(list.get(i).getId());
+				profile = data.getCharacter(list.get(i).getCharacterId());
 				if (profile == null) {
 					data.insertCharacter(list.get(i), true);
 				} else {

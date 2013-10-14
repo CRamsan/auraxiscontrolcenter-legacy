@@ -99,7 +99,7 @@ public class FragmentAddOutfit extends Fragment implements OnClickListener {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2V1,
+					Game.PS2V2,
 					PS2Collection.OUTFIT,
 					"",
 					QueryString.generateQeuryString()
@@ -118,7 +118,7 @@ public class FragmentAddOutfit extends Fragment implements OnClickListener {
 							Intent intent = new Intent();
 							intent.setClass(getActivity(), ActivityContainerSingle.class);
 							intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
-							intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId());
+							intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id());
 							startActivity(intent);
 						}
 					});
@@ -162,7 +162,7 @@ public class FragmentAddOutfit extends Fragment implements OnClickListener {
 			data.open();
 			Outfit outfit = null;
 			for (int i = 0; i < count; i++) {
-				outfit = data.getOutfit(list.get(i).getId());
+				outfit = data.getOutfit(list.get(i).getOutfit_Id());
 				if (outfit == null) {
 					data.insertOutfit(list.get(i), true);
 				} else {

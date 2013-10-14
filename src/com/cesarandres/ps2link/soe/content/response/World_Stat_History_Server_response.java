@@ -3,7 +3,6 @@ package com.cesarandres.ps2link.soe.content.response;
 import java.util.ArrayList;
 
 import com.cesarandres.ps2link.soe.content.WDS_Stat;
-import com.cesarandres.ps2link.soe.content.World;
 
 public class World_Stat_History_Server_response {
 	private ArrayList<WDS_Stat> world_stat_history_list;

@@ -170,7 +170,7 @@ public class FragmentProfile extends Fragment {
 		star.setOnCheckedChangeListener(null);
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		String preferedProfileId = settings.getString("preferedProfile", "");
-		if (preferedProfileId.equals(character.getId())) {
+		if (preferedProfileId.equals(character.getCharacterId())) {
 			star.setChecked(true);
 		} else {
 			star.setChecked(false);
@@ -181,7 +181,7 @@ public class FragmentProfile extends Fragment {
 				SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 				SharedPreferences.Editor editor = settings.edit();
 				if (isChecked) {
-					editor.putString("preferedProfile", profile.getId());
+					editor.putString("preferedProfile", profile.getCharacterId());
 					editor.putString("preferedProfileName", profile.getName().getFirst());
 				} else {
 					editor.putString("preferedProfileName", "");
@@ -262,7 +262,7 @@ public class FragmentProfile extends Fragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTER, character_id,
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTER, character_id,
 					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world"));
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
@@ -272,7 +272,7 @@ public class FragmentProfile extends Fragment {
 						setActionBarEnabled(true);
 						profile.setCached(isCached);
 						updateUI(profile);
-						downloadOnlineStatus(response.getCharacter_list().get(0).getId());
+						downloadOnlineStatus(response.getCharacter_list().get(0).getCharacterId());
 
 						UpdateProfileToTable task = new UpdateProfileToTable();
 						taskList.add(task);
@@ -306,7 +306,7 @@ public class FragmentProfile extends Fragment {
 		setActionBarEnabled(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
 
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
@@ -375,7 +375,7 @@ public class FragmentProfile extends Fragment {
 			} else {
 				profile = result;
 				updateUI(result);
-				downloadProfiles(result.getId());
+				downloadProfiles(result.getCharacterId());
 			}
 			taskList.remove(this);
 		}
@@ -417,7 +417,7 @@ public class FragmentProfile extends Fragment {
 		protected CharacterProfile doInBackground(CharacterProfile... args) {
 			try {
 				CharacterProfile profile = args[0];
-				if (data.getCharacter(profile.getId()) == null) {
+				if (data.getCharacter(profile.getCharacterId()) == null) {
 					data.insertCharacter(profile, false);
 				} else {
 					data.updateCharacter(profile, false);

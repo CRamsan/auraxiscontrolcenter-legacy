@@ -1,5 +1,6 @@
 package com.cesarandres.ps2link;
 
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -28,6 +29,7 @@ import com.cesarandres.ps2link.soe.content.response.Character_friend_list_respon
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.FriendItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
@@ -111,8 +113,8 @@ public class FragmentFriendList extends Fragment {
 		setUpdateButton(false);
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.CHARACTERS_FRIEND, character_id, QueryString.generateQeuryString()
-					.AddCommand(QueryCommand.RESOLVE, "character_name"));
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTERS_FRIEND, null, QueryString.generateQeuryString()
+					.AddComparison("character_id", SearchModifier.EQUALS, character_id).AddCommand(QueryCommand.RESOLVE, "character_name"));
 
 			Listener<Character_friend_list_response> success = new Response.Listener<Character_friend_list_response>() {
 				@Override

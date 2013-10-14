@@ -2,15 +2,12 @@ package com.cesarandres.ps2link.soe.view;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,27 +16,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterEvent;
-import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.WDS_Stat;
-import com.cesarandres.ps2link.soe.content.WDS_Stat.Day;
-import com.cesarandres.ps2link.soe.content.item.IContainDrawable;
-import com.cesarandres.ps2link.soe.content.response.Item_list_response;
 import com.cesarandres.ps2link.soe.content.response.Server_response;
-import com.cesarandres.ps2link.soe.util.Collections;
-import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 

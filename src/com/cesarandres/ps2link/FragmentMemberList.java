@@ -175,10 +175,10 @@ public class FragmentMemberList extends Fragment {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2V1,
+					Game.PS2V2,
 					PS2Collection.OUTFIT,
 					"",
-					QueryString.generateQeuryString().AddComparison("id", SearchModifier.EQUALS, outfit_id)
+					QueryString.generateQeuryString().AddComparison("outfit_id", SearchModifier.EQUALS, outfit_id)
 							.AddCommand(QueryCommand.RESOLVE, "member_online_status,member,member_character(name,type.faction)"));
 
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
@@ -313,7 +313,7 @@ public class FragmentMemberList extends Fragment {
 				if (result == null) {
 					setUpdateButton(false);
 				} else {
-					outfitId = result.getId();
+					outfitId = result.getOutfit_Id();
 					outfitName = result.getName();
 					outfitSize = result.getMember_count();
 					((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);

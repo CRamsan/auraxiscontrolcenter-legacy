@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
-import com.cesarandres.ps2link.ApplicationPS2Link;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +16,8 @@ import android.os.Environment;
 import android.view.Display;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+
+import com.cesarandres.ps2link.ApplicationPS2Link;
 
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 	private final WeakReference<ImageView> imageViewReference;

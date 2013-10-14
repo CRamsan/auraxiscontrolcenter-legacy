@@ -4,11 +4,10 @@ import com.cesarandres.ps2link.soe.content.backlog.Times;
 import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
-import com.cesarandres.ps2link.soe.content.character.Stat;
 import com.cesarandres.ps2link.soe.content.character.Stats;
 
 public class CharacterProfile {
-	private String id;
+	private String character_id;
 	private Name name;
 	private String active_profile_id;
 	private Certs certs;
@@ -25,17 +24,17 @@ public class CharacterProfile {
 	public Certs getCerts() {
 		return this.certs;
 	}
-
+ 
 	public void setCerts(Certs certs) {
 		this.certs = certs;
 	}
 
-	public String getId() {
-		return this.id;
+	public String getCharacterId() {
+		return this.character_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCharacterId(String id) {
+		this.character_id = id;
 	}
 
 	public Name getName() {

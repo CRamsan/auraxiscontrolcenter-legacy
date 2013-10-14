@@ -96,7 +96,7 @@ public class FragmentStatList extends Fragment {
 		try {
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
-					Game.PS2V1,
+					Game.PS2V2,
 					PS2Collection.CHARACTER,
 					character_id,
 					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "stat_history")

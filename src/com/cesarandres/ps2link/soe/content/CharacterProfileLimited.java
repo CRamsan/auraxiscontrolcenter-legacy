@@ -4,17 +4,17 @@ import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Name;
 
 public class CharacterProfileLimited {
-	private String id;
+	private String character_id;
 	private Name name;
 	private String faction_id;
 	private BattleRank battle_rank;
 
-	public String getId() {
-		return this.id;
+	public String getCharacter_Id() {
+		return this.character_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCharacter_Id(String id) {
+		this.character_id = id;
 	}
 
 	public Name getName() {

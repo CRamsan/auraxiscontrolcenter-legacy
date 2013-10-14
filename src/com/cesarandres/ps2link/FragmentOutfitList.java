@@ -44,7 +44,7 @@ public class FragmentOutfitList extends Fragment {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityContainerSingle.class);
 				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MEMBER_LIST.toString());
-				intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId());
+				intent.putExtra("outfit_id", ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id());
 				startActivity(intent);
 			}
 		});

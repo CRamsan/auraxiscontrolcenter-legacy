@@ -3,7 +3,6 @@ package com.cesarandres.ps2link.soe.content.response;
 import java.util.ArrayList;
 
 import com.cesarandres.ps2link.soe.content.CharacterEvent;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
 public class Characters_event_list_response {
 

@@ -18,7 +18,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.NetworkImageView;
@@ -116,10 +115,10 @@ public class KillItemAdapter extends BaseAdapter {
 		holder.time.setText(format.format(date));
 
 		try {
-			if (getItem(position).getAttacker().getId().equals(this.characterId)) {
+			if (getItem(position).getAttacker().getCharacter_Id().equals(this.characterId)) {
 				holder.name.setText(getItem(position).getCharacter().getName().getFirst());
 				getItem(position).setImportant_character_id(getItem(position).getCharacter_id());
-				if (getItem(position).getCharacter().getId().equals(this.characterId)) {
+				if (getItem(position).getCharacter_id().equals(this.characterId)) {
 					holder.action.setText("SUICIDE");
 					holder.action.setTextColor(Color.RED);
 				} else {
@@ -133,7 +132,7 @@ public class KillItemAdapter extends BaseAdapter {
 				} else if (getItem(position).getCharacter().getFaction_id().equals(Faction.TR)) {
 					holder.faction.setImageBitmap(icon_tr);
 				}
-			} else if (getItem(position).getCharacter().getId().equals(this.characterId)) {
+			} else if (getItem(position).getCharacter_id().equals(this.characterId)) {
 				holder.action.setText("KILLED BY");
 				holder.action.setTextColor(Color.RED);
 				holder.name.setText(getItem(position).getAttacker().getName().getFirst());

@@ -42,7 +42,7 @@ public class FragmentProfileList extends Fragment {
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityProfile.class);
-				intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId());
+				intent.putExtra("profileId", ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId());
 				startActivity(intent);
 			}
 		});
