@@ -165,7 +165,7 @@ public class WdsAdapter extends BaseAdapter {
 
 		URL url;
 		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V1, PS2Collection.WORLD, "",
+			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.WORLD, "",
 					QueryString.generateQeuryString().AddComparison("world_id", SearchModifier.EQUALS, world_id));
 			name.setText("Loading...");
 			Listener<Server_response> success = new Response.Listener<Server_response>() {
