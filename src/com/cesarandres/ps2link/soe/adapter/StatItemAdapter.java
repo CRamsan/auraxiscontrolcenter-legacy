@@ -120,10 +120,10 @@ public class StatItemAdapter extends BaseAdapter {
 
 		if (getItem(position).getStat_name().equals("time")) {
 			holder.name.setText("TIME PLAYED");
-			holder.total.setText("Total: " + (Integer.parseInt(getItem(position).getAll_time()) / 3600) + " hours");
-			holder.today.setText("Today: " + (Integer.parseInt(getItem(position).getDay().d01) / 3600) + " hours");
-			holder.week.setText("This week: " + (Integer.parseInt(getItem(position).getWeek().w01) / 3600) + " hours");
-			holder.month.setText("This month: " + (Integer.parseInt(getItem(position).getMonth().m01) / 3600) + " hours");
+			holder.total.setText("Total: " + (Float.valueOf(getItem(position).getAll_time()).intValue() / 3600) + " hours");
+			holder.today.setText("Today: " + (Float.valueOf(getItem(position).getDay().d01).intValue() / 3600) + " hours");
+			holder.week.setText("This week: " + (Float.valueOf(getItem(position).getWeek().w01).intValue() / 3600) + " hours");
+			holder.month.setText("This month: " + (Float.valueOf(getItem(position).getMonth().m01).intValue() / 3600) + " hours");
 		} else {
 			holder.name.setText(getItem(position).getStat_name().toUpperCase().replaceAll("_", " "));
 			holder.total.setText("All Time: " + getItem(position).getAll_time());
