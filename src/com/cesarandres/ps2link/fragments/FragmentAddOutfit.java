@@ -115,7 +115,7 @@ public class FragmentAddOutfit extends BaseFragment {
 						@Override
 						public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 							mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
-									new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getId() });
+									new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id() });
 						}
 					});
 

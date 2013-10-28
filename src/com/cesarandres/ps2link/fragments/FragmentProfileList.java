@@ -45,7 +45,7 @@ public class FragmentProfileList extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-						new String[]{((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getId()});
+						new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
 			}
 		});
 		return root;

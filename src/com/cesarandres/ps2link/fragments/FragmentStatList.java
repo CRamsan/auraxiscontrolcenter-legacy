@@ -5,10 +5,10 @@ import java.net.URL;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,13 +19,12 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.R.id;
-import com.cesarandres.ps2link.R.layout;
-import com.cesarandres.ps2link.R.string;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.adapter.StatItemAdapter;
+import com.cesarandres.ps2link.soe.content.CharacterProfile;
+import com.cesarandres.ps2link.soe.content.character.Stats;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
@@ -51,7 +50,7 @@ public class FragmentStatList extends Fragment {
 		// Inflate the layout for this fragment
 		View root;
 		root = inflater.inflate(R.layout.fragment_stat_list, container, false);
-		this.profileId = getActivity().getIntent().getExtras().getString("profileId");
+		this.profileId = getArguments().getString("PARAM_0");
 
 		return root;
 	}
@@ -110,7 +109,9 @@ public class FragmentStatList extends Fragment {
 				public void onResponse(Character_list_response response) {
 					try {
 						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewStatList);
-						listRoot.setAdapter(new StatItemAdapter(getActivity(), response.getCharacter_list().get(0).getStats().getStat_history(), profileId));
+						CharacterProfile profile = response.getCharacter_list().get(0);
+						Stats stats = profile.getStats();
+						listRoot.setAdapter(new StatItemAdapter(getActivity(), stats.getStat_history(), profileId));
 					} catch (Exception e) {
 						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					}
@@ -125,7 +126,7 @@ public class FragmentStatList extends Fragment {
 					setUpdateButton(true);
 				}
 			};
-
+			Log.d("PS2LINK", url.toString());
 			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
 					success, error);
 			gsonOject.setTag(this);

@@ -71,7 +71,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.data = ((ActivityOutfit) getActivity()).getData();
+		this.data = ((ActivityProfile) getActivity()).getData();
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
 

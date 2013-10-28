@@ -63,7 +63,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 			newFragment = new FragmentAddProfile();
 			break;
 		case ACTIVITY_MEMBER_LIST:
-			newFragment = new FragmentMemberList();
+			newFragment = new FragmentMembersList();
 			setData(new ObjectDataSource(this));
 			data.open();
 			break;
@@ -88,7 +88,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 			newFragment = new FragmentMainMenu();
 			break;
 		case ACTIVITY_WDS:
-			setContentView(R.layout.activity_wds);
+			newFragment = new FragmentWds();
 			break;
 		default:
 			break;
