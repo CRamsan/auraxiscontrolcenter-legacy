@@ -90,13 +90,6 @@ public class FragmentMembersList extends BaseFragment {
 		ToggleButton viewOffline = (ToggleButton) getActivity().findViewById(R.id.toggleShowOffline);
 		viewOffline.setVisibility(View.VISIBLE);
 
-		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				downloadOutfitMembers();
-			}
-		});
-
 		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
 		append.setVisibility(View.VISIBLE);
 
@@ -180,7 +173,7 @@ public class FragmentMembersList extends BaseFragment {
 					Game.PS2V2,
 					PS2Collection.OUTFIT,
 					"",
-					QueryString.generateQeuryString().AddComparison("id", SearchModifier.EQUALS, this.outfitId)
+					QueryString.generateQeuryString().AddComparison("outfit_id", SearchModifier.EQUALS, this.outfitId)
 							.AddCommand(QueryCommand.RESOLVE, "member_online_status,member,member_character(name,type.faction)"));
 
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
@@ -245,7 +238,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	private void updateContent() {
 		if (this.outfitId != null) {
-			ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewMemberList);
+			ListView listRoot = (ListView) getView().findViewById(R.id.listViewMemberList);
 
 			listRoot.setAdapter(new MemberItemAdapter(getActivity(), outfitId, data, isCached, shownOffline));
 

@@ -1,10 +1,12 @@
 package com.cesarandres.ps2link;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -45,8 +47,9 @@ public class ActivityOutfit extends BaseActivity implements FragmentCallbacks {
 			public void onClick(View v) {
 				switch (mViewPager.getCurrentItem()) {
 				case ONLINE:
-					((FragmentMembersOnline) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, ONLINE)))
-							.downloadOutfitMembers();
+					String tag = ApplicationPS2Link.makeFragmentName(R.id.profilePager, ONLINE);
+					FragmentMembersOnline fragment = ((FragmentMembersOnline) getSupportFragmentManager().findFragmentByTag(tag));
+					fragment.downloadOutfitMembers();
 					break;
 				case MEMBERS:
 					((FragmentMembersList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, MEMBERS)))
@@ -55,6 +58,34 @@ public class ActivityOutfit extends BaseActivity implements FragmentCallbacks {
 				default:
 					break;
 				}
+			}
+		});
+
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int arg0) {
+				switch (arg0) {
+				case ONLINE:
+					findViewById(R.id.toggleShowOffline).setVisibility(View.GONE);
+					break;
+				case MEMBERS:
+					findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
+					break;
+				default:
+					findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
+					break;
+				}
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+
 			}
 		});
 
@@ -160,8 +191,19 @@ public class ActivityOutfit extends BaseActivity implements FragmentCallbacks {
 
 	@Override
 	public void onItemSelected(String id, String args[]) {
-		// TODO Auto-generated method stub
-
+		Class newActivityClass = ActivityContainerSingle.getActivityByMode(id);
+		if (newActivityClass != null) {
+		} else {
+			newActivityClass = ActivityContainerSingle.class;
+		}
+		Intent intent = new Intent(this, newActivityClass);
+		if (args != null && args.length > 0) {
+			for (int i = 0; i < args.length; i++) {
+				intent.putExtra("PARAM_" + i, args[i]);
+			}
+		}
+		intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, id);
+		startActivity(intent);
 	}
 
 	@Override
@@ -171,5 +213,4 @@ public class ActivityOutfit extends BaseActivity implements FragmentCallbacks {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
 }

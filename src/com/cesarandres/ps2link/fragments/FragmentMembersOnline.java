@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.ActivityOutfit;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.fragments.FragmentMembersList.CacheOutfit;
-import com.cesarandres.ps2link.fragments.FragmentMembersList.UnCacheOutfit;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.content.Member;
-import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
 import com.cesarandres.ps2link.soe.view.OnlineMemberItemAdapter;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
@@ -44,11 +39,9 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  */
 public class FragmentMembersOnline extends BaseFragment {
 
-	private ArrayList<AsyncTask> taskList;
 	private boolean isCached;
 	private String outfitId;
 	private String outfitName;
-	private ObjectDataSource data;
 	private FragmentMembersOnline tag = this;
 	public static final int SUCCESS = 0;
 	public static final int FAILED = 1;
@@ -56,7 +49,6 @@ public class FragmentMembersOnline extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		taskList = new ArrayList<AsyncTask>();
 		setHasOptionsMenu(true);
 	}
 
@@ -80,21 +72,9 @@ public class FragmentMembersOnline extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		ToggleButton viewOffline = (ToggleButton) getActivity().findViewById(R.id.toggleShowOffline);
-		viewOffline.setVisibility(View.VISIBLE);
-
-		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				downloadOutfitMembers();
-			}
-		});
-
 		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
 		append.setVisibility(View.VISIBLE);
-		data = ((ActivityOutfit) getActivity()).getData();
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.buttonFragmentStar).setVisibility(View.VISIBLE);
 
 		if (savedInstanceState == null) {
@@ -120,7 +100,10 @@ public class FragmentMembersOnline extends BaseFragment {
 					editor.commit();
 				}
 			}
+		
 		});
+		downloadOutfitMembers();
+		
 	}
 
 	@Override
@@ -142,11 +125,7 @@ public class FragmentMembersOnline extends BaseFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		for (AsyncTask task : taskList) {
-			task.cancel(true);
-		}
 		ApplicationPS2Link.volley.cancelAll(tag);
-
 	}
 
 	public void downloadOutfitMembers() {
@@ -191,7 +170,6 @@ public class FragmentMembersOnline extends BaseFragment {
 
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-		getActivity().findViewById(R.id.toggleShowOffline).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
 		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
 		if (enabled) {
@@ -218,9 +196,9 @@ public class FragmentMembersOnline extends BaseFragment {
 	}
 
 	private void updateContent(ArrayList<Member> members) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewMemberList);
+		ListView listRoot = (ListView) getView().findViewById(R.id.listViewMemberList);
 
-		listRoot.setAdapter(new OnlineMemberItemAdapter(members));
+		listRoot.setAdapter(new OnlineMemberItemAdapter(members, getActivity()));
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
@@ -232,87 +210,5 @@ public class FragmentMembersOnline extends BaseFragment {
 		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
 		append.setOnCheckedChangeListener(null);
 		append.setChecked(isCached);
-		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					CacheOutfit task = new CacheOutfit();
-					taskList.add(task);
-					task.execute(outfitId);
-				} else {
-					UnCacheOutfit task = new UnCacheOutfit();
-					taskList.add(task);
-					task.execute(outfitId);
-				}
-			}
-		});
-	}
-
-	public class CacheOutfit extends AsyncTask<String, Integer, Integer> {
-
-		@Override
-		protected void onPreExecute() {
-			setAppendButtonVisibility(false);
-			setUpdateButton(false);
-			ApplicationPS2Link.volley.cancelAll(tag);
-		}
-
-		@Override
-		protected Integer doInBackground(String... args) {
-			Log.d("CacheOutfit", "STARTING");
-			Outfit outfit = data.getOutfit(args[0]);
-			try {
-				data.updateOutfit(outfit, false);
-				isCached = true;
-			} catch (Exception e) {
-				Log.d("CacheOutfit", "ENDED BY EXCEPTION");
-				return FAILED;
-			}
-			Log.d("CacheOutfit", "END");
-			return SUCCESS;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			if (!this.isCancelled()) {
-
-				setUpdateButton(true);
-			}
-			taskList.remove(this);
-
-		}
-	}
-
-	public class UnCacheOutfit extends AsyncTask<String, Integer, Integer> {
-
-		@Override
-		protected void onPreExecute() {
-			setAppendButtonVisibility(false);
-			setUpdateButton(false);
-			ApplicationPS2Link.volley.cancelAll(tag);
-		}
-
-		@Override
-		protected Integer doInBackground(String... args) {
-			Log.d("UnCacheOutfit", "STARTING");
-			try {
-				Outfit outfit = data.getOutfit(args[0]);
-				data.updateOutfit(outfit, true);
-				isCached = false;
-			} catch (Exception e) {
-				Log.d("UnCacheOutfit", "ENDED BY EXCEPTION");
-				return FAILED;
-			}
-			Log.d("UnCacheOutfit", "End");
-			return SUCCESS;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			if (!this.isCancelled()) {
-				setUpdateButton(true);
-
-			}
-			taskList.remove(this);
-		}
 	}
 }

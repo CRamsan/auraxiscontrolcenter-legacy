@@ -192,7 +192,8 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 			}
 		}
 		intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, id);
-		startActivity(intent);	}
+		startActivity(intent);
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
