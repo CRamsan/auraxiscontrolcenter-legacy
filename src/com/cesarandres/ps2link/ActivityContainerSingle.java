@@ -94,7 +94,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 			break;
 		}
 		transaction.replace(R.id.activityFrameLayout, newFragment);
-		transaction.addToBackStack(null);
+		//transaction.addToBackStack(null);
 		transaction.commit();
 
 		setData(new ObjectDataSource(this));
@@ -191,7 +191,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 		this.data = data;
 	}
 
-	private Class getActivityByMode(String activityMode) {
+	public static Class getActivityByMode(String activityMode) {
 		Class newActivityClass = null;
 		switch (ActivityMode.valueOf(activityMode)) {
 		case ACTIVITY_PROFILE:
@@ -206,6 +206,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 		return newActivityClass;
 	}
 
+	//TODO Apparently this code is never used.
 	private BaseFragment getFragmentByMode(String activityMode) {
 		BaseFragment newFragment = null;
 		switch (ActivityMode.valueOf(activityMode)) {

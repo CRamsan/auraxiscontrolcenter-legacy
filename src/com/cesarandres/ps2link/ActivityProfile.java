@@ -1,5 +1,6 @@
 package com.cesarandres.ps2link;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -179,9 +180,19 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 
 	@Override
 	public void onItemSelected(String id, String args[]) {
-		// TODO Auto-generated method stub
-
-	}
+		Class newActivityClass = ActivityContainerSingle.getActivityByMode(id);
+		if (newActivityClass != null) {
+		} else {
+			newActivityClass = ActivityContainerSingle.class;
+		}
+		Intent intent = new Intent(this, newActivityClass);
+		if (args != null && args.length > 0) {
+			for (int i = 0; i < args.length; i++) {
+				intent.putExtra("PARAM_" + i, args[i]);
+			}
+		}
+		intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, id);
+		startActivity(intent);	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
