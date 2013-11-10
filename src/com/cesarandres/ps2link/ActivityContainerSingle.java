@@ -111,18 +111,6 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		SharedPreferences settings = getSharedPreferences("PREFERENCES", 0);
-		boolean isFirstRun = settings.getBoolean("isfirstrun", true);
-		if (isFirstRun) {
-			SharedPreferences.Editor editor = settings.edit();
-			editor.putBoolean("isfirstrun", false);
-			editor.commit();
-
-			DialogFragment newFragment = new WellcomeDialogFragment();
-			newFragment.show(getSupportFragmentManager(), "Wellcome");
-		}
-
 	}
 
 	@Override

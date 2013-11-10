@@ -67,7 +67,7 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 				}
 			}
 		});
-				
+
 		Bundle extras = getIntent().getExtras();
 		String activityMode = "";
 		if (extras != null) {
@@ -150,7 +150,7 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 			default:
 				break;
 			}
-			Bundle args = new Bundle();			
+			Bundle args = new Bundle();
 			args.putString("PARAM_0", profileId);
 			fragment.setArguments(args);
 			return fragment;
@@ -179,6 +179,24 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		String profileName = String.valueOf(((Button) findViewById(R.id.buttonFragmentTitle)).getText());
+		if (!"".equals(profileName)) {
+			savedInstanceState.putString("ProfileName", profileName);
+		}
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		String profileName = savedInstanceState.getString("ProfileName");
+		if (!"".equals(profileName)) {
+			((Button) findViewById(R.id.buttonFragmentTitle)).setText(profileName);
+		}
+	}
+
+	@Override
 	public void onItemSelected(String id, String args[]) {
 		Class newActivityClass = ActivityContainerSingle.getActivityByMode(id);
 		if (newActivityClass != null) {
@@ -202,6 +220,5 @@ public class ActivityProfile extends BaseActivity implements FragmentCallbacks {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
 
 }

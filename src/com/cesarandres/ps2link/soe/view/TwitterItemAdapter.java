@@ -18,6 +18,10 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 
 public class TwitterItemAdapter extends DBItemAdapter {
+
+	private PrettyTime p = new PrettyTime();
+
+	
 	public TwitterItemAdapter(Context context, String[] users, ObjectDataSource data) {
 		// Cache the LayoutInflate to avoid asking for a new one each time.
 		this.mInflater = LayoutInflater.from(context);
@@ -63,7 +67,6 @@ public class TwitterItemAdapter extends DBItemAdapter {
 		Linkify.addLinks(holder.tweetText, Linkify.WEB_URLS);
 		holder.tweetText.setFocusable(false);
 		holder.tweetTag.setText("@" + tweet.getTag());
-		PrettyTime p = new PrettyTime();
 		String updateTime = p.format(new Date(tweet.getDate() * 1000l));
 
 		holder.userImage.setImageUrl(tweet.getImgUrl(), ApplicationPS2Link.mImageLoader);

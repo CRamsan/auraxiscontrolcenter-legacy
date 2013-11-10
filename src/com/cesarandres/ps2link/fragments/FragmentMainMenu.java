@@ -52,6 +52,7 @@ public class FragmentMainMenu extends BaseFragment {
 		});
 
 		final Button buttonWDS = (Button) root.findViewById(R.id.buttonWDS);
+		buttonWDS.setVisibility(View.GONE);
 		buttonWDS.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
