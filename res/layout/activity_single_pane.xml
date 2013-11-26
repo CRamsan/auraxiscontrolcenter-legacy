@@ -1,6 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/LayoutFillParentStyle" >
+    style="@style/LayoutFillParentStyle">
 
     <ImageView
         android:id="@+id/imageViewBackground"

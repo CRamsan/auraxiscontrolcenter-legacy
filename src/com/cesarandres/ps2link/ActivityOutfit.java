@@ -14,12 +14,8 @@ import android.widget.Toast;
 
 import com.cesarandres.ps2link.base.BaseActivity;
 import com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks;
-import com.cesarandres.ps2link.fragments.FragmentFriendList;
-import com.cesarandres.ps2link.fragments.FragmentKillList;
 import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
-import com.cesarandres.ps2link.fragments.FragmentProfile;
-import com.cesarandres.ps2link.fragments.FragmentStatList;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**

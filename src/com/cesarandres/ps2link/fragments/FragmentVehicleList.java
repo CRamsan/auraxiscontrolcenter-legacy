@@ -30,8 +30,6 @@ import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.ActivityProfile;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.R.id;
-import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;

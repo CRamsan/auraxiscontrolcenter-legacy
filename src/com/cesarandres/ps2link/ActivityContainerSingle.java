@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -36,6 +35,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 
 	private String activityMode;
 	private ObjectDataSource data;
+    private boolean tablet = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,56 +50,19 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 			setActivityMode("ACTIVITY_MAIN_MENU");
 		}
 
-		setContentView(R.layout.activity_single_pane);
+		setContentView(R.layout.activity_panel);
+
+        if(findViewById(R.id.activityMainMenuFragment) != null){
+            tablet = true;
+        }
+
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		BaseFragment newFragment = null;
-		switch (ActivityMode.valueOf(getActivityMode())) {
-		case ACTIVITY_ADD_OUTFIT:
-			newFragment = new FragmentAddOutfit();
-			break;
-		case ACTIVITY_MAP:
-			newFragment = new FragmentMap();
-			break;
-		case ACTIVITY_ADD_PROFILE:
-			newFragment = new FragmentAddProfile();
-			break;
-		case ACTIVITY_MEMBER_LIST:
-			newFragment = new FragmentMembersList();
-			setData(new ObjectDataSource(this));
-			data.open();
-			break;
-		case ACTIVITY_OUTFIT_LIST:
-			newFragment = new FragmentOutfitList();
-			break;
-		case ACTIVITY_PROFILE_LIST:
-			newFragment = new FragmentProfileList();
-			break;
-		case ACTIVITY_SERVER:
-			newFragment = new FragmentServer();
-			break;
-		case ACTIVITY_SERVER_LIST:
-			newFragment = new FragmentServerList();
-			break;
-		case ACTIVITY_TWITTER:
-			newFragment = new FragmentTwitter();
-			setData(new ObjectDataSource(this));
-			data.open();
-			break;
-		case ACTIVITY_MAIN_MENU:
-			newFragment = new FragmentMainMenu();
-			break;
-		case ACTIVITY_LINK_MENU:
-			newFragment = new FragmentLinksMenu();
-			break;
-		case ACTIVITY_WDS:
-			newFragment = new FragmentWds();
-			break;
-		default:
-			break;
-		}
-		transaction.replace(R.id.activityFrameLayout, newFragment);
-		//transaction.addToBackStack(null);
-		transaction.commit();
+		BaseFragment newFragment = getFragmentByMode(getActivityMode());
+        if(newFragment != null){
+            transaction.replace(R.id.activityFrameLayout, newFragment);
+            //transaction.addToBackStack(null);
+            transaction.commit();
+        }
 
 		setData(new ObjectDataSource(this));
 		data.open();
@@ -152,19 +115,29 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 	@Override
 	public void onItemSelected(String id, String args[]) {
 
-		Class newActivityClass = getActivityByMode(id);
-		if (newActivityClass != null) {
-		} else {
-			newActivityClass = ActivityContainerSingle.class;
-		}
-		Intent intent = new Intent(this, newActivityClass);
-		if (args != null && args.length > 0) {
-			for (int i = 0; i < args.length; i++) {
-				intent.putExtra("PARAM_" + i, args[i]);
-			}
-		}
-		intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, id);
-		startActivity(intent);
+        if(tablet){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            BaseFragment newFragment = getFragmentByMode(getActivityMode());
+            if(newFragment != null){
+                transaction.replace(R.id.activityFrameLayout, newFragment);
+                //transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        }else{
+            Class newActivityClass = getActivityByMode(id);
+            if (newActivityClass != null) {
+            } else {
+                newActivityClass = ActivityContainerSingle.class;
+            }
+            Intent intent = new Intent(this, newActivityClass);
+            if (args != null && args.length > 0) {
+                for (int i = 0; i < args.length; i++) {
+                    intent.putExtra("PARAM_" + i, args[i]);
+                }
+            }
+            intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, id);
+            startActivity(intent);
+        }
 	}
 
 	public String getActivityMode() {
@@ -201,37 +174,47 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 	//TODO Apparently this code is never used.
 	private BaseFragment getFragmentByMode(String activityMode) {
 		BaseFragment newFragment = null;
-		switch (ActivityMode.valueOf(activityMode)) {
-		case ACTIVITY_ADD_OUTFIT:
-			newFragment = new FragmentAddOutfit();
-			break;
-		case ACTIVITY_MAP:
-			newFragment = new FragmentMap();
-			break;
-		case ACTIVITY_ADD_PROFILE:
-			newFragment = new FragmentAddProfile();
-			break;
-		case ACTIVITY_OUTFIT_LIST:
-			newFragment = new FragmentOutfitList();
-			break;
-		case ACTIVITY_PROFILE_LIST:
-			newFragment = new FragmentProfileList();
-			break;
-		case ACTIVITY_SERVER:
-			newFragment = new FragmentServer();
-			break;
-		case ACTIVITY_SERVER_LIST:
-			newFragment = new FragmentServerList();
-			break;
-		case ACTIVITY_TWITTER:
-			newFragment = new FragmentTwitter();
-			break;
-		case ACTIVITY_MAIN_MENU:
-			newFragment = new FragmentMainMenu();
-			break;
-		default:
-			break;
-		}
+        switch (ActivityMode.valueOf(getActivityMode())) {
+            case ACTIVITY_ADD_OUTFIT:
+                newFragment = new FragmentAddOutfit();
+                break;
+            case ACTIVITY_MAP:
+                newFragment = new FragmentMap();
+                break;
+            case ACTIVITY_ADD_PROFILE:
+                newFragment = new FragmentAddProfile();
+                break;
+            case ACTIVITY_MEMBER_LIST:
+                newFragment = new FragmentMembersList();
+                setData(new ObjectDataSource(this));
+                break;
+            case ACTIVITY_OUTFIT_LIST:
+                newFragment = new FragmentOutfitList();
+                break;
+            case ACTIVITY_PROFILE_LIST:
+                newFragment = new FragmentProfileList();
+                break;
+            case ACTIVITY_SERVER:
+                newFragment = new FragmentServer();
+                break;
+            case ACTIVITY_SERVER_LIST:
+                newFragment = new FragmentServerList();
+                break;
+            case ACTIVITY_TWITTER:
+                newFragment = new FragmentTwitter();
+                setData(new ObjectDataSource(this));
+                break;
+            case ACTIVITY_MAIN_MENU:
+                if(!tablet){
+                    newFragment = new FragmentMainMenu();
+                }
+                break;
+            case ACTIVITY_WDS:
+                newFragment = new FragmentWds();
+                break;
+            default:
+                break;
+        }
 		return newFragment;
 	}
 

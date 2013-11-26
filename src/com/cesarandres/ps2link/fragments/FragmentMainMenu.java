@@ -15,13 +15,11 @@ import android.widget.ImageView.ScaleType;
 
 import com.cesarandres.ps2link.ActivityAbout;
 import com.cesarandres.ps2link.ActivityContainerSingle;
-import com.cesarandres.ps2link.ActivityProfile;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.base.BitmapWorkerTask;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
 
 /**
  * Created by cesar on 6/16/13.
