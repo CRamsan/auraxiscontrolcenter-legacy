@@ -72,43 +72,49 @@
                 android:text="@string/title_about" />
         </LinearLayout>
 
-        <LinearLayout
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" >
+            android:layout_height="wrap_content" >
 
-            <ImageButton
-                android:id="@+id/buttonPS2"
-                style="@style/ActionBarButtonStyle"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_ps2"
-                android:visibility="visible" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" >
 
-            <ImageButton
-                android:id="@+id/buttonNC"
-                style="@style/ActionBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_faction_nc"
-                android:visibility="visible" />
+                <ImageButton
+                    android:id="@+id/buttonPS2"
+                    style="@style/ActionBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_ps2"
+                    android:visibility="visible" />
 
-            <ImageButton
-                android:id="@+id/buttonTR"
-                style="@style/ActionBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_faction_tr"
-                android:visibility="visible" />
+                <ImageButton
+                    android:id="@+id/buttonNC"
+                    style="@style/ActionBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_faction_nc"
+                    android:visibility="visible" />
 
-            <ImageButton
-                android:id="@+id/buttonVS"
-                style="@style/ActionBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_faction_vs"
-                android:visibility="visible" />
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/buttonTR"
+                    style="@style/ActionBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_faction_tr"
+                    android:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/buttonVS"
+                    style="@style/ActionBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_faction_vs"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 
 </ScrollView>

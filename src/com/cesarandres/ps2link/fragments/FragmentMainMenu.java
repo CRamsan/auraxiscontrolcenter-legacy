@@ -172,7 +172,7 @@ public class FragmentMainMenu extends BaseFragment {
 				public void onClick(View v) {
 
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE_PAGER.toString(),
 							new String[] { settings.getString("preferedProfile", "") });
 				}
 			});
