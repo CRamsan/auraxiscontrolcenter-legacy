@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cesarandres.ps2link.base.BaseActivity;
 import com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks;
@@ -45,18 +46,25 @@ public class ActivityOutfit extends BaseActivity implements FragmentCallbacks {
 
 		findViewById(R.id.buttonFragmentUpdate).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				switch (mViewPager.getCurrentItem()) {
-				case ONLINE:
-					String tag = ApplicationPS2Link.makeFragmentName(R.id.profilePager, ONLINE);
-					FragmentMembersOnline fragment = ((FragmentMembersOnline) getSupportFragmentManager().findFragmentByTag(tag));
-					fragment.downloadOutfitMembers();
-					break;
-				case MEMBERS:
-					((FragmentMembersList) getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, MEMBERS)))
-							.downloadOutfitMembers();
-					break;
-				default:
-					break;
+				String tag;
+				Fragment fragment;
+				try{
+					switch (mViewPager.getCurrentItem()) {
+					case ONLINE:
+						tag = ApplicationPS2Link.makeFragmentName(R.id.profilePager, ONLINE);
+						fragment = ((FragmentMembersOnline) getSupportFragmentManager().findFragmentByTag(tag));
+						((FragmentMembersOnline) fragment).downloadOutfitMembers();
+						break;
+					case MEMBERS:
+						tag = ApplicationPS2Link.makeFragmentName(R.id.profilePager, MEMBERS);
+						fragment = ((FragmentMembersList) getSupportFragmentManager().findFragmentByTag(tag));
+						((FragmentMembersList) fragment).downloadOutfitMembers();
+						break;
+					default:
+						break;
+					}
+				}catch(Exception e){
+					Toast.makeText(getApplicationContext(), "There was a problem trying to refresh. Please try again.", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
