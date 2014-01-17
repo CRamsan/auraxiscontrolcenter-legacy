@@ -41,8 +41,11 @@ public class TwitterUtil {
 
 	private static Twitter configureTwtitter() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey(CONSUMER_KEY).setOAuthConsumerSecret(CONSUMER_SECRET).setOAuthAccessToken(ACCESS_TOKEN)
-				.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+		cb.setDebugEnabled(true).setOAuthConsumerKey(CONSUMER_KEY)
+			.setOAuthConsumerSecret(CONSUMER_SECRET)
+			.setOAuthAccessToken(ACCESS_TOKEN)
+			.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET)
+			.setUseSSL(true);
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
 		return twitter;
