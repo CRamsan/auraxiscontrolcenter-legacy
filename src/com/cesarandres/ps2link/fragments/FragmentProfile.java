@@ -271,7 +271,7 @@ public class FragmentProfile extends BaseFragment {
 		URL url;
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTER, character_id,
-					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world"));
+					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world,online_status"));
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
 				public void onResponse(Character_list_response response) {
@@ -280,8 +280,6 @@ public class FragmentProfile extends BaseFragment {
 						setActionBarEnabled(true);
 						profile.setCached(isCached);
 						updateUI(profile);
-						downloadOnlineStatus(response.getCharacter_list().get(0).getCharacterId());
-
 						UpdateProfileToTable task = new UpdateProfileToTable();
 						taskList.add(task);
 						task.execute(profile);
