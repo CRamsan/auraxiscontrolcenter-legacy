@@ -51,12 +51,12 @@ public class ActivityOutfit extends BaseActivity implements FragmentCallbacks {
 				try{
 					switch (mViewPager.getCurrentItem()) {
 					case ONLINE:
-						tag = ApplicationPS2Link.makeFragmentName(R.id.profilePager, ONLINE);
+						tag = ApplicationPS2Link.makeFragmentName(R.id.outfitPager, ONLINE);
 						fragment = ((FragmentMembersOnline) getSupportFragmentManager().findFragmentByTag(tag));
 						((FragmentMembersOnline) fragment).downloadOutfitMembers();
 						break;
 					case MEMBERS:
-						tag = ApplicationPS2Link.makeFragmentName(R.id.profilePager, MEMBERS);
+						tag = ApplicationPS2Link.makeFragmentName(R.id.outfitPager, MEMBERS);
 						fragment = ((FragmentMembersList) getSupportFragmentManager().findFragmentByTag(tag));
 						((FragmentMembersList) fragment).downloadOutfitMembers();
 						break;
