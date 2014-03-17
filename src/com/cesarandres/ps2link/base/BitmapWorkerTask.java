@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.view.Display;
 import android.widget.ImageView;
@@ -34,6 +36,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 	}
 
 	// Decode image in background.
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	@Override
 	protected Bitmap doInBackground(String... params) {
 		data = params[0];

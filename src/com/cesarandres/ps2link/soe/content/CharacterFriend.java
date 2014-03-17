@@ -53,7 +53,7 @@ public class CharacterFriend implements Comparable<CharacterFriend> {
 		if (this.online == another.getOnline()){
 			return this.getName().getFirst_lower().compareTo(another.getName().getFirst_lower());
 		} else {
-			return Integer.compare(another.getOnline(), this.online);
+			return another.getOnline() - this.online;
 		}
 	}
 }

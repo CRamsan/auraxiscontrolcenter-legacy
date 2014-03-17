@@ -3,6 +3,7 @@ package com.cesarandres.ps2link.fragments;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,6 +41,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 /**
  * Created by cesar on 6/16/13.
  */
+@SuppressLint("ValidFragment")
 public class FragmentKillEvent extends DialogFragment {
 
 	private CharacterEvent event;
