@@ -9,6 +9,13 @@
         android:orientation="horizontal" >
 
         <EditText
+            android:id="@+id/fieldSearchTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:width="100dp" />
+
+        <EditText
             android:id="@+id/fieldSearchOutfit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -22,7 +29,6 @@
             android:id="@+id/imageButtonSearchOutfit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/ps2_button_bold_green"
             android:src="@drawable/icon_search" />
     </LinearLayout>

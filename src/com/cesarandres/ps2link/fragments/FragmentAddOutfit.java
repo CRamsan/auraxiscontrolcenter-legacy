@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -71,6 +72,21 @@ public class FragmentAddOutfit extends BaseFragment {
 		final ImageButton buttonOutfits = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchOutfit);
 		buttonOutfits.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchOutfit);
+				EditText searchTagField = (EditText) getActivity().findViewById(R.id.fieldSearchTag);
+				String outfitName = searchField.getText().toString().toLowerCase();
+				String outfitTag = searchTagField.getText().toString().toLowerCase();
+							
+				if(!outfitTag.isEmpty() && outfitTag.length() < 3 ){
+					Toast.makeText(getActivity(), "Tag is too short.", Toast.LENGTH_SHORT).show();
+				}
+				if(!outfitName.isEmpty() &&  outfitName.length() < 3 ){
+					Toast.makeText(getActivity(), "Outfit name is too short.", Toast.LENGTH_SHORT).show();
+				}
+				if(outfitName.length() < 3  && outfitTag.length() < 3 ){
+					return;
+				}
+				
 				ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
 				listRoot.setOnItemClickListener(null);
 				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
@@ -94,16 +110,26 @@ public class FragmentAddOutfit extends BaseFragment {
 
 	public void downloadOutfits() {
 		EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchOutfit);
+		EditText searchTagField = (EditText) getActivity().findViewById(R.id.fieldSearchTag);
 		URL url;
 		try {
+			String outfitName = searchField.getText().toString().toLowerCase();
+			String outfitTag = searchTagField.getText().toString().toLowerCase();
+						
+			QueryString query = QueryString.generateQeuryString();
+			if(outfitTag.length() >= 3 ){
+				query.AddComparison("alias_lower", SearchModifier.STARTSWITH, URLEncoder.encode(outfitTag, "UTF-8"));
+			}
+			if(outfitName.length() >= 3 ){
+				query.AddComparison("name_lower", SearchModifier.STARTSWITH, URLEncoder.encode(outfitName, "UTF-8"));
+			}
+			query.AddCommand(QueryCommand.LIMIT, "15");
+						
 			url = SOECensus.generateGameDataRequest(
 					Verb.GET,
 					Game.PS2V2,
 					PS2Collection.OUTFIT,
-					"",
-					QueryString.generateQeuryString()
-							.AddComparison("name", SearchModifier.STARTSWITH, URLEncoder.encode(searchField.getText().toString(), "UTF-8"))
-							.AddCommand(QueryCommand.LIMIT, "10"));
+					"",query);
 
 			Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
 				@Override
