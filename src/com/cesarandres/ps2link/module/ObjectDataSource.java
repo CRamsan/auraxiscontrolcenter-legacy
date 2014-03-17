@@ -517,13 +517,13 @@ public class ObjectDataSource {
 		Cursor cursor = null;
 		if (showOffline) {
 			String[] whereArgs = new String[] { outfit_id, };
-			cursor = database.query(target, allColumnsMembers, SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs, null, null, null);
+			cursor = database.query(target, allColumnsMembers, SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs, null, null, SQLiteManager.MEMBERS_COLUMN_NAME + " COLLATE NOCASE ASC");
 		} else {
 			String[] whereArgs = new String[] {
 					outfit_id,
 					"0" };
 			cursor = database.query(target, allColumnsMembers, SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ? AND "
-					+ SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS + " != ?", whereArgs, null, null, null);
+					+ SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS + " != ?", whereArgs, null, null, SQLiteManager.MEMBERS_COLUMN_NAME + " COLLATE NOCASE ASC");
 		}
 
 		return cursor;

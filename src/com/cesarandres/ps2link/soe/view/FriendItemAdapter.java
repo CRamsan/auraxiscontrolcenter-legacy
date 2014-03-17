@@ -1,6 +1,7 @@
 package com.cesarandres.ps2link.soe.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -29,6 +30,7 @@ public class FriendItemAdapter extends BaseAdapter {
 		}
 
 		this.friends = friends;
+		Collections.sort(this.friends);
 	}
 
 	@Override

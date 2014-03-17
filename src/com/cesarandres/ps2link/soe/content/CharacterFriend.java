@@ -2,7 +2,7 @@ package com.cesarandres.ps2link.soe.content;
 
 import com.cesarandres.ps2link.soe.content.character.Name;
 
-public class CharacterFriend {
+public class CharacterFriend implements Comparable<CharacterFriend> {
 	private Name name;
 	private String character_id;
 	private String last_login_time;
@@ -45,6 +45,15 @@ public class CharacterFriend {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	@Override
+	public int compareTo(CharacterFriend another) {
+		if (this.online == another.getOnline()){
+			return this.getName().getFirst().compareTo(another.getName().getFirst());
+		} else {
+			return Integer.compare(another.getOnline(), this.online);
 		}
 	}
 }
