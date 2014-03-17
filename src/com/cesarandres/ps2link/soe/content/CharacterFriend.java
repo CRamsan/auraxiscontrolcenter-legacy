@@ -51,7 +51,7 @@ public class CharacterFriend implements Comparable<CharacterFriend> {
 	@Override
 	public int compareTo(CharacterFriend another) {
 		if (this.online == another.getOnline()){
-			return this.getName().getFirst().compareTo(another.getName().getFirst());
+			return this.getName().getFirst_lower().compareTo(another.getName().getFirst_lower());
 		} else {
 			return Integer.compare(another.getOnline(), this.online);
 		}
