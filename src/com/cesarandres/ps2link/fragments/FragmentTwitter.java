@@ -35,15 +35,18 @@ import com.cesarandres.ps2link.soe.view.TwitterItemAdapter;
  */
 public class FragmentTwitter extends BaseFragment {
 
-	public static Bitmap ps2deals;
-	public static Bitmap plantside2;
-	public static Bitmap purrfectstorm;
-	public static Bitmap mhigby;
 	private static final String MHIGBY = "checkBoxMHigby";
 	private static final String PURRFECTSTORM = "checkBoxPurrfect";
 	private static final String PS2DEALS = "checkBoxPS2Deals";
 	private static final String PSTRAY = "checkBoxPSTRay";
 	private static final String PLANETSIDE2 = "checkBoxPS2";
+	private static final String PLANETSIDE2EU = "checkBoxPS2EU";
+	private static final String RADARX = "checkBoxRadarX";
+	private static final String ARCLEGGER = "checkBoxArclegger";
+	private static final String MULDOONX9 = "checkBoxMuldoonX9";
+	private static final String XALORN = "checkBoxMalorn";
+	private static final String TAYRADACTYL = "checkBoxTayradactyl";
+	private static final String XANDER = "checkBoxXander";
 
 	@SuppressWarnings("rawtypes")
 	private ArrayList<AsyncTask> taskList;
@@ -105,6 +108,62 @@ public class FragmentTwitter extends BaseFragment {
 				updateTweets();
 			}
 		});
+		
+		CheckBox planetsideeu = ((CheckBox) root.findViewById(R.id.checkBoxTwitterPlanetsideEU));
+		planetsideeu.setChecked(settings.getBoolean(PLANETSIDE2EU, false));
+		planetsideeu.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
+		CheckBox radarx = ((CheckBox) root.findViewById(R.id.checkBoxTwitterRadarx));
+		radarx.setChecked(settings.getBoolean(RADARX, false));
+		radarx.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
+		CheckBox arclegger = ((CheckBox) root.findViewById(R.id.checkBoxTwitterArclegger));
+		arclegger.setChecked(settings.getBoolean(ARCLEGGER, false));
+		arclegger.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
+		CheckBox muldoonx9 = ((CheckBox) root.findViewById(R.id.checkBoxTwitterMuldoonx9));
+		muldoonx9.setChecked(settings.getBoolean(MULDOONX9, false));
+		muldoonx9.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
+		CheckBox tayradactyl = ((CheckBox) root.findViewById(R.id.checkBoxTwitterTayradactyl));
+		tayradactyl.setChecked(settings.getBoolean(TAYRADACTYL, false));
+		tayradactyl.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
+		CheckBox xander = ((CheckBox) root.findViewById(R.id.checkBoxTwitterXanderClauss));
+		xander.setChecked(settings.getBoolean(XANDER, false));
+		xander.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
+		
+		CheckBox malorn = ((CheckBox) root.findViewById(R.id.checkBoxTwitterXalorn));
+		malorn.setChecked(settings.getBoolean(XANDER, false));
+		malorn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				updateTweets();
+			}
+		});
 
 		return root;
 	}
@@ -133,6 +192,29 @@ public class FragmentTwitter extends BaseFragment {
 				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPSTray)).isChecked()) {
 					usersnames.add(TwitterUtil.PS_TRAY);
 				}
+				
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPlanetsideEU)).isChecked()) {
+					usersnames.add(TwitterUtil.PLANETSIDE2EU);
+				}
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterRadarx)).isChecked()) {
+					usersnames.add(TwitterUtil.RADARX);
+				}
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterArclegger)).isChecked()) {
+					usersnames.add(TwitterUtil.ADAMCLEGG);
+				}
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMuldoonx9)).isChecked()) {
+					usersnames.add(TwitterUtil.MULDOONX9);
+				}
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXalorn)).isChecked()) {
+					usersnames.add(TwitterUtil.XALORN);
+				}
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterTayradactyl)).isChecked()) {
+					usersnames.add(TwitterUtil.TAYRADACTYL);
+				}
+				if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXanderClauss)).isChecked()) {
+					usersnames.add(TwitterUtil.XANDERCLAUSS);
+				}
+				
 				String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
 				new UpdateTweets().execute(stringArray);
 			}
@@ -145,7 +227,14 @@ public class FragmentTwitter extends BaseFragment {
 					TwitterUtil.MHIDGY,
 					TwitterUtil.PLANETSIDE2,
 					TwitterUtil.PS2DAILYDEALS,
-					TwitterUtil.PS_TRAY });
+					TwitterUtil.PS_TRAY,
+					TwitterUtil.ADAMCLEGG,
+					TwitterUtil.MULDOONX9,
+					TwitterUtil.PLANETSIDE2EU,
+					TwitterUtil.RADARX,
+					TwitterUtil.TAYRADACTYL,
+					TwitterUtil.XALORN,
+					TwitterUtil.XANDERCLAUSS});
 		} else {
 			this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
 			if (!this.loaded) {
@@ -154,7 +243,14 @@ public class FragmentTwitter extends BaseFragment {
 						TwitterUtil.MHIDGY,
 						TwitterUtil.PLANETSIDE2,
 						TwitterUtil.PS2DAILYDEALS,
-						TwitterUtil.PS_TRAY });
+						TwitterUtil.PS_TRAY,
+						TwitterUtil.ADAMCLEGG,
+						TwitterUtil.MULDOONX9,
+						TwitterUtil.PLANETSIDE2EU,
+						TwitterUtil.RADARX,
+						TwitterUtil.TAYRADACTYL,
+						TwitterUtil.XALORN,
+						TwitterUtil.XANDERCLAUSS });
 			}
 		}
 	}
@@ -183,6 +279,14 @@ public class FragmentTwitter extends BaseFragment {
 		editor.putBoolean(PURRFECTSTORM, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPurrfectstorm)).isChecked());
 		editor.putBoolean(MHIGBY, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMhigby)).isChecked());
 		editor.putBoolean(PSTRAY, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPSTray)).isChecked());
+		
+		editor.putBoolean(ARCLEGGER, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterArclegger)).isChecked());
+		editor.putBoolean(MULDOONX9, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMuldoonx9)).isChecked());
+		editor.putBoolean(PLANETSIDE2EU, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPlanetsideEU)).isChecked());
+		editor.putBoolean(XALORN, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXalorn)).isChecked());
+		editor.putBoolean(TAYRADACTYL, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterTayradactyl)).isChecked());
+		editor.putBoolean(XANDER, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXanderClauss)).isChecked());
+		editor.putBoolean(RADARX, ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterRadarx)).isChecked());
 		editor.commit();
 
 		ApplicationPS2Link.volley.cancelAll(tag);
@@ -203,7 +307,7 @@ public class FragmentTwitter extends BaseFragment {
 	}
 
 	private void updateTweets() {
-		ArrayList<String> usersnames = new ArrayList<String>();
+		ArrayList<String> usersnames = new ArrayList<String>();		
 		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMhigby)).isChecked()) {
 			usersnames.add(TwitterUtil.MHIDGY);
 		}
@@ -218,6 +322,28 @@ public class FragmentTwitter extends BaseFragment {
 		}
 		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPSTray)).isChecked()) {
 			usersnames.add(TwitterUtil.PS_TRAY);
+		}
+		
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPlanetsideEU)).isChecked()) {
+			usersnames.add(TwitterUtil.PLANETSIDE2EU);
+		}
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterRadarx)).isChecked()) {
+			usersnames.add(TwitterUtil.RADARX);
+		}
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterArclegger)).isChecked()) {
+			usersnames.add(TwitterUtil.ADAMCLEGG);
+		}
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMuldoonx9)).isChecked()) {
+			usersnames.add(TwitterUtil.MULDOONX9);
+		}
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXalorn)).isChecked()) {
+			usersnames.add(TwitterUtil.XALORN);
+		}
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterTayradactyl)).isChecked()) {
+			usersnames.add(TwitterUtil.TAYRADACTYL);
+		}
+		if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXanderClauss)).isChecked()) {
+			usersnames.add(TwitterUtil.XANDERCLAUSS);
 		}
 		String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
 		updateContent(stringArray);

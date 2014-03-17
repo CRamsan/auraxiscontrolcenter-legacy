@@ -41,5 +41,12 @@
     <string name="content_not_available">Content currently not available.</string>
     <string name="link_forum">http://acc.cesarandres.com/</string>
     <string name="link_donations">http://cesarandres.com/</string>
+    <string name="twitter_planetside2eu">Planetside2EU</string>
+    <string name="twitter_radarx">RadarX</string>
+    <string name="twitter_arclegger">Arclegger</string>
+    <string name="twitter_muldoonx9">MuldoonX9</string>
+    <string name="twitter_xalorn">Xalorn</string>
+    <string name="twitter_tayradactyl">Tayradactyl</string>
+    <string name="twitter_xanderclauss">XanderClauss</string>
 
 </resources>
