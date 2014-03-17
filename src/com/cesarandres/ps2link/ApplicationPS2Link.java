@@ -29,6 +29,7 @@ public class ApplicationPS2Link extends Application {
 		ACTIVITY_SERVER_LIST,
 		ACTIVITY_TWITTER,
 		ACTIVITY_WDS,
+		ACTIVITY_LINK_MENU,
 		ACTIVITY_MAIN_MENU
 	}
 

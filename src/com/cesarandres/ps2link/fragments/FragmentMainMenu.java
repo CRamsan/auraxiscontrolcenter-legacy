@@ -79,20 +79,7 @@ public class FragmentMainMenu extends BaseFragment {
 		final Button buttonNews = (Button) root.findViewById(R.id.buttonNews);
 		buttonNews.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				String url = "http://www.reddit.com/r/Planetside/";
-				Intent i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse(url));
-				startActivity(i);
-			}
-		});
-
-		final Button buttonLore = (Button) root.findViewById(R.id.buttonLore);
-		buttonLore.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				String url = "http://www.reddit.com/r/Planetsidelore/";
-				Intent i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse(url));
-				startActivity(i);
+				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_LINK_MENU.toString(), null);
 			}
 		});
 

@@ -48,5 +48,12 @@
     <string name="twitter_xalorn">Xalorn</string>
     <string name="twitter_tayradactyl">Tayradactyl</string>
     <string name="twitter_xanderclauss">XanderClauss</string>
+    <string name="title_links">LINKS</string>
+    <string name="title_official_forums">FORUMS</string>
+    <string name="title_psu">PS UNIVERSE</string>
+    <string name="title_ps2_wikia">WIKIA</string>
+    <string name="title_ps2maps">PS2 MAPS</string>
+    <string name="title_commclash">COMM. CLASH</string>
+    <string name="title_ps2alerts">PS2 ALERTS</string>
 
 </resources>
