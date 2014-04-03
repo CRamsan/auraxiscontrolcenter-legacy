@@ -27,7 +27,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ActivityContainerSingle;
-import com.cesarandres.ps2link.ActivityProfile;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -76,7 +75,7 @@ public class FragmentVehicleList extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityProfile.class);
+				intent.setClass(getActivity(), FragmentProfilePager.class);
 				intent.putExtra("profileId", ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id());
 				startActivity(intent);
 			}
@@ -249,7 +248,7 @@ public class FragmentVehicleList extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityProfile.class);
+					intent.setClass(getActivity(), FragmentProfilePager.class);
 					intent.putExtra("profileId", ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id());
 					startActivity(intent);
 				}

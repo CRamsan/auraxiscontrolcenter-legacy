@@ -27,6 +27,7 @@ import com.cesarandres.ps2link.fragments.FragmentProfilePager;
 import com.cesarandres.ps2link.fragments.FragmentServer;
 import com.cesarandres.ps2link.fragments.FragmentServerList;
 import com.cesarandres.ps2link.fragments.FragmentTwitter;
+import com.cesarandres.ps2link.fragments.FragmentWds;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**
@@ -120,16 +121,19 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             BaseFragment newFragment = getFragmentByMode(id);
             if(newFragment != null){
+            	Bundle bundle = new Bundle();
+            	if (args != null && args.length > 0) {
+                    for (int i = 0; i < args.length; i++) {
+                        bundle.putString("PARAM_" + i, args[i]);
+                    }
+                }
+    			newFragment.setArguments(bundle);
                 transaction.replace(R.id.activityFrameLayout, newFragment);
                 //transaction.addToBackStack(null);
                 transaction.commit();
             }
         }else{
-            Class newActivityClass = getActivityByMode(id);
-            if (newActivityClass != null) {
-            } else {
-                newActivityClass = ActivityContainerSingle.class;
-            }
+            Class newActivityClass = ActivityContainerSingle.class;
             Intent intent = new Intent(this, newActivityClass);
             if (args != null && args.length > 0) {
                 for (int i = 0; i < args.length; i++) {
@@ -157,21 +161,6 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 		this.data = data;
 	}
 
-	public static Class getActivityByMode(String activityMode) {
-		Class newActivityClass = null;
-		switch (ActivityMode.valueOf(activityMode)) {
-		case ACTIVITY_PROFILE:
-			newActivityClass = ActivityProfile.class;
-			break;
-		case ACTIVITY_MEMBER_LIST:
-			newActivityClass = ActivityOutfit.class;
-			break;
-		default:
-			break;
-		}
-		return newActivityClass;
-	}
-
 	//TODO Apparently this code is never used.
 	private BaseFragment getFragmentByMode(String activityMode) {
 		BaseFragment newFragment = null;
@@ -186,7 +175,7 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
                 newFragment = new FragmentAddProfile();
                 break;
             case ACTIVITY_MEMBER_LIST:
-                newFragment = new FragmentMembersList();
+                newFragment = new ActivityOutfit();
                 break;
             case ACTIVITY_OUTFIT_LIST:
                 newFragment = new FragmentOutfitList();
@@ -211,8 +200,11 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
             case ACTIVITY_WDS:
                 newFragment = new FragmentWds();
                 break;
-            case ACTIVITY_PROFILE_PAGER:
-                newFragment = new FragmentProfilePager();
+            case ACTIVITY_PROFILE:
+    			newFragment = new FragmentProfilePager();
+    			break;
+            case ACTIVITY_LINK_MENU:
+                newFragment = new FragmentLinksMenu();
                 break;
             default:
                 break;

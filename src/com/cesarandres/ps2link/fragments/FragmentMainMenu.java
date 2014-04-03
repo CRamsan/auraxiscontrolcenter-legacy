@@ -3,7 +3,6 @@ package com.cesarandres.ps2link.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.cesarandres.ps2link.ActivityAbout;
 import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
@@ -85,15 +83,6 @@ public class FragmentMainMenu extends BaseFragment {
 		buttonTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_TWITTER.toString(), null);
-			}
-		});
-
-		final Button buttonAbout = (Button) root.findViewById(R.id.buttonAbout);
-		buttonAbout.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityAbout.class);
-				startActivity(intent);
 			}
 		});
 
@@ -172,7 +161,7 @@ public class FragmentMainMenu extends BaseFragment {
 				public void onClick(View v) {
 
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE_PAGER.toString(),
+					mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
 							new String[] { settings.getString("preferedProfile", "") });
 				}
 			});

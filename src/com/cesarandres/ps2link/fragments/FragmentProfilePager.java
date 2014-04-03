@@ -1,15 +1,5 @@
 package com.cesarandres.ps2link.fragments;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.ocpsoft.prettytime.PrettyTime;
-
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,47 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityProfile;
-import com.cesarandres.ps2link.ActivityProfile.SectionsPagerAdapter;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.R.id;
+import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.response.Character_list_response;
-import com.cesarandres.ps2link.soe.content.response.Server_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentProfilePager extends BaseFragment {
+public class FragmentProfilePager extends BaseFragment{
 
-	private ObjectDataSource data;
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 	private ViewPager mViewPager;
 	private String profileId;
+	private String profileName;
 	private static final int PROFILE = 0;
 	private static final int FRIENDS = 1;
 	private static final int STATS = 2;
@@ -68,19 +34,42 @@ public class FragmentProfilePager extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+		if(savedInstanceState != null){
+			this.profileName = savedInstanceState.getString("ProfileName");
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.activity_profile, container, false);
-		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+		super.onCreateView(inflater, container, savedInstanceState);
+		View root = inflater.inflate(R.layout.fragment_profile_pager, container, false);
+
 		mViewPager = (ViewPager) root.findViewById(R.id.profilePager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		root.findViewById(R.id.buttonFragmentUpdate).setOnClickListener(new View.OnClickListener() {
+		Bundle extras = getActivity().getIntent().getExtras();
+		if(extras == null){
+			extras = getArguments();
+		}
+			
+		String activityMode = "";
+		if (extras != null) {
+			activityMode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
+		}
+		
+		profileId = extras.getString("PARAM_0");
+		
+		return root;
+	}
+
+	@Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		updateButton.setVisibility(View.VISIBLE);
+		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				switch (mViewPager.getCurrentItem()) {
 				case PROFILE:
@@ -106,27 +95,11 @@ public class FragmentProfilePager extends BaseFragment {
 			}
 		});
 		
-		
-		return root;
-	}
+		if (!"".equals(profileName) && profileName != null) {
+			((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(profileName);
+		}
+    }	
 
-	@Override
-	public void onResume() {
-		super.onResume();
-
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-
-	
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
@@ -179,5 +152,13 @@ public class FragmentProfilePager extends BaseFragment {
 			}
 		}
 	}
-	
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		String profileName = String.valueOf(((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).getText());
+		if (!"".equals(profileName)) {
+			savedInstanceState.putString("ProfileName", profileName);
+		}
+	}
 }

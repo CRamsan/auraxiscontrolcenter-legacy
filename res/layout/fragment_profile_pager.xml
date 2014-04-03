@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollViewLayoutProfile"
-    style="@style/LayoutFrameStyle"
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profilePager"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/profilePager"
-        style="@style/FragmentBottomStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+    <android.support.v4.view.PagerTitleStrip
+        style="@style/LayoutFrameStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" />
 
-        <android.support.v4.view.PagerTitleStrip
-            style="@style/LayoutFrameStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" />
-    </android.support.v4.view.ViewPager>
-
-</ScrollView>
+</android.support.v4.view.ViewPager>
