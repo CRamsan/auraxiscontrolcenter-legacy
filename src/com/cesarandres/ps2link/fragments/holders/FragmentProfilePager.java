@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link.fragments;
+package com.cesarandres.ps2link.fragments.holders;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +16,10 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.R.id;
 import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.fragments.FragmentFriendList;
+import com.cesarandres.ps2link.fragments.FragmentKillList;
+import com.cesarandres.ps2link.fragments.FragmentProfile;
+import com.cesarandres.ps2link.fragments.FragmentStatList;
 
 /**
  * Created by cesar on 6/16/13.

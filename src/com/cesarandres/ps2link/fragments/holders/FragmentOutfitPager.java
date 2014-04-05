@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link;
+package com.cesarandres.ps2link.fragments.holders;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.R.id;
+import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
@@ -18,7 +22,7 @@ import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
 /**
  * Created by cesar on 6/16/13.
  */
-public class ActivityOutfit extends BaseFragment {
+public class FragmentOutfitPager extends BaseFragment {
 
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 	private ViewPager mViewPager;
@@ -91,13 +95,13 @@ public class ActivityOutfit extends BaseFragment {
 			public void onPageSelected(int arg0) {
 				switch (arg0) {
 				case ONLINE:
-					getActivity().findViewById(R.id.toggleShowOffline).setVisibility(View.GONE);
+					getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
 					break;
 				case MEMBERS:
-					getActivity().findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
+					getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
 					break;
 				default:
-					getActivity().findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
+					getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
 					break;
 				}
 			}

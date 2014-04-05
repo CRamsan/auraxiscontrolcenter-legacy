@@ -7,6 +7,7 @@ import android.widget.ImageView.ScaleType;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.WallPaperMode;
+import com.cesarandres.ps2link.module.BitmapWorkerTask;
 import com.cesarandres.ps2link.R;
 
 public class BaseActivity extends FragmentActivity {

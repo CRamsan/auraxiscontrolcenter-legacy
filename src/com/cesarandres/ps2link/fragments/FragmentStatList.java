@@ -22,8 +22,8 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.adapter.StatItemAdapter;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
+import com.cesarandres.ps2link.soe.content.StatItemAdapter;
 import com.cesarandres.ps2link.soe.content.character.Stats;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
@@ -59,8 +59,6 @@ public class FragmentStatList extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setRetainInstance(true);
-		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
 		downloadStatList(this.profileId);
 	}
 
@@ -72,6 +70,11 @@ public class FragmentStatList extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.VISIBLE);
 	}
 
 	@Override

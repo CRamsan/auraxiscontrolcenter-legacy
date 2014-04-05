@@ -17,7 +17,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.base.BitmapWorkerTask;
+import com.cesarandres.ps2link.module.BitmapWorkerTask;
 
 /**
  * Created by cesar on 6/16/13.

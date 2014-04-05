@@ -69,8 +69,6 @@ public class FragmentFriendList extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setRetainInstance(true);
-		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
 
 		downloadFriendsList(this.profileId);
 	}
@@ -83,6 +81,11 @@ public class FragmentFriendList extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.VISIBLE);
 	}
 
 	@Override

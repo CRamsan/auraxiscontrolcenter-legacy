@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.fragments.holders.FragmentProfilePager;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -88,7 +89,7 @@ public class FragmentVehicleList extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		ToggleButton viewOffline = (ToggleButton) getActivity().findViewById(R.id.toggleShowOffline);
+		ToggleButton viewOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
 		viewOffline.setVisibility(View.VISIBLE);
 
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
@@ -98,12 +99,12 @@ public class FragmentVehicleList extends Fragment {
 			}
 		});
 
-		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
 		append.setVisibility(View.VISIBLE);
 
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleShowOffline).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.buttonFragmentStar).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
 
 		data = ((ActivityContainerSingle) getActivity()).getData();
 		if (savedInstanceState == null) {
@@ -119,7 +120,7 @@ public class FragmentVehicleList extends Fragment {
 
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);
 
-		((ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (outfitId != null && outfitName != null) {
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -212,9 +213,9 @@ public class FragmentVehicleList extends Fragment {
 
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-		getActivity().findViewById(R.id.toggleShowOffline).setEnabled(enabled);
-		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
-		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(enabled);
 		if (enabled) {
 			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
@@ -225,7 +226,7 @@ public class FragmentVehicleList extends Fragment {
 	}
 
 	private void setAppendButtonVisibility(boolean visible) {
-		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar);
+		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		String preferedOutfitId = settings.getString("preferedOutfit", "");
 		if (preferedOutfitId.equals(outfitId)) {
@@ -234,7 +235,7 @@ public class FragmentVehicleList extends Fragment {
 			star.setChecked(false);
 		}
 
-		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(visible);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(visible);
 		star.setEnabled(visible);
 	}
 
@@ -254,7 +255,7 @@ public class FragmentVehicleList extends Fragment {
 				}
 			});
 
-			ToggleButton viewOffline = ((ToggleButton) getActivity().findViewById(R.id.toggleShowOffline));
+			ToggleButton viewOffline = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline));
 			viewOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -263,7 +264,7 @@ public class FragmentVehicleList extends Fragment {
 				}
 			});
 
-			ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
+			ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
 			append.setOnCheckedChangeListener(null);
 			append.setChecked(isCached);
 			append.setOnCheckedChangeListener(new OnCheckedChangeListener() {

@@ -26,9 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cesarandres.ps2link.fragments.FragmentProfilePager" >
+        <activity android:name="com.cesarandres.ps2link.fragments.holders.FragmentProfilePager" >
         </activity>
-        <activity android:name="com.cesarandres.ps2link.ActivityOutfit" >
+        <activity android:name="com.cesarandres.ps2link.fragments.holders.FragmentOutfitPager" >
         </activity>
         <activity
             android:name="com.cesarandres.ps2link.ActivityAbout"

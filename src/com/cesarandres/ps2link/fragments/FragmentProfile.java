@@ -67,10 +67,6 @@ public class FragmentProfile extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.data = ((ActivityContainerSingle) getActivity()).getData();
-		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
-
-		getActivity().findViewById(R.id.buttonFragmentAppend).setVisibility(View.VISIBLE);
 
 		taskList = new ArrayList<AsyncTask>();
 		UpdateProfileFromTable task = new UpdateProfileFromTable();
@@ -81,8 +77,6 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-
 		View root = inflater.inflate(R.layout.fragment_profile, container, false);
 		return root;
 	}
@@ -90,7 +84,11 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -168,7 +166,7 @@ public class FragmentProfile extends BaseFragment {
 			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
 		}
 
-		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar);
+		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
 		star.setVisibility(View.VISIBLE);
 		star.setOnCheckedChangeListener(null);
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -194,7 +192,7 @@ public class FragmentProfile extends BaseFragment {
 			}
 		});
 
-		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
 		append.setOnCheckedChangeListener(null);
 		append.setChecked(isCached);
 		append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -249,8 +247,8 @@ public class FragmentProfile extends BaseFragment {
 
 	private void setActionBarEnabled(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
-		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setEnabled(enabled);
 		if (enabled) {
 			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);

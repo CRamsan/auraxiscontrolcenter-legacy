@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link.base;
+package com.cesarandres.ps2link.module;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

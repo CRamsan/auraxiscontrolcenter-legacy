@@ -30,7 +30,7 @@
             android:src="@drawable/icon_refresh" />
 
         <ToggleButton
-            android:id="@+id/toggleShowOffline"
+            android:id="@+id/toggleButtonShowOffline"
             style="@style/ActionBarButtonStyle"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textOff="@string/text_show_offline"
@@ -42,14 +42,14 @@
             android:src="@drawable/icon_search" />
 
         <ToggleButton
-            android:id="@+id/buttonFragmentStar"
+            android:id="@+id/toggleButtonFragmentStar"
             style="@style/ActionBarButtonStyle"
             android:drawableRight="@drawable/ps2_button_action_star"
             android:textOff="@string/text_empty"
             android:textOn="@string/text_empty" />
 
         <ToggleButton
-            android:id="@+id/buttonFragmentAppend"
+            android:id="@+id/toggleButtonFragmentAppend"
             style="@style/ActionBarButtonStyle"
             android:drawableRight="@drawable/ps2_button_action_append"
             android:textOff="@string/text_empty"

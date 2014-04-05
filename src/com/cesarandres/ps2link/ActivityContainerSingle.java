@@ -19,15 +19,14 @@ import com.cesarandres.ps2link.fragments.FragmentAddOutfit;
 import com.cesarandres.ps2link.fragments.FragmentAddProfile;
 import com.cesarandres.ps2link.fragments.FragmentLinksMenu;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
-import com.cesarandres.ps2link.fragments.FragmentMap;
-import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
 import com.cesarandres.ps2link.fragments.FragmentProfileList;
-import com.cesarandres.ps2link.fragments.FragmentProfilePager;
 import com.cesarandres.ps2link.fragments.FragmentServer;
 import com.cesarandres.ps2link.fragments.FragmentServerList;
 import com.cesarandres.ps2link.fragments.FragmentTwitter;
 import com.cesarandres.ps2link.fragments.FragmentWds;
+import com.cesarandres.ps2link.fragments.holders.FragmentOutfitPager;
+import com.cesarandres.ps2link.fragments.holders.FragmentProfilePager;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**
@@ -38,7 +37,8 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 	private String activityMode;
 	private ObjectDataSource data;
     private boolean tablet = false;
-
+    private BaseFragment secondPanel;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +61,11 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		BaseFragment newFragment = getFragmentByMode(getActivityMode());
         if(newFragment != null){
-            transaction.replace(R.id.activityFrameLayout, newFragment);
+        	if(secondPanel != null){
+        		transaction.remove(newFragment);
+        	}
+            transaction.add(R.id.activityFrameLayout, newFragment);
+            this.secondPanel = newFragment;
             //transaction.addToBackStack(null);
             transaction.commit();
         }
@@ -168,14 +172,11 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
             case ACTIVITY_ADD_OUTFIT:
                 newFragment = new FragmentAddOutfit();
                 break;
-            case ACTIVITY_MAP:
-                newFragment = new FragmentMap();
-                break;
             case ACTIVITY_ADD_PROFILE:
                 newFragment = new FragmentAddProfile();
                 break;
             case ACTIVITY_MEMBER_LIST:
-                newFragment = new ActivityOutfit();
+                newFragment = new FragmentOutfitPager();
                 break;
             case ACTIVITY_OUTFIT_LIST:
                 newFragment = new FragmentOutfitList();

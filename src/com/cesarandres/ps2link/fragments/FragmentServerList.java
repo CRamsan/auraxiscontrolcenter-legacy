@@ -96,6 +96,16 @@ public class FragmentServerList extends BaseFragment {
 		ApplicationPS2Link.volley.cancelAll(this);
 	}
 
+	@Override
+	public void onResume(){
+		super.onResume();
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.GONE);
+	}
+	
 	public void downloadServers() {
 		setUpdateButton(false);
 		URL url;

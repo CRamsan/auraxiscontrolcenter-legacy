@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link.soe.adapter;
+package com.cesarandres.ps2link.soe.content;
 
 import java.util.ArrayList;
 

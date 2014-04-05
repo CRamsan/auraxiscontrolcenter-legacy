@@ -54,7 +54,6 @@ public class FragmentProfileList extends BaseFragment {
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
 		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
 		updateButton.setVisibility(View.VISIBLE);
-
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				new ReadProfilesTable().execute();
@@ -63,7 +62,6 @@ public class FragmentProfileList extends BaseFragment {
 
 		ImageButton searchButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
 		searchButton.setVisibility(View.VISIBLE);
-
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ADD_PROFILE.toString(), null);
@@ -80,6 +78,11 @@ public class FragmentProfileList extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.GONE);
 		new ReadProfilesTable().execute();
 	}
 

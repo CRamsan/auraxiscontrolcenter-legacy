@@ -68,11 +68,6 @@ public class FragmentMembersOnline extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
-		append.setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.buttonFragmentStar).setVisibility(View.VISIBLE);
-
 		if (savedInstanceState == null) {
 			this.outfitId = getArguments().getString("PARAM_0");
 		} else {
@@ -81,7 +76,9 @@ public class FragmentMembersOnline extends BaseFragment {
 
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);
 
-		((ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
+		append.setVisibility(View.VISIBLE);
+		((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (outfitId != null && outfitName != null) {
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -104,6 +101,11 @@ public class FragmentMembersOnline extends BaseFragment {
 
 	@Override
 	public void onResume() {
+		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.VISIBLE);
 		super.onResume();
 	}
 
@@ -166,8 +168,8 @@ public class FragmentMembersOnline extends BaseFragment {
 
 	private void setUpdateButton(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-		getActivity().findViewById(R.id.buttonFragmentStar).setEnabled(enabled);
-		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonFragmentStar).setEnabled(enabled);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(enabled);
 		if (enabled) {
 			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
@@ -178,7 +180,7 @@ public class FragmentMembersOnline extends BaseFragment {
 	}
 
 	private void setAppendButtonVisibility(boolean visible) {
-		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.buttonFragmentStar);
+		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		String preferedOutfitId = settings.getString("preferedOutfit", "");
 		if (preferedOutfitId.equals(outfitId)) {
@@ -187,7 +189,7 @@ public class FragmentMembersOnline extends BaseFragment {
 			star.setChecked(false);
 		}
 
-		getActivity().findViewById(R.id.buttonFragmentAppend).setEnabled(visible);
+		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(visible);
 		star.setEnabled(visible);
 	}
 
@@ -203,7 +205,7 @@ public class FragmentMembersOnline extends BaseFragment {
 			}
 		});
 
-		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.buttonFragmentAppend));
+		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
 		append.setOnCheckedChangeListener(null);
 		append.setChecked(isCached);
 	}
