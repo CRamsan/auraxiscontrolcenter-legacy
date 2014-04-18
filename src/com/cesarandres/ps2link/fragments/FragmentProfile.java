@@ -51,7 +51,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  */
 public class FragmentProfile extends BaseFragment {
 
-	private static boolean isCached;
+	private boolean isCached;
 	private CharacterProfile profile;
 	private String profileId;
 	private ArrayList<AsyncTask> taskList;
@@ -109,63 +109,70 @@ public class FragmentProfile extends BaseFragment {
 
 		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(character.getName().getFirst());
 
-		updateServer(character.getWorld_id());
-
-		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
-		if (character.getFaction_id().equals(Faction.VS)) {
-			faction.setImageResource(R.drawable.icon_faction_vs);
-		} else if (character.getFaction_id().equals(Faction.NC)) {
-			faction.setImageResource(R.drawable.icon_faction_nc);
-		} else if (character.getFaction_id().equals(Faction.TR)) {
-			faction.setImageResource(R.drawable.icon_faction_tr);
-		}
-
-		TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
-		initialBR.setText(Integer.toString(character.getBattle_rank().getValue()));
-		initialBR.setTextColor(Color.BLACK);
-
-		TextView nextBR = ((TextView) getActivity().findViewById(R.id.textViewNextRank));
-		nextBR.setText(Integer.toString(character.getBattle_rank().getValue() + 1));
-		nextBR.setTextColor(Color.BLACK);
-
-		int progressBR = (character.getBattle_rank().getPercent_to_next());
-		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileBRProgress)).setProgress((int) (progressBR));
-
-		Float progressCerts = Float.parseFloat(character.getCerts().getPercent_to_next());
-		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
-		TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
-		certs.setText(character.getCerts().getAvailable_points());
-
-		TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
-		String onlineStatusText = "UNKOWN";
-		if (character.getOnline_status() == 0) {
-			onlineStatusText = "OFFLINE";
-			loginStatus.setText(onlineStatusText);
-			loginStatus.setTextColor(Color.RED);
-		} else {
-			onlineStatusText = "ONLINE";
-			loginStatus.setText(onlineStatusText);
-			loginStatus.setTextColor(Color.GREEN);
-		}
-
-		((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
-				.getMinutes_played()) / 60)));
-
-		PrettyTime p = new PrettyTime();
-		String lastLogin = p.format(new Date(Long.parseLong(character.getTimes().getLast_login()) * 1000));
-
-		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
-
-		if (character.getOutfitName() == null) {
-			if (character.getOutfit() == null) {
-				((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
-			} else {
-				((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfit().getName());
+		if(this.getView() != null){
+			ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
+			if (character.getFaction_id().equals(Faction.VS)) {
+				faction.setImageResource(R.drawable.icon_faction_vs);
+			} else if (character.getFaction_id().equals(Faction.NC)) {
+				faction.setImageResource(R.drawable.icon_faction_nc);
+			} else if (character.getFaction_id().equals(Faction.TR)) {
+				faction.setImageResource(R.drawable.icon_faction_tr);
 			}
-		} else {
-			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
-		}
+	
+			TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
+			initialBR.setText(Integer.toString(character.getBattle_rank().getValue()));
+			initialBR.setTextColor(Color.BLACK);
+	
+			TextView nextBR = ((TextView) getActivity().findViewById(R.id.textViewNextRank));
+			nextBR.setText(Integer.toString(character.getBattle_rank().getValue() + 1));
+			nextBR.setTextColor(Color.BLACK);
+	
+			int progressBR = (character.getBattle_rank().getPercent_to_next());
+			((ProgressBar) getActivity().findViewById(R.id.progressBarProfileBRProgress)).setProgress((int) (progressBR));
+	
+			Float progressCerts = Float.parseFloat(character.getCerts().getPercent_to_next());
+			((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
+			TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
+			certs.setText(character.getCerts().getAvailable_points());
+	
+			TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
+			String onlineStatusText = "UNKOWN";
+			if (character.getOnline_status() == 0) {
+				onlineStatusText = "OFFLINE";
+				loginStatus.setText(onlineStatusText);
+				loginStatus.setTextColor(Color.RED);
+			} else {
+				onlineStatusText = "ONLINE";
+				loginStatus.setText(onlineStatusText);
+				loginStatus.setTextColor(Color.GREEN);
+			}
+	
+			((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
+					.getMinutes_played()) / 60)));
+	
+			PrettyTime p = new PrettyTime();
+			String lastLogin = p.format(new Date(Long.parseLong(character.getTimes().getLast_login()) * 1000));
+	
+			((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
+	
+			if (character.getOutfitName() == null) {
+				if (character.getOutfit() == null) {
+					((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
+				} else {
+					((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfit().getName());
+				}
+			} else {
+				((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
+			}
+			
+			if (character.getServer() != null) {
+				((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(character.getServer().getName().getEn());
+			} else {
+				((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
+			}
 
+		}
+		
 		ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
 		star.setVisibility(View.VISIBLE);
 		star.setOnCheckedChangeListener(null);
@@ -210,41 +217,6 @@ public class FragmentProfile extends BaseFragment {
 		});
 	}
 
-	private void updateServer(String world_id) {
-
-		URL url;
-		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.WORLD, "",
-					QueryString.generateQeuryString().AddComparison("world_id", SearchModifier.EQUALS, world_id));
-
-			Listener<Server_response> success = new Response.Listener<Server_response>() {
-				@Override
-				public void onResponse(Server_response response) {
-					if (response.getWorld_list().size() > 0) {
-						((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(response.getWorld_list().get(0).getName().getEn());
-					} else {
-						((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
-					}
-
-				}
-			};
-
-			ErrorListener error = new Response.ErrorListener() {
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					error.equals(new Object());
-					((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
-				}
-			};
-			GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(url.toString(), Server_response.class, null, success, error);
-			gsonOject.setTag(this);
-			ApplicationPS2Link.volley.add(gsonOject);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	private void setActionBarEnabled(boolean enabled) {
 		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
 		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(enabled);
@@ -264,7 +236,7 @@ public class FragmentProfile extends BaseFragment {
 		URL url;
 		try {
 			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTER, character_id,
-					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world,online_status"));
+					QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world,online_status").AddCommand(QueryCommand.JOIN, "type:world^inject_at:server"));
 			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 				@Override
 				public void onResponse(Character_list_response response) {
@@ -276,48 +248,6 @@ public class FragmentProfile extends BaseFragment {
 						UpdateProfileToTable task = new UpdateProfileToTable();
 						taskList.add(task);
 						task.execute(profile);
-					} catch (Exception e) {
-						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-					}
-				}
-			};
-
-			ErrorListener error = new Response.ErrorListener() {
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					error.equals(new Object());
-					setActionBarEnabled(true);
-				}
-			};
-
-			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
-					success, error);
-			gsonOject.setTag(this);
-			ApplicationPS2Link.volley.add(gsonOject);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void downloadOnlineStatus(String character_id) {
-
-		setActionBarEnabled(false);
-		URL url;
-		try {
-			url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTERS_ONLINE_STATUS, character_id, null);
-
-			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
-				@Override
-				public void onResponse(Character_list_response response) {
-					int status = 0;
-					try {
-						if (response.getCharacters_online_status_list() != null && response.getCharacters_online_status_list().size() > 0) {
-							status = response.getCharacters_online_status_list().get(0).getOnline_status();
-						}
-						profile.setOnline_status(status);
-						setActionBarEnabled(true);
-						updateUI(profile);
 					} catch (Exception e) {
 						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 					}

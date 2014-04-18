@@ -4,6 +4,7 @@ import com.cesarandres.ps2link.soe.content.backlog.Times;
 import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
+import com.cesarandres.ps2link.soe.content.character.Server;
 import com.cesarandres.ps2link.soe.content.character.Stats;
 
 public class CharacterProfile {
@@ -19,6 +20,7 @@ public class CharacterProfile {
 	private String outfitName;
 	private Profile profile;
 	private Stats stats;
+	private Server server;
 	private int online_status;
 	private boolean cached;
 
@@ -132,5 +134,13 @@ public class CharacterProfile {
 
 	public void setProfile(Profile profile) {
 		this.profile = profile;
+	}
+
+	public Server getServer() {
+		return server;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
 	}
 }

@@ -18,6 +18,7 @@ import com.cesarandres.ps2link.soe.content.backlog.Times;
 import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
+import com.cesarandres.ps2link.soe.content.character.Server;
 import com.cesarandres.ps2link.soe.content.world.Name_Multi;
 
 /**
@@ -56,7 +57,8 @@ public class ObjectDataSource {
 			SQLiteManager.CHARACTERS_COLUMN_FACTION_ID,
 			SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
 			SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME,
-			SQLiteManager.CACHE_COLUMN_SAVES };
+			SQLiteManager.CACHE_COLUMN_SAVES,
+			SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME};
 
 	private String[] allColumnsMembers = {
 			SQLiteManager.MEMBERS_COLUMN_ID,
@@ -142,6 +144,7 @@ public class ObjectDataSource {
 		values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character.getTimes().getMinutes_played());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID, character.getFaction_id());
 		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID, character.getWorld_id());
+		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, character.getServer().getName().getEn());
 		if (character.getOutfit() == null) {
 			values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, "NONE");
 		} else {
@@ -209,6 +212,8 @@ public class ObjectDataSource {
 		} else if (character.getOutfit() != null) {
 			values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfit().getName());
 		}
+		values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, character.getServer().getName().getEn());
+		
 		if (temp) {
 			values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
 		} else {
@@ -217,7 +222,7 @@ public class ObjectDataSource {
 		return database.update(target, values, SQLiteManager.CHARACTERS_COLUMN_ID + " = " + character.getCharacterId(), null);
 	}
 
-	public CharacterProfile cursorToCharacterProfile(Cursor cursor) {
+	public CharacterProfile cursorToCharacterProfile(final Cursor cursor) {
 		CharacterProfile character = new CharacterProfile();
 		character.setCharacterId(cursor.getString(0));
 		Name name = new Name();
@@ -245,12 +250,14 @@ public class ObjectDataSource {
 		character.setWorld_id(cursor.getString(11));
 
 		character.setOutfitName(cursor.getString(12));
-
+		
 		if (cursor.getInt(13) == 1) {
 			character.setCached(true);
 		} else {
 			character.setCached(false);
 		}
+
+		character.setServer(new Server(){{setName(new Name_Multi(){{setEn(cursor.getString(14));}});}});
 
 		return character;
 	}

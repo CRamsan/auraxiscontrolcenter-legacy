@@ -28,6 +28,7 @@ public class QueryString {
 		HIDE("c:hide"),
 		SORT("c:sort"),
 		HAS("c:has"),
+		JOIN("c:join"),
 		RESOLVE("c:resolve"),
 		CASE("c:case"),
 		LIMIT("c:limit"),
@@ -55,7 +56,6 @@ public class QueryString {
 		this.listtOfParameters = new ArrayList<SearchParameter>(1);
 	}
 
-	//TODO Fix THIS!
 	public static QueryString generateQeuryString() {
 		return new QueryString();
 	}
@@ -64,7 +64,7 @@ public class QueryString {
 		this.listtOfParameters.add(new Condition(key, modifier, value));
 		return this;
 	}
-
+	
 	public QueryString AddCommand(QueryCommand command, String value) {
 		this.listtOfParameters.add(new Command(command, value));
 		return this;
@@ -83,7 +83,7 @@ public class QueryString {
 		}
 	}
 
-	private abstract class SearchParameter {
+	private class SearchParameter {
 		protected String value;
 	}
 

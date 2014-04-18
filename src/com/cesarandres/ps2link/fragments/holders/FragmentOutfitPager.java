@@ -90,7 +90,6 @@ public class FragmentOutfitPager extends BaseFragment {
 		});
 
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
 			@Override
 			public void onPageSelected(int arg0) {
 				switch (arg0) {
