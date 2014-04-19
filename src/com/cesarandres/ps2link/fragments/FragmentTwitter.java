@@ -22,7 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -220,7 +220,7 @@ public class FragmentTwitter extends BaseFragment {
 				new UpdateTweets().execute(stringArray);
 			}
 		});
-		data = ((ActivityContainerSingle) getActivity()).getData();
+		data = ((ActivityContainer) getActivity()).getData();
 		updateTweets();
 		if (savedInstanceState == null) {
 			new UpdateTweets().execute(new String[] {
@@ -402,7 +402,7 @@ public class FragmentTwitter extends BaseFragment {
 			try {
 				for (String user : users) {
 					tweetList = TwitterUtil.getTweets(user);
-					ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+					ObjectDataSource data = ((ActivityContainer)getActivity()).getData();
 					data.insertAllTweets(tweetList, user);
 				}
 			} catch (Exception e) {

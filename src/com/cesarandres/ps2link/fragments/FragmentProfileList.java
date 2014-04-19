@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -121,7 +121,7 @@ public class FragmentProfileList extends BaseFragment {
 		protected ArrayList<CharacterProfile> doInBackground(Integer... params) {
 			ArrayList<CharacterProfile> tmpProfileList = null;
 			try {
-				ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+				ObjectDataSource data = ((ActivityContainer)getActivity()).getData();
 				tmpProfileList = data.getAllCharacterProfiles(false);
 			} catch (Exception e) {
 				return null;

@@ -25,7 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -96,7 +96,7 @@ public class FragmentMembersList extends BaseFragment {
 		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
 
-		data = ((ActivityContainerSingle) getActivity()).getData();
+		data = ((ActivityContainer) getActivity()).getData();
 		if (savedInstanceState == null) {
 			UpdateOutfitFromTable task = new UpdateOutfitFromTable();
 			taskList.add(task);

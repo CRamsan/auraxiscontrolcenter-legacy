@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;

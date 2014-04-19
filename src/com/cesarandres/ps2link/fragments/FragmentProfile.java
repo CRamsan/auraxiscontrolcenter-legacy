@@ -28,7 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -66,7 +66,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.data = ((ActivityContainerSingle) getActivity()).getData();
+		this.data = ((ActivityContainer) getActivity()).getData();
 
 		taskList = new ArrayList<AsyncTask>();
 		UpdateProfileFromTable task = new UpdateProfileFromTable();

@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -121,7 +121,7 @@ public class FragmentOutfitList extends BaseFragment {
 		protected ArrayList<Outfit> doInBackground(Integer... params) {
 			ArrayList<Outfit> outfitList = new ArrayList<Outfit>();
 			try{
-			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+			ObjectDataSource data = ((ActivityContainer)getActivity()).getData();
 			outfitList = data.getAllOutfits(false);
 			}finally{}
 			return outfitList;

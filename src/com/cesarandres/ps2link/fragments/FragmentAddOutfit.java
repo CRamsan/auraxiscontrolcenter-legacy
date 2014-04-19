@@ -24,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -204,7 +204,7 @@ public class FragmentAddOutfit extends BaseFragment {
 		protected Boolean doInBackground(ArrayList<Outfit>... outfits) {
 			int count = outfits[0].size();
 			ArrayList<Outfit> list = outfits[0];
-			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+			ObjectDataSource data = ((ActivityContainer)getActivity()).getData();
 			Outfit outfit = null;
 			for (int i = 0; i < count; i++) {
 				outfit = data.getOutfit(list.get(i).getOutfit_Id());

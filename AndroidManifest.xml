@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/PS2Theme" >
         <activity
-            android:name="com.cesarandres.ps2link.ActivityContainerSingle"
+            android:name="com.cesarandres.ps2link.ActivityContainer"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -26,7 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainerSingle;
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -67,7 +67,7 @@ public class FragmentServerList extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
+				intent.setClass(getActivity(), ActivityContainer.class);
 				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MAP.toString());
 				//startActivity(intent);
 			}
@@ -272,7 +272,7 @@ public class FragmentServerList extends BaseFragment {
 		@Override
 		protected Boolean doInBackground(ArrayList<World>... worlds) {
 			int count = worlds[0].size();
-			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+			ObjectDataSource data = ((ActivityContainer)getActivity()).getData();
 			int success = 0;
 			World world;
 			try{
@@ -327,7 +327,7 @@ public class FragmentServerList extends BaseFragment {
 
 		@Override
 		protected ArrayList<World> doInBackground(Integer... params) {
-			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+			ObjectDataSource data = ((ActivityContainer)getActivity()).getData();
 			ArrayList<World> tmpServerList = data.getAllWorlds();
 			return tmpServerList;
 		}

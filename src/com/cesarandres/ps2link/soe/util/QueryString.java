@@ -33,6 +33,7 @@ public class QueryString {
 		CASE("c:case"),
 		LIMIT("c:limit"),
 		LIMITPERDB("c:limitPerDB"),
+		INCLUDENULL("c:includeNull"),
 		START("c:start");
 
 		private final String command;
