@@ -18,11 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -96,6 +98,28 @@ public class FragmentAddOutfit extends BaseFragment {
 
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+		
+		fragmentUpdate.setVisibility(View.GONE);
+		showOffline.setVisibility(View.GONE);
+		fragmentAdd.setVisibility(View.GONE);
+		fragmentStar.setVisibility(View.GONE);
+		fragmentAppend.setVisibility(View.GONE);
+
+		fragmentUpdate.setEnabled(true);
+		showOffline.setEnabled(true);
+		fragmentAdd.setEnabled(true);
+		fragmentStar.setEnabled(true);
+		fragmentAppend.setEnabled(true);
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -180,8 +204,7 @@ public class FragmentAddOutfit extends BaseFragment {
 		protected Boolean doInBackground(ArrayList<Outfit>... outfits) {
 			int count = outfits[0].size();
 			ArrayList<Outfit> list = outfits[0];
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
+			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
 			Outfit outfit = null;
 			for (int i = 0; i < count; i++) {
 				outfit = data.getOutfit(list.get(i).getOutfit_Id());
@@ -195,7 +218,6 @@ public class FragmentAddOutfit extends BaseFragment {
 					}
 				}
 			}
-			data.close();
 			return true;
 		}
 	}

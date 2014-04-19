@@ -12,8 +12,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -77,11 +79,24 @@ public class FragmentOutfitList extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.GONE);
+		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+		
+		fragmentUpdate.setVisibility(View.VISIBLE);
+		showOffline.setVisibility(View.GONE);
+		fragmentAdd.setVisibility(View.VISIBLE);
+		fragmentStar.setVisibility(View.GONE);
+		fragmentAppend.setVisibility(View.GONE);
+
+		fragmentUpdate.setEnabled(true);
+		showOffline.setEnabled(true);
+		fragmentAdd.setEnabled(true);
+		fragmentStar.setEnabled(true);
+		fragmentAppend.setEnabled(true);
+		
 		new ReadOutfitsTable().execute();
 	}
 
@@ -104,10 +119,11 @@ public class FragmentOutfitList extends BaseFragment {
 
 		@Override
 		protected ArrayList<Outfit> doInBackground(Integer... params) {
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
-			ArrayList<Outfit> outfitList = data.getAllOutfits(false);
-			data.close();
+			ArrayList<Outfit> outfitList = new ArrayList<Outfit>();
+			try{
+			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
+			outfitList = data.getAllOutfits(false);
+			}finally{}
 			return outfitList;
 		}
 

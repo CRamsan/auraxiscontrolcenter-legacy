@@ -47,17 +47,6 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 		});
 
-		final Button buttonWDS = (Button) root.findViewById(R.id.buttonWDS);
-		buttonWDS.setVisibility(View.GONE);
-		buttonWDS.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ActivityContainerSingle.class);
-				intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_WDS.toString());
-				startActivity(intent);
-			}
-		});
-
 		final Button buttonServers = (Button) root.findViewById(R.id.buttonServers);
 		buttonServers.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

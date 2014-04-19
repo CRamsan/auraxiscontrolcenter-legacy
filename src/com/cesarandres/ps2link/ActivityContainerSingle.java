@@ -21,10 +21,8 @@ import com.cesarandres.ps2link.fragments.FragmentLinksMenu;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
 import com.cesarandres.ps2link.fragments.FragmentProfileList;
-import com.cesarandres.ps2link.fragments.FragmentServer;
 import com.cesarandres.ps2link.fragments.FragmentServerList;
 import com.cesarandres.ps2link.fragments.FragmentTwitter;
-import com.cesarandres.ps2link.fragments.FragmentWds;
 import com.cesarandres.ps2link.fragments.holders.FragmentOutfitPager;
 import com.cesarandres.ps2link.fragments.holders.FragmentProfilePager;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -120,8 +118,10 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
 
 	@Override
 	public void onItemSelected(String id, String args[]) {
-
+		data.close();
+		data.open();
         if(tablet){
+       	
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             BaseFragment newFragment = getFragmentByMode(id);
             if(newFragment != null){
@@ -133,8 +133,9 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
                 }
     			newFragment.setArguments(bundle);
                 transaction.replace(R.id.activityFrameLayout, newFragment);
-                //transaction.addToBackStack(null);
+                transaction.addToBackStack(null);
                 transaction.commit();
+                setActivityMode(id);
             }
         }else{
             Class newActivityClass = ActivityContainerSingle.class;
@@ -184,9 +185,6 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
             case ACTIVITY_PROFILE_LIST:
                 newFragment = new FragmentProfileList();
                 break;
-            case ACTIVITY_SERVER:
-                newFragment = new FragmentServer();
-                break;
             case ACTIVITY_SERVER_LIST:
                 newFragment = new FragmentServerList();
                 break;
@@ -197,9 +195,6 @@ public class ActivityContainerSingle extends BaseActivity implements FragmentCal
                 if(!tablet){
                     newFragment = new FragmentMainMenu();
                 }
-                break;
-            case ACTIVITY_WDS:
-                newFragment = new FragmentWds();
                 break;
             case ACTIVITY_PROFILE:
     			newFragment = new FragmentProfilePager();

@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -81,11 +83,24 @@ public class FragmentFriendList extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.VISIBLE);
+		
+		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+		
+		fragmentUpdate.setVisibility(View.VISIBLE);
+		showOffline.setVisibility(View.GONE);
+		fragmentAdd.setVisibility(View.GONE);
+		fragmentStar.setVisibility(View.VISIBLE);
+		fragmentAppend.setVisibility(View.VISIBLE);
+
+		fragmentUpdate.setEnabled(true);
+		showOffline.setEnabled(true);
+		fragmentAdd.setEnabled(true);
+		fragmentStar.setEnabled(true);
+		fragmentAppend.setEnabled(true);
 	}
 
 	@Override

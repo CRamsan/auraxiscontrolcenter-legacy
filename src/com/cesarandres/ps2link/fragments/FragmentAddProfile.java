@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -73,6 +74,28 @@ public class FragmentAddProfile extends BaseFragment {
 
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+		
+		fragmentUpdate.setVisibility(View.GONE);
+		showOffline.setVisibility(View.GONE);
+		fragmentAdd.setVisibility(View.GONE);
+		fragmentStar.setVisibility(View.GONE);
+		fragmentAppend.setVisibility(View.GONE);
+
+		fragmentUpdate.setEnabled(true);
+		showOffline.setEnabled(true);
+		fragmentAdd.setEnabled(true);
+		fragmentStar.setEnabled(true);
+		fragmentAppend.setEnabled(true);
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();

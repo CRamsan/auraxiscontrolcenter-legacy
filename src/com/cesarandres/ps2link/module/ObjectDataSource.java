@@ -6,7 +6,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;

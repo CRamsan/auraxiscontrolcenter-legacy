@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import com.cesarandres.ps2link.ActivityContainerSingle;
 import com.cesarandres.ps2link.ApplicationPS2Link;
@@ -263,11 +264,23 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	public void onResume(){
 		super.onResume();
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.GONE);
+		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+		
+		fragmentUpdate.setVisibility(View.VISIBLE);
+		showOffline.setVisibility(View.GONE);
+		fragmentAdd.setVisibility(View.GONE);
+		fragmentStar.setVisibility(View.GONE);
+		fragmentAppend.setVisibility(View.GONE);
+
+		fragmentUpdate.setEnabled(true);
+		showOffline.setEnabled(true);
+		fragmentAdd.setEnabled(true);
+		fragmentStar.setEnabled(true);
+		fragmentAppend.setEnabled(true);
 	}
 	
 	@Override
@@ -389,11 +402,8 @@ public class FragmentTwitter extends BaseFragment {
 			try {
 				for (String user : users) {
 					tweetList = TwitterUtil.getTweets(user);
-					ObjectDataSource data = new ObjectDataSource(getActivity());
-					data.open();
+					ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
 					data.insertAllTweets(tweetList, user);
-					data.close();
-
 				}
 			} catch (Exception e) {
 				return null;

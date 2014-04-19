@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -99,11 +100,23 @@ public class FragmentServerList extends BaseFragment {
 	@Override
 	public void onResume(){
 		super.onResume();
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.buttonFragmentAdd).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.toggleButtonFragmentAppend).setVisibility(View.GONE);
+		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+		
+		fragmentUpdate.setVisibility(View.VISIBLE);
+		showOffline.setVisibility(View.GONE);
+		fragmentAdd.setVisibility(View.GONE);
+		fragmentStar.setVisibility(View.GONE);
+		fragmentAppend.setVisibility(View.GONE);
+
+		fragmentUpdate.setEnabled(true);
+		showOffline.setEnabled(true);
+		fragmentAdd.setEnabled(true);
+		fragmentStar.setEnabled(true);
+		fragmentAppend.setEnabled(true);
 	}
 	
 	public void downloadServers() {
@@ -259,39 +272,39 @@ public class FragmentServerList extends BaseFragment {
 		@Override
 		protected Boolean doInBackground(ArrayList<World>... worlds) {
 			int count = worlds[0].size();
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
+			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
 			int success = 0;
 			World world;
-			boolean found = false;
-			ArrayList<World> newWorlds = new ArrayList<World>(0);
-			ArrayList<World> oldWorlds = data.getAllWorlds();
-			for (int i = 0; i < count; i++) {
-				world = worlds[0].get(i);
-				for (int j = 0; j < oldWorlds.size(); j++) {
-					if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
-						data.updateWorld(world);
-						newWorlds.add(oldWorlds.get(j));
-						found = true;
+			try{
+				boolean found = false;
+				ArrayList<World> newWorlds = new ArrayList<World>(0);
+				ArrayList<World> oldWorlds = data.getAllWorlds();
+				for (int i = 0; i < count; i++) {
+					world = worlds[0].get(i);
+					for (int j = 0; j < oldWorlds.size(); j++) {
+						if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
+							data.updateWorld(world);
+							newWorlds.add(oldWorlds.get(j));
+							found = true;
+						}
+					}
+					if (!found) {
+						data.insertWorld(world);
+					}
+					found = false;
+				}
+				for (int i = 0; i < newWorlds.size(); i++) {
+					world = newWorlds.get(i);
+					for (int j = 0; j < oldWorlds.size(); j++) {
+						if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
+							oldWorlds.remove(j);
+						}
 					}
 				}
-				if (!found) {
-					data.insertWorld(world);
+				for (int i = 0; i < oldWorlds.size(); i++) {
+					data.deleteWorld(oldWorlds.get(i));
 				}
-				found = false;
-			}
-			for (int i = 0; i < newWorlds.size(); i++) {
-				world = newWorlds.get(i);
-				for (int j = 0; j < oldWorlds.size(); j++) {
-					if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
-						oldWorlds.remove(j);
-					}
-				}
-			}
-			for (int i = 0; i < oldWorlds.size(); i++) {
-				data.deleteWorld(oldWorlds.get(i));
-			}
-			data.close();
+			}catch(IllegalStateException e){}
 			return success > 0;
 		}
 
@@ -314,10 +327,8 @@ public class FragmentServerList extends BaseFragment {
 
 		@Override
 		protected ArrayList<World> doInBackground(Integer... params) {
-			ObjectDataSource data = new ObjectDataSource(getActivity());
-			data.open();
+			ObjectDataSource data = ((ActivityContainerSingle)getActivity()).getData();
 			ArrayList<World> tmpServerList = data.getAllWorlds();
-			data.close();
 			return tmpServerList;
 		}
 
