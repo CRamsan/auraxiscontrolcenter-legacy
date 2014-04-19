@@ -1,5 +1,7 @@
 package com.cesarandres.ps2link.base;
 
+import com.cesarandres.ps2link.soe.util.Logger;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,98 +11,174 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez
+ * 
+ *         This class extends fragment to add the support for a callback. All
+ *         the fragments should extend this class instead of the standard
+ *         Fragment class. All behavior that is shared across all fragments
+ *         should also be implemented here.
+ * 
  */
 public abstract class BaseFragment extends Fragment {
 
-	protected FragmentCallbacks mCallbacks = dummyCallbacks;
-	protected String loggingTag;
-		
-	public interface FragmentCallbacks {
-		public void onItemSelected(String id, String args[]);
-	}
+    protected FragmentCallbacks mCallbacks = emptyCallbacks;
 
-	private static FragmentCallbacks dummyCallbacks = new FragmentCallbacks() {
-		@Override
-		public void onItemSelected(String id, String args[]) {
-		}
-	};
+    private static FragmentCallbacks emptyCallbacks = new FragmentCallbacks() {
+	@Override
+	public void onItemSelected(String id, String args[]) {
+	    Logger.log(Log.WARN, this, "Item selected when no activity was set, this should never happen");
+	}
+    };
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		Log.i(this.loggingTag, "Fragment onAttach");
-		if (!(activity instanceof FragmentCallbacks)) {
-			throw new IllegalStateException("Activity must implement fragment's callbacks.");
-		}
-		mCallbacks = (FragmentCallbacks) activity;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onAttach(android.app.Activity)
+     */
+    @Override
+    public void onAttach(Activity activity) {
+	super.onAttach(activity);
+	Logger.log(Log.INFO, this, "Fragment onAttach");
+	if (!(activity instanceof FragmentCallbacks)) {
+	    throw new IllegalStateException("Activity must implement fragment's callbacks.");
 	}
+	mCallbacks = (FragmentCallbacks) activity;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState){
-		Log.i(this.loggingTag, "Fragment onCreate");
-		super.onCreate(savedInstanceState);
-		this.loggingTag = getClass().getName();
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		Log.i(this.loggingTag, "Fragment onCreateView");
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState){
-		Log.i(this.loggingTag, "Fragment onActivityCreated");
-		super.onActivityCreated(savedInstanceState);
-	}
-	
-	@Override
-	public void onViewStateRestored(Bundle savedInstanceState){
-		Log.i(this.loggingTag, "Fragment onViewStateRestored");
-		super.onViewStateRestored(savedInstanceState);
-	}
-	
-	@Override
-	public void onStart(){
-		Log.i(this.loggingTag, "Fragment onStart");
-		super.onStart();
-	}
-	
-	@Override
-	public void onResume(){
-		Log.i(this.loggingTag, "Fragment onResume");
-		super.onResume();
-	}
-	
-	@Override
-	public void onPause(){
-		Log.i(this.loggingTag, "Fragment onPause");
-		super.onPause();
-	}
-	
-	@Override
-	public void onStop(){
-		Log.i(this.loggingTag, "Fragment onStop");
-		super.onStop();
-	}
-	
-	@Override
-	public void onDestroyView(){
-		Log.i(this.loggingTag, "Fragment onDestroyView");
-		super.onDestroyView();
-	}
-	
-	@Override
-	public void onDestroy(){
-		Log.i(this.loggingTag, "Fragment onDestroy");
-		super.onDestroy();
-	}
-	
-	@Override
-	public void onDetach() {
-		Log.i(this.loggingTag, "Fragment onDetach");
-		super.onDetach();
-		mCallbacks = dummyCallbacks;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+	Logger.log(Log.INFO, this, "Fragment onCreate");
+	super.onCreate(savedInstanceState);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
+     * android.view.ViewGroup, android.os.Bundle)
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	Logger.log(Log.INFO, this, "Fragment onCreateView");
+	return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+	Logger.log(Log.INFO, this, "Fragment onActivityCreated");
+	super.onActivityCreated(savedInstanceState);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.app.Fragment#onViewStateRestored(android.os.Bundle)
+     */
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+	Logger.log(Log.INFO, this, "Fragment onViewStateRestored");
+	super.onViewStateRestored(savedInstanceState);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onStart()
+     */
+    @Override
+    public void onStart() {
+	Logger.log(Log.INFO, this, "Fragment onStart");
+	super.onStart();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onResume()
+     */
+    @Override
+    public void onResume() {
+	Logger.log(Log.INFO, this, "Fragment onResume");
+	super.onResume();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onPause()
+     */
+    @Override
+    public void onPause() {
+	Logger.log(Log.INFO, this, "Fragment onPause");
+	super.onPause();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onStop()
+     */
+    @Override
+    public void onStop() {
+	Logger.log(Log.INFO, this, "Fragment onStop");
+	super.onStop();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onDestroyView()
+     */
+    @Override
+    public void onDestroyView() {
+	Logger.log(Log.INFO, this, "Fragment onDestroyView");
+	super.onDestroyView();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onDestroy()
+     */
+    @Override
+    public void onDestroy() {
+	Logger.log(Log.INFO, this, "Fragment onDestroy");
+	super.onDestroy();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.Fragment#onDetach()
+     */
+    @Override
+    public void onDetach() {
+	Logger.log(Log.INFO, this, "Fragment onDetach");
+	super.onDetach();
+	mCallbacks = emptyCallbacks;
+    }
+
+    /**
+     * @author Cesar Ramirez
+     * 
+     *         This interface is used to send actions from the fragment back to
+     *         the activity that is attached to
+     * 
+     */
+    public interface FragmentCallbacks {
+	public void onItemSelected(String id, String args[]);
+    }
+
 }

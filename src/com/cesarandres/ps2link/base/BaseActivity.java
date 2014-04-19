@@ -10,16 +10,32 @@ import com.cesarandres.ps2link.ApplicationPS2Link.WallPaperMode;
 import com.cesarandres.ps2link.module.BitmapWorkerTask;
 import com.cesarandres.ps2link.R;
 
+/**
+ * @author Cesar Ramirez
+ * 
+ *         This fragment handles setting the background for all activities.
+ * 
+ */
 public class BaseActivity extends FragmentActivity {
 
     private BitmapWorkerTask currentTask;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.FragmentActivity#onStart()
+     */
     @Override
     protected void onStart() {
 	super.onStart();
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.app.FragmentActivity#onResume()
+     */
     @Override
     protected void onResume() {
 	super.onResume();

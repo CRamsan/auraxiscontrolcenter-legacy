@@ -146,7 +146,7 @@ public class FragmentMembersOnline extends BaseFragment {
 		URL url;
 		try {
 			url = new URL(
-					"http://census.soe.com/get/ps2:v2/outfit_member?c:limit=1000&c:resolve=online_status,character(name,battle_rank,profile_id)&c:join=type:profile^list:0^inject_at:profile^show:name.en^on:character.profile_id^to:profile_id&outfit_id="
+					"http://census.soe.com/get/ps2:v2/outfit_member?c:limit=10000&c:resolve=online_status,character(name,battle_rank,profile_id)&c:join=type:profile^list:0^inject_at:profile^show:name.en^on:character.profile_id^to:profile_id&outfit_id="
 							+ this.outfitId);
 
 			Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {

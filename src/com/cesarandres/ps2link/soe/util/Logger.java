@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class Logger {
 
-    public static void log(int level, Object object, String message) {
+    public static final void log(int level, Object object, String message) {
 	switch (level) {
 	case Log.INFO:
 	    Log.i(object.getClass().getName(), message);
