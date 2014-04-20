@@ -163,6 +163,9 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	data.open();
 	ActivityMode mode = ActivityMode.valueOf(id);
 	if (tablet) {
+	    if(mode == ActivityMode.ACTIVITY_MAIN_MENU){
+		return;
+	    }
 	    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 	    BaseFragment newFragment = getFragmentByMode(mode);
 	    Bundle bundle = new Bundle();
