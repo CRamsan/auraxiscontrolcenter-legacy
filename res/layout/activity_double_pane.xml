@@ -1,5 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LayoutFillParentStyle">
+    style="@style/LayoutFillParentStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <ImageView
         android:id="@+id/imageViewBackground"
@@ -20,16 +22,22 @@
             layout="@layout/fragment_title" />
 
         <LinearLayout
-            style="@style/FragmentBottomStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <fragment
-                android:id="@+id/activityMainMenuFragment"
-                android:name="com.cesarandres.ps2link.fragments.FragmentMainMenu"
+            <FrameLayout
+                style="@style/FragmentBottomStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3" />
+                android:layout_weight="3" >
+
+                <fragment
+                    android:id="@+id/activityMainMenuFragment"
+                    android:name="com.cesarandres.ps2link.fragments.FragmentMainMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/activityFrameLayout"

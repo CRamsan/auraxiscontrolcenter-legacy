@@ -40,7 +40,7 @@ public class FragmentOutfitPager extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		
-		View root = inflater.inflate(R.layout.activity_outfit, container, false);
+		View root = inflater.inflate(R.layout.fragment_outfit_pager, container, false);
 
 		mViewPager = (ViewPager) root.findViewById(R.id.outfitPager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);

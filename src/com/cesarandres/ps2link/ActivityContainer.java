@@ -56,7 +56,8 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	if (savedInstanceState != null) {
 	    setActivityMode(ActivityMode.valueOf(savedInstanceState.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY)));
 	} else if (extras != null) {
-	    setActivityMode(ActivityMode.valueOf(extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY)));
+	    String test = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
+	    setActivityMode(ActivityMode.valueOf(test));
 	} else {
 	    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
 	}
@@ -67,10 +68,14 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    tablet = true;
 	}
 
-	FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-	BaseFragment newFragment = getFragmentByMode(getActivityMode());
-	transaction.add(R.id.activityFrameLayout, newFragment);
-	transaction.commit();
+	if (savedInstanceState == null) {
+	    BaseFragment newFragment = getFragmentByMode(getActivityMode());
+	    if (!tablet || getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU) {
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		transaction.add(R.id.activityFrameLayout, newFragment);
+		transaction.commit();
+	    }
+	}
 
 	setData(new ObjectDataSource(this));
 	data.open();
@@ -163,7 +168,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	data.open();
 	ActivityMode mode = ActivityMode.valueOf(id);
 	if (tablet) {
-	    if(mode == ActivityMode.ACTIVITY_MAIN_MENU){
+	    if (mode == ActivityMode.ACTIVITY_MAIN_MENU) {
 		return;
 	    }
 	    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -187,7 +192,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 		    intent.putExtra("PARAM_" + i, args[i]);
 		}
 	    }
-	    intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, mode);
+	    intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, mode.toString());
 	    startActivity(intent);
 	}
     }
