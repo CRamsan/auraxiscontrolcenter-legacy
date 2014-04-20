@@ -1,5 +1,7 @@
 package com.cesarandres.ps2link.base;
 
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.util.Logger;
 
 import android.app.Activity;
@@ -9,6 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.ToggleButton;
 
 /**
  * @author Cesar Ramirez
@@ -22,6 +28,14 @@ import android.view.ViewGroup;
 public abstract class BaseFragment extends Fragment {
 
     protected FragmentCallbacks mCallbacks = emptyCallbacks;
+
+    protected Button fragmentTitle;
+    protected ProgressBar fragmentProgress;
+    protected ImageButton fragmentUpdate;
+    protected ToggleButton fragmentShowOffline;
+    protected ImageButton fragmentAdd;
+    protected ToggleButton fragmentStar;
+    protected ToggleButton fragmentAppend;
 
     private static FragmentCallbacks emptyCallbacks = new FragmentCallbacks() {
 	@Override
@@ -37,8 +51,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onAttach(Activity activity) {
-	super.onAttach(activity);
 	Logger.log(Log.INFO, this, "Fragment onAttach");
+	super.onAttach(activity);
 	if (!(activity instanceof FragmentCallbacks)) {
 	    throw new IllegalStateException("Activity must implement fragment's callbacks.");
 	}
@@ -112,6 +126,21 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
 	Logger.log(Log.INFO, this, "Fragment onResume");
 	super.onResume();
+	this.fragmentTitle = (Button) getActivity().findViewById(R.id.buttonFragmentTitle);
+	this.fragmentProgress = (ProgressBar) getActivity().findViewById(R.id.progressBarFragmentTitleLoading);
+	this.fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+	this.fragmentShowOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+	this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+	this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+	this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+
+	this.fragmentUpdate.setEnabled(true);
+	this.fragmentProgress.setEnabled(true);
+	this.fragmentShowOffline.setEnabled(true);
+	this.fragmentAdd.setEnabled(true);
+	this.fragmentStar.setEnabled(true);
+	this.fragmentAppend.setEnabled(true);
+
     }
 
     /*
@@ -134,6 +163,15 @@ public abstract class BaseFragment extends Fragment {
     public void onStop() {
 	Logger.log(Log.INFO, this, "Fragment onStop");
 	super.onStop();
+
+	ApplicationPS2Link.volley.cancelAll(this);
+
+	this.fragmentUpdate.setVisibility(View.GONE);
+	this.fragmentProgress.setVisibility(View.GONE);
+	this.fragmentShowOffline.setVisibility(View.GONE);
+	this.fragmentAdd.setVisibility(View.GONE);
+	this.fragmentStar.setVisibility(View.GONE);
+	this.fragmentAppend.setVisibility(View.GONE);
     }
 
     /*
