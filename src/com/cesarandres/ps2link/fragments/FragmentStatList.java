@@ -43,8 +43,6 @@ public class FragmentStatList extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-		setRetainInstance(true);
 	}
 
 	@Override
@@ -60,7 +58,6 @@ public class FragmentStatList extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setRetainInstance(true);
 		downloadStatList(this.profileId);
 	}
 

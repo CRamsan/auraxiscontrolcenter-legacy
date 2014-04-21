@@ -44,8 +44,6 @@ public class FragmentKillList extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-		setRetainInstance(true);
 	}
 
 	@Override
@@ -69,7 +67,6 @@ public class FragmentKillList extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setRetainInstance(true);
 		downloadKillList(this.profileId);
 	}
 

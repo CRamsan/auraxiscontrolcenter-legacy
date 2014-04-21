@@ -1,10 +1,7 @@
 package com.cesarandres.ps2link.base;
 
-import com.cesarandres.ps2link.ApplicationPS2Link;
-import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.soe.util.Logger;
-
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,6 +12,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
+
+import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.soe.util.Logger;
 
 /**
  * @author Cesar Ramirez
@@ -29,6 +30,8 @@ public abstract class BaseFragment extends Fragment {
 
     protected FragmentCallbacks mCallbacks = emptyCallbacks;
 
+    protected AsyncTask currentTask;
+    
     protected Button fragmentTitle;
     protected ProgressBar fragmentProgress;
     protected ImageButton fragmentUpdate;
@@ -92,6 +95,22 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	Logger.log(Log.INFO, this, "Fragment onActivityCreated");
 	super.onActivityCreated(savedInstanceState);
+
+	this.fragmentTitle = (Button) getActivity().findViewById(R.id.buttonFragmentTitle);
+	this.fragmentProgress = (ProgressBar) getActivity().findViewById(R.id.progressBarFragmentTitleLoading);
+	this.fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+	this.fragmentShowOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+	this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+	this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+	this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+
+	this.fragmentUpdate.setEnabled(true);
+	this.fragmentProgress.setEnabled(true);
+	this.fragmentShowOffline.setEnabled(true);
+	this.fragmentAdd.setEnabled(true);
+	this.fragmentStar.setEnabled(true);
+	this.fragmentAppend.setEnabled(true);
+
     }
 
     /*
@@ -126,21 +145,6 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
 	Logger.log(Log.INFO, this, "Fragment onResume");
 	super.onResume();
-	this.fragmentTitle = (Button) getActivity().findViewById(R.id.buttonFragmentTitle);
-	this.fragmentProgress = (ProgressBar) getActivity().findViewById(R.id.progressBarFragmentTitleLoading);
-	this.fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	this.fragmentShowOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-
-	this.fragmentUpdate.setEnabled(true);
-	this.fragmentProgress.setEnabled(true);
-	this.fragmentShowOffline.setEnabled(true);
-	this.fragmentAdd.setEnabled(true);
-	this.fragmentStar.setEnabled(true);
-	this.fragmentAppend.setEnabled(true);
-
     }
 
     /*
@@ -163,15 +167,10 @@ public abstract class BaseFragment extends Fragment {
     public void onStop() {
 	Logger.log(Log.INFO, this, "Fragment onStop");
 	super.onStop();
-
 	ApplicationPS2Link.volley.cancelAll(this);
-
-	this.fragmentUpdate.setVisibility(View.GONE);
-	this.fragmentProgress.setVisibility(View.GONE);
-	this.fragmentShowOffline.setVisibility(View.GONE);
-	this.fragmentAdd.setVisibility(View.GONE);
-	this.fragmentStar.setVisibility(View.GONE);
-	this.fragmentAppend.setVisibility(View.GONE);
+	if(currentTask != null){
+	    currentTask.cancel(true);
+	}
     }
 
     /*
@@ -183,6 +182,12 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
 	Logger.log(Log.INFO, this, "Fragment onDestroyView");
 	super.onDestroyView();
+	this.fragmentUpdate.setVisibility(View.GONE);
+	this.fragmentProgress.setVisibility(View.GONE);
+	this.fragmentShowOffline.setVisibility(View.GONE);
+	this.fragmentAdd.setVisibility(View.GONE);
+	this.fragmentStar.setVisibility(View.GONE);
+	this.fragmentAppend.setVisibility(View.GONE);
     }
 
     /*
@@ -206,6 +211,21 @@ public abstract class BaseFragment extends Fragment {
 	Logger.log(Log.INFO, this, "Fragment onDetach");
 	super.onDetach();
 	mCallbacks = emptyCallbacks;
+    }
+
+    /**
+     * @param enabled
+     *            if set to true, the progress view is displayed and the update
+     *            view is hidden. If set to false, the opposite will happen.
+     */
+    protected void setProgressButton(boolean enabled) {
+	if (enabled) {
+	    this.fragmentUpdate.setVisibility(View.GONE);
+	    this.fragmentProgress.setVisibility(View.VISIBLE);
+	} else {
+	    this.fragmentUpdate.setVisibility(View.VISIBLE);
+	    this.fragmentProgress.setVisibility(View.GONE);
+	}
     }
 
     /**

@@ -54,7 +54,6 @@ public class FragmentServerList extends BaseFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		taskList = new ArrayList<AsyncTask>();
-		setHasOptionsMenu(true);
 	}
 
 	@Override

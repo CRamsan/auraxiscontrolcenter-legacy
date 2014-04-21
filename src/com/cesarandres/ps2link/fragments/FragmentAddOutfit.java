@@ -61,7 +61,6 @@ public class FragmentAddOutfit extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	setHasOptionsMenu(true);
     }
 
     /*

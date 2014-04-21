@@ -24,145 +24,145 @@ import com.cesarandres.ps2link.fragments.FragmentStatList;
 /**
  * Created by cesar on 6/16/13.
  */
-public class FragmentProfilePager extends BaseFragment{
+public class FragmentProfilePager extends BaseFragment {
 
-	private SectionsPagerAdapter mSectionsPagerAdapter;
-	private ViewPager mViewPager;
-	private String profileId;
-	private String profileName;
-	private static final int PROFILE = 0;
-	private static final int FRIENDS = 1;
-	private static final int STATS = 2;
-	private static final int KILLBOARD = 3;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+    private String profileId;
+    private String profileName;
+    private static final int PROFILE = 0;
+    private static final int FRIENDS = 1;
+    private static final int STATS = 2;
+    private static final int KILLBOARD = 3;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
-		if(savedInstanceState != null){
-			this.profileName = savedInstanceState.getString("ProfileName");
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+	if (savedInstanceState != null) {
+	    this.profileName = savedInstanceState.getString("ProfileName");
+	}
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	super.onCreateView(inflater, container, savedInstanceState);
+	View root = inflater.inflate(R.layout.fragment_profile_pager, container, false);
+
+	mViewPager = (ViewPager) root.findViewById(R.id.profilePager);
+	mViewPager.setAdapter(mSectionsPagerAdapter);
+
+	Bundle extras = getArguments();
+	if (extras == null) {
+	    extras = getArguments();
 	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View root = inflater.inflate(R.layout.fragment_profile_pager, container, false);
-
-		mViewPager = (ViewPager) root.findViewById(R.id.profilePager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-
-		Bundle extras = getActivity().getIntent().getExtras();
-		if(extras == null){
-			extras = getArguments();
-		}
-			
-		String activityMode = "";
-		if (extras != null) {
-			activityMode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
-		}
-		
-		profileId = extras.getString("PARAM_0");
-		
-		return root;
+	String activityMode = "";
+	if (extras != null) {
+	    activityMode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
 	}
 
-	@Override
+	profileId = extras.getString("PARAM_0");
+
+	return root;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+	super.onActivityCreated(savedInstanceState);
 
-		ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		updateButton.setVisibility(View.VISIBLE);
-		updateButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				switch (mViewPager.getCurrentItem()) {
-				case PROFILE:
-					((FragmentProfile) getActivity().getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, PROFILE)))
-							.downloadProfiles(profileId);
-					break;
-				case FRIENDS:
-					((FragmentFriendList) getActivity().getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, FRIENDS)))
-							.downloadFriendsList(profileId);
-					break;
-				case STATS:
-					((FragmentStatList) getActivity().getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, STATS)))
-							.downloadStatList(profileId);
-					break;
-				case KILLBOARD:
+	ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+	updateButton.setVisibility(View.VISIBLE);
+	updateButton.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		switch (mViewPager.getCurrentItem()) {
+		case PROFILE:
+		    ((FragmentProfile) getActivity().getSupportFragmentManager().findFragmentByTag(
+			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, PROFILE))).downloadProfiles(profileId);
+		    break;
+		case FRIENDS:
+		    ((FragmentFriendList) getActivity().getSupportFragmentManager().findFragmentByTag(
+			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, FRIENDS))).downloadFriendsList(profileId);
+		    break;
+		case STATS:
+		    ((FragmentStatList) getActivity().getSupportFragmentManager().findFragmentByTag(
+			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, STATS))).downloadStatList(profileId);
+		    break;
+		case KILLBOARD:
 
-					((FragmentKillList) getActivity().getSupportFragmentManager().findFragmentByTag(ApplicationPS2Link.makeFragmentName(R.id.profilePager, KILLBOARD)))
-							.downloadKillList(profileId);
-					break;
-				default:
-					break;
-				}
-			}
-		});
-		
-		if (!"".equals(profileName) && profileName != null) {
-			((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(profileName);
+		    ((FragmentKillList) getActivity().getSupportFragmentManager().findFragmentByTag(
+			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, KILLBOARD))).downloadKillList(profileId);
+		    break;
+		default:
+		    break;
 		}
-    }	
+	    }
+	});
 
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+	if (!"".equals(profileName) && profileName != null) {
+	    ((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(profileName);
+	}
+    }
 
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-		@Override
-		public Fragment getItem(int position) {
-			Fragment fragment = null;
-			switch (position) {
-			case PROFILE:
-				fragment = new FragmentProfile();
-				break;
-			case FRIENDS:
-				fragment = new FragmentFriendList();
-				break;
-			case KILLBOARD:
-				fragment = new FragmentKillList();
-				break;
-			case STATS:
-				fragment = new FragmentStatList();
-				break;
-			default:
-				break;
-			}
-			Bundle args = new Bundle();
-			args.putString("PARAM_0", profileId);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		@Override
-		public int getCount() {
-			return 4;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-			case PROFILE:
-				return "OVERVIEW";
-			case FRIENDS:
-				return "FRIENDS";
-			case KILLBOARD:
-				return "KILLBOARD";
-			case STATS:
-				return "STATS";
-			default:
-				return "OVERVIEW";
-			}
-		}
+	public SectionsPagerAdapter(FragmentManager fm) {
+	    super(fm);
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		super.onSaveInstanceState(savedInstanceState);
-		String profileName = String.valueOf(((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).getText());
-		if (!"".equals(profileName)) {
-			savedInstanceState.putString("ProfileName", profileName);
-		}
+	public Fragment getItem(int position) {
+	    Fragment fragment = null;
+	    switch (position) {
+	    case PROFILE:
+		fragment = new FragmentProfile();
+		break;
+	    case FRIENDS:
+		fragment = new FragmentFriendList();
+		break;
+	    case KILLBOARD:
+		fragment = new FragmentKillList();
+		break;
+	    case STATS:
+		fragment = new FragmentStatList();
+		break;
+	    default:
+		break;
+	    }
+	    Bundle args = new Bundle();
+	    args.putString("PARAM_0", profileId);
+	    fragment.setArguments(args);
+	    return fragment;
 	}
+
+	@Override
+	public int getCount() {
+	    return 4;
+	}
+
+	@Override
+	public CharSequence getPageTitle(int position) {
+	    switch (position) {
+	    case PROFILE:
+		return "OVERVIEW";
+	    case FRIENDS:
+		return "FRIENDS";
+	    case KILLBOARD:
+		return "KILLBOARD";
+	    case STATS:
+		return "STATS";
+	    default:
+		return "OVERVIEW";
+	    }
+	}
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+	super.onSaveInstanceState(savedInstanceState);
+	String profileName = String.valueOf(((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).getText());
+	if (!"".equals(profileName)) {
+	    savedInstanceState.putString("ProfileName", profileName);
+	}
+    }
 }
