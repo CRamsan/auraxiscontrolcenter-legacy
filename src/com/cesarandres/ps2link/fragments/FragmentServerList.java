@@ -16,10 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -81,33 +79,16 @@ public class FragmentServerList extends BaseFragment {
 	});
 
 	this.currentTask = new ReadServerTable();
-	((ReadServerTable)this.currentTask).execute();
+	((ReadServerTable) this.currentTask).execute();
     }
 
     @Override
     public void onResume() {
 	super.onResume();
-	ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-
-	fragmentUpdate.setVisibility(View.VISIBLE);
-	showOffline.setVisibility(View.GONE);
-	fragmentAdd.setVisibility(View.GONE);
-	fragmentStar.setVisibility(View.GONE);
-	fragmentAppend.setVisibility(View.GONE);
-
-	fragmentUpdate.setEnabled(true);
-	showOffline.setEnabled(true);
-	fragmentAdd.setEnabled(true);
-	fragmentStar.setEnabled(true);
-	fragmentAppend.setEnabled(true);
     }
 
     public void downloadServers() {
-	setUpdateButton(false);
+	setProgressButton(true);
 	URL url;
 	try {
 	    url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.WORLD, "",
@@ -119,7 +100,8 @@ public class FragmentServerList extends BaseFragment {
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
 		    listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
 		    currentTask = new UpdateServerTable();
-		    ((UpdateServerTable)currentTask).execute(response.getWorld_list());
+		    setProgressButton(true);
+		    ((UpdateServerTable) currentTask).execute(response.getWorld_list());
 		}
 	    };
 
@@ -127,7 +109,7 @@ public class FragmentServerList extends BaseFragment {
 		@Override
 		public void onErrorResponse(VolleyError error) {
 		    error.equals(new Object());
-		    setUpdateButton(true);
+		    setProgressButton(false);
 		}
 	    };
 	    GsonRequest<Server_response> gsonOject = new GsonRequest<Server_response>(url.toString(), Server_response.class, null, success, error);
@@ -138,17 +120,6 @@ public class FragmentServerList extends BaseFragment {
 	    e.printStackTrace();
 	}
 
-    }
-
-    private void setUpdateButton(boolean enabled) {
-	getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-	if (enabled) {
-	    getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-	    getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
-	} else {
-	    getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
-	    getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
-	}
     }
 
     private static class ServerItemAdapter extends BaseAdapter {
@@ -245,7 +216,7 @@ public class FragmentServerList extends BaseFragment {
     private class UpdateServerTable extends AsyncTask<ArrayList<World>, Integer, Boolean> {
 	@Override
 	protected void onPreExecute() {
-	    setUpdateButton(false);
+	    setProgressButton(true);
 	}
 
 	@Override
@@ -290,7 +261,7 @@ public class FragmentServerList extends BaseFragment {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
-	    setUpdateButton(true);
+	    setProgressButton(false);
 	}
     }
 
@@ -298,14 +269,14 @@ public class FragmentServerList extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setUpdateButton(false);
+	    setProgressButton(true);
 	}
 
 	@Override
 	protected ArrayList<World> doInBackground(Integer... params) {
 	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
 	    ArrayList<World> tmpServerList = data.getAllWorlds();
-	    for(World world : tmpServerList){
+	    for (World world : tmpServerList) {
 		world.setState("UNKOWN");
 	    }
 	    return tmpServerList;
@@ -313,14 +284,10 @@ public class FragmentServerList extends BaseFragment {
 
 	@Override
 	protected void onPostExecute(ArrayList<World> result) {
-	    if (result.size() == 0) {
-		downloadServers();
-	    } else {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-		listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
-		downloadServers();
-	    }
-	    setUpdateButton(true);
+	    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+	    listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
+	    setProgressButton(false);
+	    downloadServers();
 	}
 
     }

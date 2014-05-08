@@ -2,6 +2,7 @@ package com.cesarandres.ps2link;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
     protected ImageButton fragmentAdd;
     protected ToggleButton fragmentStar;
     protected ToggleButton fragmentAppend;
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -98,6 +99,16 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
 	
+	getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+	    public void onBackStackChanged() {
+		if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+		    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
+		    fragmentTitle.setText(R.string.app_name_capital);
+		    clearActionBar();
+		}
+	    }
+	});
+
 	setData(new ObjectDataSource(this));
 	data.open();
     }
@@ -191,6 +202,8 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	if (tablet) {
 	    if (mode == ActivityMode.ACTIVITY_MAIN_MENU) {
 		return;
+	    }else if(mode == getActivityMode()){
+		return;
 	    }
 	    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 	    BaseFragment newFragment = getFragmentByMode(mode);
@@ -220,7 +233,12 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	}
     }
 
-    private void clearActionBar(){
+    /**
+     * This method will enable all the title bar buttons as well as hide them.
+     * This method should be called before showing a new fragment. Each new
+     * fragment is in charge of showing the buttons they need.
+     */
+    private void clearActionBar() {
 	this.fragmentUpdate.setEnabled(true);
 	this.fragmentProgress.setEnabled(true);
 	this.fragmentShowOffline.setEnabled(true);
@@ -234,7 +252,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	this.fragmentStar.setVisibility(View.GONE);
 	this.fragmentAppend.setVisibility(View.GONE);
     }
-    
+
     /**
      * @return current activity mode
      */

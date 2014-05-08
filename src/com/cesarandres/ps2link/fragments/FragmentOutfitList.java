@@ -73,7 +73,7 @@ public class FragmentOutfitList extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	this.currentTask = new ReadOutfitsTable();
-	this.currentTask.execute();
+	((ReadOutfitsTable)this.currentTask).execute();
     }
 
     @Override

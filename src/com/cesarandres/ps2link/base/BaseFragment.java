@@ -103,14 +103,6 @@ public abstract class BaseFragment extends Fragment {
 	this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
 	this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-
-	this.fragmentUpdate.setEnabled(true);
-	this.fragmentProgress.setEnabled(true);
-	this.fragmentShowOffline.setEnabled(true);
-	this.fragmentAdd.setEnabled(true);
-	this.fragmentStar.setEnabled(true);
-	this.fragmentAppend.setEnabled(true);
-
     }
 
     /*
