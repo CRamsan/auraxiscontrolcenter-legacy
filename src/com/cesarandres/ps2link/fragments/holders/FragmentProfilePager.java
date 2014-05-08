@@ -1,9 +1,11 @@
 package com.cesarandres.ps2link.fragments.holders;
 
+import java.util.HashMap;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +15,6 @@ import android.widget.ImageButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.R.id;
-import com.cesarandres.ps2link.R.layout;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
@@ -53,15 +53,6 @@ public class FragmentProfilePager extends BaseFragment {
 	mViewPager.setAdapter(mSectionsPagerAdapter);
 
 	Bundle extras = getArguments();
-	if (extras == null) {
-	    extras = getArguments();
-	}
-
-	String activityMode = "";
-	if (extras != null) {
-	    activityMode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
-	}
-
 	profileId = extras.getString("PARAM_0");
 
 	return root;
@@ -77,21 +68,16 @@ public class FragmentProfilePager extends BaseFragment {
 	    public void onClick(View v) {
 		switch (mViewPager.getCurrentItem()) {
 		case PROFILE:
-		    ((FragmentProfile) getActivity().getSupportFragmentManager().findFragmentByTag(
-			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, PROFILE))).downloadProfiles(profileId);
+		    ((FragmentProfile) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadProfiles(profileId);
 		    break;
 		case FRIENDS:
-		    ((FragmentFriendList) getActivity().getSupportFragmentManager().findFragmentByTag(
-			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, FRIENDS))).downloadFriendsList(profileId);
+		    ((FragmentFriendList) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadFriendsList(profileId);
 		    break;
 		case STATS:
-		    ((FragmentStatList) getActivity().getSupportFragmentManager().findFragmentByTag(
-			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, STATS))).downloadStatList(profileId);
+		    ((FragmentStatList) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadStatList(profileId);
 		    break;
 		case KILLBOARD:
-
-		    ((FragmentKillList) getActivity().getSupportFragmentManager().findFragmentByTag(
-			    ApplicationPS2Link.makeFragmentName(R.id.profilePager, KILLBOARD))).downloadKillList(profileId);
+		    ((FragmentKillList) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadKillList(profileId);
 		    break;
 		default:
 		    break;
@@ -104,10 +90,18 @@ public class FragmentProfilePager extends BaseFragment {
 	}
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    public void onDestroyView() {
+	super.onDestroyView();
+    }
 
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+
+	private HashMap<Integer, Fragment> mMap;
+	
 	public SectionsPagerAdapter(FragmentManager fm) {
 	    super(fm);
+	    this.mMap = new HashMap<Integer, Fragment>();
 	}
 
 	@Override
@@ -132,9 +126,16 @@ public class FragmentProfilePager extends BaseFragment {
 	    Bundle args = new Bundle();
 	    args.putString("PARAM_0", profileId);
 	    fragment.setArguments(args);
+	    mMap.put(position, fragment);
 	    return fragment;
 	}
 
+	@Override
+	public void destroyItem(ViewGroup container, int position, Object object) {
+	    super.destroyItem(container, position, object);
+	    mMap.remove(position);
+	}
+	
 	@Override
 	public int getCount() {
 	    return 4;
@@ -154,6 +155,10 @@ public class FragmentProfilePager extends BaseFragment {
 	    default:
 		return "OVERVIEW";
 	    }
+	}
+	
+	public Fragment getFragment(int key) {
+	    return mMap.get(key);
 	}
     }
 

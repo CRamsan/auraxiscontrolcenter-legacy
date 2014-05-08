@@ -39,125 +39,90 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  */
 public class FragmentKillList extends BaseFragment {
 
-	private String profileId;
+    private String profileId;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		View root;
-		root = inflater.inflate(R.layout.fragment_kill_list, container, false);
-		ListView listRoot = (ListView) root.findViewById(R.id.listViewKillList);
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-				mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-						new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });
-			}
-		});
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	super.onCreateView(inflater, container, savedInstanceState);
+	// Inflate the layout for this fragment
+	View root;
+	root = inflater.inflate(R.layout.fragment_kill_list, container, false);
+	ListView listRoot = (ListView) root.findViewById(R.id.listViewKillList);
+	listRoot.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+			new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });
+	    }
+	});
 
-		this.profileId = getArguments().getString("PARAM_0");
-		return root;
-	}
+	this.profileId = getArguments().getString("PARAM_0");
+	return root;
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		downloadKillList(this.profileId);
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	downloadKillList(this.profileId);
+    }
 
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+	super.onPause();
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-		
-		fragmentUpdate.setVisibility(View.VISIBLE);
-		showOffline.setVisibility(View.GONE);
-		fragmentAdd.setVisibility(View.GONE);
-		fragmentStar.setVisibility(View.VISIBLE);
-		fragmentAppend.setVisibility(View.VISIBLE);
+    @Override
+    public void onResume() {
+	super.onResume();
+    }
 
-		fragmentUpdate.setEnabled(true);
-		showOffline.setEnabled(true);
-		fragmentAdd.setEnabled(true);
-		fragmentStar.setEnabled(true);
-		fragmentAppend.setEnabled(true);
-	}
+    public void downloadKillList(String character_id) {
+	setProgressButton(true);
+	URL url;
+	try {
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ApplicationPS2Link.volley.cancelAll(this);
-	}
-
-	private void setUpdateButton(boolean enabled) {
-		getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-
-		if (enabled) {
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
-		} else {
-			getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
-			getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
+	    url = SOECensus.generateGameDataRequest(
+		    Verb.GET,
+		    Game.PS2V2,
+		    PS2Collection.CHARACTERS_EVENT,
+		    null,
+		    QueryString.generateQeuryString().AddComparison("character_id", SearchModifier.EQUALS, character_id)
+			    .AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
+			    .AddComparison("type", SearchModifier.EQUALS, "DEATH,KILL"));
+	    Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
+		@Override
+		public void onResponse(Characters_event_list_response response) {
+		    try {
+			ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
+			listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
+		    } catch (Exception e) {
+			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    }
+		    setProgressButton(false);
 		}
+	    };
 
-	}
-
-	public void downloadKillList(String character_id) {
-		setUpdateButton(false);
-		URL url;
-		try {
-
-			url = SOECensus.generateGameDataRequest(
-					Verb.GET,
-					Game.PS2V2,
-					PS2Collection.CHARACTERS_EVENT,
-					null,
-					QueryString.generateQeuryString().AddComparison("character_id", SearchModifier.EQUALS, character_id)
-							.AddCommand(QueryCommand.RESOLVE, "character,attacker").AddCommand(QueryCommand.LIMIT, "100")
-							.AddComparison("type", SearchModifier.EQUALS, "DEATH,KILL"));
-			Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
-				@Override
-				public void onResponse(Characters_event_list_response response) {
-					try {
-						ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
-						listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
-					} catch (Exception e) {
-						Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-					}
-					setUpdateButton(true);
-				}
-			};
-
-			ErrorListener error = new Response.ErrorListener() {
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					error.equals(new Object());
-					Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-					setUpdateButton(true);
-				}
-			};
-
-			GsonRequest<Characters_event_list_response> gsonOject = new GsonRequest<Characters_event_list_response>(url.toString(),
-					Characters_event_list_response.class, null, success, error);
-			gsonOject.setTag(this);
-			ApplicationPS2Link.volley.add(gsonOject);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    ErrorListener error = new Response.ErrorListener() {
+		@Override
+		public void onErrorResponse(VolleyError error) {
+		    error.equals(new Object());
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    setProgressButton(false);
 		}
+	    };
+
+	    GsonRequest<Characters_event_list_response> gsonOject = new GsonRequest<Characters_event_list_response>(url.toString(),
+		    Characters_event_list_response.class, null, success, error);
+	    gsonOject.setTag(this);
+	    ApplicationPS2Link.volley.add(gsonOject);
+	} catch (MalformedURLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
+    }
 }

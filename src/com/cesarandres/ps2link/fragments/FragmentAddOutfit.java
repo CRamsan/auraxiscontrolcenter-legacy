@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -107,23 +106,6 @@ public class FragmentAddOutfit extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-
-	fragmentUpdate.setVisibility(View.GONE);
-	showOffline.setVisibility(View.GONE);
-	fragmentAdd.setVisibility(View.GONE);
-	fragmentStar.setVisibility(View.GONE);
-	fragmentAppend.setVisibility(View.GONE);
-
-	fragmentUpdate.setEnabled(true);
-	showOffline.setEnabled(true);
-	fragmentAdd.setEnabled(true);
-	fragmentStar.setEnabled(true);
-	fragmentAppend.setEnabled(true);
     }
 
     /*
@@ -143,9 +125,7 @@ public class FragmentAddOutfit extends BaseFragment {
      */
     @Override
     public void onStop() {
-	ApplicationPS2Link.volley.cancelAll(this);
 	super.onStop();
-
     }
 
     /**
@@ -207,7 +187,8 @@ public class FragmentAddOutfit extends BaseFragment {
 		    }
 		});
 
-		new UpdateTmpOutfitTable().execute(response.getOutfit_list());
+		currentTask = new UpdateTmpOutfitTable();
+		currentTask.execute(response.getOutfit_list());
 		listRoot.setTextFilterEnabled(true);
 
 	    }
@@ -236,6 +217,18 @@ public class FragmentAddOutfit extends BaseFragment {
      * 
      */
     private class UpdateTmpOutfitTable extends AsyncTask<ArrayList<Outfit>, Integer, Boolean> {
+
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
+	@Override
+	protected void onPreExecute() {
+	    setProgressButton(true);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected Boolean doInBackground(ArrayList<Outfit>... outfits) {
 	    int count = outfits[0].size();
@@ -255,6 +248,22 @@ public class FragmentAddOutfit extends BaseFragment {
 		}
 	    }
 	    return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
+	@Override
+	protected void onPostExecute(Boolean result) {
+	    setProgressButton(false);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onCancelled(java.lang.Object)
+	 */
+	@Override
+	protected void onCancelled(Boolean result) {
+	    super.onCancelled();
 	}
     }
 }

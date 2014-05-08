@@ -70,9 +70,9 @@ public class ApplicationPS2Link extends Application {
      *            The index of this view within it's view pager
      * @return String tag of the provided view
      */
-    public static String makeFragmentName(int viewId, int index) {
+    /*public static String makeFragmentName(int viewId, int index) {
 	return "android:switcher:" + viewId + ":" + index;
-    }
+    }*/
 
     /**
      * @return the current Wallpaper mode

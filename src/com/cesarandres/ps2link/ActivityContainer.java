@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.ToggleButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseActivity;
@@ -43,6 +48,14 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
     private ObjectDataSource data;
     private boolean tablet = false;
 
+    protected Button fragmentTitle;
+    protected ProgressBar fragmentProgress;
+    protected ImageButton fragmentUpdate;
+    protected ToggleButton fragmentShowOffline;
+    protected ImageButton fragmentAdd;
+    protected ToggleButton fragmentStar;
+    protected ToggleButton fragmentAppend;
+    
     /*
      * (non-Javadoc)
      * 
@@ -77,6 +90,14 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    }
 	}
 
+	this.fragmentTitle = (Button) this.findViewById(R.id.buttonFragmentTitle);
+	this.fragmentProgress = (ProgressBar) this.findViewById(R.id.progressBarFragmentTitleLoading);
+	this.fragmentUpdate = (ImageButton) this.findViewById(R.id.buttonFragmentUpdate);
+	this.fragmentShowOffline = (ToggleButton) this.findViewById(R.id.toggleButtonShowOffline);
+	this.fragmentAdd = (ImageButton) this.findViewById(R.id.buttonFragmentAdd);
+	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
+	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
+	
 	setData(new ObjectDataSource(this));
 	data.open();
     }
@@ -182,6 +203,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    newFragment.setArguments(bundle);
 	    transaction.replace(R.id.activityFrameLayout, newFragment);
 	    transaction.addToBackStack(null);
+	    clearActionBar();
 	    transaction.commit();
 	    setActivityMode(mode);
 	} else {
@@ -193,10 +215,26 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 		}
 	    }
 	    intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, mode.toString());
+	    clearActionBar();
 	    startActivity(intent);
 	}
     }
 
+    private void clearActionBar(){
+	this.fragmentUpdate.setEnabled(true);
+	this.fragmentProgress.setEnabled(true);
+	this.fragmentShowOffline.setEnabled(true);
+	this.fragmentAdd.setEnabled(true);
+	this.fragmentStar.setEnabled(true);
+	this.fragmentAppend.setEnabled(true);
+	this.fragmentUpdate.setVisibility(View.GONE);
+	this.fragmentProgress.setVisibility(View.GONE);
+	this.fragmentShowOffline.setVisibility(View.GONE);
+	this.fragmentAdd.setVisibility(View.GONE);
+	this.fragmentStar.setVisibility(View.GONE);
+	this.fragmentAppend.setVisibility(View.GONE);
+    }
+    
     /**
      * @return current activity mode
      */

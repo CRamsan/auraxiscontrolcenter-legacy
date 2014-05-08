@@ -182,12 +182,6 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
 	Logger.log(Log.INFO, this, "Fragment onDestroyView");
 	super.onDestroyView();
-	this.fragmentUpdate.setVisibility(View.GONE);
-	this.fragmentProgress.setVisibility(View.GONE);
-	this.fragmentShowOffline.setVisibility(View.GONE);
-	this.fragmentAdd.setVisibility(View.GONE);
-	this.fragmentStar.setVisibility(View.GONE);
-	this.fragmentAppend.setVisibility(View.GONE);
     }
 
     /*

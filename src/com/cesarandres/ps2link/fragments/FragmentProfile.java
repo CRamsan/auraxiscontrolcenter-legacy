@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +55,6 @@ public class FragmentProfile extends BaseFragment {
     private boolean isCached;
     private CharacterProfile profile;
     private String profileId;
-    private ArrayList<AsyncTask> taskList;
-    private ObjectDataSource data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,15 +68,8 @@ public class FragmentProfile extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	super.onCreateView(inflater, container, savedInstanceState);
 	View root = inflater.inflate(R.layout.fragment_profile, container, false);
-	
-	this.data = ((ActivityContainer) getActivity()).getData();
-	taskList = new ArrayList<AsyncTask>();
-	UpdateProfileFromTable task = new UpdateProfileFromTable();
-	taskList.add(task);
-	this.profileId = getArguments().getString("PARAM_0");
-	task.execute(this.profileId);
-	
 	return root;
     }
 
@@ -86,30 +78,19 @@ public class FragmentProfile extends BaseFragment {
 	super.onResume();
 
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
-	this.fragmentShowOffline.setVisibility(View.GONE);
-	this.fragmentAdd.setVisibility(View.GONE);
 	this.fragmentStar.setVisibility(View.VISIBLE);
 	this.fragmentAppend.setVisibility(View.VISIBLE);
 
-	this.fragmentUpdate.setEnabled(true);
-	this.fragmentShowOffline.setEnabled(true);
-	this.fragmentAdd.setEnabled(true);
-	this.fragmentStar.setEnabled(true);
-	this.fragmentAppend.setEnabled(true);
+	UpdateProfileFromTable task = new UpdateProfileFromTable();
+	this.currentTask = task;
+	this.profileId = getArguments().getString("PARAM_0");
+	task.execute(this.profileId);
+
     }
 
     @Override
     public void onPause() {
 	super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-	super.onDestroyView();
-	ApplicationPS2Link.volley.cancelAll(this);
-	for (AsyncTask task : taskList) {
-	    task.cancel(true);
-	}
     }
 
     private void updateUI(CharacterProfile character) {
@@ -213,33 +194,20 @@ public class FragmentProfile extends BaseFragment {
 	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
 		    CacheProfile task = new CacheProfile();
-		    taskList.add(task);
+		    currentTask = task;
 		    task.execute(profile);
 		} else {
 		    UnCacheProfile task = new UnCacheProfile();
-		    taskList.add(task);
+		    currentTask = task;
 		    task.execute(profile);
 		}
 	    }
 	});
     }
 
-    private void setActionBarEnabled(boolean enabled) {
-	getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-	getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(enabled);
-	getActivity().findViewById(R.id.toggleButtonFragmentStar).setEnabled(enabled);
-	if (enabled) {
-	    getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-	    getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
-	} else {
-	    getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
-	    getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
-	}
-    }
-
     public void downloadProfiles(String character_id) {
 
-	setActionBarEnabled(false);
+	this.setProgressButton(true);
 	URL url;
 	try {
 	    url = SOECensus.generateGameDataRequest(
@@ -254,11 +222,11 @@ public class FragmentProfile extends BaseFragment {
 		public void onResponse(Character_list_response response) {
 		    try {
 			profile = response.getCharacter_list().get(0);
-			setActionBarEnabled(true);
+			setProgressButton(false);
 			profile.setCached(isCached);
 			updateUI(profile);
 			UpdateProfileToTable task = new UpdateProfileToTable();
-			taskList.add(task);
+			currentTask = task;
 			task.execute(profile);
 		    } catch (Exception e) {
 			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
@@ -270,7 +238,7 @@ public class FragmentProfile extends BaseFragment {
 		@Override
 		public void onErrorResponse(VolleyError error) {
 		    error.equals(new Object());
-		    setActionBarEnabled(true);
+		    setProgressButton(false);
 		}
 	    };
 
@@ -290,12 +258,13 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setActionBarEnabled(false);
+	    setProgressButton(true);
 	}
 
 	@Override
 	protected CharacterProfile doInBackground(String... args) {
 	    this.profile_id = args[0];
+	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
 	    CharacterProfile profile = data.getCharacter(this.profile_id);
 	    try {
 		if (profile == null) {
@@ -310,7 +279,7 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
-	    setActionBarEnabled(true);
+	    setProgressButton(false);
 	    if (result == null) {
 		downloadProfiles(profile_id);
 	    } else {
@@ -318,7 +287,6 @@ public class FragmentProfile extends BaseFragment {
 		updateUI(result);
 		downloadProfiles(result.getCharacterId());
 	    }
-	    taskList.remove(this);
 	}
     }
 
@@ -326,24 +294,25 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setActionBarEnabled(false);
+	    setProgressButton(true);
 	}
 
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    CharacterProfile profile = null;
+	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
 	    try {
 		profile = args[0];
 		data.updateCharacter(profile, !profile.isCached());
-	    } finally {
+	    } catch (Exception e) {
+
 	    }
 	    return profile;
 	}
 
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
-	    setActionBarEnabled(true);
-	    taskList.remove(this);
+	    setProgressButton(false);
 	}
     }
 
@@ -351,12 +320,13 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setActionBarEnabled(false);
+	    setProgressButton(true);
 	}
 
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    CharacterProfile profile = args[0];
+	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
 	    try {
 		if (data.getCharacter(profile.getCharacterId()) == null) {
 		    data.insertCharacter(profile, false);
@@ -372,12 +342,9 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
-	    if (!this.isCancelled()) {
-		profile = result;
-		updateUI(result);
-		setActionBarEnabled(true);
-	    }
-	    taskList.remove(this);
+	    profile = result;
+	    updateUI(result);
+	    setProgressButton(false);
 	}
     }
 
@@ -385,29 +352,27 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setActionBarEnabled(false);
+	    setProgressButton(true);
 	}
 
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
+	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
 	    try {
 		CharacterProfile profile = args[0];
 		data.updateCharacter(profile, true);
 		isCached = false;
-	    } finally {
+	    } catch (Exception e) {
+
 	    }
 	    return profile;
 	}
 
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
-	    if (!this.isCancelled()) {
-		profile = result;
-		updateUI(result);
-		setActionBarEnabled(true);
-	    }
-	    taskList.remove(this);
-
+	    profile = result;
+	    updateUI(result);
+	    setProgressButton(false);
 	}
     }
 

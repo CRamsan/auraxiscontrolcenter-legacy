@@ -40,118 +40,92 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  */
 public class FragmentAddProfile extends BaseFragment {
 
-	public interface NameToSearchListener {
-		void onProfileSelected(CharacterProfile profile);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	// Inflate the layout for this fragment
+	View root = inflater.inflate(R.layout.fragment_add_profile, container, false);
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		View root = inflater.inflate(R.layout.fragment_add_profile, container, false);
+	return root;
+    }
 
-		return root;
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
+	final ImageButton buttonCharacters = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchProfile);
+	buttonCharacters.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		downloadProfiles();
+	    }
+	});
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
-		final ImageButton buttonCharacters = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchProfile);
-		buttonCharacters.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
-				listRoot.setOnItemClickListener(null);
-				listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
-				downloadProfiles();
+    }
+
+    @Override
+    public void onResume() {
+	super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+	super.onStop();
+    }
+
+    private void downloadProfiles() {
+	ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+	listRoot.setOnItemClickListener(null);
+	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
+
+	EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchProfile);
+	URL url;
+	try {
+	    url = SOECensus.generateGameDataRequest(
+		    Verb.GET,
+		    Game.PS2V2,
+		    PS2Collection.CHARACTER_NAME,
+		    "",
+		    QueryString.generateQeuryString()
+			    .AddComparison("name.first_lower", SearchModifier.STARTSWITH, searchField.getText().toString().toLowerCase())
+			    .AddCommand(QueryCommand.LIMIT, "100"));
+
+	    Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
+		@Override
+		public void onResponse(Character_list_response response) {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+		    listRoot.setAdapter(new ProfileItemAdapter(getActivity(), response.getCharacter_name_list(), false));
+		    listRoot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+			    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+				    new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
 			}
-		});
-
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-		
-		fragmentUpdate.setVisibility(View.GONE);
-		showOffline.setVisibility(View.GONE);
-		fragmentAdd.setVisibility(View.GONE);
-		fragmentStar.setVisibility(View.GONE);
-		fragmentAppend.setVisibility(View.GONE);
-
-		fragmentUpdate.setEnabled(true);
-		showOffline.setEnabled(true);
-		fragmentAdd.setEnabled(true);
-		fragmentStar.setEnabled(true);
-		fragmentAppend.setEnabled(true);
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		ApplicationPS2Link.volley.cancelAll(this);
-	}
-
-	private void downloadProfiles() {
-		EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchProfile);
-		URL url;
-		try {
-			url = SOECensus.generateGameDataRequest(
-					Verb.GET,
-					Game.PS2V2,
-					PS2Collection.CHARACTER_NAME,
-					"",
-					QueryString.generateQeuryString()
-							.AddComparison("name.first_lower", SearchModifier.STARTSWITH, searchField.getText().toString().toLowerCase())
-							.AddCommand(QueryCommand.LIMIT, "100"));
-
-			Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
-				@Override
-				public void onResponse(Character_list_response response) {
-					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
-					listRoot.setAdapter(new ProfileItemAdapter(getActivity(), response.getCharacter_name_list(), false));
-					listRoot.setOnItemClickListener(new OnItemClickListener() {
-						@Override
-						public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-							mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-									new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
-						}
-					});
-				}
-			};
-
-			ErrorListener error = new Response.ErrorListener() {
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					error.equals(new Object());
-					ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
-					if (listRoot != null) {
-						listRoot.setAdapter(null);
-					}
-				}
-			};
-
-			GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
-					success, error);
-			gsonOject.setTag(this);
-			ApplicationPS2Link.volley.add(gsonOject);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    });
 		}
+	    };
+
+	    ErrorListener error = new Response.ErrorListener() {
+		@Override
+		public void onErrorResponse(VolleyError error) {
+		    error.equals(new Object());
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+		    if (listRoot != null) {
+			listRoot.setAdapter(null);
+		    }
+		}
+	    };
+
+	    GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
+		    success, error);
+	    gsonOject.setTag(this);
+	    ApplicationPS2Link.volley.add(gsonOject);
+	} catch (MalformedURLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
+    }
 }

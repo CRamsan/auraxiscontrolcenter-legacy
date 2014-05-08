@@ -57,7 +57,8 @@ public class FragmentProfileList extends BaseFragment {
 		updateButton.setVisibility(View.VISIBLE);
 		updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				new ReadProfilesTable().execute();
+			    currentTask = new ReadProfilesTable();
+			    currentTask.execute();
 			}
 		});
 

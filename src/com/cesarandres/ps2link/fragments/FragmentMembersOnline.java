@@ -39,7 +39,6 @@ public class FragmentMembersOnline extends BaseFragment {
 	private boolean isCached;
 	private String outfitId;
 	private String outfitName;
-	private FragmentMembersOnline tag = this;
 	public static final int SUCCESS = 0;
 	public static final int FAILED = 1;
 
@@ -74,11 +73,9 @@ public class FragmentMembersOnline extends BaseFragment {
 			this.outfitId = savedInstanceState.getString("outfitId");
 		}
 
-		((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);
-
-		ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
-		append.setVisibility(View.VISIBLE);
-		((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		this.fragmentTitle.setText(outfitName);
+		this.fragmentAppend.setVisibility(View.VISIBLE);
+		this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (outfitId != null && outfitName != null) {
 					SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -101,24 +98,7 @@ public class FragmentMembersOnline extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		super.onResume();		
-		ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-		ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-		ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-		ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-		ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-		
-		fragmentUpdate.setVisibility(View.VISIBLE);
-		showOffline.setVisibility(View.GONE);
-		fragmentAdd.setVisibility(View.GONE);
-		fragmentStar.setVisibility(View.VISIBLE);
-		fragmentAppend.setVisibility(View.VISIBLE);
-
-		fragmentUpdate.setEnabled(true);
-		showOffline.setEnabled(true);
-		fragmentAdd.setEnabled(true);
-		fragmentStar.setEnabled(true);
-		fragmentAppend.setEnabled(true);
+		super.onResume();
 	}
 
 	@Override
@@ -130,12 +110,6 @@ public class FragmentMembersOnline extends BaseFragment {
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putString("outfitId", outfitId);
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ApplicationPS2Link.volley.cancelAll(tag);
 	}
 
 	public void downloadOutfitMembers() {
@@ -170,7 +144,7 @@ public class FragmentMembersOnline extends BaseFragment {
 
 			GsonRequest<Outfit_member_response> gsonOject = new GsonRequest<Outfit_member_response>(url.toString(), Outfit_member_response.class, null,
 					success, error);
-			gsonOject.setTag(tag);
+			gsonOject.setTag(this);
 			ApplicationPS2Link.volley.add(gsonOject);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

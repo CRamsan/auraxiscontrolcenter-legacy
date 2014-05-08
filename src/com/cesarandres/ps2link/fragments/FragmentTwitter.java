@@ -165,17 +165,20 @@ public class FragmentTwitter extends BaseFragment {
 		}
 
 		String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
-		new UpdateTweetsTask().execute(stringArray);
+		currentTask = new UpdateTweetsTask();
+		currentTask.execute(stringArray);
 	    }
 	});
 	if (savedInstanceState == null) {
-	    new UpdateTweetsTask().execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,
+	    currentTask = new UpdateTweetsTask();
+	    currentTask.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,
 		    TwitterUtil.PS_TRAY, TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU, TwitterUtil.RADARX, TwitterUtil.TAYRADACTYL,
 		    TwitterUtil.XALORN, TwitterUtil.XANDERCLAUSS });
 	} else {
 	    this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
 	    if (!this.loaded) {
-		new UpdateTweetsTask().execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2,
+		currentTask = new UpdateTweetsTask();
+		currentTask.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2,
 			TwitterUtil.PS2DAILYDEALS, TwitterUtil.PS_TRAY, TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU,
 			TwitterUtil.RADARX, TwitterUtil.TAYRADACTYL, TwitterUtil.XALORN, TwitterUtil.XANDERCLAUSS });
 	    }
@@ -278,7 +281,6 @@ public class FragmentTwitter extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    currentTask = this;
 	    setProgressButton(true);
 	}
 
@@ -292,12 +294,14 @@ public class FragmentTwitter extends BaseFragment {
 		}
 		try {
 		    tweetList = TwitterUtil.getTweets(user);
+		    data.insertAllTweets(tweetList, user);
 		} catch (TwitterException e) {
-		    Logger.log(Log.WARN, FragmentTwitter.this, "Error trying retrieve twits");
-		    e.printStackTrace();
+		    Logger.log(Log.WARN, FragmentTwitter.this, "Error trying retrieve tweets");
+		} catch (IllegalStateException e) {
+		    Logger.log(Log.INFO, FragmentTwitter.this, "DB was closed. This is normal.");
+		    break;
 		}
 
-		data.insertAllTweets(tweetList, user);
 	    }
 	    return users;
 	}
@@ -309,13 +313,11 @@ public class FragmentTwitter extends BaseFragment {
 	    }
 	    setProgressButton(false);
 	    loaded = true;
-	    currentTask = null;
 	}
 
 	@Override
 	protected void onCancelled() {
 	    loaded = true;
-	    currentTask = null;
 	}
     }
 }

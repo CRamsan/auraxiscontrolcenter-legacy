@@ -35,7 +35,6 @@ public class FragmentOutfitList extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	super.onCreateView(inflater, container, savedInstanceState);
-	// Inflate the layout for this fragment
 	View root = inflater.inflate(R.layout.fragment_outfit_list, container, false);
 
 	ListView listRoot = (ListView) root.findViewById(R.id.listViewOutfitList);
@@ -73,17 +72,14 @@ public class FragmentOutfitList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	new ReadOutfitsTable().execute();
-    }
-
-    @Override
-    public void onPause() {
-	super.onPause();
+	this.currentTask = new ReadOutfitsTable();
+	this.currentTask.execute();
     }
 
     @Override
     public void onDestroyView() {
 	super.onDestroyView();
+	this.currentTask.cancel(true);
     }
 
     private class ReadOutfitsTable extends AsyncTask<Integer, Integer, ArrayList<Outfit>> {
@@ -96,11 +92,8 @@ public class FragmentOutfitList extends BaseFragment {
 	@Override
 	protected ArrayList<Outfit> doInBackground(Integer... params) {
 	    ArrayList<Outfit> outfitList = new ArrayList<Outfit>();
-	    try {
-		ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
-		outfitList = data.getAllOutfits(false);
-	    } finally {
-	    }
+	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    outfitList = data.getAllOutfits(false);
 	    return outfitList;
 	}
 
