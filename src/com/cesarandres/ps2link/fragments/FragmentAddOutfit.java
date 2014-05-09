@@ -233,7 +233,7 @@ public class FragmentAddOutfit extends BaseFragment {
 	protected Boolean doInBackground(ArrayList<Outfit>... outfits) {
 	    int count = outfits[0].size();
 	    ArrayList<Outfit> list = outfits[0];
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    Outfit outfit = null;
 	    for (int i = 0; i < count; i++) {
 		outfit = data.getOutfit(list.get(i).getOutfit_Id());

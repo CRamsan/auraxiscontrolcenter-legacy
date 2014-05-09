@@ -264,7 +264,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	protected CharacterProfile doInBackground(String... args) {
 	    this.profile_id = args[0];
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    CharacterProfile profile = data.getCharacter(this.profile_id);
 	    try {
 		if (profile == null) {
@@ -300,7 +300,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    CharacterProfile profile = null;
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		profile = args[0];
 		data.updateCharacter(profile, !profile.isCached());
@@ -326,7 +326,7 @@ public class FragmentProfile extends BaseFragment {
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    CharacterProfile profile = args[0];
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		if (data.getCharacter(profile.getCharacterId()) == null) {
 		    data.insertCharacter(profile, false);
@@ -357,7 +357,7 @@ public class FragmentProfile extends BaseFragment {
 
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		CharacterProfile profile = args[0];
 		data.updateCharacter(profile, true);

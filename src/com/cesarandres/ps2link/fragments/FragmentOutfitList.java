@@ -92,7 +92,7 @@ public class FragmentOutfitList extends BaseFragment {
 	@Override
 	protected ArrayList<Outfit> doInBackground(Integer... params) {
 	    ArrayList<Outfit> outfitList = new ArrayList<Outfit>();
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    outfitList = data.getAllOutfits(false);
 	    return outfitList;
 	}

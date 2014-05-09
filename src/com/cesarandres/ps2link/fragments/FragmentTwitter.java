@@ -6,7 +6,6 @@ import java.util.Arrays;
 import twitter4j.TwitterException;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,16 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 
-import com.cesarandres.ps2link.ActivityContainer;
-import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -178,9 +172,9 @@ public class FragmentTwitter extends BaseFragment {
 	    this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
 	    if (!this.loaded) {
 		currentTask = new UpdateTweetsTask();
-		currentTask.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2,
-			TwitterUtil.PS2DAILYDEALS, TwitterUtil.PS_TRAY, TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU,
-			TwitterUtil.RADARX, TwitterUtil.TAYRADACTYL, TwitterUtil.XALORN, TwitterUtil.XANDERCLAUSS });
+		currentTask.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,
+			TwitterUtil.PS_TRAY, TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU, TwitterUtil.RADARX,
+			TwitterUtil.TAYRADACTYL, TwitterUtil.XALORN, TwitterUtil.XANDERCLAUSS });
 	    }
 	}
     }
@@ -273,7 +267,7 @@ public class FragmentTwitter extends BaseFragment {
 		startActivity(i);
 	    }
 	});
-	ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	ObjectDataSource data = getActivityContainer().getData();
 	listRoot.setAdapter(new TwitterItemAdapter(getActivity(), users, data));
     }
 
@@ -287,7 +281,7 @@ public class FragmentTwitter extends BaseFragment {
 	@Override
 	protected String[] doInBackground(String... users) {
 	    ArrayList<PS2Tweet> tweetList = new ArrayList<PS2Tweet>(0);
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    for (String user : users) {
 		if (this.isCancelled()) {
 		    break;

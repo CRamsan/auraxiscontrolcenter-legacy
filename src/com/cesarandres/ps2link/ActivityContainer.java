@@ -47,7 +47,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 
     private ActivityMode activityMode;
     private ObjectDataSource data;
-    private boolean tablet = false;
+    private boolean isTablet = false;
 
     protected Button fragmentTitle;
     protected ProgressBar fragmentProgress;
@@ -79,12 +79,12 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	setContentView(R.layout.activity_panel);
 
 	if (findViewById(R.id.activityMainMenuFragment) != null) {
-	    tablet = true;
+	    isTablet = true;
 	}
 
 	if (savedInstanceState == null) {
 	    BaseFragment newFragment = getFragmentByMode(getActivityMode());
-	    if (!tablet || getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU) {
+	    if (!isTablet || getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU) {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.add(R.id.activityFrameLayout, newFragment);
 		transaction.commit();
@@ -101,7 +101,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	
 	getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 	    public void onBackStackChanged() {
-		if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+		if(isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0){
 		    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
 		    fragmentTitle.setText(R.string.app_name_capital);
 		    clearActionBar();
@@ -199,10 +199,8 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	data.close();
 	data.open();
 	ActivityMode mode = ActivityMode.valueOf(id);
-	if (tablet) {
+	if (isTablet) {
 	    if (mode == ActivityMode.ACTIVITY_MAIN_MENU) {
-		return;
-	    }else if(mode == getActivityMode()){
 		return;
 	    }
 	    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -349,5 +347,9 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    break;
 	}
 	return newFragment;
+    }
+
+    public boolean isTablet() {
+        return isTablet;
     }
 }

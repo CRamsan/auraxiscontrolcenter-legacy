@@ -222,7 +222,7 @@ public class FragmentServerList extends BaseFragment {
 	@Override
 	protected Boolean doInBackground(ArrayList<World>... worlds) {
 	    int count = worlds[0].size();
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    int success = 0;
 	    World world;
 	    try {
@@ -274,7 +274,7 @@ public class FragmentServerList extends BaseFragment {
 
 	@Override
 	protected ArrayList<World> doInBackground(Integer... params) {
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    ArrayList<World> tmpServerList = data.getAllWorlds();
 	    for (World world : tmpServerList) {
 		world.setState("UNKOWN");

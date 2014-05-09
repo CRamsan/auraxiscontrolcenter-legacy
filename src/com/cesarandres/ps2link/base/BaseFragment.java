@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
+import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.util.Logger;
@@ -214,6 +215,10 @@ public abstract class BaseFragment extends Fragment {
 	}
     }
 
+    protected ActivityContainer getActivityContainer(){
+	return (ActivityContainer) getActivity();
+    }
+    
     /**
      * @author Cesar Ramirez
      * 

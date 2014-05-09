@@ -240,7 +240,7 @@ public class FragmentMembersList extends BaseFragment {
     private void updateContent() {
 	if (this.outfitId != null) {
 	    ListView listRoot = (ListView) getView().findViewById(R.id.listViewMemberList);
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    listRoot.setAdapter(new MemberItemAdapter(getActivity(), outfitId, data, isCached, shownOffline));
 
 	    listRoot.setOnItemClickListener(new OnItemClickListener() {
@@ -290,7 +290,7 @@ public class FragmentMembersList extends BaseFragment {
 	@Override
 	protected Outfit doInBackground(String... args) {
 	    Outfit outfit = null;
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		outfit = data.getOutfit(args[0]);
 		isCached = outfit.isCached();
@@ -322,7 +322,7 @@ public class FragmentMembersList extends BaseFragment {
 	@Override
 	protected Integer doInBackground(ArrayList<Member>... members) {
 	    ArrayList<Member> newMembers = members[0];
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		for (Member member : newMembers) {
 		    if (data.getMember(member.getCharacter_id()) == null) {
@@ -356,7 +356,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected Integer doInBackground(String... args) {
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    Outfit outfit = data.getOutfit(args[0]);
 	    try {
 		data.updateOutfit(outfit, false);
@@ -386,7 +386,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected Integer doInBackground(String... args) {
-	    ObjectDataSource data = ((ActivityContainer) getActivity()).getData();
+	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		Outfit outfit = data.getOutfit(args[0]);
 		data.updateOutfit(outfit, true);
