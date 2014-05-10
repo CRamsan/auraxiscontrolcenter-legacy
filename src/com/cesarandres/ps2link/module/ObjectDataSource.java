@@ -601,6 +601,16 @@ public class ObjectDataSource {
 	return rowsChanged;
     }
 
+    public void deleteAllMembers(String outfit_id) {
+	String target = SQLiteManager.TABLE_MEMBERS_NAME;
+	try {
+	    String[] whereArgs = new String[] { outfit_id };
+	    database.delete(target, SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID + " = ?", whereArgs);
+	} catch (IllegalStateException e) {
+	    Logger.log(Log.INFO, this, "Connection closed while removing members");
+	}
+    }
+
     public boolean insertOutfit(Outfit outfit, boolean temp) {
 	String target = SQLiteManager.TABLE_OUTFITS_NAME;
 	ContentValues values = new ContentValues();

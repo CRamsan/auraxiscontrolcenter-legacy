@@ -62,13 +62,18 @@ public class FragmentAddProfile extends BaseFragment {
 		downloadProfiles();
 	    }
 	});
-
+	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		downloadProfiles();
+	    }
+	});
     }
 
     @Override
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_ADD_PROFILE);
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -68,7 +68,6 @@ public class FragmentKillList extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	downloadKillList(this.profileId);
     }
 
     @Override
@@ -79,6 +78,7 @@ public class FragmentKillList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	downloadKillList(this.profileId);
     }
 
     public void downloadKillList(String character_id) {

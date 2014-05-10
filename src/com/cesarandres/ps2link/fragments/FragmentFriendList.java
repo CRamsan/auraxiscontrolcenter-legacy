@@ -70,7 +70,6 @@ public class FragmentFriendList extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	downloadFriendsList(this.profileId);
     }
 
     @Override
@@ -81,6 +80,7 @@ public class FragmentFriendList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	downloadFriendsList(this.profileId);
     }
 
     @Override

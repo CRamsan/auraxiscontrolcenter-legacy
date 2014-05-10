@@ -58,6 +58,10 @@ public class FragmentProfile extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+	UpdateProfileFromTable task = new UpdateProfileFromTable();
+	setCurrentTask(task);
+	this.profileId = getArguments().getString("PARAM_0");
+	task.execute(this.profileId);
     }
 
     @Override
@@ -70,12 +74,6 @@ public class FragmentProfile extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-
-	UpdateProfileFromTable task = new UpdateProfileFromTable();
-	setCurrentTask(task);
-	this.profileId = getArguments().getString("PARAM_0");
-	task.execute(this.profileId);
-
     }
 
     @Override

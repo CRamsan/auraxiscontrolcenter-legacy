@@ -71,7 +71,6 @@ public class FragmentServerList extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 	this.fragmentTitle.setText(getString(R.string.title_servers));
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		downloadServers();
@@ -86,6 +85,7 @@ public class FragmentServerList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_SERVER_LIST);
     }
 

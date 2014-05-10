@@ -74,14 +74,12 @@ public class FragmentMembersOnline extends BaseFragment {
 	}
 
 	this.fragmentTitle.setText(outfitName);
-
-	downloadOutfitMembers();
-
     }
 
     @Override
     public void onResume() {
 	super.onResume();
+	downloadOutfitMembers();
     }
 
     @Override

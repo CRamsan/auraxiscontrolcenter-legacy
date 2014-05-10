@@ -53,14 +53,11 @@ public class FragmentOutfitList extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 	this.fragmentTitle.setText(getString(R.string.title_outfits));
-	this.fragmentAdd.setVisibility(View.VISIBLE);
 	this.fragmentAdd.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ADD_OUTFIT.toString(), null);
 	    }
 	});
-
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		new ReadOutfitsTable().execute();
@@ -73,6 +70,8 @@ public class FragmentOutfitList extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_OUTFIT_LIST);
+	this.fragmentAdd.setVisibility(View.VISIBLE);
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	ReadOutfitsTable task = new ReadOutfitsTable();
 	setCurrentTask(task);
 	task.execute();

@@ -61,7 +61,6 @@ public class FragmentStatList extends BaseFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	downloadStatList(this.profileId);
     }
 
     @Override
@@ -72,6 +71,7 @@ public class FragmentStatList extends BaseFragment{
     @Override
     public void onResume() {
 	super.onResume();
+	downloadStatList(this.profileId);
     }
 
     public void downloadStatList(String character_id) {

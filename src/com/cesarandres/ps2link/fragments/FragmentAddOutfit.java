@@ -93,6 +93,12 @@ public class FragmentAddOutfit extends BaseFragment {
 	    }
 	});
 
+	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		downloadOutfits();
+	    }
+	});
+
     }
 
     /*
@@ -104,6 +110,7 @@ public class FragmentAddOutfit extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_ADD_OUTFIT);
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
     }
 
     /*
@@ -265,16 +272,6 @@ public class FragmentAddOutfit extends BaseFragment {
 	@Override
 	protected void onPostExecute(Boolean result) {
 	    setProgressButton(false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onCancelled(java.lang.Object)
-	 */
-	@Override
-	protected void onCancelled(Boolean result) {
-	    super.onCancelled();
 	}
     }
 }

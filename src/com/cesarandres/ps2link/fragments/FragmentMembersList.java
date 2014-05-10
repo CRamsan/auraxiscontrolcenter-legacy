@@ -100,7 +100,7 @@ public class FragmentMembersList extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	if (outfitId != null) {
-	    updateContent();
+	    downloadOutfitMembers();
 	}
 
     }
@@ -273,12 +273,13 @@ public class FragmentMembersList extends BaseFragment {
 	    ArrayList<Member> newMembers = members[0];
 	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
+		Outfit outfit = data.getOutfit(outfitId);
+		outfit.setMember_count(newMembers.size());
+		data.updateOutfit(outfit, !outfit.isCached());
+
+		data.deleteAllMembers(outfitId);
 		for (Member member : newMembers) {
-		    if (data.getMember(member.getCharacter_id()) == null) {
-			data.insertMember(member, outfitId, !isCached);
-		    } else {
-			data.updateMember(member, !isCached);
-		    }
+		    data.insertMember(member, outfitId, !isCached);
 		    if (isCancelled()) {
 			return null;
 		    }
@@ -352,5 +353,4 @@ public class FragmentMembersList extends BaseFragment {
 	    setProgressButton(false);
 	}
     }
-
 }
