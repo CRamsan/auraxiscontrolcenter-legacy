@@ -2,6 +2,7 @@ package com.cesarandres.ps2link.fragments.holders;
 
 import java.util.HashMap;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.fragments.FragmentMembersList;
@@ -61,10 +63,16 @@ public class FragmentOutfitPager extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MEMBER_LIST);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 
-	getActivity().findViewById(R.id.buttonFragmentUpdate).setOnClickListener(new View.OnClickListener() {
+	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		Fragment fragment;
 		try {
@@ -91,13 +99,19 @@ public class FragmentOutfitPager extends BaseFragment {
 	    public void onPageSelected(int arg0) {
 		switch (arg0) {
 		case ONLINE:
-		    getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.GONE);
+		    fragmentShowOffline.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentStar.setVisibility(View.GONE);
 		    break;
 		case MEMBERS:
-		    getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
+		    fragmentShowOffline.setVisibility(View.VISIBLE);
+		    fragmentAppend.setVisibility(View.VISIBLE);
+		    fragmentStar.setVisibility(View.VISIBLE);
 		    break;
 		default:
-		    getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
+		    fragmentShowOffline.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentStar.setVisibility(View.GONE);
 		    break;
 		}
 	    }

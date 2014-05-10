@@ -85,13 +85,10 @@ public class FragmentAddOutfit extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_outfits));
+	this.fragmentTitle.setText(getString(R.string.title_outfits));
 	final ImageButton buttonOutfits = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchOutfit);
 	buttonOutfits.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
-		listRoot.setOnItemClickListener(null);
-		listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 		downloadOutfits();
 	    }
 	});
@@ -106,6 +103,7 @@ public class FragmentAddOutfit extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_ADD_OUTFIT);
     }
 
     /*
@@ -134,6 +132,10 @@ public class FragmentAddOutfit extends BaseFragment {
      * 
      */
     public void downloadOutfits() {
+	ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
+	listRoot.setOnItemClickListener(null);
+	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
+
 	EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchOutfit);
 	EditText searchTagField = (EditText) getActivity().findViewById(R.id.fieldSearchTag);
 	String outfitName = searchField.getText().toString().toLowerCase();
@@ -188,7 +190,7 @@ public class FragmentAddOutfit extends BaseFragment {
 		});
 
 		currentTask = new UpdateTmpOutfitTable();
-		currentTask.execute(response.getOutfit_list());
+		((UpdateTmpOutfitTable) currentTask).execute(response.getOutfit_list());
 		listRoot.setTextFilterEnabled(true);
 
 	    }
@@ -218,7 +220,9 @@ public class FragmentAddOutfit extends BaseFragment {
      */
     private class UpdateTmpOutfitTable extends AsyncTask<ArrayList<Outfit>, Integer, Boolean> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
@@ -226,7 +230,9 @@ public class FragmentAddOutfit extends BaseFragment {
 	    setProgressButton(true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
 	 */
 	@Override
@@ -250,7 +256,9 @@ public class FragmentAddOutfit extends BaseFragment {
 	    return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override
@@ -258,7 +266,9 @@ public class FragmentAddOutfit extends BaseFragment {
 	    setProgressButton(false);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onCancelled(java.lang.Object)
 	 */
 	@Override

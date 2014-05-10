@@ -2,7 +2,6 @@ package com.cesarandres.ps2link.fragments;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -11,25 +10,20 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -40,11 +34,9 @@ import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
-import com.cesarandres.ps2link.soe.content.response.Server_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
@@ -77,10 +69,6 @@ public class FragmentProfile extends BaseFragment {
     public void onResume() {
 	super.onResume();
 
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
-	this.fragmentStar.setVisibility(View.VISIBLE);
-	this.fragmentAppend.setVisibility(View.VISIBLE);
-
 	UpdateProfileFromTable task = new UpdateProfileFromTable();
 	this.currentTask = task;
 	this.profileId = getArguments().getString("PARAM_0");
@@ -95,7 +83,7 @@ public class FragmentProfile extends BaseFragment {
 
     private void updateUI(CharacterProfile character) {
 
-	((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(character.getName().getFirst());
+	this.fragmentTitle.setText(character.getName().getFirst());
 
 	if (this.getView() != null) {
 	    ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
@@ -161,18 +149,17 @@ public class FragmentProfile extends BaseFragment {
 
 	}
 
-	ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	star.setVisibility(View.VISIBLE);
-	star.setOnCheckedChangeListener(null);
+	this.fragmentStar.setOnCheckedChangeListener(null);
+	this.fragmentStar.setVisibility(View.VISIBLE);
 	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 	String preferedProfileId = settings.getString("preferedProfile", "");
 	if (preferedProfileId.equals(character.getCharacterId())) {
-	    star.setChecked(true);
+	    this.fragmentStar.setChecked(true);
 	} else {
-	    star.setChecked(false);
+	    this.fragmentStar.setChecked(false);
 	}
 
-	star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -184,13 +171,14 @@ public class FragmentProfile extends BaseFragment {
 		    editor.putString("preferedProfile", "");
 		}
 		editor.commit();
+		getActivityContainer().checkPreferedButtons();
 	    }
 	});
 
-	ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
-	append.setOnCheckedChangeListener(null);
-	append.setChecked(isCached);
-	append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	this.fragmentAppend.setOnCheckedChangeListener(null);
+	this.fragmentAppend.setVisibility(View.VISIBLE);
+	this.fragmentAppend.setChecked(isCached);
+	this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
 		    CacheProfile task = new CacheProfile();

@@ -72,8 +72,9 @@ public class FragmentOutfitList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MEMBER_LIST);
 	this.currentTask = new ReadOutfitsTable();
-	((ReadOutfitsTable)this.currentTask).execute();
+	((ReadOutfitsTable) this.currentTask).execute();
     }
 
     @Override

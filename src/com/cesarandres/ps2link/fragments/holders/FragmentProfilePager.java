@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
@@ -52,19 +54,28 @@ public class FragmentProfilePager extends BaseFragment {
 	mViewPager = (ViewPager) root.findViewById(R.id.profilePager);
 	mViewPager.setAdapter(mSectionsPagerAdapter);
 
-	Bundle extras = getArguments();
+	Bundle extras = getActivity().getIntent().getExtras();
+	if (extras == null) {
+	    extras = getArguments();
+	}
 	profileId = extras.getString("PARAM_0");
 
 	return root;
     }
 
     @Override
+    public void onResume() {
+	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_PROFILE);
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 
-	ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	updateButton.setVisibility(View.VISIBLE);
-	updateButton.setOnClickListener(new View.OnClickListener() {
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
+	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		switch (mViewPager.getCurrentItem()) {
 		case PROFILE:
@@ -86,8 +97,46 @@ public class FragmentProfilePager extends BaseFragment {
 	});
 
 	if (!"".equals(profileName) && profileName != null) {
-	    ((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(profileName);
+	    this.fragmentTitle.setText(profileName);
 	}
+
+	mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+	    @Override
+	    public void onPageSelected(int arg0) {
+		switch (arg0) {
+		case PROFILE:
+		    fragmentStar.setVisibility(View.VISIBLE);
+		    fragmentAppend.setVisibility(View.VISIBLE);
+		    break;
+		case FRIENDS:
+		    fragmentStar.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    break;
+		case STATS:
+		    fragmentStar.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    break;
+		case KILLBOARD:
+		    fragmentStar.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    break;
+		default:
+		    fragmentStar.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    break;
+		}
+	    }
+
+	    @Override
+	    public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+	    }
+
+	    @Override
+	    public void onPageScrollStateChanged(int arg0) {
+
+	    }
+	});
     }
 
     @Override
@@ -95,10 +144,19 @@ public class FragmentProfilePager extends BaseFragment {
 	super.onDestroyView();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+	super.onSaveInstanceState(savedInstanceState);
+	String profileName = String.valueOf(fragmentTitle.getText());
+	if (!"".equals(profileName)) {
+	    savedInstanceState.putString("ProfileName", profileName);
+	}
+    }
+
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private HashMap<Integer, Fragment> mMap;
-	
+
 	public SectionsPagerAdapter(FragmentManager fm) {
 	    super(fm);
 	    this.mMap = new HashMap<Integer, Fragment>();
@@ -135,7 +193,7 @@ public class FragmentProfilePager extends BaseFragment {
 	    super.destroyItem(container, position, object);
 	    mMap.remove(position);
 	}
-	
+
 	@Override
 	public int getCount() {
 	    return 4;
@@ -156,18 +214,10 @@ public class FragmentProfilePager extends BaseFragment {
 		return "OVERVIEW";
 	    }
 	}
-	
+
 	public Fragment getFragment(int key) {
 	    return mMap.get(key);
 	}
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-	super.onSaveInstanceState(savedInstanceState);
-	String profileName = String.valueOf(((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).getText());
-	if (!"".equals(profileName)) {
-	    savedInstanceState.putString("ProfileName", profileName);
-	}
-    }
 }

@@ -83,8 +83,9 @@ public class FragmentServerList extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume(){
 	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_SERVER_LIST);
     }
 
     public void downloadServers() {

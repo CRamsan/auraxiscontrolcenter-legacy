@@ -21,6 +21,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Game;
@@ -47,16 +48,14 @@ public class FragmentAddProfile extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	// Inflate the layout for this fragment
 	View root = inflater.inflate(R.layout.fragment_add_profile, container, false);
-
 	return root;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
+	this.fragmentTitle.setText(getString(R.string.title_profiles));
 	final ImageButton buttonCharacters = (ImageButton) getActivity().findViewById(R.id.imageButtonSearchProfile);
 	buttonCharacters.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -69,6 +68,7 @@ public class FragmentAddProfile extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_ADD_PROFILE);
     }
 
     @Override

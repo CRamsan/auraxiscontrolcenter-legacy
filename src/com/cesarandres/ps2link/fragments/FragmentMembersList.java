@@ -81,16 +81,6 @@ public class FragmentMembersList extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 
-	ToggleButton viewOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	viewOffline.setVisibility(View.VISIBLE);
-
-	ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
-	append.setVisibility(View.VISIBLE);
-
-	getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-	getActivity().findViewById(R.id.toggleButtonShowOffline).setVisibility(View.VISIBLE);
-	getActivity().findViewById(R.id.toggleButtonFragmentStar).setVisibility(View.VISIBLE);
-
 	if (savedInstanceState == null) {
 	    UpdateOutfitFromTable task = new UpdateOutfitFromTable();
 	    this.currentTask = task;
@@ -103,50 +93,16 @@ public class FragmentMembersList extends BaseFragment {
 	    this.shownOffline = savedInstanceState.getBoolean("showOffline");
 	}
 
-	((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);
-
-	((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (outfitId != null && outfitName != null) {
-		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-		    SharedPreferences.Editor editor = settings.edit();
-		    if (isChecked) {
-			editor.putString("preferedOutfit", outfitId);
-			editor.putString("preferedOutfitName", outfitName);
-		    } else {
-			editor.putString("preferedOutfit", "");
-			editor.putString("preferedOutfitName", "");
-		    }
-		    editor.commit();
-		}
-	    }
-	});
+	this.fragmentTitle.setText(outfitName);
     }
 
     @Override
     public void onResume() {
 	super.onResume();
-	ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-
-	fragmentUpdate.setVisibility(View.VISIBLE);
-	showOffline.setVisibility(View.VISIBLE);
-	fragmentAdd.setVisibility(View.GONE);
-	fragmentStar.setVisibility(View.VISIBLE);
-	fragmentAppend.setVisibility(View.VISIBLE);
-
-	fragmentUpdate.setEnabled(true);
-	showOffline.setEnabled(true);
-	fragmentAdd.setEnabled(true);
-	fragmentStar.setEnabled(true);
-	fragmentAppend.setEnabled(true);
-
 	if (outfitId != null) {
 	    updateContent();
 	}
+
     }
 
     @Override
@@ -164,9 +120,7 @@ public class FragmentMembersList extends BaseFragment {
     }
 
     public void downloadOutfitMembers() {
-
-	setUpdateButton(false);
-	setAppendButtonVisibility(false);
+	setProgressButton(true);
 	URL url;
 	try {
 	    url = SOECensus.generateGameDataRequest(
@@ -183,7 +137,8 @@ public class FragmentMembersList extends BaseFragment {
 		    try {
 			UpdateMembers task = new UpdateMembers();
 			currentTask = task;
-			task.execute(response.getOutfit_list().get(0).getMembers());
+			((UpdateMembers) task).execute(response.getOutfit_list().get(0).getMembers());
+			setProgressButton(false);
 		    } catch (Exception e) {
 			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 		    }
@@ -195,7 +150,7 @@ public class FragmentMembersList extends BaseFragment {
 		public void onErrorResponse(VolleyError error) {
 		    error.equals(new Object());
 		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-		    setUpdateButton(true);
+		    setProgressButton(false);
 		}
 	    };
 
@@ -207,34 +162,6 @@ public class FragmentMembersList extends BaseFragment {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-    }
-
-    private void setUpdateButton(boolean enabled) {
-	getActivity().findViewById(R.id.buttonFragmentUpdate).setEnabled(enabled);
-	getActivity().findViewById(R.id.toggleButtonShowOffline).setEnabled(enabled);
-	getActivity().findViewById(R.id.toggleButtonFragmentStar).setEnabled(enabled);
-	getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(enabled);
-	if (enabled) {
-	    getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.VISIBLE);
-	    getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.GONE);
-	} else {
-	    getActivity().findViewById(R.id.buttonFragmentUpdate).setVisibility(View.GONE);
-	    getActivity().findViewById(R.id.progressBarFragmentTitleLoading).setVisibility(View.VISIBLE);
-	}
-    }
-
-    private void setAppendButtonVisibility(boolean visible) {
-	ToggleButton star = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-	String preferedOutfitId = settings.getString("preferedOutfit", "");
-	if (preferedOutfitId.equals(outfitId)) {
-	    star.setChecked(true);
-	} else {
-	    star.setChecked(false);
-	}
-
-	getActivity().findViewById(R.id.toggleButtonFragmentAppend).setEnabled(visible);
-	star.setEnabled(visible);
     }
 
     private void updateContent() {
@@ -251,8 +178,7 @@ public class FragmentMembersList extends BaseFragment {
 		}
 	    });
 
-	    ToggleButton viewOffline = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline));
-	    viewOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+	    this.fragmentShowOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    shownOffline = isChecked;
@@ -260,10 +186,9 @@ public class FragmentMembersList extends BaseFragment {
 		}
 	    });
 
-	    ToggleButton append = ((ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend));
-	    append.setOnCheckedChangeListener(null);
-	    append.setChecked(isCached);
-	    append.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	    this.fragmentAppend.setOnCheckedChangeListener(null);
+	    this.fragmentAppend.setChecked(isCached);
+	    this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    if (isChecked) {
 			CacheOutfit task = new CacheOutfit();
@@ -276,6 +201,32 @@ public class FragmentMembersList extends BaseFragment {
 		    }
 		}
 	    });
+
+	    this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		    if (outfitId != null && outfitName != null) {
+			SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+			SharedPreferences.Editor editor = settings.edit();
+			if (isChecked) {
+			    editor.putString("preferedOutfit", outfitId);
+			    editor.putString("preferedOutfitName", outfitName);
+			} else {
+			    editor.putString("preferedOutfit", "");
+			    editor.putString("preferedOutfitName", "");
+			}
+			editor.commit();
+			getActivityContainer().checkPreferedButtons();
+		    }
+		}
+	    });
+
+	    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+	    String preferedOutfitId = settings.getString("preferedOutfit", "");
+	    if (preferedOutfitId.equals(outfitId)) {
+		this.fragmentStar.setChecked(true);
+	    } else {
+		this.fragmentStar.setChecked(false);
+	    }
 	}
     }
 
@@ -283,8 +234,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setAppendButtonVisibility(false);
-	    setUpdateButton(false);
+	    setProgressButton(true);
 	}
 
 	@Override
@@ -305,7 +255,7 @@ public class FragmentMembersList extends BaseFragment {
 	    outfitName = result.getName();
 	    outfitSize = result.getMember_count();
 	    ((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);
-	    setUpdateButton(true);
+	    setProgressButton(false);
 	    updateContent();
 	    downloadOutfitMembers();
 	}
@@ -315,8 +265,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setAppendButtonVisibility(false);
-	    setUpdateButton(false);
+	    setProgressButton(true);
 	}
 
 	@Override
@@ -341,7 +290,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected void onPostExecute(Integer result) {
-	    setUpdateButton(true);
+	    setProgressButton(false);
 	    updateContent();
 	}
     }
@@ -350,8 +299,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setAppendButtonVisibility(false);
-	    setUpdateButton(false);
+	    setProgressButton(true);
 	}
 
 	@Override
@@ -372,7 +320,7 @@ public class FragmentMembersList extends BaseFragment {
 	    if (isCached) {
 		updateContent();
 	    }
-	    setUpdateButton(true);
+	    setProgressButton(false);
 	}
     }
 
@@ -380,8 +328,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	@Override
 	protected void onPreExecute() {
-	    setAppendButtonVisibility(false);
-	    setUpdateButton(false);
+	    setProgressButton(true);
 	}
 
 	@Override
@@ -402,7 +349,7 @@ public class FragmentMembersList extends BaseFragment {
 	    if (!isCached) {
 		updateContent();
 	    }
-	    setUpdateButton(true);
+	    setProgressButton(false);
 	}
     }
 

@@ -72,10 +72,6 @@ public class FragmentStatList extends BaseFragment{
     @Override
     public void onResume() {
 	super.onResume();
-
-	fragmentUpdate.setVisibility(View.VISIBLE);
-	fragmentStar.setVisibility(View.VISIBLE);
-	fragmentAppend.setVisibility(View.VISIBLE);
     }
 
     public void downloadStatList(String character_id) {

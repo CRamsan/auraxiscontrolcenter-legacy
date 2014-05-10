@@ -2,6 +2,7 @@ package com.cesarandres.ps2link;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks;
 import com.cesarandres.ps2link.fragments.FragmentAddOutfit;
 import com.cesarandres.ps2link.fragments.FragmentAddProfile;
+import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentLinksMenu;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
@@ -83,10 +85,10 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	}
 
 	if (savedInstanceState == null) {
-	    BaseFragment newFragment = getFragmentByMode(getActivityMode());
 	    if (!isTablet || getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU) {
+		BaseFragment fragment = getFragmentByMode(getActivityMode());
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		transaction.add(R.id.activityFrameLayout, newFragment);
+		transaction.add(R.id.activityFrameLayout, fragment);
 		transaction.commit();
 	    }
 	}
@@ -98,13 +100,17 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	this.fragmentAdd = (ImageButton) this.findViewById(R.id.buttonFragmentAdd);
 	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
-	
+
 	getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 	    public void onBackStackChanged() {
-		if(isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0){
-		    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
-		    fragmentTitle.setText(R.string.app_name_capital);
-		    clearActionBar();
+		if (isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+		    if (getActivityMode() == ActivityMode.ACTIVITY_PROFILE || getActivityMode() == ActivityMode.ACTIVITY_MEMBER_LIST) {
+			finish();
+		    } else {
+			setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
+			fragmentTitle.setText(R.string.app_name_capital);
+			clearActionBar();
+		    }
 		}
 	    }
 	});
@@ -199,11 +205,14 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	data.close();
 	data.open();
 	ActivityMode mode = ActivityMode.valueOf(id);
-	if (isTablet) {
+	if (isTablet && !(mode == ActivityMode.ACTIVITY_PROFILE) && !(mode == ActivityMode.ACTIVITY_MEMBER_LIST)) {
 	    if (mode == ActivityMode.ACTIVITY_MAIN_MENU) {
 		return;
 	    }
-	    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+	    FragmentTransaction transaction;
+	    transaction = getSupportFragmentManager().beginTransaction();
+
 	    BaseFragment newFragment = getFragmentByMode(mode);
 	    Bundle bundle = new Bundle();
 	    if (args != null && args.length > 0) {
@@ -350,6 +359,13 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
     }
 
     public boolean isTablet() {
-        return isTablet;
+	return isTablet;
+    }
+
+    public void checkPreferedButtons() {
+	Fragment mainMenu = getSupportFragmentManager().findFragmentById(R.id.activityMainMenuFragment);
+	if (mainMenu != null) {
+	    ((FragmentMainMenu) mainMenu).checkPreferedButtons();
+	}
     }
 }

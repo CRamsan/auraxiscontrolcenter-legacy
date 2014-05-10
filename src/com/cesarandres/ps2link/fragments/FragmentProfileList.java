@@ -53,19 +53,17 @@ public class FragmentProfileList extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(getString(R.string.title_profiles));
-	ImageButton updateButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	updateButton.setVisibility(View.VISIBLE);
-	updateButton.setOnClickListener(new View.OnClickListener() {
+	this.fragmentTitle.setText(getString(R.string.title_profiles));
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
+	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		currentTask = new ReadProfilesTable();
 		((ReadProfilesTable) currentTask).execute();
 	    }
 	});
 
-	ImageButton searchButton = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	searchButton.setVisibility(View.VISIBLE);
-	searchButton.setOnClickListener(new View.OnClickListener() {
+	this.fragmentAdd.setVisibility(View.VISIBLE);
+	this.fragmentAdd.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ADD_PROFILE.toString(), null);
 	    }
@@ -81,26 +79,9 @@ public class FragmentProfileList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-
-	ImageButton fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	ToggleButton showOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	ImageButton fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	ToggleButton fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	ToggleButton fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-
-	fragmentUpdate.setVisibility(View.VISIBLE);
-	showOffline.setVisibility(View.GONE);
-	fragmentAdd.setVisibility(View.VISIBLE);
-	fragmentStar.setVisibility(View.GONE);
-	fragmentAppend.setVisibility(View.GONE);
-
-	fragmentUpdate.setEnabled(true);
-	showOffline.setEnabled(true);
-	fragmentAdd.setEnabled(true);
-	fragmentStar.setEnabled(true);
-	fragmentAppend.setEnabled(true);
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_PROFILE_LIST);
 	currentTask = new ReadProfilesTable();
-	((ReadProfilesTable)currentTask).execute();
+	((ReadProfilesTable) currentTask).execute();
     }
 
     @Override

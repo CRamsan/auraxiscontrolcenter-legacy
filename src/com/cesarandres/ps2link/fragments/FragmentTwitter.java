@@ -21,6 +21,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
@@ -182,6 +183,7 @@ public class FragmentTwitter extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_TWITTER);
 	updateTweets();
     }
 

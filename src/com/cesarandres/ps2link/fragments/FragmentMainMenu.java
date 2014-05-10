@@ -177,6 +177,10 @@ public class FragmentMainMenu extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
+	checkPreferedButtons();
+    }
+
+    public void checkPreferedButtons() {
 	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 
 	String preferedProfileId = settings.getString("preferedProfile", "");
