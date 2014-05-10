@@ -8,11 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.ToggleButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
@@ -22,6 +25,7 @@ import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
 import com.cesarandres.ps2link.fragments.FragmentProfile;
 import com.cesarandres.ps2link.fragments.FragmentStatList;
+import com.cesarandres.ps2link.soe.util.Logger;
 
 /**
  * Created by cesar on 6/16/13.
@@ -59,7 +63,6 @@ public class FragmentProfilePager extends BaseFragment {
 	    extras = getArguments();
 	}
 	profileId = extras.getString("PARAM_0");
-
 	return root;
     }
 
@@ -137,6 +140,9 @@ public class FragmentProfilePager extends BaseFragment {
 
 	    }
 	});
+
+	this.fragmentAppend.setVisibility(View.VISIBLE);
+	this.fragmentStar.setVisibility(View.VISIBLE);
     }
 
     @Override

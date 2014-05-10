@@ -160,20 +160,24 @@ public class FragmentTwitter extends BaseFragment {
 		}
 
 		String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
-		currentTask = new UpdateTweetsTask();
-		currentTask.execute(stringArray);
+
+		UpdateTweetsTask task = new UpdateTweetsTask();
+		setCurrentTask(task);
+		task.execute(stringArray);
 	    }
 	});
 	if (savedInstanceState == null) {
-	    currentTask = new UpdateTweetsTask();
-	    currentTask.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,
-		    TwitterUtil.PS_TRAY, TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU, TwitterUtil.RADARX, TwitterUtil.TAYRADACTYL,
-		    TwitterUtil.XALORN, TwitterUtil.XANDERCLAUSS });
+	    UpdateTweetsTask task = new UpdateTweetsTask();
+	    setCurrentTask(task);
+	    task.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS, TwitterUtil.PS_TRAY,
+		    TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU, TwitterUtil.RADARX, TwitterUtil.TAYRADACTYL, TwitterUtil.XALORN,
+		    TwitterUtil.XANDERCLAUSS });
 	} else {
 	    this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
 	    if (!this.loaded) {
-		currentTask = new UpdateTweetsTask();
-		currentTask.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,
+		UpdateTweetsTask task = new UpdateTweetsTask();
+		setCurrentTask(task);
+		task.execute(new String[] { TwitterUtil.PURRFECTSTORM, TwitterUtil.MHIDGY, TwitterUtil.PLANETSIDE2, TwitterUtil.PS2DAILYDEALS,
 			TwitterUtil.PS_TRAY, TwitterUtil.ADAMCLEGG, TwitterUtil.MULDOONX9, TwitterUtil.PLANETSIDE2EU, TwitterUtil.RADARX,
 			TwitterUtil.TAYRADACTYL, TwitterUtil.XALORN, TwitterUtil.XANDERCLAUSS });
 	    }

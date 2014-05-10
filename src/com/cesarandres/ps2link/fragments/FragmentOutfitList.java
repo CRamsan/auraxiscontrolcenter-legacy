@@ -72,15 +72,15 @@ public class FragmentOutfitList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MEMBER_LIST);
-	this.currentTask = new ReadOutfitsTable();
-	((ReadOutfitsTable) this.currentTask).execute();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_OUTFIT_LIST);
+	ReadOutfitsTable task = new ReadOutfitsTable();
+	setCurrentTask(task);
+	task.execute();
     }
 
     @Override
     public void onDestroyView() {
 	super.onDestroyView();
-	this.currentTask.cancel(true);
     }
 
     private class ReadOutfitsTable extends AsyncTask<Integer, Integer, ArrayList<Outfit>> {

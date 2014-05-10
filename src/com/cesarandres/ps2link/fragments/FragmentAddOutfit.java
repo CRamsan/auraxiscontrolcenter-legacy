@@ -189,8 +189,9 @@ public class FragmentAddOutfit extends BaseFragment {
 		    }
 		});
 
-		currentTask = new UpdateTmpOutfitTable();
-		((UpdateTmpOutfitTable) currentTask).execute(response.getOutfit_list());
+		UpdateTmpOutfitTable currentTask = new UpdateTmpOutfitTable();
+		setCurrentTask(currentTask);
+		currentTask.execute(response.getOutfit_list());
 		listRoot.setTextFilterEnabled(true);
 
 	    }

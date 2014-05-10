@@ -83,8 +83,8 @@ public class FragmentMembersList extends BaseFragment {
 
 	if (savedInstanceState == null) {
 	    UpdateOutfitFromTable task = new UpdateOutfitFromTable();
-	    this.currentTask = task;
 	    this.outfitId = getArguments().getString("PARAM_0");
+	    setCurrentTask(task);
 	    task.execute(this.outfitId);
 	} else {
 	    this.outfitSize = savedInstanceState.getInt("outfitSize", 0);
@@ -136,9 +136,9 @@ public class FragmentMembersList extends BaseFragment {
 		public void onResponse(Outfit_member_response response) {
 		    try {
 			UpdateMembers task = new UpdateMembers();
-			currentTask = task;
-			((UpdateMembers) task).execute(response.getOutfit_list().get(0).getMembers());
 			setProgressButton(false);
+			setCurrentTask(task);
+			task.execute(response.getOutfit_list().get(0).getMembers());
 		    } catch (Exception e) {
 			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 		    }
@@ -192,11 +192,11 @@ public class FragmentMembersList extends BaseFragment {
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    if (isChecked) {
 			CacheOutfit task = new CacheOutfit();
-			currentTask = task;
+			setCurrentTask(task);
 			task.execute(outfitId);
 		    } else {
 			UnCacheOutfit task = new UnCacheOutfit();
-			currentTask = task;
+			setCurrentTask(task);
 			task.execute(outfitId);
 		    }
 		}

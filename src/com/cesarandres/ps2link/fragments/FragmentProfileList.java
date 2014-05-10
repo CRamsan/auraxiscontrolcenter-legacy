@@ -57,8 +57,9 @@ public class FragmentProfileList extends BaseFragment {
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
-		currentTask = new ReadProfilesTable();
-		((ReadProfilesTable) currentTask).execute();
+		ReadProfilesTable task = new ReadProfilesTable();
+		setCurrentTask(task);
+		task.execute();
 	    }
 	});
 
@@ -80,8 +81,9 @@ public class FragmentProfileList extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_PROFILE_LIST);
-	currentTask = new ReadProfilesTable();
-	((ReadProfilesTable) currentTask).execute();
+	ReadProfilesTable task = new ReadProfilesTable();
+	setCurrentTask(task);
+	task.execute();
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.Logger;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
@@ -70,7 +72,7 @@ public class FragmentProfile extends BaseFragment {
 	super.onResume();
 
 	UpdateProfileFromTable task = new UpdateProfileFromTable();
-	this.currentTask = task;
+	setCurrentTask(task);
 	this.profileId = getArguments().getString("PARAM_0");
 	task.execute(this.profileId);
 
@@ -85,112 +87,114 @@ public class FragmentProfile extends BaseFragment {
 
 	this.fragmentTitle.setText(character.getName().getFirst());
 
-	if (this.getView() != null) {
-	    ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
-	    if (character.getFaction_id().equals(Faction.VS)) {
-		faction.setImageResource(R.drawable.icon_faction_vs);
-	    } else if (character.getFaction_id().equals(Faction.NC)) {
-		faction.setImageResource(R.drawable.icon_faction_nc);
-	    } else if (character.getFaction_id().equals(Faction.TR)) {
-		faction.setImageResource(R.drawable.icon_faction_tr);
-	    }
-
-	    TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
-	    initialBR.setText(Integer.toString(character.getBattle_rank().getValue()));
-	    initialBR.setTextColor(Color.BLACK);
-
-	    TextView nextBR = ((TextView) getActivity().findViewById(R.id.textViewNextRank));
-	    nextBR.setText(Integer.toString(character.getBattle_rank().getValue() + 1));
-	    nextBR.setTextColor(Color.BLACK);
-
-	    int progressBR = (character.getBattle_rank().getPercent_to_next());
-	    ((ProgressBar) getActivity().findViewById(R.id.progressBarProfileBRProgress)).setProgress((int) (progressBR));
-
-	    Float progressCerts = Float.parseFloat(character.getCerts().getPercent_to_next());
-	    ((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
-	    TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
-	    certs.setText(character.getCerts().getAvailable_points());
-
-	    TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
-	    String onlineStatusText = "UNKOWN";
-	    if (character.getOnline_status() == 0) {
-		onlineStatusText = "OFFLINE";
-		loginStatus.setText(onlineStatusText);
-		loginStatus.setTextColor(Color.RED);
-	    } else {
-		onlineStatusText = "ONLINE";
-		loginStatus.setText(onlineStatusText);
-		loginStatus.setTextColor(Color.GREEN);
-	    }
-
-	    ((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
-		    .getMinutes_played()) / 60)));
-
-	    PrettyTime p = new PrettyTime();
-	    String lastLogin = p.format(new Date(Long.parseLong(character.getTimes().getLast_login()) * 1000));
-
-	    ((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
-
-	    if (character.getOutfitName() == null) {
-		if (character.getOutfit() == null) {
-		    ((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
-		} else {
-		    ((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfit().getName());
+	try {
+	    if (this.getView() != null) {
+		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
+		if (character.getFaction_id().equals(Faction.VS)) {
+		    faction.setImageResource(R.drawable.icon_faction_vs);
+		} else if (character.getFaction_id().equals(Faction.NC)) {
+		    faction.setImageResource(R.drawable.icon_faction_nc);
+		} else if (character.getFaction_id().equals(Faction.TR)) {
+		    faction.setImageResource(R.drawable.icon_faction_tr);
 		}
-	    } else {
-		((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
+
+		TextView initialBR = ((TextView) getActivity().findViewById(R.id.textViewCurrentRank));
+		initialBR.setText(Integer.toString(character.getBattle_rank().getValue()));
+		initialBR.setTextColor(Color.BLACK);
+
+		TextView nextBR = ((TextView) getActivity().findViewById(R.id.textViewNextRank));
+		nextBR.setText(Integer.toString(character.getBattle_rank().getValue() + 1));
+		nextBR.setTextColor(Color.BLACK);
+
+		int progressBR = (character.getBattle_rank().getPercent_to_next());
+		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileBRProgress)).setProgress((int) (progressBR));
+
+		Float progressCerts = Float.parseFloat(character.getCerts().getPercent_to_next());
+		((ProgressBar) getActivity().findViewById(R.id.progressBarProfileCertsProgress)).setProgress((int) (progressCerts * 100));
+		TextView certs = ((TextView) getActivity().findViewById(R.id.textViewProfileCertsValue));
+		certs.setText(character.getCerts().getAvailable_points());
+
+		TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
+		String onlineStatusText = "UNKOWN";
+		if (character.getOnline_status() == 0) {
+		    onlineStatusText = "OFFLINE";
+		    loginStatus.setText(onlineStatusText);
+		    loginStatus.setTextColor(Color.RED);
+		} else {
+		    onlineStatusText = "ONLINE";
+		    loginStatus.setText(onlineStatusText);
+		    loginStatus.setTextColor(Color.GREEN);
+		}
+
+		((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
+			.getMinutes_played()) / 60)));
+
+		PrettyTime p = new PrettyTime();
+		String lastLogin = p.format(new Date(Long.parseLong(character.getTimes().getLast_login()) * 1000));
+
+		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
+
+		if (character.getOutfitName() == null) {
+		    if (character.getOutfit() == null) {
+			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
+		    } else {
+			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfit().getName());
+		    }
+		} else {
+		    ((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
+		}
+
+		if (character.getServer() != null) {
+		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(character.getServer().getName().getEn());
+		} else {
+		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
+		}
+
 	    }
 
-	    if (character.getServer() != null) {
-		((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(character.getServer().getName().getEn());
+	    this.fragmentStar.setOnCheckedChangeListener(null);
+	    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+	    String preferedProfileId = settings.getString("preferedProfile", "");
+	    if (preferedProfileId.equals(character.getCharacterId())) {
+		this.fragmentStar.setChecked(true);
 	    } else {
-		((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
+		this.fragmentStar.setChecked(false);
 	    }
 
+	    this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+		    SharedPreferences.Editor editor = settings.edit();
+		    if (isChecked) {
+			editor.putString("preferedProfile", profile.getCharacterId());
+			editor.putString("preferedProfileName", profile.getName().getFirst());
+		    } else {
+			editor.putString("preferedProfileName", "");
+			editor.putString("preferedProfile", "");
+		    }
+		    editor.commit();
+		    getActivityContainer().checkPreferedButtons();
+		}
+	    });
+
+	    this.fragmentAppend.setOnCheckedChangeListener(null);
+	    this.fragmentAppend.setChecked(isCached);
+	    this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		    if (isChecked) {
+			CacheProfile task = new CacheProfile();
+			setCurrentTask(task);
+			task.execute(profile);
+		    } else {
+			UnCacheProfile task = new UnCacheProfile();
+			setCurrentTask(task);
+			task.execute(profile);
+		    }
+		}
+	    });
+	} catch (NullPointerException e) {
+	    Logger.log(Log.ERROR, this, "Null Pointer while trying to set character data on UI");
 	}
-
-	this.fragmentStar.setOnCheckedChangeListener(null);
-	this.fragmentStar.setVisibility(View.VISIBLE);
-	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-	String preferedProfileId = settings.getString("preferedProfile", "");
-	if (preferedProfileId.equals(character.getCharacterId())) {
-	    this.fragmentStar.setChecked(true);
-	} else {
-	    this.fragmentStar.setChecked(false);
-	}
-
-	this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-		SharedPreferences.Editor editor = settings.edit();
-		if (isChecked) {
-		    editor.putString("preferedProfile", profile.getCharacterId());
-		    editor.putString("preferedProfileName", profile.getName().getFirst());
-		} else {
-		    editor.putString("preferedProfileName", "");
-		    editor.putString("preferedProfile", "");
-		}
-		editor.commit();
-		getActivityContainer().checkPreferedButtons();
-	    }
-	});
-
-	this.fragmentAppend.setOnCheckedChangeListener(null);
-	this.fragmentAppend.setVisibility(View.VISIBLE);
-	this.fragmentAppend.setChecked(isCached);
-	this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-		    CacheProfile task = new CacheProfile();
-		    currentTask = task;
-		    task.execute(profile);
-		} else {
-		    UnCacheProfile task = new UnCacheProfile();
-		    currentTask = task;
-		    task.execute(profile);
-		}
-	    }
-	});
     }
 
     public void downloadProfiles(String character_id) {
@@ -214,7 +218,7 @@ public class FragmentProfile extends BaseFragment {
 			profile.setCached(isCached);
 			updateUI(profile);
 			UpdateProfileToTable task = new UpdateProfileToTable();
-			currentTask = task;
+			setCurrentTask(task);
 			task.execute(profile);
 		    } catch (Exception e) {
 			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();

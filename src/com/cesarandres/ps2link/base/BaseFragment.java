@@ -31,8 +31,8 @@ public abstract class BaseFragment extends Fragment {
 
     protected FragmentCallbacks mCallbacks = emptyCallbacks;
 
-    protected AsyncTask currentTask;
-    
+    private AsyncTask currentTask;
+
     protected Button fragmentTitle;
     protected ProgressBar fragmentProgress;
     protected ImageButton fragmentUpdate;
@@ -161,7 +161,7 @@ public abstract class BaseFragment extends Fragment {
 	Logger.log(Log.INFO, this, "Fragment onStop");
 	super.onStop();
 	ApplicationPS2Link.volley.cancelAll(this);
-	if(currentTask != null){
+	if (currentTask != null) {
 	    currentTask.cancel(true);
 	}
     }
@@ -215,10 +215,10 @@ public abstract class BaseFragment extends Fragment {
 	}
     }
 
-    protected ActivityContainer getActivityContainer(){
+    protected ActivityContainer getActivityContainer() {
 	return (ActivityContainer) getActivity();
     }
-    
+
     /**
      * @author Cesar Ramirez
      * 
@@ -228,6 +228,13 @@ public abstract class BaseFragment extends Fragment {
      */
     public interface FragmentCallbacks {
 	public void onItemSelected(String id, String args[]);
+    }
+
+    public void setCurrentTask(AsyncTask currentTask) {
+	if (this.currentTask != null) {
+	    this.currentTask.cancel(true);
+	}
+	this.currentTask = currentTask;
     }
 
 }

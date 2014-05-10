@@ -78,12 +78,13 @@ public class FragmentServerList extends BaseFragment {
 	    }
 	});
 
-	this.currentTask = new ReadServerTable();
-	((ReadServerTable) this.currentTask).execute();
+	ReadServerTable task = new ReadServerTable();
+	setCurrentTask(task);
+	task.execute();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_SERVER_LIST);
     }
@@ -100,9 +101,10 @@ public class FragmentServerList extends BaseFragment {
 		public void onResponse(Server_response response) {
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
 		    listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
-		    currentTask = new UpdateServerTable();
+		    UpdateServerTable task = new UpdateServerTable();
+		    setCurrentTask(task);
 		    setProgressButton(true);
-		    ((UpdateServerTable) currentTask).execute(response.getWorld_list());
+		    task.execute(response.getWorld_list());
 		}
 	    };
 

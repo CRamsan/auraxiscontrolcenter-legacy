@@ -58,7 +58,6 @@ public class FragmentOutfitPager extends BaseFragment {
 	}
 
 	outfitId = extras.getString("PARAM_0");
-
 	return root;
     }
 
