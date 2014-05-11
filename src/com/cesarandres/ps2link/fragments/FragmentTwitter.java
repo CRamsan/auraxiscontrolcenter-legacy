@@ -20,8 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 
-import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
@@ -30,7 +30,9 @@ import com.cesarandres.ps2link.soe.util.Logger;
 import com.cesarandres.ps2link.soe.view.TwitterItemAdapter;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez Fragment that retrieves the Twitter feed for several
+ *         users planetside 2 related. It also has UI to show and hide some
+ *         users.
  */
 public class FragmentTwitter extends BaseFragment {
 
@@ -49,11 +51,28 @@ public class FragmentTwitter extends BaseFragment {
 
     private boolean loaded = false;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	// Inflate the layout for this fragment
+	return inflater.inflate(R.layout.fragment_twitter, container, false);
+    }
 
-	View root = inflater.inflate(R.layout.fragment_twitter, container, false);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	this.fragmentTitle.setText(getString(R.string.title_twitter));
 
 	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 
@@ -63,61 +82,54 @@ public class FragmentTwitter extends BaseFragment {
 	    }
 	};
 
-	CheckBox mhigby = ((CheckBox) root.findViewById(R.id.checkBoxTwitterMhigby));
+	CheckBox mhigby = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMhigby));
 	mhigby.setChecked(settings.getBoolean(MHIGBY, false));
 	mhigby.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox planetside = ((CheckBox) root.findViewById(R.id.checkBoxTwitterPlanetside));
+	CheckBox planetside = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPlanetside));
 	planetside.setChecked(settings.getBoolean(PLANETSIDE2, false));
 	planetside.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox ps2deals = ((CheckBox) root.findViewById(R.id.checkBoxTwitterPS2Deals));
+	CheckBox ps2deals = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPS2Deals));
 	ps2deals.setChecked(settings.getBoolean(PS2DEALS, false));
 	ps2deals.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox purrfectStorm = ((CheckBox) root.findViewById(R.id.checkBoxTwitterPurrfectstorm));
+	CheckBox purrfectStorm = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPurrfectstorm));
 	purrfectStorm.setChecked(settings.getBoolean(PURRFECTSTORM, false));
 	purrfectStorm.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox pstrayStorm = ((CheckBox) root.findViewById(R.id.checkBoxTwitterPSTray));
+	CheckBox pstrayStorm = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPSTray));
 	pstrayStorm.setChecked(settings.getBoolean(PSTRAY, false));
 	pstrayStorm.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox planetsideeu = ((CheckBox) root.findViewById(R.id.checkBoxTwitterPlanetsideEU));
+	CheckBox planetsideeu = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterPlanetsideEU));
 	planetsideeu.setChecked(settings.getBoolean(PLANETSIDE2EU, false));
 	planetsideeu.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox radarx = ((CheckBox) root.findViewById(R.id.checkBoxTwitterRadarx));
+	CheckBox radarx = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterRadarx));
 	radarx.setChecked(settings.getBoolean(RADARX, false));
 	radarx.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox arclegger = ((CheckBox) root.findViewById(R.id.checkBoxTwitterArclegger));
+	CheckBox arclegger = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterArclegger));
 	arclegger.setChecked(settings.getBoolean(ARCLEGGER, false));
 	arclegger.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox muldoonx9 = ((CheckBox) root.findViewById(R.id.checkBoxTwitterMuldoonx9));
+	CheckBox muldoonx9 = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMuldoonx9));
 	muldoonx9.setChecked(settings.getBoolean(MULDOONX9, false));
 	muldoonx9.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox tayradactyl = ((CheckBox) root.findViewById(R.id.checkBoxTwitterTayradactyl));
+	CheckBox tayradactyl = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterTayradactyl));
 	tayradactyl.setChecked(settings.getBoolean(TAYRADACTYL, false));
 	tayradactyl.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox xander = ((CheckBox) root.findViewById(R.id.checkBoxTwitterXanderClauss));
+	CheckBox xander = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXanderClauss));
 	xander.setChecked(settings.getBoolean(XANDER, false));
 	xander.setOnCheckedChangeListener(updateTweetLitener);
 
-	CheckBox malorn = ((CheckBox) root.findViewById(R.id.checkBoxTwitterXalorn));
+	CheckBox malorn = ((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterXalorn));
 	malorn.setChecked(settings.getBoolean(XANDER, false));
 	malorn.setOnCheckedChangeListener(updateTweetLitener);
 
-	return root;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	this.fragmentTitle.setText(getString(R.string.title_twitter));
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		ArrayList<String> usersnames = new ArrayList<String>();
@@ -184,6 +196,11 @@ public class FragmentTwitter extends BaseFragment {
 	}
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
     @Override
     public void onResume() {
 	super.onResume();
@@ -191,12 +208,23 @@ public class FragmentTwitter extends BaseFragment {
 	updateTweets();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 	super.onSaveInstanceState(savedInstanceState);
 	savedInstanceState.putBoolean("twitterLoader", loaded);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onDestroyView()
+     */
     @Override
     public void onDestroyView() {
 	super.onDestroyView();
@@ -218,6 +246,9 @@ public class FragmentTwitter extends BaseFragment {
 	editor.commit();
     }
 
+    /**
+     * Check the UI and update the content based on the selected users
+     */
     private void updateTweets() {
 	ArrayList<String> usersnames = new ArrayList<String>();
 	if (((CheckBox) getActivity().findViewById(R.id.checkBoxTwitterMhigby)).isChecked()) {
@@ -261,6 +292,10 @@ public class FragmentTwitter extends BaseFragment {
 	updateContent(stringArray);
     }
 
+    /**
+     * @param users
+     *            list of users to read from the database
+     */
     private void updateContent(String[] users) {
 	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewTweetList);
 	listRoot.setOnItemClickListener(new OnItemClickListener() {
@@ -277,13 +312,28 @@ public class FragmentTwitter extends BaseFragment {
 	listRoot.setAdapter(new TwitterItemAdapter(getActivity(), users, data));
     }
 
+    /**
+     * @author Cesar Ramirez Task that will update the tweets for the given
+     *         users. The tweets will be cached into the database
+     * 
+     */
     private class UpdateTweetsTask extends AsyncTask<String, Integer, String[]> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected String[] doInBackground(String... users) {
 	    ArrayList<PS2Tweet> tweetList = new ArrayList<PS2Tweet>(0);
@@ -306,17 +356,17 @@ public class FragmentTwitter extends BaseFragment {
 	    return users;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(String[] result) {
 	    if (result != null) {
 		updateTweets();
 	    }
 	    setProgressButton(false);
-	    loaded = true;
-	}
-
-	@Override
-	protected void onCancelled() {
 	    loaded = true;
 	}
     }

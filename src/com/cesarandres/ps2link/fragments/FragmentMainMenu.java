@@ -1,7 +1,5 @@
 package com.cesarandres.ps2link.fragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -29,34 +26,6 @@ import com.cesarandres.ps2link.module.BitmapWorkerTask;
  */
 public class FragmentMainMenu extends BaseFragment {
 
-    private Button buttonCharacters;
-    private Button buttonServers;
-    private Button buttonOutfit;
-    private Button buttonTwitter;
-    private Button buttonNews;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.cesarandres.ps2link.base.BaseFragment#onAttach(android.app.Activity)
-     */
-    @Override
-    public void onAttach(Activity activity) {
-	super.onAttach(activity);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.cesarandres.ps2link.base.BaseFragment#onCreate(android.os.Bundle)
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -65,13 +34,27 @@ public class FragmentMainMenu extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	View root = inflater.inflate(R.layout.fragment_main_menu, container, false);
+	return inflater.inflate(R.layout.fragment_main_menu, container, false);
+    }
 
-	this.buttonCharacters = (Button) root.findViewById(R.id.buttonCharacters);
-	this.buttonServers = (Button) root.findViewById(R.id.buttonServers);
-	this.buttonOutfit = (Button) root.findViewById(R.id.buttonOutfit);
-	this.buttonNews = (Button) root.findViewById(R.id.buttonNews);
-	this.buttonTwitter = (Button) root.findViewById(R.id.buttonTwitter);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+
+	this.fragmentTitle.setText(getString(R.string.app_name_capital));
+
+	Button buttonCharacters = (Button) getActivity().findViewById(R.id.buttonCharacters);
+	Button buttonServers = (Button) getActivity().findViewById(R.id.buttonServers);
+	Button buttonOutfit = (Button) getActivity().findViewById(R.id.buttonOutfit);
+	Button buttonNews = (Button) getActivity().findViewById(R.id.buttonNews);
+	Button buttonTwitter = (Button) getActivity().findViewById(R.id.buttonTwitter);
 
 	buttonCharacters.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -98,22 +81,6 @@ public class FragmentMainMenu extends BaseFragment {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_TWITTER.toString(), null);
 	    }
 	});
-
-	return root;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
-     * .Bundle)
-     */
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-
-	this.fragmentTitle.setText(getString(R.string.app_name_capital));
 
 	final ImageButton buttonPS2Background = (ImageButton) getActivity().findViewById(R.id.buttonPS2);
 	buttonPS2Background.setOnClickListener(new View.OnClickListener() {
@@ -165,8 +132,6 @@ public class FragmentMainMenu extends BaseFragment {
 		editor.commit();
 	    }
 	});
-
-	fragmentTitle.setCompoundDrawables(null, null, null, null);
     }
 
     /*
@@ -180,6 +145,11 @@ public class FragmentMainMenu extends BaseFragment {
 	checkPreferedButtons();
     }
 
+    /**
+     * This function will check the preferences to see if any profile or outfit
+     * has been set as preferred. If any has been set then the respective button
+     * will be displayed, they will be hidden otherwise.
+     */
     public void checkPreferedButtons() {
 	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 
@@ -189,7 +159,6 @@ public class FragmentMainMenu extends BaseFragment {
 	if (!preferedProfileId.equals("")) {
 	    buttonPreferedProfile.setOnClickListener(new View.OnClickListener() {
 		public void onClick(View v) {
-
 		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
 			    new String[] { settings.getString("preferedProfile", "") });

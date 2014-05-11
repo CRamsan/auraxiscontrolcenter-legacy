@@ -1,7 +1,5 @@
 package com.cesarandres.ps2link.fragments;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -19,13 +17,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -39,10 +35,19 @@ import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.Logger;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez This fragment will read a profile from the database and
+ *         display it to the user. It will then try to update the data by doing
+ *         a query to the API
+ */
+/**
+ * @author Cesar Ramirez
+ *
+ */
+/**
+ * @author Cesar Ramirez
+ * 
  */
 public class FragmentProfile extends BaseFragment {
 
@@ -50,11 +55,13 @@ public class FragmentProfile extends BaseFragment {
     private CharacterProfile profile;
     private String profileId;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
@@ -64,27 +71,23 @@ public class FragmentProfile extends BaseFragment {
 	task.execute(this.profileId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	super.onCreateView(inflater, container, savedInstanceState);
-	View root = inflater.inflate(R.layout.fragment_profile, container, false);
-	return root;
+	return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    @Override
-    public void onResume() {
-	super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-	super.onPause();
-    }
-
+    /**
+     * @param character
+     *            Character that contains all the data to populate the UI
+     */
     private void updateUI(CharacterProfile character) {
-
 	this.fragmentTitle.setText(character.getName().getFirst());
-
 	try {
 	    if (this.getView() != null) {
 		ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewProfileFaction));
@@ -191,82 +194,89 @@ public class FragmentProfile extends BaseFragment {
 		}
 	    });
 	} catch (NullPointerException e) {
+	    // TODO Check when this error happens
 	    Logger.log(Log.ERROR, this, "Null Pointer while trying to set character data on UI");
 	}
     }
 
+    /**
+     * @param character_id
+     *            Character id of the character that wants to be download
+     */
     public void downloadProfiles(String character_id) {
-
 	this.setProgressButton(true);
-	URL url;
-	try {
-	    url = SOECensus.generateGameDataRequest(
-		    Verb.GET,
-		    Game.PS2V2,
-		    PS2Collection.CHARACTER,
-		    character_id,
-		    QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world,online_status")
-			    .AddCommand(QueryCommand.JOIN, "type:world^inject_at:server"));
-	    Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
-		@Override
-		public void onResponse(Character_list_response response) {
-		    try {
-			profile = response.getCharacter_list().get(0);
-			setProgressButton(false);
-			profile.setCached(isCached);
-			updateUI(profile);
-			UpdateProfileToTable task = new UpdateProfileToTable();
-			setCurrentTask(task);
-			task.execute(profile);
-		    } catch (Exception e) {
-			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-		    }
-		}
-	    };
+	String url = SOECensus.generateGameDataRequest(
+		Verb.GET,
+		Game.PS2V2,
+		PS2Collection.CHARACTER,
+		character_id,
+		QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world,online_status")
+			.AddCommand(QueryCommand.JOIN, "type:world^inject_at:server")).toString();
+	Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
+	    @Override
+	    public void onResponse(Character_list_response response) {
+		profile = response.getCharacter_list().get(0);
+		setProgressButton(false);
+		profile.setCached(isCached);
+		updateUI(profile);
+		UpdateProfileToTable task = new UpdateProfileToTable();
+		setCurrentTask(task);
+		task.execute(profile);
+	    }
+	};
 
-	    ErrorListener error = new Response.ErrorListener() {
-		@Override
-		public void onErrorResponse(VolleyError error) {
-		    error.equals(new Object());
-		    setProgressButton(false);
-		}
-	    };
+	ErrorListener error = new Response.ErrorListener() {
+	    @Override
+	    public void onErrorResponse(VolleyError error) {
+		// TODO Add toast
+		setProgressButton(false);
+	    }
+	};
 
-	    GsonRequest<Character_list_response> gsonOject = new GsonRequest<Character_list_response>(url.toString(), Character_list_response.class, null,
-		    success, error);
-	    gsonOject.setTag(this);
-	    ApplicationPS2Link.volley.add(gsonOject);
-	} catch (MalformedURLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	SOECensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
     }
 
+    /**
+     * @author Cesar Ramirez Read the profile from the database and update the
+     *         UI
+     */
     private class UpdateProfileFromTable extends AsyncTask<String, Integer, CharacterProfile> {
 
 	private String profile_id;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected CharacterProfile doInBackground(String... args) {
 	    this.profile_id = args[0];
 	    ObjectDataSource data = getActivityContainer().getData();
 	    CharacterProfile profile = data.getCharacter(this.profile_id);
-	    try {
-		if (profile == null) {
-		    isCached = false;
-		} else {
-		    isCached = profile.isCached();
-		}
-	    } finally {
+	    if (profile == null) {
+		isCached = false;
+	    } else {
+		isCached = profile.isCached();
 	    }
 	    return profile;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
 	    setProgressButton(false);
@@ -280,13 +290,26 @@ public class FragmentProfile extends BaseFragment {
 	}
     }
 
+    /**
+     * @author Cesar Ramirez Save the profile to the database
+     */
     private class UpdateProfileToTable extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    CharacterProfile profile = null;
@@ -300,19 +323,38 @@ public class FragmentProfile extends BaseFragment {
 	    return profile;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
 	    setProgressButton(false);
 	}
     }
 
+    /**
+     * @author Cesar Ramirez Save the profile in the database and set it as not
+     *         temporary
+     */
     private class CacheProfile extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    CharacterProfile profile = args[0];
@@ -330,6 +372,11 @@ public class FragmentProfile extends BaseFragment {
 	    return profile;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
 	    profile = result;
@@ -338,13 +385,27 @@ public class FragmentProfile extends BaseFragment {
 	}
     }
 
+    /**
+     * @author Cesar Ramirez Update the database profile and set the profile as
+     *         temporary
+     */
     private class UnCacheProfile extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected CharacterProfile doInBackground(CharacterProfile... args) {
 	    ObjectDataSource data = getActivityContainer().getData();
@@ -358,6 +419,11 @@ public class FragmentProfile extends BaseFragment {
 	    return profile;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(CharacterProfile result) {
 	    profile = result;

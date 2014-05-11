@@ -9,13 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
-import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -23,32 +19,30 @@ import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez This fragment will read and display all the outfits
+ *         that have been set as non-temporary in the database.
+ * 
  */
 public class FragmentOutfitList extends BaseFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	super.onCreateView(inflater, container, savedInstanceState);
-	View root = inflater.inflate(R.layout.fragment_outfit_list, container, false);
-
-	ListView listRoot = (ListView) root.findViewById(R.id.listViewOutfitList);
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
-			new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id() });
-	    }
-	});
-
-	return root;
+	return inflater.inflate(R.layout.fragment_outfit_list, container, false);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
@@ -63,9 +57,22 @@ public class FragmentOutfitList extends BaseFragment {
 		new ReadOutfitsTable().execute();
 	    }
 	});
+	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewOutfitList);
+	listRoot.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
+			new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id() });
+	    }
+	});
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
     @Override
     public void onResume() {
 	super.onResume();
@@ -77,18 +84,24 @@ public class FragmentOutfitList extends BaseFragment {
 	task.execute();
     }
 
-    @Override
-    public void onDestroyView() {
-	super.onDestroyView();
-    }
-
+    /**
+     * @author Cesar Ramirez This task will read all outfits that have not been
+     *         set as temporary in the database
+     * 
+     */
     private class ReadOutfitsTable extends AsyncTask<Integer, Integer, ArrayList<Outfit>> {
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected ArrayList<Outfit> doInBackground(Integer... params) {
 	    ArrayList<Outfit> outfitList = new ArrayList<Outfit>();
@@ -97,6 +110,9 @@ public class FragmentOutfitList extends BaseFragment {
 	    return outfitList;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(ArrayList<Outfit> result) {
 	    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewOutfitList);

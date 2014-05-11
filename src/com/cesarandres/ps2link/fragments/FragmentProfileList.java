@@ -2,7 +2,6 @@ package com.cesarandres.ps2link.fragments;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 
-import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -25,31 +20,29 @@ import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez Fragment that reads the profiles from the database that
+ *         have been set as not temporary
  */
 public class FragmentProfileList extends BaseFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	// Inflate the layout for this fragment
-	View root = inflater.inflate(R.layout.fragment_profile_list, container, false);
-
-	ListView listRoot = (ListView) root.findViewById(R.id.listViewProfileList);
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
-	    }
-	});
-	return root;
+	return inflater.inflate(R.layout.fragment_profile_list, container, false);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
@@ -66,14 +59,22 @@ public class FragmentProfileList extends BaseFragment {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ADD_PROFILE.toString(), null);
 	    }
 	});
+	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewProfileList);
+	listRoot.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+			new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
+	    }
+	});
 
     }
 
-    @Override
-    public void onPause() {
-	super.onPause();
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
     @Override
     public void onResume() {
 	super.onResume();
@@ -85,30 +86,38 @@ public class FragmentProfileList extends BaseFragment {
 	task.execute();
     }
 
-    @Override
-    public void onDestroyView() {
-	super.onDestroyView();
-    }
-
+    /**
+     * @author Cesar Ramirez Reads the profiles in the database that are set as
+     *         non temporary
+     */
     private class ReadProfilesTable extends AsyncTask<Integer, Integer, ArrayList<CharacterProfile>> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected ArrayList<CharacterProfile> doInBackground(Integer... params) {
 	    ArrayList<CharacterProfile> tmpProfileList = null;
-	    try {
-		ObjectDataSource data = getActivityContainer().getData();
-		tmpProfileList = data.getAllCharacterProfiles(false);
-	    } catch (Exception e) {
-		return null;
-	    }
+	    ObjectDataSource data = getActivityContainer().getData();
+	    tmpProfileList = data.getAllCharacterProfiles(false);
 	    return tmpProfileList;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(ArrayList<CharacterProfile> result) {
 	    if (result != null) {

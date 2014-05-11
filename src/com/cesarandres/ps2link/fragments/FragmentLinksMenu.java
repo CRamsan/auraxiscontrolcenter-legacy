@@ -1,6 +1,5 @@
 package com.cesarandres.ps2link.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,32 +8,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez This fragment contains a list of buttons to different
+ *         webapges. Each button will send an intent to open the page.
+ * 
  */
 public class FragmentLinksMenu extends BaseFragment {
 
-    @Override
-    public void onAttach(Activity activity) {
-	super.onAttach(activity);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	return inflater.inflate(R.layout.fragment_links_menu, container, false);
+    }
 
-	// Inflate the layout for this fragment
-	View root = inflater.inflate(R.layout.fragment_links_menu, container, false);
-
-	final Button buttonForums = (Button) root.findViewById(R.id.buttonForums);
+    /* (non-Javadoc)
+     * @see com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os.Bundle)
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	this.fragmentTitle.setText(getString(R.string.title_links));
+	final Button buttonForums = (Button) getActivity().findViewById(R.id.buttonForums);
 	buttonForums.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "https://forums.station.sony.com/ps2/index.php";
@@ -44,7 +47,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonReddit = (Button) root.findViewById(R.id.buttonReddit);
+	final Button buttonReddit = (Button) getActivity().findViewById(R.id.buttonReddit);
 	buttonReddit.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://www.reddit.com/r/Planetside/";
@@ -54,7 +57,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonPSU = (Button) root.findViewById(R.id.buttonPSU);
+	final Button buttonPSU = (Button) getActivity().findViewById(R.id.buttonPSU);
 	buttonPSU.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://www.planetside-universe.com/";
@@ -64,7 +67,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonWikia = (Button) root.findViewById(R.id.buttonWikia);
+	final Button buttonWikia = (Button) getActivity().findViewById(R.id.buttonWikia);
 	buttonWikia.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://planetside.wikia.com/wiki/PlanetSide_2_Wiki";
@@ -74,7 +77,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonPS2Maps = (Button) root.findViewById(R.id.buttonPS2Maps);
+	final Button buttonPS2Maps = (Button) getActivity().findViewById(R.id.buttonPS2Maps);
 	buttonPS2Maps.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://ps2maps.com/";
@@ -84,7 +87,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonLore = (Button) root.findViewById(R.id.buttonLore);
+	final Button buttonLore = (Button) getActivity().findViewById(R.id.buttonLore);
 	buttonLore.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://www.reddit.com/r/Planetsidelore/";
@@ -94,7 +97,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonCommClash = (Button) root.findViewById(R.id.buttonCommClash);
+	final Button buttonCommClash = (Button) getActivity().findViewById(R.id.buttonCommClash);
 	buttonCommClash.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://ps2commclash.com/";
@@ -104,7 +107,7 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonPS2Alerts = (Button) root.findViewById(R.id.buttonPS2Alerts);
+	final Button buttonPS2Alerts = (Button) getActivity().findViewById(R.id.buttonPS2Alerts);
 	buttonPS2Alerts.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		String url = "http://ps2alerts.com/";
@@ -114,24 +117,14 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	return root;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	this.fragmentTitle.setText(getString(R.string.title_links));
-    }
-
+    /* (non-Javadoc)
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
     @Override
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
     }
-
-    @Override
-    public void onPause() {
-	super.onPause();
-    }
-
 }

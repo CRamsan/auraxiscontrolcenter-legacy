@@ -1,13 +1,10 @@
 package com.cesarandres.ps2link.fragments;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +13,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -41,10 +34,12 @@ import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.MemberItemAdapter;
-import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez Fargment that will retrieve and display all the members
+ *         of an outfit in alphabetical order. This fragment allows to display
+ *         online member or all members.
+ * 
  */
 public class FragmentMembersList extends BaseFragment {
 
@@ -53,34 +48,30 @@ public class FragmentMembersList extends BaseFragment {
     private int outfitSize;
     private String outfitId;
     private String outfitName;
-    public static final int SUCCESS = 0;
-    public static final int FAILED = 1;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	View root = inflater.inflate(R.layout.fragment_member_list, container, false);
-
-	ListView listRoot = (ListView) root.findViewById(R.id.listViewMemberList);
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
-	    }
-	});
-
-	return root;
+	return inflater.inflate(R.layout.fragment_member_list, container, false);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 
+	// Check if outfit data has already been loaded
 	if (savedInstanceState == null) {
 	    UpdateOutfitFromTable task = new UpdateOutfitFromTable();
 	    this.outfitId = getArguments().getString("PARAM_0");
@@ -93,23 +84,61 @@ public class FragmentMembersList extends BaseFragment {
 	    this.shownOffline = savedInstanceState.getBoolean("showOffline");
 	}
 
+	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewMemberList);
+	listRoot.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+			new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
+	    }
+	});
+
+	this.fragmentShowOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+	    @Override
+	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		shownOffline = isChecked;
+		updateContent();
+	    }
+	});
+
+	this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (outfitId != null && outfitName != null) {
+		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+		    SharedPreferences.Editor editor = settings.edit();
+		    if (isChecked) {
+			editor.putString("preferedOutfit", outfitId);
+			editor.putString("preferedOutfitName", outfitName);
+		    } else {
+			editor.putString("preferedOutfit", "");
+			editor.putString("preferedOutfitName", "");
+		    }
+		    editor.commit();
+		    getActivityContainer().checkPreferedButtons();
+		}
+	    }
+	});
+
 	this.fragmentTitle.setText(outfitName);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
     @Override
     public void onResume() {
 	super.onResume();
-	if (outfitId != null) {
-	    downloadOutfitMembers();
-	}
-
+	downloadOutfitMembers();
     }
 
-    @Override
-    public void onPause() {
-	super.onPause();
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 	super.onSaveInstanceState(savedInstanceState);
@@ -119,136 +148,124 @@ public class FragmentMembersList extends BaseFragment {
 	savedInstanceState.putBoolean("showOffline", shownOffline);
     }
 
+    /**
+     * This method will retrieve the members for the given outfit_id and it will
+     * start a task to cache that data
+     */
     public void downloadOutfitMembers() {
 	setProgressButton(true);
-	URL url;
-	try {
-	    url = SOECensus.generateGameDataRequest(
-		    Verb.GET,
-		    Game.PS2V2,
-		    PS2Collection.OUTFIT,
-		    "",
-		    QueryString.generateQeuryString().AddComparison("outfit_id", SearchModifier.EQUALS, this.outfitId)
-			    .AddCommand(QueryCommand.RESOLVE, "member_online_status,member,member_character(name,type.faction)"));
+	String url = SOECensus.generateGameDataRequest(
+		Verb.GET,
+		Game.PS2V2,
+		PS2Collection.OUTFIT,
+		"",
+		QueryString.generateQeuryString().AddComparison("outfit_id", SearchModifier.EQUALS, this.outfitId)
+			.AddCommand(QueryCommand.RESOLVE, "member_online_status,member,member_character(name,type.faction)")).toString();
 
-	    Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
-		@Override
-		public void onResponse(Outfit_member_response response) {
-		    try {
-			UpdateMembers task = new UpdateMembers();
-			setProgressButton(false);
-			setCurrentTask(task);
-			task.execute(response.getOutfit_list().get(0).getMembers());
-		    } catch (Exception e) {
-			Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-		    }
-		}
-	    };
-
-	    ErrorListener error = new Response.ErrorListener() {
-		@Override
-		public void onErrorResponse(VolleyError error) {
-		    error.equals(new Object());
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
-		    setProgressButton(false);
-		}
-	    };
-
-	    GsonRequest<Outfit_member_response> gsonOject = new GsonRequest<Outfit_member_response>(url.toString(), Outfit_member_response.class, null,
-		    success, error);
-	    gsonOject.setTag(this);
-	    ApplicationPS2Link.volley.add(gsonOject);
-	} catch (MalformedURLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-    }
-
-    private void updateContent() {
-	if (this.outfitId != null) {
-	    ListView listRoot = (ListView) getView().findViewById(R.id.listViewMemberList);
-	    ObjectDataSource data = getActivityContainer().getData();
-	    listRoot.setAdapter(new MemberItemAdapter(getActivity(), outfitId, data, isCached, shownOffline));
-
-	    listRoot.setOnItemClickListener(new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			    new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
-		}
-	    });
-
-	    this.fragmentShowOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		    shownOffline = isChecked;
-		    updateContent();
-		}
-	    });
-
-	    this.fragmentAppend.setOnCheckedChangeListener(null);
-	    this.fragmentAppend.setChecked(isCached);
-	    this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		    if (isChecked) {
-			CacheOutfit task = new CacheOutfit();
-			setCurrentTask(task);
-			task.execute(outfitId);
-		    } else {
-			UnCacheOutfit task = new UnCacheOutfit();
-			setCurrentTask(task);
-			task.execute(outfitId);
-		    }
-		}
-	    });
-
-	    this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		    if (outfitId != null && outfitName != null) {
-			SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-			SharedPreferences.Editor editor = settings.edit();
-			if (isChecked) {
-			    editor.putString("preferedOutfit", outfitId);
-			    editor.putString("preferedOutfitName", outfitName);
-			} else {
-			    editor.putString("preferedOutfit", "");
-			    editor.putString("preferedOutfitName", "");
-			}
-			editor.commit();
-			getActivityContainer().checkPreferedButtons();
-		    }
-		}
-	    });
-
-	    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-	    String preferedOutfitId = settings.getString("preferedOutfit", "");
-	    if (preferedOutfitId.equals(outfitId)) {
-		this.fragmentStar.setChecked(true);
-	    } else {
-		this.fragmentStar.setChecked(false);
+	Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
+	    @Override
+	    public void onResponse(Outfit_member_response response) {
+		setProgressButton(false);
+		UpdateMembers task = new UpdateMembers();
+		setCurrentTask(task);
+		ArrayList<Member> list = response.getOutfit_list().get(0).getMembers();
+		// Check this warning
+		task.execute(list);
 	    }
+	};
+
+	ErrorListener error = new Response.ErrorListener() {
+	    @Override
+	    public void onErrorResponse(VolleyError error) {
+		// TODO Add toast
+		setProgressButton(false);
+	    }
+	};
+	SOECensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);
+    }
+
+    /**
+     * This method will set the adapter that will read outfit members from the
+     * database
+     */
+    private void updateContent() {
+	ListView listRoot = (ListView) getView().findViewById(R.id.listViewMemberList);
+	ObjectDataSource data = getActivityContainer().getData();
+	listRoot.setAdapter(new MemberItemAdapter(getActivity(), outfitId, data, isCached, shownOffline));
+
+	listRoot.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+			new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
+	    }
+	});
+
+	this.fragmentAppend.setOnCheckedChangeListener(null);
+	this.fragmentAppend.setChecked(isCached);
+	this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (isChecked) {
+		    CacheOutfit task = new CacheOutfit();
+		    setCurrentTask(task);
+		    task.execute(outfitId, "true");
+		} else {
+		    CacheOutfit task = new CacheOutfit();
+		    setCurrentTask(task);
+		    task.execute(outfitId, "false");
+		}
+	    }
+	});
+
+	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+	String preferedOutfitId = settings.getString("preferedOutfit", "");
+	if (preferedOutfitId.equals(outfitId)) {
+	    this.fragmentStar.setChecked(true);
+	} else {
+	    this.fragmentStar.setChecked(false);
 	}
     }
 
+    /**
+     * @author Cesar Ramirez
+     * 
+     *         This Async task will read the members of the outfit and some
+     *         other outfit information from the database. This is useful to
+     *         show the user with some information while the network calls are
+     *         retrieving more up to date information
+     * 
+     */
     public class UpdateOutfitFromTable extends AsyncTask<String, Integer, Outfit> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected Outfit doInBackground(String... args) {
 	    Outfit outfit = null;
 	    ObjectDataSource data = getActivityContainer().getData();
-	    try {
-		outfit = data.getOutfit(args[0]);
-		isCached = outfit.isCached();
-	    } catch (Exception e) {
-	    }
+	    outfit = data.getOutfit(args[0]);
+	    isCached = outfit.isCached();
 	    return outfit;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(Outfit result) {
 	    outfitId = result.getOutfit_Id();
@@ -261,34 +278,53 @@ public class FragmentMembersList extends BaseFragment {
 	}
     }
 
+    /**
+     * @author Cesar Ramirez This Async task will replace the old member
+     *         information with new one. The process will remove all previous
+     *         members in the outfit and write the new ones. This task can take
+     *         a long time, specially on big outfits and on old devices
+     * 
+     */
     public class UpdateMembers extends AsyncTask<ArrayList<Member>, Integer, Integer> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected Integer doInBackground(ArrayList<Member>... members) {
 	    ArrayList<Member> newMembers = members[0];
 	    ObjectDataSource data = getActivityContainer().getData();
-	    try {
-		Outfit outfit = data.getOutfit(outfitId);
-		outfit.setMember_count(newMembers.size());
-		data.updateOutfit(outfit, !outfit.isCached());
+	    Outfit outfit = data.getOutfit(outfitId);
+	    outfit.setMember_count(newMembers.size());
+	    data.updateOutfit(outfit, !outfit.isCached());
 
-		data.deleteAllMembers(outfitId);
-		for (Member member : newMembers) {
-		    data.insertMember(member, outfitId, !isCached);
-		    if (isCancelled()) {
-			return null;
-		    }
+	    data.deleteAllMembers(outfitId);
+	    for (Member member : newMembers) {
+		data.insertMember(member, outfitId, !isCached);
+		if (isCancelled()) {
+		    return null;
 		}
-	    } catch (Exception e) {
 	    }
 	    return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(Integer result) {
 	    setProgressButton(false);
@@ -296,8 +332,21 @@ public class FragmentMembersList extends BaseFragment {
 	}
     }
 
+    /**
+     * @author Cesar Ramirez This task will set an outfit as temp or not. The
+     *         first argument needs to be the outfit_id and the second a string
+     *         with true or false, true will save the outfit and display it on
+     *         the outfit list, false will save the outfit in the databse but it
+     *         will not be displayed on the outfit list.
+     * 
+     */
     public class CacheOutfit extends AsyncTask<String, Integer, Integer> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute() {
 	    setProgressButton(true);
@@ -307,47 +356,20 @@ public class FragmentMembersList extends BaseFragment {
 	protected Integer doInBackground(String... args) {
 	    ObjectDataSource data = getActivityContainer().getData();
 	    Outfit outfit = data.getOutfit(args[0]);
-	    try {
-		data.updateOutfit(outfit, false);
-		isCached = true;
-	    } catch (Exception e) {
-		return FAILED;
-	    }
-	    return SUCCESS;
+	    boolean temp = !Boolean.parseBoolean(args[1]);
+	    data.updateOutfit(outfit, temp);
+	    isCached = true;
+	    return 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(Integer result) {
 	    if (isCached) {
-		updateContent();
-	    }
-	    setProgressButton(false);
-	}
-    }
-
-    public class UnCacheOutfit extends AsyncTask<String, Integer, Integer> {
-
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
-
-	@Override
-	protected Integer doInBackground(String... args) {
-	    ObjectDataSource data = getActivityContainer().getData();
-	    try {
-		Outfit outfit = data.getOutfit(args[0]);
-		data.updateOutfit(outfit, true);
-		isCached = false;
-	    } catch (Exception e) {
-		return FAILED;
-	    }
-	    return SUCCESS;
-	}
-
-	@Override
-	protected void onPostExecute(Integer result) {
-	    if (!isCached) {
 		updateContent();
 	    }
 	    setProgressButton(false);
