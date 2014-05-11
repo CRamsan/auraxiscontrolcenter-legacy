@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -53,7 +53,8 @@
             android:id="@+id/networkImageViewTweet"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:focusable="false" />
+            android:focusable="false"
+            tools:ignore="MissingRegistered" />
 
         <TextView
             android:id="@+id/textViewTwitterText"

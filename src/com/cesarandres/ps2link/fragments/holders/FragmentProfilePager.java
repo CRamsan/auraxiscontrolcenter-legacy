@@ -8,27 +8,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.ToggleButton;
 
-import com.cesarandres.ps2link.ApplicationPS2Link;
-import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
 import com.cesarandres.ps2link.fragments.FragmentProfile;
 import com.cesarandres.ps2link.fragments.FragmentStatList;
-import com.cesarandres.ps2link.soe.util.Logger;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez This fragment holds a view pager for all the profile
+ *         related fragments
  */
 public class FragmentProfilePager extends BaseFragment {
 
@@ -41,31 +35,36 @@ public class FragmentProfilePager extends BaseFragment {
     private static final int STATS = 2;
     private static final int KILLBOARD = 3;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onCreate(android.os.Bundle)
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 	if (savedInstanceState != null) {
 	    this.profileName = savedInstanceState.getString("ProfileName");
 	}
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
+     * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	super.onCreateView(inflater, container, savedInstanceState);
-	View root = inflater.inflate(R.layout.fragment_profile_pager, container, false);
-
-	mViewPager = (ViewPager) root.findViewById(R.id.profilePager);
-	mViewPager.setAdapter(mSectionsPagerAdapter);
-
-	Bundle extras = getActivity().getIntent().getExtras();
-	if (extras == null) {
-	    extras = getArguments();
-	}
-	profileId = extras.getString("PARAM_0");
-	return root;
+	return inflater.inflate(R.layout.fragment_profile_pager, container, false);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
     @Override
     public void onResume() {
 	super.onResume();
@@ -73,9 +72,26 @@ public class FragmentProfilePager extends BaseFragment {
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+
+	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+	mViewPager = (ViewPager) getActivity().findViewById(R.id.profilePager);
+	mViewPager.setAdapter(mSectionsPagerAdapter);
+
+	Bundle extras = getActivity().getIntent().getExtras();
+	if (extras == null) {
+	    extras = getArguments();
+	}
+	profileId = extras.getString("PARAM_0");
 
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
@@ -145,11 +161,12 @@ public class FragmentProfilePager extends BaseFragment {
 	this.fragmentStar.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onDestroyView() {
-	super.onDestroyView();
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 	super.onSaveInstanceState(savedInstanceState);
@@ -159,15 +176,29 @@ public class FragmentProfilePager extends BaseFragment {
 	}
     }
 
+    /**
+     * @author Cesar Ramirez This pager will hold all the fragments that are
+     *         displayed
+     */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private HashMap<Integer, Fragment> mMap;
 
+	/**
+	 * @param fm
+	 *            Fragment manager that will hold all the fragments within
+	 *            the pager
+	 */
 	public SectionsPagerAdapter(FragmentManager fm) {
 	    super(fm);
 	    this.mMap = new HashMap<Integer, Fragment>();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentStatePagerAdapter#getItem(int)
+	 */
 	@Override
 	public Fragment getItem(int position) {
 	    Fragment fragment = null;
@@ -194,17 +225,34 @@ public class FragmentProfilePager extends BaseFragment {
 	    return fragment;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.support.v4.app.FragmentStatePagerAdapter#destroyItem(android
+	 * .view.ViewGroup, int, java.lang.Object)
+	 */
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 	    super.destroyItem(container, position, object);
 	    mMap.remove(position);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.view.PagerAdapter#getCount()
+	 */
 	@Override
 	public int getCount() {
 	    return 4;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.view.PagerAdapter#getPageTitle(int)
+	 */
 	@Override
 	public CharSequence getPageTitle(int position) {
 	    switch (position) {
@@ -221,9 +269,13 @@ public class FragmentProfilePager extends BaseFragment {
 	    }
 	}
 
+	/**
+	 * @param key
+	 *            integer that identifies the fragment
+	 * @return the fragment that is associated with the key
+	 */
 	public Fragment getFragment(int key) {
 	    return mMap.get(key);
 	}
     }
-
 }

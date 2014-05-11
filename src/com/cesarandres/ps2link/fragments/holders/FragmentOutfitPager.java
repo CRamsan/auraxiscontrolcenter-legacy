@@ -2,7 +2,6 @@ package com.cesarandres.ps2link.fragments.holders;
 
 import java.util.HashMap;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -22,7 +20,8 @@ import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
 
 /**
- * Created by cesar on 6/16/13.
+ * @author Cesar Ramirez This fragment has a view pager that displays the online
+ *         member next to all the member.
  */
 public class FragmentOutfitPager extends BaseFragment {
 
@@ -33,18 +32,17 @@ public class FragmentOutfitPager extends BaseFragment {
     private static final int MEMBERS = 1;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	return inflater.inflate(R.layout.fragment_outfit_pager, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	super.onCreateView(inflater, container, savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
 
-	View root = inflater.inflate(R.layout.fragment_outfit_pager, container, false);
+	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
-	mViewPager = (ViewPager) root.findViewById(R.id.outfitPager);
+	mViewPager = (ViewPager) getActivity().findViewById(R.id.outfitPager);
 	mViewPager.setAdapter(mSectionsPagerAdapter);
 
 	Bundle extras = getActivity().getIntent().getExtras();
@@ -52,24 +50,7 @@ public class FragmentOutfitPager extends BaseFragment {
 	    extras = getArguments();
 	}
 
-	String activityMode = "";
-	if (extras != null) {
-	    activityMode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
-	}
-
 	outfitId = extras.getString("PARAM_0");
-	return root;
-    }
-
-    @Override
-    public void onResume() {
-	super.onResume();
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MEMBER_LIST);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
 
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -127,15 +108,40 @@ public class FragmentOutfitPager extends BaseFragment {
 	});
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
+     */
+    @Override
+    public void onResume() {
+	super.onResume();
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MEMBER_LIST);
+    }
+
+    /**
+     * @author Cesar Ramirez This pager will hold all the fragments that are
+     *         displayed
+     */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private HashMap<Integer, Fragment> mMap;
 
+	/**
+	 * @param fm
+	 *            Fragment manager that will hold all the fragments within
+	 *            the pager
+	 */
 	public SectionsPagerAdapter(FragmentManager fm) {
 	    super(fm);
 	    this.mMap = new HashMap<Integer, Fragment>();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentStatePagerAdapter#getItem(int)
+	 */
 	@Override
 	public Fragment getItem(int position) {
 	    Fragment fragment = null;
@@ -156,17 +162,34 @@ public class FragmentOutfitPager extends BaseFragment {
 	    return fragment;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.support.v4.app.FragmentStatePagerAdapter#destroyItem(android
+	 * .view.ViewGroup, int, java.lang.Object)
+	 */
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 	    super.destroyItem(container, position, object);
 	    mMap.remove(position);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.view.PagerAdapter#getCount()
+	 */
 	@Override
 	public int getCount() {
 	    return 2;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.view.PagerAdapter#getPageTitle(int)
+	 */
 	@Override
 	public CharSequence getPageTitle(int position) {
 	    switch (position) {
@@ -179,6 +202,11 @@ public class FragmentOutfitPager extends BaseFragment {
 	    }
 	}
 
+	/**
+	 * @param key
+	 *            integer that identifies the fragment
+	 * @return the fragment that is associated with the key
+	 */
 	public Fragment getFragment(int key) {
 	    return mMap.get(key);
 	}
