@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,7 +17,6 @@ import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks;
 import com.cesarandres.ps2link.fragments.FragmentAddOutfit;
 import com.cesarandres.ps2link.fragments.FragmentAddProfile;
-import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentLinksMenu;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
@@ -41,8 +39,7 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
  * 
  *         This activity will also use the @activityMode variable to keep track
  *         of the current fragment on top of the stack. This works correctly in
- *         phone mode, it has not been tested in tablets yet. //TODO Check the
- *         function of activityMode in tablets
+ *         phone mode, it has not been tested in tablets yet.
  * 
  */
 public class ActivityContainer extends BaseActivity implements FragmentCallbacks {
@@ -68,23 +65,28 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
+	// Check if any activity mode has been set, set it to Main Menu
+	// otherwise
 	Bundle extras = getIntent().getExtras();
 	if (savedInstanceState != null) {
 	    setActivityMode(ActivityMode.valueOf(savedInstanceState.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY)));
 	} else if (extras != null) {
-	    String test = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
-	    setActivityMode(ActivityMode.valueOf(test));
+	    setActivityMode(ActivityMode.valueOf(extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY)));
 	} else {
 	    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
 	}
 
+	// Load the UI
 	setContentView(R.layout.activity_panel);
 
+	// Check if the second panel exists
 	if (findViewById(R.id.activityMainMenuFragment) != null) {
 	    isTablet = true;
 	}
 
 	if (savedInstanceState == null) {
+	    // This will prevent to populate the second panel when starting in
+	    // main menu mode on a tablet
 	    if (!isTablet || getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU) {
 		BaseFragment fragment = getFragmentByMode(getActivityMode());
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -93,6 +95,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    }
 	}
 
+	// Set references to all the buttons in the action bar
 	this.fragmentTitle = (Button) this.findViewById(R.id.buttonFragmentTitle);
 	this.fragmentProgress = (ProgressBar) this.findViewById(R.id.progressBarFragmentTitleLoading);
 	this.fragmentUpdate = (ImageButton) this.findViewById(R.id.buttonFragmentUpdate);
@@ -101,12 +104,15 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
 
-	getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+	this.getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 	    public void onBackStackChanged() {
 		if (isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+		    // If the second panel is empty after popping a profile or
+		    // outfit pager, finish the activity
 		    if (getActivityMode() == ActivityMode.ACTIVITY_PROFILE || getActivityMode() == ActivityMode.ACTIVITY_MEMBER_LIST) {
 			finish();
-		    } else {
+		    } else {// In any other case, we are back at the first
+			    // activity, so just empty the second panel
 			setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
 			fragmentTitle.setText(R.string.app_name_capital);
 			clearActionBar();
@@ -115,69 +121,9 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    }
 	});
 
+	// Open the database for all other fragments to use
 	setData(new ObjectDataSource(this));
 	data.open();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.cesarandres.ps2link.base.BaseActivity#onStart()
-     */
-    @Override
-    protected void onStart() {
-	super.onStart();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.app.Activity#onRestart()
-     */
-    @Override
-    protected void onRestart() {
-	super.onRestart();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.cesarandres.ps2link.base.BaseActivity#onResume()
-     */
-    @Override
-    protected void onResume() {
-	super.onResume();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.support.v4.app.FragmentActivity#onPause()
-     */
-    @Override
-    protected void onPause() {
-	super.onPause();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.support.v4.app.FragmentActivity#onStop()
-     */
-    @Override
-    protected void onStop() {
-	super.onStop();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.support.v4.app.FragmentActivity#onDestroy()
-     */
-    @Override
-    protected void onDestroy() {
-	super.onDestroy();
-	data.close();
     }
 
     /*
@@ -202,24 +148,34 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
      */
     @Override
     public void onItemSelected(String id, String args[]) {
+	// Reset the database, this will also force some tasks to end
 	data.close();
 	data.open();
+
 	ActivityMode mode = ActivityMode.valueOf(id);
+	// Seen as we can't have embedded fragments, we will create a new
+	// activity if we want to open a profile or outfit pager. With all other
+	// not nested fragments, we can just push a new fragment on top of the
+	// stack
 	if (isTablet && !(mode == ActivityMode.ACTIVITY_PROFILE) && !(mode == ActivityMode.ACTIVITY_MEMBER_LIST)) {
+	    // A main menu fragment never goes in the second panel
 	    if (mode == ActivityMode.ACTIVITY_MAIN_MENU) {
 		return;
 	    }
 
 	    FragmentTransaction transaction;
-	    transaction = getSupportFragmentManager().beginTransaction();
+	    transaction = this.getSupportFragmentManager().beginTransaction();
 
 	    BaseFragment newFragment = getFragmentByMode(mode);
+
+	    // Build the bundle from the argument list
 	    Bundle bundle = new Bundle();
 	    if (args != null && args.length > 0) {
 		for (int i = 0; i < args.length; i++) {
 		    bundle.putString("PARAM_" + i, args[i]);
 		}
 	    }
+
 	    newFragment.setArguments(bundle);
 	    transaction.replace(R.id.activityFrameLayout, newFragment);
 	    transaction.addToBackStack(null);
@@ -227,6 +183,8 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    transaction.commit();
 	    setActivityMode(mode);
 	} else {
+	    // On a non-tablet, a new activity gets created every time we need a
+	    // new fragment
 	    Class<ActivityContainer> newActivityClass = ActivityContainer.class;
 	    Intent intent = new Intent(this, newActivityClass);
 	    if (args != null && args.length > 0) {
@@ -294,29 +252,9 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 
     /**
      * @param activityMode
-     *            string that represents one of the activity modes
-     * @return the corresponding Fragment for the mode. If the parameter is null
-     *         or invalid, this method returns null
-     */
-    private BaseFragment getFragmentByMode(String activityMode) {
-	if (activityMode == null) {
-	    Log.e(this.getClass().getName(), "Activity Mode could not be created because parameter was null");
-	} else {
-	    try {
-		ActivityMode mode = ActivityMode.valueOf(activityMode);
-		return getFragmentByMode(mode);
-	    } catch (IllegalArgumentException e) {
-		Log.e(this.getClass().getName(), "Activity Mode could not be created from parameter: " + activityMode);
-	    }
-	}
-	return null;
-    }
-
-    /**
-     * @param activityMode
      *            Activity mode
      * @return the fragment corresponding to the activity mode requested. If the
-     *         activity mode is does not belong to any class, this method will
+     *         activity mode does not belong to any class, this method will
      *         return null.
      */
     private BaseFragment getFragmentByMode(ActivityMode activityMode) {
@@ -358,10 +296,17 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	return newFragment;
     }
 
+    /**
+     * @return if the activity is running on tablet mode
+     */
     public boolean isTablet() {
 	return isTablet;
     }
 
+    /**
+     * If a main menu fragment can be located. It will refresh the state of the
+     * preferred buttons for both profile and outfit
+     */
     public void checkPreferedButtons() {
 	Fragment mainMenu = getSupportFragmentManager().findFragmentById(R.id.activityMainMenuFragment);
 	if (mainMenu != null) {

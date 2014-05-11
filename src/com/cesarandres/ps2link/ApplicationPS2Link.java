@@ -29,11 +29,11 @@ public class ApplicationPS2Link extends Application {
      * @author Cesar Ramirez
      * 
      *         This enum holds all the different activity modes, there is one
-     *         for each fragment that is used.
+     *         for each main fragment that is used.
      * 
      */
     public static enum ActivityMode {
-	ACTIVITY_ADD_OUTFIT, ACTIVITY_ADD_PROFILE, ACTIVITY_MEMBER_LIST, ACTIVITY_OUTFIT_LIST, ACTIVITY_PROFILE, ACTIVITY_MAP, ACTIVITY_PROFILE_LIST, ACTIVITY_SERVER_LIST, ACTIVITY_TWITTER, ACTIVITY_LINK_MENU, ACTIVITY_MAIN_MENU
+	ACTIVITY_ADD_OUTFIT, ACTIVITY_ADD_PROFILE, ACTIVITY_MEMBER_LIST, ACTIVITY_OUTFIT_LIST, ACTIVITY_PROFILE, ACTIVITY_PROFILE_LIST, ACTIVITY_SERVER_LIST, ACTIVITY_TWITTER, ACTIVITY_LINK_MENU, ACTIVITY_MAIN_MENU
     }
 
     /**
@@ -54,6 +54,8 @@ public class ApplicationPS2Link extends Application {
     public void onCreate() {
 	super.onCreate();
 
+	// Volley and the imgae loader are a singletons and should always be
+	// available
 	if (volley == null) {
 	    ApplicationPS2Link.volley = Volley.newRequestQueue(this);
 	}
@@ -64,17 +66,6 @@ public class ApplicationPS2Link extends Application {
     }
 
     /**
-     * @param viewId
-     *            This is the unique id of the resource that makes this view
-     * @param index
-     *            The index of this view within it's view pager
-     * @return String tag of the provided view
-     */
-    /*public static String makeFragmentName(int viewId, int index) {
-	return "android:switcher:" + viewId + ":" + index;
-    }*/
-
-    /**
      * @return the current Wallpaper mode
      */
     public static WallPaperMode getWallpaperMode() {
@@ -82,7 +73,9 @@ public class ApplicationPS2Link extends Application {
     }
 
     /**
-     * @param wallpaper the wallpaper mode that matches the current wallpaper
+     * @param wallpaper
+     *            the wallpaper mode that matches the current wallpaper. This
+     *            method should only be called after the wallpaper has been set
      */
     public static void setWallpaperMode(WallPaperMode wallpaper) {
 	ApplicationPS2Link.wallpaper = wallpaper;
@@ -96,7 +89,8 @@ public class ApplicationPS2Link extends Application {
     }
 
     /**
-     * @param background bitmap that will be used as background for all activities
+     * @param background
+     *            bitmap that will be used as background for all activities
      */
     public static void setBackground(Bitmap background) {
 	ApplicationPS2Link.background = background;

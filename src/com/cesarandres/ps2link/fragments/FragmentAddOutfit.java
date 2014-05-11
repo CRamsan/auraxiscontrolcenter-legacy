@@ -1,9 +1,9 @@
 package com.cesarandres.ps2link.fragments;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -22,8 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ActivityContainer;
-import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
@@ -54,25 +51,12 @@ public class FragmentAddOutfit extends BaseFragment {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.cesarandres.ps2link.base.BaseFragment#onCreate(android.os.Bundle)
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
      * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	// Inflate the layout for this fragment
-	View root = inflater.inflate(R.layout.fragment_add_outfit, container, false);
-	return root;
+	return inflater.inflate(R.layout.fragment_add_outfit, container, false);
     }
 
     /*
@@ -113,51 +97,35 @@ public class FragmentAddOutfit extends BaseFragment {
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.cesarandres.ps2link.base.BaseFragment#onPause()
-     */
-    @Override
-    public void onPause() {
-	super.onPause();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.cesarandres.ps2link.base.BaseFragment#onStop()
-     */
-    @Override
-    public void onStop() {
-	super.onStop();
-    }
-
     /**
-     * @throws UnsupportedEncodingException
-     * @throws MalformedURLException
-     * 
+     * This method will retrieve the outfits based on the criteria given by the
+     * user in the text fields. The user needs to provide a name or a tag or
+     * both to start a search. If a value is provided but it is less than three
+     * characters long, then the user will see a toast asking to provide more
+     * information.
      */
     public void downloadOutfits() {
-	ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
-	listRoot.setOnItemClickListener(null);
-	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
-
 	EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchOutfit);
 	EditText searchTagField = (EditText) getActivity().findViewById(R.id.fieldSearchTag);
-	String outfitName = searchField.getText().toString().toLowerCase();
-	String outfitTag = searchTagField.getText().toString().toLowerCase();
+	String outfitName = searchField.getText().toString().toLowerCase(Locale.getDefault());
+	String outfitTag = searchTagField.getText().toString().toLowerCase(Locale.getDefault());
 
+	// Check if the input values are valid
 	if (!outfitTag.isEmpty() && outfitTag.length() < 3) {
-	    Toast.makeText(getActivity(), "Tag is too short.", Toast.LENGTH_SHORT).show();
+	    Toast.makeText(getActivity(), R.string.text_tag_too_short, Toast.LENGTH_SHORT).show();
 	}
 	if (!outfitName.isEmpty() && outfitName.length() < 3) {
-	    Toast.makeText(getActivity(), "Outfit name is too short.", Toast.LENGTH_SHORT).show();
+	    Toast.makeText(getActivity(), R.string.text_outfit_name_too_short, Toast.LENGTH_SHORT).show();
 	}
 	if (outfitName.length() < 3 && outfitTag.length() < 3) {
-	    ((ListView) getActivity().findViewById(R.id.listFoundOutfits)).setAdapter(null);
+	    // Clear the loading adapter
 	    return;
 	}
+
+	ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
+	listRoot.setOnItemClickListener(null);
+	// Set the loading adapter while searching
+	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 
 	QueryString query = QueryString.generateQeuryString();
 	try {
@@ -168,21 +136,17 @@ public class FragmentAddOutfit extends BaseFragment {
 		query.AddComparison("name_lower", SearchModifier.STARTSWITH, URLEncoder.encode(outfitName, "UTF-8"));
 	    }
 	} catch (UnsupportedEncodingException e1) {
-	    // TODO Auto-generated catch block
-	    e1.printStackTrace();
+	    Toast.makeText(getActivity(), R.string.text_problem_encoding, Toast.LENGTH_LONG).show();
+	    ((ListView) getActivity().findViewById(R.id.listFoundOutfits)).setAdapter(null);
+	    return;
 	}
 
 	query.AddCommand(QueryCommand.LIMIT, "15");
 
-	String url = "";
-	try {
-	    url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.OUTFIT, "", query).toString();
-	} catch (MalformedURLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	String url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.OUTFIT, "", query).toString();
 
 	Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
+	    @SuppressWarnings("unchecked")
 	    @Override
 	    public void onResponse(Outfit_response response) {
 		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
@@ -196,18 +160,17 @@ public class FragmentAddOutfit extends BaseFragment {
 		    }
 		});
 
+		// Add the new outfits to the local cache
 		UpdateTmpOutfitTable currentTask = new UpdateTmpOutfitTable();
 		setCurrentTask(currentTask);
 		currentTask.execute(response.getOutfit_list());
 		listRoot.setTextFilterEnabled(true);
-
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		error.equals(new Object());
 		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
 		if (listRoot != null) {
 		    listRoot.setAdapter(null);
@@ -221,9 +184,9 @@ public class FragmentAddOutfit extends BaseFragment {
     /**
      * @author Cesar Ramirez
      * 
-     *         This task will add the searched outfits to database. If the
-     *         outfit has just been is a new record it will be kept with the
-     *         'temporary' flag.
+     *         This task will add the searched outfits to database. All outfits
+     *         are added to the database for the first time with the Temp flag
+     *         set.
      * 
      */
     private class UpdateTmpOutfitTable extends AsyncTask<ArrayList<Outfit>, Integer, Boolean> {
@@ -251,9 +214,11 @@ public class FragmentAddOutfit extends BaseFragment {
 	    Outfit outfit = null;
 	    for (int i = 0; i < count; i++) {
 		outfit = data.getOutfit(list.get(i).getOutfit_Id());
+		// If outfit is not in cache
 		if (outfit == null) {
 		    data.insertOutfit(list.get(i), true);
 		} else {
+		    // If not, update the record
 		    if (outfit.isCached()) {
 			data.updateOutfit(list.get(i), false);
 		    } else {

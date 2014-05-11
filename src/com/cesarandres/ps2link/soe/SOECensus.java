@@ -3,12 +3,15 @@ package com.cesarandres.ps2link.soe;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.util.Log;
+
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.soe.util.Collections.EQ2Collection;
 import com.cesarandres.ps2link.soe.util.Collections.ImageCollection;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.Logger;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
@@ -92,16 +95,20 @@ public class SOECensus {
 	return requestDataURL;
     }
 
-    public static URL generateGameDataRequest(Verb verb, Game game, PS2Collection collection, String identifier, QueryString query)
-	    throws MalformedURLException {
+    public static URL generateGameDataRequest(Verb verb, Game game, PS2Collection collection, String identifier, QueryString query) {
 	if (identifier == null) {
 	    identifier = "";
 	}
 	if (query == null) {
 	    query = new QueryString();
 	}
-	URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + game.toString() + "/" + collection.toString() + "/"
-		+ identifier + "?" + query.toString());
+	URL requestDataURL = null;
+	try {
+	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + game.toString() + "/" + collection.toString() + "/"
+	    	+ identifier + "?" + query.toString());
+	} catch (MalformedURLException e) {
+	    Logger.log(Log.ERROR, "SOECensus","There was a problem creating the URL");
+	}
 	return requestDataURL;
     }
 
@@ -115,6 +122,7 @@ public class SOECensus {
 	return requestDataURL;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void sendGsonRequest(String url, Class responseClass, Listener success, ErrorListener error, Object caller) {
 	GsonRequest gsonOject = new GsonRequest(url, responseClass, null, success, error);
 	gsonOject.setTag(caller);

@@ -31,6 +31,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected FragmentCallbacks mCallbacks = emptyCallbacks;
 
+    @SuppressWarnings("rawtypes")
     private AsyncTask currentTask;
 
     protected Button fragmentTitle;
@@ -160,6 +161,7 @@ public abstract class BaseFragment extends Fragment {
     public void onStop() {
 	Logger.log(Log.INFO, this, "Fragment onStop");
 	super.onStop();
+	// When a fragment is stopped all tasks should be cancelled
 	ApplicationPS2Link.volley.cancelAll(this);
 	if (currentTask != null) {
 	    currentTask.cancel(true);
@@ -203,7 +205,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * @param enabled
      *            if set to true, the progress view is displayed and the update
-     *            view is hidden. If set to false, the opposite will happen.
+     *            view is hidden. If set to false, the opposite will happen
      */
     protected void setProgressButton(boolean enabled) {
 	if (enabled) {
@@ -215,8 +217,25 @@ public abstract class BaseFragment extends Fragment {
 	}
     }
 
+    /**
+     * @return the ActivityContainer object that this class belongs to
+     */
     protected ActivityContainer getActivityContainer() {
 	return (ActivityContainer) getActivity();
+    }
+
+    /**
+     * @param currentTask
+     *            new ASyncTask to be attached to this fragment. If a task is
+     *            already attached, the old one is cancelled and the new one is
+     *            set
+     */
+    @SuppressWarnings("rawtypes")
+    public void setCurrentTask(AsyncTask currentTask) {
+	if (this.currentTask != null) {
+	    this.currentTask.cancel(true);
+	}
+	this.currentTask = currentTask;
     }
 
     /**
@@ -229,12 +248,4 @@ public abstract class BaseFragment extends Fragment {
     public interface FragmentCallbacks {
 	public void onItemSelected(String id, String args[]);
     }
-
-    public void setCurrentTask(AsyncTask currentTask) {
-	if (this.currentTask != null) {
-	    this.currentTask.cancel(true);
-	}
-	this.currentTask = currentTask;
-    }
-
 }

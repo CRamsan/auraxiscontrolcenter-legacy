@@ -58,9 +58,6 @@ public class FragmentServerList extends BaseFragment {
 	listRoot.setOnItemClickListener(new OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		Intent intent = new Intent();
-		intent.setClass(getActivity(), ActivityContainer.class);
-		intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, ActivityMode.ACTIVITY_MAP.toString());
 	    }
 	});
 
