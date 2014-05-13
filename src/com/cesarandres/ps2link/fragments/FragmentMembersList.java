@@ -36,9 +36,9 @@ import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.MemberItemAdapter;
 
 /**
- * @author Cesar Ramirez Fargment that will retrieve and display all the members
- *         of an outfit in alphabetical order. This fragment allows to display
- *         online member or all members.
+ * Fargment that will retrieve and display all the members of an outfit in
+ * alphabetical order. This fragment allows to display online member or all
+ * members.
  * 
  */
 public class FragmentMembersList extends BaseFragment {
@@ -191,7 +191,7 @@ public class FragmentMembersList extends BaseFragment {
     private void updateContent() {
 	ListView listRoot = (ListView) getView().findViewById(R.id.listViewMemberList);
 	ObjectDataSource data = getActivityContainer().getData();
-	listRoot.setAdapter(new MemberItemAdapter(getActivity(), outfitId, data, isCached, shownOffline));
+	listRoot.setAdapter(new MemberItemAdapter(getActivity(), outfitId, data, shownOffline));
 
 	listRoot.setOnItemClickListener(new OnItemClickListener() {
 	    @Override
@@ -227,12 +227,12 @@ public class FragmentMembersList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez
      * 
-     *         This Async task will read the members of the outfit and some
-     *         other outfit information from the database. This is useful to
-     *         show the user with some information while the network calls are
-     *         retrieving more up to date information
+     * 
+     * This Async task will read the members of the outfit and some other outfit
+     * information from the database. This is useful to show the user with some
+     * information while the network calls are retrieving more up to date
+     * information
      * 
      */
     public class UpdateOutfitFromTable extends AsyncTask<String, Integer, Outfit> {
@@ -279,10 +279,10 @@ public class FragmentMembersList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez This Async task will replace the old member
-     *         information with new one. The process will remove all previous
-     *         members in the outfit and write the new ones. This task can take
-     *         a long time, specially on big outfits and on old devices
+     * This Async task will replace the old member information with new one. The
+     * process will remove all previous members in the outfit and write the new
+     * ones. This task can take a long time, specially on big outfits and on old
+     * devices
      * 
      */
     public class UpdateMembers extends AsyncTask<ArrayList<Member>, Integer, Integer> {
@@ -333,11 +333,10 @@ public class FragmentMembersList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez This task will set an outfit as temp or not. The
-     *         first argument needs to be the outfit_id and the second a string
-     *         with true or false, true will save the outfit and display it on
-     *         the outfit list, false will save the outfit in the databse but it
-     *         will not be displayed on the outfit list.
+     * This task will set an outfit as temp or not. The first argument needs to
+     * be the outfit_id and the second a string with true or false, true will
+     * save the outfit and display it on the outfit list, false will save the
+     * outfit in the databse but it will not be displayed on the outfit list.
      * 
      */
     public class CacheOutfit extends AsyncTask<String, Integer, Integer> {

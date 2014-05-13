@@ -9,10 +9,9 @@ import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
 
 /**
- * @author Cesar Ramirez
  * 
- *         This class provides functions and objects that are used application
- *         wide.
+ * 
+ * This class provides functions and objects that are used application wide.
  * 
  */
 public class ApplicationPS2Link extends Application {
@@ -26,10 +25,10 @@ public class ApplicationPS2Link extends Application {
     public static final String ACTIVITY_MODE_KEY = "activity_mode";
 
     /**
-     * @author Cesar Ramirez
      * 
-     *         This enum holds all the different activity modes, there is one
-     *         for each main fragment that is used.
+     * 
+     * This enum holds all the different activity modes, there is one for each
+     * main fragment that is used.
      * 
      */
     public static enum ActivityMode {
@@ -37,9 +36,9 @@ public class ApplicationPS2Link extends Application {
     }
 
     /**
-     * @author Cesar Ramirez
      * 
-     *         This enum holds the reference for all four background types.
+     * 
+     * This enum holds the reference for all four background types.
      */
     public static enum WallPaperMode {
 	PS2, NC, TR, VS
@@ -54,7 +53,7 @@ public class ApplicationPS2Link extends Application {
     public void onCreate() {
 	super.onCreate();
 
-	// Volley and the imgae loader are a singletons and should always be
+	// Volley and the image loader are singletons and should always be
 	// available
 	if (volley == null) {
 	    ApplicationPS2Link.volley = Volley.newRequestQueue(this);

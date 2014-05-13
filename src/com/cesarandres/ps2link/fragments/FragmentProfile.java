@@ -37,17 +37,8 @@ import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 
 /**
- * @author Cesar Ramirez This fragment will read a profile from the database and
- *         display it to the user. It will then try to update the data by doing
- *         a query to the API
- */
-/**
- * @author Cesar Ramirez
- *
- */
-/**
- * @author Cesar Ramirez
- * 
+ * This fragment will read a profile from the database and display it to the
+ * user. It will then try to update the data by doing a query to the API
  */
 public class FragmentProfile extends BaseFragment {
 
@@ -237,8 +228,7 @@ public class FragmentProfile extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Read the profile from the database and update the
-     *         UI
+     * Read the profile from the database and update the UI
      */
     private class UpdateProfileFromTable extends AsyncTask<String, Integer, CharacterProfile> {
 
@@ -291,7 +281,7 @@ public class FragmentProfile extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Save the profile to the database
+     * Save the profile to the database
      */
     private class UpdateProfileToTable extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
@@ -335,8 +325,7 @@ public class FragmentProfile extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Save the profile in the database and set it as not
-     *         temporary
+     * Save the profile in the database and set it as not temporary
      */
     private class CacheProfile extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 
@@ -386,8 +375,7 @@ public class FragmentProfile extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Update the database profile and set the profile as
-     *         temporary
+     * Update the database profile and set the profile as temporary
      */
     private class UnCacheProfile extends AsyncTask<CharacterProfile, Integer, CharacterProfile> {
 

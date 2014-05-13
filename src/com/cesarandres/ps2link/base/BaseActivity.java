@@ -11,9 +11,9 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.module.BitmapWorkerTask;
 
 /**
- * @author Cesar Ramirez
  * 
- *         This fragment handles setting the background for all activities.
+ * 
+ * This fragment handles setting the background for all activities.
  * 
  */
 public abstract class BaseActivity extends FragmentActivity {

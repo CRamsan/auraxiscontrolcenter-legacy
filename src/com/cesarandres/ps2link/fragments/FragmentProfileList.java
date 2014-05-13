@@ -20,8 +20,8 @@ import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 
 /**
- * @author Cesar Ramirez Fragment that reads the profiles from the database that
- *         have been set as not temporary
+ * Fragment that reads the profiles from the database that have been set as not
+ * temporary
  */
 public class FragmentProfileList extends BaseFragment {
 
@@ -87,8 +87,7 @@ public class FragmentProfileList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Reads the profiles in the database that are set as
-     *         non temporary
+     * Reads the profiles in the database that are set as non temporary
      */
     private class ReadProfilesTable extends AsyncTask<Integer, Integer, ArrayList<CharacterProfile>> {
 
@@ -115,7 +114,9 @@ public class FragmentProfileList extends BaseFragment {
 	    return tmpProfileList;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override

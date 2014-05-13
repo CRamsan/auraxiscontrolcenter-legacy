@@ -17,11 +17,11 @@ import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.BitmapWorkerTask;
 
 /**
- * @author Cesar Ramirez
  * 
- *         This fragment is very static, it has all the buttons for most of the
- *         main fragments. It will also display the Preferred Character and
- *         Preferred Outfit buttons if those have been set.
+ * 
+ * This fragment is very static, it has all the buttons for most of the main
+ * fragments. It will also display the Preferred Character and Preferred Outfit
+ * buttons if those have been set.
  * 
  */
 public class FragmentMainMenu extends BaseFragment {

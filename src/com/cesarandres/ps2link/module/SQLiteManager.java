@@ -103,7 +103,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
 	/**
 	 * @param context
-	 *            reference to the activity that is accesing the database.
+	 *            reference to the activity that is accessing the database.
 	 */
 	public SQLiteManager(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

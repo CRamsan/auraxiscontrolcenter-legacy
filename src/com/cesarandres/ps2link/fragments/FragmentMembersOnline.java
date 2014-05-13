@@ -23,9 +23,9 @@ import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
 import com.cesarandres.ps2link.soe.view.OnlineMemberItemAdapter;
 
 /**
- * @author Cesar Ramirez This fragment will do a request to retrieve all members
- *         for the given outfit and resolve the class they are using. This is
- *         very useful to show who is online and display their current class
+ * This fragment will do a request to retrieve all members for the given outfit
+ * and resolve the class they are using. This is very useful to show who is
+ * online and display their current class
  * 
  */
 public class FragmentMembersOnline extends BaseFragment {

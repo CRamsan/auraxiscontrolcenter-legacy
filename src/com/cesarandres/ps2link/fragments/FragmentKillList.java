@@ -28,8 +28,7 @@ import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.KillItemAdapter;
 
 /**
- * @author Cesar Ramirez This fragment will retrieve the killboard of a player
- *         and display it.
+ * This fragment will retrieve the killboard of a player and display it.
  * 
  */
 public class FragmentKillList extends BaseFragment {

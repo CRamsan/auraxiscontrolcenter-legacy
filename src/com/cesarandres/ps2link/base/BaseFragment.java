@@ -19,12 +19,12 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.util.Logger;
 
 /**
- * @author Cesar Ramirez
  * 
- *         This class extends fragment to add the support for a callback. All
- *         the fragments should extend this class instead of the standard
- *         Fragment class. All behavior that is shared across all fragments
- *         should also be implemented here.
+ * 
+ * This class extends fragment to add the support for a callback. All the
+ * fragments should extend this class instead of the standard Fragment class.
+ * All behavior that is shared across all fragments should also be implemented
+ * here.
  * 
  */
 public abstract class BaseFragment extends Fragment {
@@ -239,10 +239,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * @author Cesar Ramirez
      * 
-     *         This interface is used to send actions from the fragment back to
-     *         the activity that is attached to
+     * 
+     * This interface is used to send actions from the fragment back to the
+     * activity that is attached to
      * 
      */
     public interface FragmentCallbacks {

@@ -25,7 +25,7 @@ import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 
 /**
- * @author Cesar Ramirez Retrieve the stats for the given character
+ * Retrieve the stats for the given character
  */
 public class FragmentStatList extends BaseFragment {
 

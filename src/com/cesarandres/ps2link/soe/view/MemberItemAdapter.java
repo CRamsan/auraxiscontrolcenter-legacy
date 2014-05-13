@@ -14,11 +14,11 @@ import com.cesarandres.ps2link.soe.content.character.Name;
 
 public class MemberItemAdapter extends DBItemAdapter {
 
-    public MemberItemAdapter(Context context, String outfitId, ObjectDataSource data, boolean isCache, boolean showOffline) {
+    public MemberItemAdapter(Context context, String outfitId, ObjectDataSource data, boolean showOffline) {
 	// Cache the LayoutInflate to avoid asking for a new one each time.
 	this.mInflater = LayoutInflater.from(context);
 	this.size = data.countAllMembers(outfitId, showOffline);
-	this.cursor = data.getMembersCursor(outfitId, !isCache, showOffline);
+	this.cursor = data.getMembersCursor(outfitId, showOffline);
     }
 
     @Override

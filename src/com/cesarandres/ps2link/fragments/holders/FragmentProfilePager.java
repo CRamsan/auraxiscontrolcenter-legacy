@@ -21,8 +21,7 @@ import com.cesarandres.ps2link.fragments.FragmentProfile;
 import com.cesarandres.ps2link.fragments.FragmentStatList;
 
 /**
- * @author Cesar Ramirez This fragment holds a view pager for all the profile
- *         related fragments
+ * This fragment holds a view pager for all the profile related fragments
  */
 public class FragmentProfilePager extends BaseFragment {
 
@@ -177,8 +176,7 @@ public class FragmentProfilePager extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez This pager will hold all the fragments that are
-     *         displayed
+     * This pager will hold all the fragments that are displayed
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 

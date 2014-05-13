@@ -30,8 +30,7 @@ import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.view.ServerItemAdapter;
 
 /**
- * @author Cesar Ramirez This fragment will display the servers and theirs
- *         status
+ * This fragment will display the servers and theirs status
  */
 public class FragmentServerList extends BaseFragment {
 
@@ -113,9 +112,8 @@ public class FragmentServerList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez This task will read all the servers from the
-     *         database, it will remove servers that do not exist and it will
-     *         add new ones
+     * This task will read all the servers from the database, it will remove
+     * servers that do not exist and it will add new ones
      * 
      */
     private class UpdateServerTable extends AsyncTask<ArrayList<World>, Integer, Boolean> {
@@ -184,11 +182,13 @@ public class FragmentServerList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Read and retrieve all the servers in the database
+     * Read and retrieve all the servers in the database
      */
     private class ReadServerTable extends AsyncTask<Integer, Integer, ArrayList<World>> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
@@ -196,7 +196,9 @@ public class FragmentServerList extends BaseFragment {
 	    setProgressButton(true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
 	 */
 	@Override
@@ -209,7 +211,9 @@ public class FragmentServerList extends BaseFragment {
 	    return tmpServerList;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override

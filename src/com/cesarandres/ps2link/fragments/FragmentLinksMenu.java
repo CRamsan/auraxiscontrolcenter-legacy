@@ -13,8 +13,8 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 
 /**
- * @author Cesar Ramirez This fragment contains a list of buttons to different
- *         webapges. Each button will send an intent to open the page.
+ * This fragment contains a list of buttons to different webapges. Each button
+ * will send an intent to open the page.
  * 
  */
 public class FragmentLinksMenu extends BaseFragment {
@@ -30,8 +30,12 @@ public class FragmentLinksMenu extends BaseFragment {
 	return inflater.inflate(R.layout.fragment_links_menu, container, false);
     }
 
-    /* (non-Javadoc)
-     * @see com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os.Bundle)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cesarandres.ps2link.base.BaseFragment#onActivityCreated(android.os
+     * .Bundle)
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -119,7 +123,9 @@ public class FragmentLinksMenu extends BaseFragment {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cesarandres.ps2link.base.BaseFragment#onResume()
      */
     @Override

@@ -27,8 +27,8 @@ import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.FriendItemAdapter;
 
 /**
- * @author Cesar Ramirez This fragment will display the friends of a given user.
- *         This fragment is designed to be part of a profile pager.
+ * This fragment will display the friends of a given user. This fragment is
+ * designed to be part of a profile pager.
  * 
  */
 public class FragmentFriendList extends BaseFragment {
@@ -106,7 +106,7 @@ public class FragmentFriendList extends BaseFragment {
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		//TODO Add toast
+		// TODO Add toast
 		setProgressButton(false);
 	    }
 	};

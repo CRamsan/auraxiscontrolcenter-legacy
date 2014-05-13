@@ -30,9 +30,8 @@ import com.cesarandres.ps2link.soe.util.Logger;
 import com.cesarandres.ps2link.soe.view.TwitterItemAdapter;
 
 /**
- * @author Cesar Ramirez Fragment that retrieves the Twitter feed for several
- *         users planetside 2 related. It also has UI to show and hide some
- *         users.
+ * Fragment that retrieves the Twitter feed for several users planetside 2
+ * related. It also has UI to show and hide some users.
  */
 public class FragmentTwitter extends BaseFragment {
 
@@ -313,8 +312,8 @@ public class FragmentTwitter extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez Task that will update the tweets for the given
-     *         users. The tweets will be cached into the database
+     * Task that will update the tweets for the given users. The tweets will be
+     * cached into the database
      * 
      */
     private class UpdateTweetsTask extends AsyncTask<String, Integer, String[]> {

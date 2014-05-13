@@ -38,12 +38,12 @@ import com.cesarandres.ps2link.soe.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
 /**
- * @author Cesar Ramirez
  * 
- *         This fragment will show the user a field to search for outfits based
- *         on their tag or name. The tag has the limitation that it has to be at
- *         least three characters long. When an outfit is found, it's content is
- *         cached into the database.
+ * 
+ * This fragment will show the user a field to search for outfits based on their
+ * tag or name. The tag has the limitation that it has to be at least three
+ * characters long. When an outfit is found, it's content is cached into the
+ * database.
  * 
  */
 public class FragmentAddOutfit extends BaseFragment {
@@ -182,11 +182,10 @@ public class FragmentAddOutfit extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez
      * 
-     *         This task will add the searched outfits to database. All outfits
-     *         are added to the database for the first time with the Temp flag
-     *         set.
+     * 
+     * This task will add the searched outfits to database. All outfits are
+     * added to the database for the first time with the Temp flag set.
      * 
      */
     private class UpdateTmpOutfitTable extends AsyncTask<ArrayList<Outfit>, Integer, Boolean> {

@@ -16,7 +16,7 @@ import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 /**
- * @author Cesar Ramirez
+ * 
  * 
  *         This class will be in charge of formatting requests for SOE Census
  *         API and retrieving the information. You can use the response directly

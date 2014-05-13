@@ -19,8 +19,8 @@ import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
 /**
- * @author Cesar Ramirez This fragment will read and display all the outfits
- *         that have been set as non-temporary in the database.
+ * This fragment will read and display all the outfits that have been set as
+ * non-temporary in the database.
  * 
  */
 public class FragmentOutfitList extends BaseFragment {
@@ -85,13 +85,15 @@ public class FragmentOutfitList extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez This task will read all outfits that have not been
-     *         set as temporary in the database
+     * This task will read all outfits that have not been set as temporary in
+     * the database
      * 
      */
     private class ReadOutfitsTable extends AsyncTask<Integer, Integer, ArrayList<Outfit>> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
@@ -99,7 +101,9 @@ public class FragmentOutfitList extends BaseFragment {
 	    setProgressButton(true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
 	 */
 	@Override
@@ -110,7 +114,9 @@ public class FragmentOutfitList extends BaseFragment {
 	    return outfitList;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override

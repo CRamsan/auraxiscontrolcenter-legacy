@@ -34,9 +34,9 @@ import com.cesarandres.ps2link.soe.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 
 /**
- * @author Cesar Ramirez This fragment will show the user with a field and a
- *         button to search for profiles. The only requirement is that the name
- *         needs to be at least three characters long.
+ * This fragment will show the user with a field and a button to search for
+ * profiles. The only requirement is that the name needs to be at least three
+ * characters long.
  * 
  */
 public class FragmentAddProfile extends BaseFragment {
@@ -107,8 +107,13 @@ public class FragmentAddProfile extends BaseFragment {
 	listRoot.setOnItemClickListener(null);
 	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 
-	String url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.CHARACTER_NAME, "",
-		QueryString.generateQeuryString().AddComparison("name.first_lower", SearchModifier.STARTSWITH, searchField.getText().toString().toLowerCase(Locale.getDefault()))
+	String url = SOECensus.generateGameDataRequest(
+		Verb.GET,
+		Game.PS2V2,
+		PS2Collection.CHARACTER_NAME,
+		"",
+		QueryString.generateQeuryString()
+			.AddComparison("name.first_lower", SearchModifier.STARTSWITH, searchField.getText().toString().toLowerCase(Locale.getDefault()))
 			.AddCommand(QueryCommand.LIMIT, "100")).toString();
 
 	Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {

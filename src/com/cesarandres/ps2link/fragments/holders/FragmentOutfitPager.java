@@ -20,8 +20,8 @@ import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
 
 /**
- * @author Cesar Ramirez This fragment has a view pager that displays the online
- *         member next to all the member.
+ * This fragment has a view pager that displays the online member next to all
+ * the member.
  */
 public class FragmentOutfitPager extends BaseFragment {
 
@@ -120,8 +120,7 @@ public class FragmentOutfitPager extends BaseFragment {
     }
 
     /**
-     * @author Cesar Ramirez This pager will hold all the fragments that are
-     *         displayed
+     * This pager will hold all the fragments that are displayed
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
