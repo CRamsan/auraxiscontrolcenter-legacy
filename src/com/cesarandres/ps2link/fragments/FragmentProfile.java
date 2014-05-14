@@ -26,7 +26,6 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
@@ -198,7 +197,6 @@ public class FragmentProfile extends BaseFragment {
 	this.setProgressButton(true);
 	String url = SOECensus.generateGameDataRequest(
 		Verb.GET,
-		Game.PS2V2,
 		PS2Collection.CHARACTER,
 		character_id,
 		QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "outfit,world,online_status")

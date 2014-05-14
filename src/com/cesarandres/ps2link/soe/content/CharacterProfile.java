@@ -8,139 +8,139 @@ import com.cesarandres.ps2link.soe.content.character.Server;
 import com.cesarandres.ps2link.soe.content.character.Stats;
 
 public class CharacterProfile {
-	private String character_id;
-	private Name name;
-	private String active_profile_id;
-	private Certs certs;
-	private BattleRank battle_rank;
-	private Times times;
-	private String faction_id;
-	private String world_id;
-	private Outfit outfit;
-	private String outfitName;
-	private Profile profile;
-	private Stats stats;
-	private Server server;
-	private int online_status;
-	private boolean cached;
+    private String character_id;
+    private Name name;
+    private String active_profile_id;
+    private Certs certs;
+    private BattleRank battle_rank;
+    private Times times;
+    private String faction_id;
+    private String world_id;
+    private Outfit outfit;
+    private String outfitName;
+    private Profile profile;
+    private Stats stats;
+    private Server server;
+    private int online_status;
+    private boolean cached;
 
-	public Certs getCerts() {
-		return this.certs;
-	}
- 
-	public void setCerts(Certs certs) {
-		this.certs = certs;
-	}
+    public Certs getCerts() {
+	return this.certs;
+    }
 
-	public String getCharacterId() {
-		return this.character_id;
-	}
+    public void setCerts(Certs certs) {
+	this.certs = certs;
+    }
 
-	public void setCharacterId(String id) {
-		this.character_id = id;
-	}
+    public String getCharacterId() {
+	return this.character_id;
+    }
 
-	public Name getName() {
-		return this.name;
-	}
+    public void setCharacterId(String id) {
+	this.character_id = id;
+    }
 
-	public void setName(Name name) {
-		this.name = name;
-	}
+    public Name getName() {
+	return this.name;
+    }
 
-	public Times getTimes() {
-		return this.times;
-	}
+    public void setName(Name name) {
+	this.name = name;
+    }
 
-	public void setTimes(Times times) {
-		this.times = times;
-	}
+    public Times getTimes() {
+	return this.times;
+    }
 
-	public String getActive_profile_id() {
-		return active_profile_id;
-	}
+    public void setTimes(Times times) {
+	this.times = times;
+    }
 
-	public void setActive_profile_id(String active_profile_id) {
-		this.active_profile_id = active_profile_id;
-	}
+    public String getActive_profile_id() {
+	return active_profile_id;
+    }
 
-	public BattleRank getBattle_rank() {
-		return battle_rank;
-	}
+    public void setActive_profile_id(String active_profile_id) {
+	this.active_profile_id = active_profile_id;
+    }
 
-	public void setBattle_rank(BattleRank battle_rank) {
-		this.battle_rank = battle_rank;
-	}
+    public BattleRank getBattle_rank() {
+	return battle_rank;
+    }
 
-	public String getFaction_id() {
-		return faction_id;
-	}
+    public void setBattle_rank(BattleRank battle_rank) {
+	this.battle_rank = battle_rank;
+    }
 
-	public void setFaction_id(String faction_id) {
-		this.faction_id = faction_id;
-	}
+    public String getFaction_id() {
+	return faction_id;
+    }
 
-	public String getWorld_id() {
-		return world_id;
-	}
+    public void setFaction_id(String faction_id) {
+	this.faction_id = faction_id;
+    }
 
-	public void setWorld_id(String world_id) {
-		this.world_id = world_id;
-	}
+    public String getWorld_id() {
+	return world_id;
+    }
 
-	public boolean isCached() {
-		return cached;
-	}
+    public void setWorld_id(String world_id) {
+	this.world_id = world_id;
+    }
 
-	public void setCached(boolean cached) {
-		this.cached = cached;
-	}
+    public boolean isCached() {
+	return cached;
+    }
 
-	public int getOnline_status() {
-		return online_status;
-	}
+    public void setCached(boolean cached) {
+	this.cached = cached;
+    }
 
-	public void setOnline_status(int online_status) {
-		this.online_status = online_status;
-	}
+    public int getOnline_status() {
+	return online_status;
+    }
 
-	public Outfit getOutfit() {
-		return outfit;
-	}
+    public void setOnline_status(int online_status) {
+	this.online_status = online_status;
+    }
 
-	public void setOutfit(Outfit outfit) {
-		this.outfit = outfit;
-	}
+    public Outfit getOutfit() {
+	return outfit;
+    }
 
-	public String getOutfitName() {
-		return outfitName;
-	}
+    public void setOutfit(Outfit outfit) {
+	this.outfit = outfit;
+    }
 
-	public void setOutfitName(String outfitName) {
-		this.outfitName = outfitName;
-	}
+    public String getOutfitName() {
+	return outfitName;
+    }
 
-	public Stats getStats() {
-		return stats;
-	}
+    public void setOutfitName(String outfitName) {
+	this.outfitName = outfitName;
+    }
 
-	public void setStats(Stats stats) {
-		this.stats = stats;
-	}
+    public Stats getStats() {
+	return stats;
+    }
 
-	public Profile getProfile() {
-		return profile;
-	}
+    public void setStats(Stats stats) {
+	this.stats = stats;
+    }
 
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
+    public Profile getProfile() {
+	return profile;
+    }
 
-	public Server getServer() {
-		return server;
-	}
+    public void setProfile(Profile profile) {
+	this.profile = profile;
+    }
 
-	public void setServer(Server server) {
-		this.server = server;
-	}
+    public Server getServer() {
+	return server;
+    }
+
+    public void setServer(Server server) {
+	this.server = server;
+    }
 }

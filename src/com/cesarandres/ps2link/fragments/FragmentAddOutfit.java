@@ -26,7 +26,6 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.content.response.Outfit_response;
@@ -143,7 +142,7 @@ public class FragmentAddOutfit extends BaseFragment {
 
 	query.AddCommand(QueryCommand.LIMIT, "15");
 
-	String url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.OUTFIT, "", query).toString();
+	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.OUTFIT, "", query).toString();
 
 	Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
 	    @SuppressWarnings("unchecked")

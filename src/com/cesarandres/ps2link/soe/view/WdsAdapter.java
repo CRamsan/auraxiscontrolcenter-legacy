@@ -1,7 +1,5 @@
 package com.cesarandres.ps2link.soe.view;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -23,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.WDS_Stat;
 import com.cesarandres.ps2link.soe.content.response.Server_response;
@@ -151,7 +148,7 @@ public class WdsAdapter extends BaseAdapter {
     }
 
     private void updateServer(String world_id, PS2Collection collection, final TextView name, final int position, View view) {
-	String url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.WORLD, "",
+	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
 		QueryString.generateQeuryString().AddComparison("world_id", SearchModifier.EQUALS, world_id)).toString();
 	name.setText("Loading...");
 	Listener<Server_response> success = new Response.Listener<Server_response>() {

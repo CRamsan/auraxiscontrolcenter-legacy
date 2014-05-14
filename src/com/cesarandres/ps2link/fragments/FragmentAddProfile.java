@@ -22,7 +22,6 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
@@ -109,7 +108,6 @@ public class FragmentAddProfile extends BaseFragment {
 
 	String url = SOECensus.generateGameDataRequest(
 		Verb.GET,
-		Game.PS2V2,
 		PS2Collection.CHARACTER_NAME,
 		"",
 		QueryString.generateQeuryString()

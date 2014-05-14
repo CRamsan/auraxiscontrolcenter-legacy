@@ -16,7 +16,6 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterFriend;
 import com.cesarandres.ps2link.soe.content.response.Character_friend_list_response;
@@ -88,7 +87,6 @@ public class FragmentFriendList extends BaseFragment {
 	setProgressButton(true);
 	String url = SOECensus.generateGameDataRequest(
 		Verb.GET,
-		Game.PS2V2,
 		PS2Collection.CHARACTERS_FRIEND,
 		null,
 		QueryString.generateQeuryString().AddComparison("character_id", SearchModifier.EQUALS, character_id)

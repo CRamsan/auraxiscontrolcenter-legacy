@@ -14,15 +14,14 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.StatItemAdapter;
 import com.cesarandres.ps2link.soe.content.character.Stats;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.QueryString;
 import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.soe.view.StatItemAdapter;
 
 /**
  * Retrieve the stats for the given character
@@ -74,7 +73,6 @@ public class FragmentStatList extends BaseFragment {
 	setProgressButton(true);
 	String url = SOECensus.generateGameDataRequest(
 		Verb.GET,
-		Game.PS2V2,
 		PS2Collection.CHARACTER,
 		character_id,
 		QueryString.generateQeuryString().AddCommand(QueryCommand.RESOLVE, "stat_history")

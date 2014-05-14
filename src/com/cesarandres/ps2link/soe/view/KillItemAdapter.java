@@ -1,7 +1,5 @@
 package com.cesarandres.ps2link.soe.view;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +22,6 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterEvent;
 import com.cesarandres.ps2link.soe.content.Faction;
@@ -162,7 +159,7 @@ public class KillItemAdapter extends BaseAdapter {
     }
 
     public void downloadPictures(String resource_id, PS2Collection collection, final TextView name, final NetworkImageView image, final int position, View view) {
-	String url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, collection, resource_id, null).toString();
+	String url = SOECensus.generateGameDataRequest(Verb.GET, collection, resource_id, null).toString();
 	Listener<Item_list_response> success = new Response.Listener<Item_list_response>() {
 	    @Override
 	    public void onResponse(Item_list_response response) {

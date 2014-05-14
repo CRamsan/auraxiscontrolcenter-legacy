@@ -69,6 +69,7 @@ public class ServerItemAdapter extends BaseAdapter {
 	}
 
 	// Bind the data efficiently with the holder.
+	// TODO Check for a replacement for this functions
 	String serverState = this.serverList.get(position).getState();
 	if (serverState.equals("online")) {
 	    holder.serverstatus.setText(serverState.toUpperCase());

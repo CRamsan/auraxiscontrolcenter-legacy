@@ -20,7 +20,6 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.World;
 import com.cesarandres.ps2link.soe.content.response.Server_response;
@@ -85,7 +84,7 @@ public class FragmentServerList extends BaseFragment {
      */
     public void downloadServers() {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(Verb.GET, Game.PS2V2, PS2Collection.WORLD, "",
+	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
 		QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10")).toString();
 
 	Listener<Server_response> success = new Response.Listener<Server_response>() {

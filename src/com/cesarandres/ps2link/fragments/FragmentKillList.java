@@ -17,7 +17,6 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Game;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterEvent;
 import com.cesarandres.ps2link.soe.content.response.Characters_event_list_response;
@@ -89,7 +88,6 @@ public class FragmentKillList extends BaseFragment {
 	setProgressButton(true);
 	String url = SOECensus.generateGameDataRequest(
 		Verb.GET,
-		Game.PS2V2,
 		PS2Collection.CHARACTERS_EVENT,
 		null,
 		QueryString.generateQeuryString().AddComparison("character_id", SearchModifier.EQUALS, character_id)
