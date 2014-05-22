@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.util.Log;
 
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
@@ -73,9 +74,14 @@ public class ObjectDataSource {
      * @throws SQLException
      *             if there is an error while opening the database.
      */
-    public void open() throws SQLException {
-	database = dbHelper.getWritableDatabase();
-
+    public void open(){
+    try{
+    	database = dbHelper.getWritableDatabase();
+    }catch(SQLiteDatabaseLockedException e){
+    	Logger.log(Log.ERROR, this, "Could not open database, database is already locked. Trying again");
+    	dbHelper.close();
+    	database = dbHelper.getWritableDatabase();
+    }
     }
 
     /**
