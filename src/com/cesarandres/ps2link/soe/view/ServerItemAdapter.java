@@ -12,16 +12,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.soe.content.World;
+import com.cesarandres.ps2link.soe.content.response.server.LiveServer;
 
 public class ServerItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
-    private ArrayList<World> serverList;
+    private ArrayList<LiveServer> serverList;
 
-    public ServerItemAdapter(Context context, List<World> serverList) {
+    public ServerItemAdapter(Context context, List<LiveServer> serverList) {
 	// Cache the LayoutInflate to avoid asking for a new one each time.
 	this.mInflater = LayoutInflater.from(context);
-	this.serverList = new ArrayList<World>(serverList);
+	this.serverList = new ArrayList<LiveServer>(serverList);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ServerItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public World getItem(int position) {
+    public LiveServer getItem(int position) {
 	return this.serverList.get(position);
     }
 
@@ -70,8 +70,15 @@ public class ServerItemAdapter extends BaseAdapter {
 
 	// Bind the data efficiently with the holder.
 	// TODO Check for a replacement for this functions
-	String serverState = this.serverList.get(position).getState();
-	if (serverState.equals("online")) {
+	String serverState = this.serverList.get(position).getStatus();
+	if (serverState.equals("low")) {
+	    holder.serverstatus.setText(serverState.toUpperCase());
+	    //Orange color
+	    holder.serverstatus.setTextColor(Color.rgb(250, 120, 0));
+	} else if (serverState.equals("medium")) {
+	    holder.serverstatus.setText(serverState.toUpperCase());
+	    holder.serverstatus.setTextColor(Color.YELLOW);
+	} else if (serverState.equals("high")) {
 	    holder.serverstatus.setText(serverState.toUpperCase());
 	    holder.serverstatus.setTextColor(Color.GREEN);
 	} else {
@@ -79,7 +86,7 @@ public class ServerItemAdapter extends BaseAdapter {
 	    holder.serverstatus.setTextColor(Color.RED);
 	}
 
-	String name = this.serverList.get(position).getName().getEn();
+	String name = this.serverList.get(position).getName();
 
 	if (name.equals("Briggs")) {
 	    holder.serverRegion.setText("(AU)");

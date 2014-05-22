@@ -2,7 +2,6 @@ package com.cesarandres.ps2link.fragments;
 
 import java.util.ArrayList;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +17,10 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.World;
-import com.cesarandres.ps2link.soe.content.response.Server_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.soe.content.response.Server_Status_response;
+import com.cesarandres.ps2link.soe.content.response.server.LiveServer;
+import com.cesarandres.ps2link.soe.content.response.server.LiveServers;
 import com.cesarandres.ps2link.soe.view.ServerItemAdapter;
 
 /**
@@ -60,10 +55,6 @@ public class FragmentServerList extends BaseFragment {
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 	    }
 	});
-
-	ReadServerTable task = new ReadServerTable();
-	setCurrentTask(task);
-	task.execute();
     }
 
     /*
@@ -76,27 +67,42 @@ public class FragmentServerList extends BaseFragment {
 	super.onResume();
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_SERVER_LIST);
+	downloadServers();
     }
 
     /**
      * Query the API and retrieve the latest status for all the servers and
-     * update the UI
+     * update the UI. This method uses a non-standard API call
      */
     public void downloadServers() {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
-		QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10")).toString();
+	//This is not an standard API call
+	String url = "https://census.soe.com/s:PS2Link/json/status/ps2";
 
-	Listener<Server_response> success = new Response.Listener<Server_response>() {
+	Listener<Server_Status_response> success = new Response.Listener<Server_Status_response>() {
 	    @Override
-	    public void onResponse(Server_response response) {
+	    public void onResponse(Server_Status_response response) {
 		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-		listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
-		UpdateServerTable task = new UpdateServerTable();
-		setCurrentTask(task);
-		setProgressButton(true);
-		// TODO Check this
-		task.execute(response.getWorld_list());
+		LiveServers servers = response.getPs2().getLive();
+		ArrayList<LiveServer> serverList = new ArrayList<LiveServer>();
+		servers.getBriggs().setName("Briggs");
+		servers.getCeres().setName("Ceres");
+		servers.getCobalt().setName("Cobalt");
+		servers.getConnery().setName("Connery");
+		servers.getMattherson().setName("Mattherson");
+		servers.getMiller().setName("Miller");
+		servers.getWaterson().setName("Waterson");
+		servers.getWoodman().setName("Woodman");
+		serverList.add(servers.getBriggs());
+		serverList.add(servers.getCeres());
+		serverList.add(servers.getCobalt());
+		serverList.add(servers.getConnery());
+		serverList.add(servers.getMattherson());
+		serverList.add(servers.getMiller());
+		serverList.add(servers.getWaterson());
+		serverList.add(servers.getWoodman());
+		listRoot.setAdapter(new ServerItemAdapter(getActivity(), serverList));
+		setProgressButton(false);
 	    }
 	};
 
@@ -107,121 +113,6 @@ public class FragmentServerList extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Server_response.class, success, error, this);
-    }
-
-    /**
-     * This task will read all the servers from the database, it will remove
-     * servers that do not exist and it will add new ones
-     * 
-     */
-    private class UpdateServerTable extends AsyncTask<ArrayList<World>, Integer, Boolean> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
+	SOECensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
-	 */
-	@Override
-	protected Boolean doInBackground(ArrayList<World>... worlds) {
-	    int count = worlds[0].size();
-	    ObjectDataSource data = getActivityContainer().getData();
-	    int success = 0;
-	    World world;
-	    boolean found = false;
-	    ArrayList<World> newWorlds = new ArrayList<World>(0);
-	    ArrayList<World> oldWorlds = data.getAllWorlds();
-	    for (int i = 0; i < count; i++) {
-		world = worlds[0].get(i);
-		for (int j = 0; j < oldWorlds.size(); j++) {
-		    if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
-			data.updateWorld(world);
-			newWorlds.add(oldWorlds.get(j));
-			found = true;
-		    }
-		}
-		if (!found) {
-		    data.insertWorld(world);
-		}
-		found = false;
-	    }
-	    for (int i = 0; i < newWorlds.size(); i++) {
-		world = newWorlds.get(i);
-		for (int j = 0; j < oldWorlds.size(); j++) {
-		    if (oldWorlds.get(j).getWorld_id().equals(world.getWorld_id())) {
-			oldWorlds.remove(j);
-		    }
-		}
-	    }
-	    for (int i = 0; i < oldWorlds.size(); i++) {
-		data.deleteWorld(oldWorlds.get(i));
-	    }
-	    return success > 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(Boolean result) {
-	    setProgressButton(false);
-	}
-    }
-
-    /**
-     * Read and retrieve all the servers in the database
-     */
-    private class ReadServerTable extends AsyncTask<Integer, Integer, ArrayList<World>> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
-	 */
-	@Override
-	protected ArrayList<World> doInBackground(Integer... params) {
-	    ObjectDataSource data = getActivityContainer().getData();
-	    ArrayList<World> tmpServerList = data.getAllWorlds();
-	    for (World world : tmpServerList) {
-		world.setState("UNKOWN");
-	    }
-	    return tmpServerList;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(ArrayList<World> result) {
-	    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-	    listRoot.setAdapter(new ServerItemAdapter(getActivity(), result));
-	    setProgressButton(false);
-	    downloadServers();
-	}
-
-    }
 }
