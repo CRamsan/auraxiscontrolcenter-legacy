@@ -95,18 +95,22 @@ public class FragmentProfilePager extends BaseFragment {
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
+	    Fragment selectedFragment = mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem());
+	    if(selectedFragment == null){
+	    	return;
+	    }
 		switch (mViewPager.getCurrentItem()) {
 		case PROFILE:
-		    ((FragmentProfile) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadProfiles(profileId);
+		    ((FragmentProfile) selectedFragment).downloadProfiles(profileId);
 		    break;
 		case FRIENDS:
-		    ((FragmentFriendList) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadFriendsList(profileId);
+		    ((FragmentFriendList) selectedFragment).downloadFriendsList(profileId);
 		    break;
 		case STATS:
-		    ((FragmentStatList) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadStatList(profileId);
+		    ((FragmentStatList) selectedFragment).downloadStatList(profileId);
 		    break;
 		case KILLBOARD:
-		    ((FragmentKillList) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem())).downloadKillList(profileId);
+		    ((FragmentKillList) selectedFragment).downloadKillList(profileId);
 		    break;
 		default:
 		    break;

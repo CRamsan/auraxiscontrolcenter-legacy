@@ -165,10 +165,10 @@ public class KillItemAdapter extends BaseAdapter {
 	    public void onResponse(Item_list_response response) {
 		IContainDrawable item = null;
 
-		if (response.getItem_list() != null) {
-		    item = response.getItem_list().get(0);
-		} else if (response.getVehicle_list() != null) {
-		    item = response.getVehicle_list().get(0);
+		if (response.getItem_list() != null && response.getItem_list().size() > 0) {
+			item = response.getItem_list().get(0);
+		} else if (response.getVehicle_list() != null && response.getVehicle_list().size() > 0) {
+			item = response.getVehicle_list().get(0);
 		}
 
 		events.get(position).setWeapon_name(item.getNameText());
