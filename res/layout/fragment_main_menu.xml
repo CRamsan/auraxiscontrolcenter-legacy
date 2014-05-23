@@ -50,6 +50,11 @@
                 android:id="@+id/buttonOutfit"
                 style="@style/ButtonStyle"
                 android:text="@string/title_outfits" />
+            
+           <Button
+                android:id="@+id/buttonAlerts"
+                style="@style/ButtonStyle"
+                android:text="@string/title_alerts" />
 
             <Button
                 android:id="@+id/buttonTwitter"

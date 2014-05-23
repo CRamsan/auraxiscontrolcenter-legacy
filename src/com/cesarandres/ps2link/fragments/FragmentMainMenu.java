@@ -53,6 +53,7 @@ public class FragmentMainMenu extends BaseFragment {
 	Button buttonCharacters = (Button) getActivity().findViewById(R.id.buttonCharacters);
 	Button buttonServers = (Button) getActivity().findViewById(R.id.buttonServers);
 	Button buttonOutfit = (Button) getActivity().findViewById(R.id.buttonOutfit);
+	Button buttonAlerts = (Button) getActivity().findViewById(R.id.buttonAlerts);
 	Button buttonNews = (Button) getActivity().findViewById(R.id.buttonNews);
 	Button buttonTwitter = (Button) getActivity().findViewById(R.id.buttonTwitter);
 
@@ -71,6 +72,11 @@ public class FragmentMainMenu extends BaseFragment {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_OUTFIT_LIST.toString(), null);
 	    }
 	});
+	buttonAlerts.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ALERTS.toString(), null);
+	    }
+	});	
 	buttonNews.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_LINK_MENU.toString(), null);
