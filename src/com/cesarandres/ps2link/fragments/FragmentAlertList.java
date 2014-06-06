@@ -46,6 +46,11 @@ public class FragmentAlertList extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 	this.fragmentTitle.setText(getString(R.string.title_alerts));
+	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		downloadAlertList();
+	    }
+	});
     }
     
 	/*
@@ -59,13 +64,19 @@ public class FragmentAlertList extends BaseFragment {
 		downloadAlertList();
 	}
 	
-
+	@Override
+	public void onPause(){
+		super.onPause();
+		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewAlertList);
+		((AlertItemAdapter)listRoot.getAdapter()).stopWorker();
+	}
+	
     /**
-     * It will download the lastest alerts and populate the UI
+     * It will download the latest alerts and populate the UI
      */
     public void downloadAlertList() {
 	setProgressButton(true);
-	String url = "http://census.soe.com/get/ps2:v2/world_event?c:limit=8&c:lang=en&type=METAGAME&c:join=type:world^inject_at:world&c:join=type:metagame_event^inject_at:event";
+	String url = "http://census.soe.com/get/ps2:v2/world_event?c:limit=20&c:lang=en&type=METAGAME&c:join=type:world^inject_at:world&c:join=type:metagame_event^inject_at:event";
 
 	Listener<World_Event_response> success = new Response.Listener<World_Event_response>() {
 	    @Override

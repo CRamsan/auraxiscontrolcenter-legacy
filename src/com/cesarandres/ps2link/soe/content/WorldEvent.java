@@ -5,6 +5,8 @@ public class WorldEvent {
 	private String faction_nc;
 	private String faction_tr;
 	private String faction_vs;
+	private String metagame_event_state;
+	private String metagame_event_id;
 	private String timestamp;
 	private World world;
 	
@@ -43,5 +45,17 @@ public class WorldEvent {
 	}
 	public void setWorld(World world) {
 		this.world = world;
+	}
+	public String getMetagame_event_state() {
+		return metagame_event_state;
+	}
+	public void setMetagame_event_state(String metagame_event_state) {
+		this.metagame_event_state = metagame_event_state;
+	}
+	public String getMetagame_event_id() {
+		return metagame_event_id;
+	}
+	public void setMetagame_event_id(String metagame_event_id) {
+		this.metagame_event_id = metagame_event_id;
 	}
 }

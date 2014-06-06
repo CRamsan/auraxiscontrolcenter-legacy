@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -28,7 +27,6 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.content.CharacterEvent;
 import com.cesarandres.ps2link.soe.util.Logger;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
  * This fragment will retrieve the current list of alerts as well as give the
@@ -40,15 +38,16 @@ public class FragmentAlertSettings extends BaseFragment {
 	public static final String EXTRA_MESSAGE = "message";
 	public static final String PROPERTY_REG_ID = "registration_id";
 
-	String SENDER_ID = "656146981691";
+	private static final String SENDER_ID = "656146981691";
 
-	TextView mDisplay;
-	GoogleCloudMessaging gcm;
-	AtomicInteger msgId = new AtomicInteger();
-	SharedPreferences prefs;
-	Context context;
+	private TextView mDisplay;
+	//TODO Reenable this
+	//private GoogleCloudMessaging gcm;
+	private AtomicInteger msgId = new AtomicInteger();
+	private SharedPreferences prefs;
+	private Context context;
 
-	String regid;
+	private String regid;
 
 	/*
 	 * (non-Javadoc)
@@ -73,7 +72,7 @@ public class FragmentAlertSettings extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Activity context = getActivity();		
+		/*Activity context = getActivity();		
 		if (ApplicationPS2Link.checkPlayServices(context)) {
 			gcm = GoogleCloudMessaging.getInstance(context);
 			regid = ApplicationPS2Link.getRegistrationId(context);
@@ -85,9 +84,8 @@ public class FragmentAlertSettings extends BaseFragment {
 			}
 		} else {
 			Logger.log(Log.INFO, this, "No valid Google Play Services APK found.");
-		}
+		}*/
 
-		
 		ListView listRoot = (ListView) getActivity().findViewById(
 				R.id.listViewKillList);
 		listRoot.setOnItemClickListener(new OnItemClickListener() {
@@ -123,10 +121,11 @@ public class FragmentAlertSettings extends BaseFragment {
         protected Integer doInBackground(Integer... params) {
             String msg = "";
             try {
-                if (gcm == null) {
+            	//TODO reenable this
+                /*if (gcm == null) {
                     gcm = GoogleCloudMessaging.getInstance(context);
                 }
-                regid = gcm.register(SENDER_ID);
+                regid = gcm.register(SENDER_ID);*/
                 msg = "Device registered, registration ID=" + regid;
 
                 // You should send the registration ID to your server over HTTP,

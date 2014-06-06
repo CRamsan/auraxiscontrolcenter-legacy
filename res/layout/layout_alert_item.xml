@@ -3,7 +3,8 @@
     style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    xmlns:app="http://schemas.android.com/apk/res/com.cesarandres.ps2link">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,29 +12,39 @@
 
         <TextView
             android:id="@+id/textViewServerName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_weight="2"
             android:maxLines="1"
             android:text="Mattherson"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/textViewEventType"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:gravity="right"
+            android:layout_weight="2"
+            android:gravity="left"
             android:maxLines="1"
             android:text="Capture all Biolabs"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/textViewTimeRemaining"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewStatus"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="1h 50m" />
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:lines="1"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="Ongoing"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
 
@@ -41,6 +52,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <com.cesarandres.ps2link.view.ProgressBarDivided
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_weight="5"
+            app:divisions="15" />
+        
         <TextView
             android:id="@+id/textViewTRScore"
             android:layout_width="0dp"
@@ -63,16 +80,12 @@
             android:text="63" />
 
         <TextView
-            android:id="@+id/textViewContinent"
+            android:id="@+id/textViewTimeRemaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:text="Esamir"
+            android:text="1h 50m"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
     </LinearLayout>
 
 </LinearLayout>

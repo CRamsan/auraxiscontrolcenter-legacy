@@ -14,8 +14,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.soe.util.Logger;
 import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
  * 
@@ -113,7 +111,8 @@ public class ApplicationPS2Link extends Application {
 	 * doesn't, display a dialog that allows users to download the APK from the
 	 * Google Play Store or enable it in the device's system settings.
 	 */
-	public static boolean checkPlayServices(Activity context) {
+	//TODO Enable this
+	/*public static boolean checkPlayServices(Activity context) {
 		int resultCode = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(context);
 		if (resultCode != ConnectionResult.SUCCESS) {
@@ -127,7 +126,7 @@ public class ApplicationPS2Link extends Application {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	/**
 	 * Gets the current registration ID for application on GCM service.
