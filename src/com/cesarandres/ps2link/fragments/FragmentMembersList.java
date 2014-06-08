@@ -168,6 +168,7 @@ public class FragmentMembersList extends BaseFragment {
 		try {
 		    UpdateMembers task = new UpdateMembers();
 		    setCurrentTask(task);
+		    fragmentTitle.setText(response.getOutfit_list().get(0).getName());
 		    ArrayList<Member> list = response.getOutfit_list().get(0).getMembers();
 		    // Check this warning
 		    task.execute(list);
@@ -274,7 +275,6 @@ public class FragmentMembersList extends BaseFragment {
 	    outfitId = result.getOutfit_Id();
 	    outfitName = result.getName();
 	    outfitSize = result.getMember_count();
-	    ((Button) getActivity().findViewById(R.id.buttonFragmentTitle)).setText(outfitName);
 	    setProgressButton(false);
 	    updateContent();
 	    downloadOutfitMembers();

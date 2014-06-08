@@ -123,7 +123,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 
 	// Open the database for all other fragments to use
 	setData(new ObjectDataSource(this));
-	//data.open();
+	data.open();
     }
 
     /*
