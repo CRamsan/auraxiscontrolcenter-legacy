@@ -7,6 +7,7 @@ public class World {
     private String world_id;
     private String character_id;
     private String state;
+    private String population;
 
     public Name_Multi getName() {
 	return this.name;
@@ -38,5 +39,13 @@ public class World {
 
     public void setCharacter_id(String character_id) {
 	this.character_id = character_id;
+    }
+
+    public String getPopulation() {
+	return population;
+    }
+
+    public void setPopulation(String population) {
+	this.population = population;
     }
 }

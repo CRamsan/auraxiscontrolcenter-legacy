@@ -148,32 +148,39 @@ public class FragmentAddOutfit extends BaseFragment {
 	    @SuppressWarnings("unchecked")
 	    @Override
 	    public void onResponse(Outfit_response response) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
-		listRoot.setAdapter(new OutfitItemAdapter(getActivity(), response.getOutfit_list()));
+		setProgressButton(false);
+		try {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
+		    listRoot.setAdapter(new OutfitItemAdapter(getActivity(), response.getOutfit_list()));
 
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-		    @Override
-		    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-			mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
-				new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id() });
-		    }
-		});
+		    listRoot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+			    mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
+				    new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id() });
+			}
+		    });
 
-		// Add the new outfits to the local cache
-		UpdateTmpOutfitTable currentTask = new UpdateTmpOutfitTable();
-		setCurrentTask(currentTask);
-		currentTask.execute(response.getOutfit_list());
-		listRoot.setTextFilterEnabled(true);
+		    // Add the new outfits to the local cache
+		    UpdateTmpOutfitTable currentTask = new UpdateTmpOutfitTable();
+		    setCurrentTask(currentTask);
+		    currentTask.execute(response.getOutfit_list());
+		    listRoot.setTextFilterEnabled(true);
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
+		setProgressButton(false);
 		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
 		if (listRoot != null) {
 		    listRoot.setAdapter(null);
 		}
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 

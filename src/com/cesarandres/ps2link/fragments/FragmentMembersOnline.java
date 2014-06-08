@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -110,15 +111,19 @@ public class FragmentMembersOnline extends BaseFragment {
 	    @Override
 	    public void onResponse(Outfit_member_response response) {
 		setProgressButton(false);
-		updateContent(response.getOutfit_member_list());
+		try{
+		    updateContent(response.getOutfit_member_list());
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}		
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		// TODO Add toast
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 

@@ -17,6 +17,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -204,21 +205,25 @@ public class FragmentProfile extends BaseFragment {
 	Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 	    @Override
 	    public void onResponse(Character_list_response response) {
-		profile = response.getCharacter_list().get(0);
 		setProgressButton(false);
-		profile.setCached(isCached);
-		updateUI(profile);
-		UpdateProfileToTable task = new UpdateProfileToTable();
-		setCurrentTask(task);
-		task.execute(profile);
+		try {
+		    profile = response.getCharacter_list().get(0);
+		    profile.setCached(isCached);
+		    updateUI(profile);
+		    UpdateProfileToTable task = new UpdateProfileToTable();
+		    setCurrentTask(task);
+		    task.execute(profile);
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		// TODO Add toast
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 

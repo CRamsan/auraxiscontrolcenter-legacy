@@ -96,18 +96,21 @@ public class FragmentKillList extends BaseFragment {
 	Listener<Characters_event_list_response> success = new Response.Listener<Characters_event_list_response>() {
 	    @Override
 	    public void onResponse(Characters_event_list_response response) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
-		listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
 		setProgressButton(false);
+		try {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
+		    listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		error.equals(new Object());
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 	SOECensus.sendGsonRequest(url, Characters_event_list_response.class, success, error, this);

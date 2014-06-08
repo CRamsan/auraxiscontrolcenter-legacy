@@ -117,15 +117,19 @@ public class FragmentAddProfile extends BaseFragment {
 	Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 	    @Override
 	    public void onResponse(Character_list_response response) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
-		listRoot.setAdapter(new ProfileItemAdapter(getActivity(), response.getCharacter_name_list(), false));
-		listRoot.setOnItemClickListener(new OnItemClickListener() {
-		    @Override
-		    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-			mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-				new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
-		    }
-		});
+		try {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+		    listRoot.setAdapter(new ProfileItemAdapter(getActivity(), response.getCharacter_name_list(), false));
+		    listRoot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+			    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+				    new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
+			}
+		    });
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
 	    }
 	};
 
@@ -136,6 +140,7 @@ public class FragmentAddProfile extends BaseFragment {
 		if (listRoot != null) {
 		    listRoot.setAdapter(null);
 		}
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 

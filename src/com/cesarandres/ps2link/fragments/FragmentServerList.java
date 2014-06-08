@@ -1,7 +1,5 @@
 package com.cesarandres.ps2link.fragments;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -18,9 +17,13 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
+import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.response.Server_Status_response;
-import com.cesarandres.ps2link.soe.content.response.server.LiveServer;
+import com.cesarandres.ps2link.soe.content.response.Server_response;
 import com.cesarandres.ps2link.soe.content.response.server.LiveServers;
+import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.QueryString;
+import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.soe.view.ServerItemAdapter;
 
 /**
@@ -71,38 +74,25 @@ public class FragmentServerList extends BaseFragment {
     }
 
     /**
-     * Query the API and retrieve the latest status for all the servers and
-     * update the UI. This method uses a non-standard API call
+     * Make an API call to retrieve the list of servers. This will get the
+     * current list of servers and their state.
      */
     public void downloadServers() {
 	setProgressButton(true);
-	//This is not an standard API call
-	String url = "https://census.soe.com/s:PS2Link/json/status/ps2";
+	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
+		QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10")).toString();
 
-	Listener<Server_Status_response> success = new Response.Listener<Server_Status_response>() {
+	Listener<Server_response> success = new Response.Listener<Server_response>() {
 	    @Override
-	    public void onResponse(Server_Status_response response) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-		LiveServers servers = response.getPs2().getLive();
-		ArrayList<LiveServer> serverList = new ArrayList<LiveServer>();
-		servers.getBriggs().setName("Briggs");
-		servers.getCeres().setName("Ceres");
-		servers.getCobalt().setName("Cobalt");
-		servers.getConnery().setName("Connery");
-		servers.getMattherson().setName("Mattherson");
-		servers.getMiller().setName("Miller");
-		servers.getWaterson().setName("Waterson");
-		servers.getWoodman().setName("Woodman");
-		serverList.add(servers.getBriggs());
-		serverList.add(servers.getCeres());
-		serverList.add(servers.getCobalt());
-		serverList.add(servers.getConnery());
-		serverList.add(servers.getMattherson());
-		serverList.add(servers.getMiller());
-		serverList.add(servers.getWaterson());
-		serverList.add(servers.getWoodman());
-		listRoot.setAdapter(new ServerItemAdapter(getActivity(), serverList));
-		setProgressButton(false);
+	    public void onResponse(Server_response response) {
+		try {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+		    listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
+		setProgressButton(true);
+		downloadServerPopulation();
 	    }
 	};
 
@@ -110,9 +100,44 @@ public class FragmentServerList extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+	    }
+	};
+	SOECensus.sendGsonRequest(url, Server_response.class, success, error, this);
+    }
+
+    /**
+     * Query the API and retrieve the latest population info for all the servers
+     * and update the UI. This method uses a non-standard API call. This API
+     * call has been unreliable in the past.
+     */
+    public void downloadServerPopulation() {
+	setProgressButton(true);
+	// This is not an standard API call
+	String url = "https://census.soe.com/s:PS2Link/json/status/ps2";
+
+	Listener<Server_Status_response> success = new Response.Listener<Server_Status_response>() {
+	    @Override
+	    public void onResponse(Server_Status_response response) {
+		setProgressButton(false);
+		try {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+		    LiveServers servers = response.getPs2().getLive();
+		    ((ServerItemAdapter) listRoot.getAdapter()).setServerPopulation(servers);
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
+	    }
+	};
+
+	ErrorListener error = new Response.ErrorListener() {
+	    @Override
+	    public void onErrorResponse(VolleyError error) {
+		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 
 	SOECensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
-	}
+    }
 }

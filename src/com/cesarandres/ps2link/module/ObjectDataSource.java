@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.util.Log;
 
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
@@ -23,6 +21,8 @@ import com.cesarandres.ps2link.soe.content.character.Name;
 import com.cesarandres.ps2link.soe.content.character.Server;
 import com.cesarandres.ps2link.soe.content.world.Name_Multi;
 import com.cesarandres.ps2link.soe.util.Logger;
+
+
 
 //TODO This class needs to be cleaned up, methods have inconsistent parameters and return values can be misleading
 /**
@@ -74,7 +74,7 @@ public class ObjectDataSource {
     public void open(){
     try{
     	database = dbHelper.getWritableDatabase();
-    }catch(SQLiteDatabaseLockedException e){
+    }catch(Exception e){
     	Logger.log(Log.ERROR, this, "Could not open database, database is already locked. Trying again");
     	dbHelper.close();
     	database = dbHelper.getWritableDatabase();

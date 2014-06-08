@@ -81,6 +81,7 @@ public class FragmentStatList extends BaseFragment {
 	Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 	    @Override
 	    public void onResponse(Character_list_response response) {
+		setProgressButton(false);
 		try {
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewStatList);
 		    CharacterProfile profile = response.getCharacter_list().get(0);
@@ -89,15 +90,14 @@ public class FragmentStatList extends BaseFragment {
 		} catch (Exception e) {
 		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 		}
-		setProgressButton(false);
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		error.equals(new Object());
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 

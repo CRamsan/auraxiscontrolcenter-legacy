@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 
@@ -164,19 +165,23 @@ public class FragmentMembersList extends BaseFragment {
 	    @Override
 	    public void onResponse(Outfit_member_response response) {
 		setProgressButton(false);
-		UpdateMembers task = new UpdateMembers();
-		setCurrentTask(task);
-		ArrayList<Member> list = response.getOutfit_list().get(0).getMembers();
-		// Check this warning
-		task.execute(list);
+		try {
+		    UpdateMembers task = new UpdateMembers();
+		    setCurrentTask(task);
+		    ArrayList<Member> list = response.getOutfit_list().get(0).getMembers();
+		    // Check this warning
+		    task.execute(list);
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		// TODO Add toast
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 	SOECensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);

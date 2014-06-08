@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -95,17 +96,21 @@ public class FragmentFriendList extends BaseFragment {
 	Listener<Character_friend_list_response> success = new Response.Listener<Character_friend_list_response>() {
 	    @Override
 	    public void onResponse(Character_friend_list_response response) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewFriendList);
-		listRoot.setAdapter(new FriendItemAdapter(getActivity(), response.getCharacters_friend_list().get(0).getFriend_list()));
 		setProgressButton(false);
+		try {
+		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewFriendList);
+		    listRoot.setAdapter(new FriendItemAdapter(getActivity(), response.getCharacters_friend_list().get(0).getFriend_list()));
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		}
 	    }
 	};
 
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		// TODO Add toast
 		setProgressButton(false);
+		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
 
