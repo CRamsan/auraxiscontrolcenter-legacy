@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3800"
+       osb:paint="gradient">
+      <stop
+         style="stop-color:#ff0200;stop-opacity:1;"
+         offset="0"
+         id="stop3802" />
+      <stop
+         style="stop-color:#ff0200;stop-opacity:0;"
+         offset="1"
+         id="stop3804" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       id="filter3866">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.32503147"
+         id="feGaussianBlur3868" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.0060209"
+     inkscape:cx="143.99307"
+     inkscape:cy="655.93732"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1596"
+     inkscape:window-height="880"
+     inkscape:window-x="1920"
+     inkscape:window-y="18"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#5e0000;fill-opacity:0.67123288;stroke:#ffffff;stroke-width:2.40000010000000019;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3866)"
+       d="m 196.82638,514.61293 56.96429,0 4.10714,4.10714 0,7.32143 -65,0 0,-7.5 z m 0.17858,-0.35715 5.35714,-49.10714 7.13559,-4.11973 31.79298,0 5.18487,5.18486 7.13656,48.7563 z m 7.94306,-6.67725 16.96428,0 c -0.18787,-5.46843 0.34654,-11.65214 -0.17857,-16.78571 l -4.01786,-4.01786 0,-6.16071 4.33036,-4.33036 5.40179,0 4.66517,4.66518 0,6.62946 -3.58258,3.58259 0,16.77455 16.41741,0 -3.75,-36.96428 -2.76786,-2.76786 -26.875,0 -3.08036,3.08036 z"
+       id="path3790"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccc"
+       transform="matrix(1.7807106,0,0,1.7807106,-211.36391,-494.9731)"
+       inkscape:export-filename="/home/cramsan/Git/auraxiscontrolcenter/Original/AlertOff.png"
+       inkscape:export-xdpi="293.10938"
+       inkscape:export-ydpi="293.10938" />
+  </g>
+</svg>

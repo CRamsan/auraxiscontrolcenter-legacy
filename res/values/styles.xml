@@ -81,6 +81,7 @@
     </style>
 
     <color name="BLACK">#000000</color>
+    <color name="BLACK_TRANS">#22000000</color>
     <color name="WHITE">#ffffff</color>
 
 </resources>
