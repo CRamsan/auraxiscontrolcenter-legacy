@@ -71,7 +71,12 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	if (savedInstanceState != null) {
 	    setActivityMode(ActivityMode.valueOf(savedInstanceState.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY)));
 	} else if (extras != null) {
-	    setActivityMode(ActivityMode.valueOf(extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY)));
+		String mode = extras.getString(ApplicationPS2Link.ACTIVITY_MODE_KEY);
+		if(mode == null){
+		    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
+		}else{
+		    setActivityMode(ActivityMode.valueOf(mode));
+		}
 	} else {
 	    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
 	}
