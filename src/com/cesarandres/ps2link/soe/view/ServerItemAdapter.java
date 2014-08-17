@@ -41,20 +41,14 @@ public class ServerItemAdapter extends BaseAdapter {
 	    try {
 		if (name.equals("Briggs")) {
 		    population = serverList.getBriggs().getStatus();
-		} else if (name.equals("Waterson")) {
-		    population = serverList.getWaterson().getStatus();
-		} else if (name.equals("Mattherson")) {
-		    population = serverList.getMattherson().getStatus();
+		} else if (name.equals("Emerald")) {
+		    population = serverList.getEmerald().getStatus();
 		} else if (name.equals("Connery")) {
 		    population = serverList.getConnery().getStatus();
-		} else if (name.equals("Ceres")) {
-		    population = serverList.getCeres().getStatus();
 		} else if (name.equals("Miller")) {
 		    population = serverList.getMiller().getStatus();
 		} else if (name.equals("Cobalt")) {
 		    population = serverList.getCobalt().getStatus();
-		} else if (name.equals("Woodman")) {
-		    population = serverList.getWoodman().getStatus();
 		} else{
 		    population = null;
 		}
@@ -149,11 +143,11 @@ public class ServerItemAdapter extends BaseAdapter {
 
 	if (name.equals("Briggs")) {
 	    holder.serverRegion.setText("(AU)");
-	} else if (name.equals("Waterson") || name.equals("Mattherson")) {
+	} else if (name.equals("Emerald")) {
 	    holder.serverRegion.setText("(US EAST)");
 	} else if (name.equals("Connery")) {
 	    holder.serverRegion.setText("(US WEST)");
-	} else if (name.equals("Mallory") || name.equals("Ceres") || name.equals("Miller") || name.equals("Cobalt") || name.equals("Woodman")) {
+	} else if (name.equals("Ceres") || name.equals("Cobalt") ) {
 	    holder.serverRegion.setText("(EU)");
 	} else {
 	    holder.serverRegion.setText("");
