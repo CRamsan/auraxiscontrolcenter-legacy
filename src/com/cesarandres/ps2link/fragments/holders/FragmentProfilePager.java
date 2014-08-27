@@ -2,6 +2,7 @@ package com.cesarandres.ps2link.fragments.holders;
 
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -191,6 +192,7 @@ public class FragmentProfilePager extends BaseFragment {
 	 *            Fragment manager that will hold all the fragments within
 	 *            the pager
 	 */
+	@SuppressLint("UseSparseArrays")
 	public SectionsPagerAdapter(FragmentManager fm) {
 	    super(fm);
 	    this.mMap = new HashMap<Integer, Fragment>();

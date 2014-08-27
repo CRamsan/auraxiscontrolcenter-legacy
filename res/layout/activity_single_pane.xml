@@ -6,6 +6,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/BLACK"
+        android:contentDescription="@string/text_Background"
         android:scaleType="fitStart"
         android:src="@drawable/ps2_activity_background" />
 

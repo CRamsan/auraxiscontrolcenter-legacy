@@ -2,6 +2,7 @@ package com.cesarandres.ps2link.soe.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -89,7 +90,7 @@ public class ServerItemAdapter extends BaseAdapter {
 	// supplied
 	// by ListView is null.
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_server_item, null);
+	    convertView = mInflater.inflate(R.layout.layout_server_item, parent);
 
 	    // Creates a ViewHolder and store references to the two children
 	    // views
@@ -110,7 +111,7 @@ public class ServerItemAdapter extends BaseAdapter {
 	// TODO Check for a replacement for this functions
 	String serverPopulation = this.serverList.get(position).getPopulation();
 	if (serverPopulation != null) {
-	    holder.serverPopulation.setText("Population: " + serverPopulation.toUpperCase());
+	    holder.serverPopulation.setText("Population: " + serverPopulation.toUpperCase(Locale.getDefault()));
 	    if (serverPopulation.equalsIgnoreCase("low")) {
 		// Orange color
 		holder.serverPopulation.setTextColor(Color.rgb(250, 140, 0));
@@ -128,7 +129,7 @@ public class ServerItemAdapter extends BaseAdapter {
 
 	String serverState = this.serverList.get(position).getState();
 	if (serverState != null) {
-	    holder.serverStatus.setText(serverState.toUpperCase());
+	    holder.serverStatus.setText(serverState.toUpperCase(Locale.getDefault()));
 	    if (serverState.equalsIgnoreCase("online")) {
 		holder.serverStatus.setTextColor(Color.GREEN);
 	    } else {

@@ -37,6 +37,7 @@
         android:id="@+id/imageViewMemberListClass"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:contentDescription="@string/text_class"
         android:scaleType="centerInside" />
 
 </LinearLayout>

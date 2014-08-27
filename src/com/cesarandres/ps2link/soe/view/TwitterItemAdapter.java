@@ -60,7 +60,7 @@ public class TwitterItemAdapter extends DBItemAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_tweet_item, null);
+	    convertView = mInflater.inflate(R.layout.layout_tweet_item, parent);
 
 	    holder = new ViewHolder();
 	    holder.tweetName = (TextView) convertView.findViewById(R.id.textViewTwitterName);

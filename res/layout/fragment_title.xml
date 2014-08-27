@@ -11,6 +11,7 @@
             android:id="@+id/buttonFragmentTitle"
             style="@style/ActionBarButtonStyle"
             android:drawableLeft="@drawable/icon_back"
+            android:drawableStart="@drawable/icon_back"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -27,6 +28,7 @@
         <ImageButton
             android:id="@+id/buttonFragmentUpdate"
             style="@style/ActionBarButtonStyle"
+            android:contentDescription="@string/text_update"
             android:src="@drawable/icon_refresh" />
 
         <ToggleButton
@@ -39,12 +41,14 @@
         <ImageButton
             android:id="@+id/buttonFragmentAdd"
             style="@style/ActionBarButtonStyle"
+            android:contentDescription="@string/text_add"
             android:src="@drawable/icon_search" />
 
         <ToggleButton
             android:id="@+id/toggleButtonFragmentStar"
             style="@style/ActionBarButtonStyle"
             android:drawableRight="@drawable/ps2_button_action_star"
+            android:drawableEnd="@drawable/ps2_button_action_star"
             android:textOff="@string/text_empty"
             android:textOn="@string/text_empty" />
 
@@ -52,6 +56,7 @@
             android:id="@+id/toggleButtonFragmentAppend"
             style="@style/ActionBarButtonStyle"
             android:drawableRight="@drawable/ps2_button_action_append"
+            android:drawableEnd="@drawable/ps2_button_action_append"
             android:textOff="@string/text_empty"
             android:textOn="@string/text_empty" />
     </LinearLayout>

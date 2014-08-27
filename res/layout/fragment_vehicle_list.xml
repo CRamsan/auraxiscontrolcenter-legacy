@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:gravity="center_vertical"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
@@ -68,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
@@ -93,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
@@ -118,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/title_unkown"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
@@ -144,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/title_unkown"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
@@ -170,6 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
         </LinearLayout>

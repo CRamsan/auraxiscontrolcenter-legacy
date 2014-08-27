@@ -11,7 +11,6 @@
     <string name="title_outfit">OUTFIT</string>
     <string name="title_unkown">UNKOWN</string>
     <string name="title_reddit">REDDIT</string>
-    <string name="title_alerts">ALERTS</string>
     <string name="title_reddit_lore">FAN-LORE</string>
     <string name="text_hours_played">HOURS PLAYED</string>
     <string name="text_show_online">HIDE OFFLINE</string>
@@ -25,7 +24,6 @@
     <string name="twitter_purrfectstorm">PurrfectStorm</string>
     <string name="twitter_ps_tray">PS_TRay</string>
     <string name="twitter_mhigby">MHigby</string>
-    <string name="content_not_available">Content currently not available.</string>
     <string name="twitter_planetside2eu">Planetside2EU</string>
     <string name="twitter_radarx">RadarX</string>
     <string name="twitter_arclegger">Arclegger</string>
@@ -44,5 +42,20 @@
     <string name="text_outfit_name_too_short">Outfit name is too short</string>
     <string name="text_profile_name_too_short">Name is too short</string>
     <string name="text_problem_encoding">There was a problem trying to read the input</string>
+    <string name="text_Background">Background</string>
+    <string name="text_search_button">Search Button</string>
+    <string name="text_tag">Tag</string>
+    <string name="text_outfit_name">Outfit Name</string>
+    <string name="text_ps2_icon">Planetside 2 Icon</string>
+    <string name="text_nc_icon">NC Icon</string>
+    <string name="text_tr_icon">TR Icon</string>
+    <string name="text_vs_icon">VS Icon</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_faction_icon">Faction Icon</string>
+    <string name="text_certs">Certifications</string>
+    <string name="text_update">Update</string>
+    <string name="text_add">Add</string>
+    <string name="text_killer_faction">Killer\'s Faction</string>
+    <string name="text_class">Class</string>
 
 </resources>

@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="2dp"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="2dp"
+            android:contentDescription="@string/text_faction_icon" />
 
         <LinearLayout
             style="@style/LayoutFrameStyle"
@@ -33,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:background="@drawable/battle_rank_on"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -54,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/battle_rank_off"
                 android:gravity="center"
@@ -82,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/text_certs"
                 android:src="@drawable/certification" />
 
             <TextView
@@ -90,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:gravity="center_vertical"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
@@ -126,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
@@ -151,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
@@ -176,6 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/title_unkown"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
@@ -202,6 +210,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/title_unkown"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
@@ -228,6 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
         </LinearLayout>

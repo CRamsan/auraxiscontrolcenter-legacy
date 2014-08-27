@@ -67,7 +67,8 @@ public class GsonRequest<T> extends Request<T> {
      * @see com.android.volley.Request#parseNetworkResponse(com.android.volley.
      * NetworkResponse)
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
 	try {
 	    String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));

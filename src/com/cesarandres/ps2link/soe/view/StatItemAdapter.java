@@ -1,6 +1,7 @@
 package com.cesarandres.ps2link.soe.view;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -105,7 +106,7 @@ public class StatItemAdapter extends BaseAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_stat_item, null);
+	    convertView = mInflater.inflate(R.layout.layout_stat_item, parent);
 
 	    holder = new ViewHolder();
 	    holder.name = (TextView) convertView.findViewById(R.id.TextViewStatItemName);
@@ -126,7 +127,7 @@ public class StatItemAdapter extends BaseAdapter {
 	    holder.month.setText("This month: " + (Float.valueOf(getItem(position).getMonth().m01).intValue() / 3600) + " hours");
 	} else {
 	    // TODO Check for a solution for this too
-	    holder.name.setText(getItem(position).getStat_name().toUpperCase().replaceAll("_", " "));
+	    holder.name.setText(getItem(position).getStat_name().toUpperCase(Locale.getDefault()).replaceAll("_", " "));
 	    holder.total.setText("All Time: " + getItem(position).getAll_time());
 	    holder.today.setText("Today: " + getItem(position).getDay().d01);
 	    holder.week.setText("This week: " + getItem(position).getWeek().w01);

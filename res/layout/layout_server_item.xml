@@ -12,7 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:gravity="right"
+        android:gravity="end"
         android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
@@ -44,8 +45,9 @@
             android:id="@+id/textViewServerStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:maxLines="1"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -53,8 +55,9 @@
             android:id="@+id/textViewServerPopulation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />

@@ -51,7 +51,7 @@ public class OutfitItemAdapter extends BaseAdapter {
 	// supplied
 	// by ListView is null.
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_outfit_item, null);
+	    convertView = mInflater.inflate(R.layout.layout_outfit_item, parent);
 
 	    // Creates a ViewHolder and store references to the two children
 	    // views

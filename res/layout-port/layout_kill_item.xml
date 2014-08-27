@@ -31,7 +31,7 @@
                 android:id="@+id/TextViewKillItemCharacterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:maxLines="1"
@@ -41,7 +41,7 @@
                 android:id="@+id/TextViewKillItemTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
         </LinearLayout>
@@ -51,7 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/text_killer_faction"
             android:src="@drawable/icon_faction_tr" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +65,7 @@
             android:id="@+id/TextViewKillItemWeaponName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:ellipsize="end"

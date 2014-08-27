@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,13 +40,13 @@ public class KillItemAdapter extends BaseAdapter {
     private Bitmap icon_nc;
     private Bitmap icon_tr;
 
-    private Hashtable<View, GsonRequest> requestTable;
+    private Hashtable<View, GsonRequest<Item_list_response>> requestTable;
 
     public KillItemAdapter(Context context, ArrayList<CharacterEvent> events, String characterId) {
 	this.mInflater = LayoutInflater.from(context);
 	this.events = events;
 	this.characterId = characterId;
-	requestTable = new Hashtable<View, GsonRequest>(20);
+	requestTable = new Hashtable<View, GsonRequest<Item_list_response>>(20);
 	icon_vs = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_vs);
 	icon_tr = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_tr);
 	icon_nc = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_nc);
@@ -71,7 +72,7 @@ public class KillItemAdapter extends BaseAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_kill_item, null);
+	    convertView = mInflater.inflate(R.layout.layout_kill_item, parent);
 
 	    holder = new ViewHolder();
 	    holder.action = (TextView) convertView.findViewById(R.id.textViewKillItemAction);
@@ -83,7 +84,7 @@ public class KillItemAdapter extends BaseAdapter {
 	    convertView.setTag(holder);
 	} else {
 	    holder = (ViewHolder) convertView.getTag();
-	    GsonRequest request = (requestTable.get(convertView));
+	    GsonRequest<Item_list_response> request = (requestTable.get(convertView));
 	    if (request != null) {
 		request.cancel();
 	    }
@@ -108,7 +109,7 @@ public class KillItemAdapter extends BaseAdapter {
 	}
 
 	Date date = new Date(Long.parseLong(getItem(position).getTimestamp() + "000"));
-	SimpleDateFormat format = new SimpleDateFormat("MMM dd 'at' hh:mm:ss a");
+	SimpleDateFormat format = new SimpleDateFormat("MMM dd 'at' hh:mm:ss a", Locale.getDefault() );
 	holder.time.setText(format.format(date));
 
 	try {

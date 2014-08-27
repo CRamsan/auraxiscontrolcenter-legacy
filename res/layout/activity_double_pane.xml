@@ -8,6 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/BLACK"
+        android:contentDescription="@string/text_Background"
         android:scaleType="fitStart"
         android:src="@drawable/ps2_activity_background" />
 
@@ -23,7 +24,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent" 
+            android:baselineAligned="false" >
 
             <FrameLayout
                 style="@style/FragmentBottomStyle"

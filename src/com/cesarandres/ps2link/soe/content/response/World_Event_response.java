@@ -2,7 +2,6 @@ package com.cesarandres.ps2link.soe.content.response;
 
 import java.util.ArrayList;
 
-import com.cesarandres.ps2link.soe.content.World;
 import com.cesarandres.ps2link.soe.content.WorldEvent;
 
 public class World_Event_response {

@@ -53,7 +53,7 @@ public class FriendItemAdapter extends BaseAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_friend_item, null);
+	    convertView = mInflater.inflate(R.layout.layout_friend_item, parent);
 
 	    holder = new ViewHolder();
 	    holder.friendName = (TextView) convertView.findViewById(R.id.textViewFriendName);

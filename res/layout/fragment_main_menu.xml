@@ -13,13 +13,14 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="vertical" >
 
             <Button
                 android:id="@+id/buttonPreferedProfile"
                 style="@style/ButtonStyle"
                 android:drawableLeft="@drawable/icon_star_selected"
+                android:drawableStart="@drawable/icon_star_selected"
                 android:gravity="center"
                 android:visibility="gone" />
 
@@ -27,6 +28,7 @@
                 android:id="@+id/buttonPreferedOutfit"
                 style="@style/ButtonStyle"
                 android:drawableLeft="@drawable/icon_star_selected"
+                android:drawableStart="@drawable/icon_star_selected"
                 android:gravity="center"
                 android:visibility="gone" />
 
@@ -51,12 +53,6 @@
                 style="@style/ButtonStyle"
                 android:text="@string/title_outfits" />
             
-           <Button
-               android:id="@+id/buttonAlerts"
-               style="@style/ButtonStyle"
-               android:text="@string/title_alerts"
-               android:visibility="gone" />
-
             <Button
                 android:id="@+id/buttonTwitter"
                 style="@style/ButtonStyle"
@@ -83,6 +79,7 @@
                     style="@style/ActionBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/text_ps2_icon"
                     android:src="@drawable/icon_ps2"
                     android:visibility="visible" />
 
@@ -91,6 +88,7 @@
                     style="@style/ActionBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/text_nc_icon"
                     android:src="@drawable/icon_faction_nc"
                     android:visibility="visible" />
 
@@ -99,6 +97,7 @@
                     style="@style/ActionBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/text_tr_icon"
                     android:src="@drawable/icon_faction_tr"
                     android:visibility="visible" />
 
@@ -107,8 +106,10 @@
                     style="@style/ActionBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/text_vs_icon"
                     android:src="@drawable/icon_faction_vs"
                     android:visibility="visible" />
+
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

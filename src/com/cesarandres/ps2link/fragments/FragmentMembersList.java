@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -162,7 +161,8 @@ public class FragmentMembersList extends BaseFragment {
 			.AddCommand(QueryCommand.RESOLVE, "member_online_status,member,member_character(name,type.faction)")).toString();
 
 	Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
-	    @Override
+	    @SuppressWarnings("unchecked")
+		@Override
 	    public void onResponse(Outfit_member_response response) {
 		setProgressButton(false);
 		try {
