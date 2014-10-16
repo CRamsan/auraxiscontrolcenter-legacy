@@ -106,7 +106,7 @@ public class StatItemAdapter extends BaseAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_stat_item, parent);
+	    convertView = mInflater.inflate(R.layout.layout_stat_item, parent, false);
 
 	    holder = new ViewHolder();
 	    holder.name = (TextView) convertView.findViewById(R.id.TextViewStatItemName);

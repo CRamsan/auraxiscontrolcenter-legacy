@@ -66,7 +66,7 @@ public class OnlineMemberItemAdapter extends BaseAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_member_item, parent);
+	    convertView = mInflater.inflate(R.layout.layout_member_item, parent, false);
 
 	    holder = new ViewHolder();
 	    holder.memberName = (TextView) convertView.findViewById(R.id.textViewMemberListName);

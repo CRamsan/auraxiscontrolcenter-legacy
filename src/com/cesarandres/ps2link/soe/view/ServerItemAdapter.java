@@ -90,7 +90,7 @@ public class ServerItemAdapter extends BaseAdapter {
 	// supplied
 	// by ListView is null.
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_server_item, parent);
+	    convertView = mInflater.inflate(R.layout.layout_server_item, parent, false);
 
 	    // Creates a ViewHolder and store references to the two children
 	    // views
@@ -148,8 +148,10 @@ public class ServerItemAdapter extends BaseAdapter {
 	    holder.serverRegion.setText("(US EAST)");
 	} else if (name.equals("Connery")) {
 	    holder.serverRegion.setText("(US WEST)");
-	} else if (name.equals("Ceres") || name.equals("Cobalt") ) {
+	} else if (name.equals("Miller") || name.equals("Cobalt") ) {
 	    holder.serverRegion.setText("(EU)");
+	} else if (name.equals("Jaeger")) {
+	    holder.serverRegion.setText("( - )");
 	} else {
 	    holder.serverRegion.setText("");
 	}

@@ -72,7 +72,7 @@ public class KillItemAdapter extends BaseAdapter {
 	ViewHolder holder;
 
 	if (convertView == null) {
-	    convertView = mInflater.inflate(R.layout.layout_kill_item, parent);
+	    convertView = mInflater.inflate(R.layout.layout_kill_item, parent, false);
 
 	    holder = new ViewHolder();
 	    holder.action = (TextView) convertView.findViewById(R.id.textViewKillItemAction);

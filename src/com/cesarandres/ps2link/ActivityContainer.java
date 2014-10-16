@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -108,6 +109,13 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
 
+	this.fragmentTitle.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			upNavigation();
+		}
+	});
+	
 	this.getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 	    public void onBackStackChanged() {
 		if (isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -316,5 +324,30 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	if (mainMenu != null) {
 	    ((FragmentMainMenu) mainMenu).checkPreferedButtons();
 	}
+    }
+    
+    /**
+     * This should simulate the back button behavior. If we are on tablet or phone 
+     * mode, we will go back on different ways. On normal phone mode we end the activity, 
+     * if we are on tablet mode we will pop the top of the stack.
+     */
+    public void upNavigation(){
+    	if(this.getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU){
+	    	if (isTablet) {
+	    		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+	    	        getSupportFragmentManager().popBackStack();
+	    	        Fragment currentFrag = (Fragment) getSupportFragmentManager().findFragmentById(R.id.activityFrameLayout);
+	    	        if (currentFrag != null)
+	    	        	getSupportFragmentManager().beginTransaction().remove(currentFrag);
+
+	    	        getFragmentManager().beginTransaction().commit();
+
+	    	    }else{
+	    	    	finish();
+	    	    }
+	    	}else{
+	    		finish();
+	    	}
+    	}
     }
 }
