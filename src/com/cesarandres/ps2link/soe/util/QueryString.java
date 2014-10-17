@@ -38,7 +38,7 @@ public class QueryString {
     }
 
     public static final String QUESTION_MARK = "?";
-    public static final String EQUALS = "=";
+    private static final String EQUALS = "=";
 
     private ArrayList<SearchParameter> listtOfParameters;
 

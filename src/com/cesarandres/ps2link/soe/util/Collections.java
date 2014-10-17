@@ -6,21 +6,6 @@ package com.cesarandres.ps2link.soe.util;
  * read-only.
  */
 public class Collections {
-    public static enum EQ2Collection {
-	ACHIEVEMENT("achievement"), ALTERNATEADVANCEMENT("alternateadvancement"), CHARACTER("character"), CHARACTERSTAT("character.stat"), CHARACTERSTATWORLD(
-		"character.stat.world"), CONSTANTS("constants"), FACTION("faction"), GUILD("guild"), ITEM("item"), SPELL("spell"), WORLD("world");
-
-	private final String collection;
-
-	private EQ2Collection(final String collection) {
-	    this.collection = collection;
-	}
-
-	@Override
-	public String toString() {
-	    return this.collection;
-	}
-    }
 
     public static enum PS2Collection {
 	AMERISHMAP("amerishmap"), CHARACTER("character"), CHARACTERS_CURRENCY("characters_currency"), CHARACTERS_EVENT("characters_event"), CHARACTERS_EVENT_GROUPED(

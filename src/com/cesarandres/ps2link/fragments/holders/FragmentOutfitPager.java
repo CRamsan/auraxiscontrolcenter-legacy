@@ -121,7 +121,7 @@ public class FragmentOutfitPager extends BaseFragment {
     /**
      * This pager will hold all the fragments that are displayed
      */
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+    private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private HashMap<Integer, Fragment> mMap;
 

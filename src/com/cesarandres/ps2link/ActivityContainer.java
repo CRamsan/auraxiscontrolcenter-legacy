@@ -336,12 +336,13 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    	if (isTablet) {
 	    		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 	    	        getSupportFragmentManager().popBackStack();
+	    	        
 	    	        Fragment currentFrag = (Fragment) getSupportFragmentManager().findFragmentById(R.id.activityFrameLayout);
-	    	        if (currentFrag != null)
-	    	        	getSupportFragmentManager().beginTransaction().remove(currentFrag);
-
-	    	        getFragmentManager().beginTransaction().commit();
-
+	    	        if (currentFrag != null){
+		    	        FragmentTransaction removeTransaction =	getSupportFragmentManager().beginTransaction();
+		    	        removeTransaction.remove(currentFrag);
+	    	        	removeTransaction.commit();
+	    	        }
 	    	    }else{
 	    	    	finish();
 	    	    }

@@ -30,8 +30,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
     private Activity context;
     private String data;
-    public static final String DOWNLOAD_DIR = ".cache";
-    public static final String PUBLIC_DIR = "AuraxisControlCenter";
+    private static final String DOWNLOAD_DIR = ".cache";
+    private static final String PUBLIC_DIR = "AuraxisControlCenter";
 
     /**
      * @param imageView

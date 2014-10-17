@@ -239,7 +239,7 @@ public class FragmentMembersList extends BaseFragment {
      * information
      * 
      */
-    public class UpdateOutfitFromTable extends AsyncTask<String, Integer, Outfit> {
+    private class UpdateOutfitFromTable extends AsyncTask<String, Integer, Outfit> {
 
 	/*
 	 * (non-Javadoc)
@@ -288,7 +288,7 @@ public class FragmentMembersList extends BaseFragment {
      * devices
      * 
      */
-    public class UpdateMembers extends AsyncTask<ArrayList<Member>, Integer, Integer> {
+    private class UpdateMembers extends AsyncTask<ArrayList<Member>, Integer, Integer> {
 
 	/*
 	 * (non-Javadoc)
@@ -342,7 +342,7 @@ public class FragmentMembersList extends BaseFragment {
      * outfit in the databse but it will not be displayed on the outfit list.
      * 
      */
-    public class CacheOutfit extends AsyncTask<String, Integer, Integer> {
+    private class CacheOutfit extends AsyncTask<String, Integer, Integer> {
 
 	/*
 	 * (non-Javadoc)

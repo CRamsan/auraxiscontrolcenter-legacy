@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -14,11 +15,11 @@ import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.Member;
 import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.content.World;
-import com.cesarandres.ps2link.soe.content.backlog.Times;
 import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
 import com.cesarandres.ps2link.soe.content.character.Server;
+import com.cesarandres.ps2link.soe.content.character.Times;
 import com.cesarandres.ps2link.soe.content.world.Name_Multi;
 import com.cesarandres.ps2link.soe.util.Logger;
 

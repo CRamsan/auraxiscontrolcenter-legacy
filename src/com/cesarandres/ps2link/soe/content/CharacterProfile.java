@@ -1,11 +1,11 @@
 package com.cesarandres.ps2link.soe.content;
 
-import com.cesarandres.ps2link.soe.content.backlog.Times;
 import com.cesarandres.ps2link.soe.content.character.BattleRank;
 import com.cesarandres.ps2link.soe.content.character.Certs;
 import com.cesarandres.ps2link.soe.content.character.Name;
 import com.cesarandres.ps2link.soe.content.character.Server;
 import com.cesarandres.ps2link.soe.content.character.Stats;
+import com.cesarandres.ps2link.soe.content.character.Times;
 
 public class CharacterProfile {
     private String character_id;

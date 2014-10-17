@@ -31,7 +31,7 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 public class SOECensus {
 
-    public static final String SERVICE_ID = "s:PS2Link";
+	public static final String SERVICE_ID = "s:PS2Link";
     public static final String ENDPOINT_URL = "http://census.soe.com";
     public static final String IMG = "img";
     public static final String ITEM = "item";
@@ -52,9 +52,7 @@ public class SOECensus {
     }
 
     public static enum Game {
-	PS2("ps2"), EQ2("eq2"), @Deprecated
-	PS2V1("ps2:v1"), PS2V2("ps2:v2"), @Deprecated
-	PS2BETA("ps2-beta");
+	PS2("ps2"),PS2V2("ps2:v2"); @Deprecated
 
 	private final String game;
 

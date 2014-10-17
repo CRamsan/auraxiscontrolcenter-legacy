@@ -1,4 +1,4 @@
-package com.cesarandres.ps2link.soe.content.backlog;
+package com.cesarandres.ps2link.soe.content.character;
 
 public class Times {
     private String last_login;

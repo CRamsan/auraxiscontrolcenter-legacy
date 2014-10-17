@@ -73,7 +73,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/ImageViewKillItemWeaponImage"
+            android:id="@+id/ImageViewWeaponItemImage"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_gravity="center"
