@@ -210,6 +210,15 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	}
     }
 
+	/* (non-Javadoc)
+	 * @see com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks#onDataRecieved(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void onDataRecieved(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+	
     /**
      * This method will enable all the title bar buttons as well as hide them.
      * This method should be called before showing a new fragment. Each new

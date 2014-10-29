@@ -47,6 +47,11 @@ public abstract class BaseFragment extends Fragment {
 	public void onItemSelected(String id, String args[]) {
 	    Logger.log(Log.WARN, this, "Item selected when no activity was set, this should never happen");
 	}
+
+	@Override
+	public void onDataRecieved(String key, String value) {
+	    Logger.log(Log.WARN, this, "Data recieved when no activity was set, this should never happen");
+	}
     };
 
     /*
@@ -247,5 +252,6 @@ public abstract class BaseFragment extends Fragment {
      */
     public interface FragmentCallbacks {
 	public void onItemSelected(String id, String args[]);
+	public void onDataRecieved(String key, String value);
     }
 }

@@ -92,10 +92,10 @@ public class KillItemAdapter extends BaseAdapter {
 
 	if (getItem(position).getWeapon_name() != null) {
 	    holder.weaponName.setText(getItem(position).getWeapon_name());
-	    holder.weaponImage.setImageUrl(getItem(position).getImagePath(), ApplicationPS2Link.mImageLoader);
+	    //holder.weaponImage.setImageUrl(getItem(position).getImagePath(), ApplicationPS2Link.mImageLoader);
 	} else {
 	    holder.weaponName.setText("Loading...");
-	    holder.weaponImage.setImageUrl("", null);
+	    //holder.weaponImage.setImageUrl("", null);
 
 	    CharacterEvent event = getItem(position);
 	    String weapongId = event.getAttacker_weapon_id();
@@ -176,7 +176,7 @@ public class KillItemAdapter extends BaseAdapter {
 		name.setText(item.getNameText());
 
 		events.get(position).setImagePath(SOECensus.ENDPOINT_URL + "/" + item.getImagePath());
-		image.setImageUrl(SOECensus.ENDPOINT_URL + "/" + item.getImagePath(), ApplicationPS2Link.mImageLoader);
+		//image.setImageUrl(SOECensus.ENDPOINT_URL + "/" + item.getImagePath(), ApplicationPS2Link.mImageLoader);
 	    }
 	};
 	GsonRequest<Item_list_response> request = new GsonRequest<Item_list_response>(url.toString(), Item_list_response.class, null, success, null);

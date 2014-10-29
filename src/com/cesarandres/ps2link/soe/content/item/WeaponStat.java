@@ -1,0 +1,82 @@
+package com.cesarandres.ps2link.soe.content.item;
+
+public class WeaponStat implements Comparable<WeaponStat>{
+
+	private String name;
+	private String imagePath;
+	private int kills;
+	private int TR;
+	private int VS;
+	private int NC;
+	private int headshots;
+	private int vehicleKills;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public int getKills() {
+		return kills;
+	}
+
+	public void setKills(int kills) {
+		this.kills = kills;
+	}
+
+	public int getTR() {
+		return TR;
+	}
+
+	public void setTR(int tR) {
+		TR = tR;
+	}
+
+	public int getVS() {
+		return VS;
+	}
+
+	public void setVS(int vS) {
+		VS = vS;
+	}
+
+	public int getNC() {
+		return NC;
+	}
+
+	public void setNC(int nC) {
+		NC = nC;
+	}
+
+	public int getHeadshots() {
+		return headshots;
+	}
+
+	public void setHeadshots(int headshots) {
+		this.headshots = headshots;
+	}
+
+	public int getVehicleKills() {
+		return vehicleKills;
+	}
+
+	public void setVehicleKills(int vehicleKills) {
+		this.vehicleKills = vehicleKills;
+	}
+
+	@Override
+	public int compareTo(WeaponStat another) {
+		return another.getKills() - this.getKills();
+	}
+}

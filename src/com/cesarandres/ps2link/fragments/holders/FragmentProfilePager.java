@@ -20,6 +20,7 @@ import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
 import com.cesarandres.ps2link.fragments.FragmentProfile;
 import com.cesarandres.ps2link.fragments.FragmentStatList;
+import com.cesarandres.ps2link.fragments.FragmentWeaponList;
 
 /**
  * This fragment holds a view pager for all the profile related fragments
@@ -34,6 +35,7 @@ public class FragmentProfilePager extends BaseFragment {
     private static final int FRIENDS = 1;
     private static final int STATS = 2;
     private static final int KILLBOARD = 3;
+    private static final int WEAPONS = 4;
 
     /*
      * (non-Javadoc)
@@ -113,6 +115,9 @@ public class FragmentProfilePager extends BaseFragment {
 		case KILLBOARD:
 		    ((FragmentKillList) selectedFragment).downloadKillList(profileId);
 		    break;
+		case WEAPONS:
+		    ((FragmentWeaponList) selectedFragment).downloadWeaponList(profileId);
+		    break;
 		default:
 		    break;
 		}
@@ -140,6 +145,10 @@ public class FragmentProfilePager extends BaseFragment {
 		    fragmentAppend.setVisibility(View.GONE);
 		    break;
 		case KILLBOARD:
+		    fragmentStar.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    break;
+		case WEAPONS:
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
 		    break;
@@ -219,6 +228,9 @@ public class FragmentProfilePager extends BaseFragment {
 	    case STATS:
 		fragment = new FragmentStatList();
 		break;
+	    case WEAPONS:
+		fragment = new FragmentWeaponList();
+		break;
 	    default:
 		break;
 	    }
@@ -249,7 +261,7 @@ public class FragmentProfilePager extends BaseFragment {
 	 */
 	@Override
 	public int getCount() {
-	    return 4;
+	    return 5;
 	}
 
 	/*
@@ -259,6 +271,7 @@ public class FragmentProfilePager extends BaseFragment {
 	 */
 	@Override
 	public CharSequence getPageTitle(int position) {
+		//TODO Externalize this strings!
 	    switch (position) {
 	    case PROFILE:
 		return "OVERVIEW";
@@ -268,6 +281,8 @@ public class FragmentProfilePager extends BaseFragment {
 		return "KILLBOARD";
 	    case STATS:
 		return "STATS";
+	    case WEAPONS:
+		return "WEAPONS";
 	    default:
 		return "OVERVIEW";
 	    }
