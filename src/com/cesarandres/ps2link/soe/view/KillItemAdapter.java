@@ -92,10 +92,10 @@ public class KillItemAdapter extends BaseAdapter {
 
 	if (getItem(position).getWeapon_name() != null) {
 	    holder.weaponName.setText(getItem(position).getWeapon_name());
-	    //holder.weaponImage.setImageUrl(getItem(position).getImagePath(), ApplicationPS2Link.mImageLoader);
+	    holder.weaponImage.setImageUrl(getItem(position).getImagePath(), ApplicationPS2Link.mImageLoader);
 	} else {
 	    holder.weaponName.setText("Loading...");
-	    //holder.weaponImage.setImageUrl("", null);
+	    holder.weaponImage.setImageUrl("", null);
 
 	    CharacterEvent event = getItem(position);
 	    String weapongId = event.getAttacker_weapon_id();
