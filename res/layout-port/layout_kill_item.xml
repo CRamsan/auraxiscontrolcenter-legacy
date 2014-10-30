@@ -51,8 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/text_killer_faction"
-            android:src="@drawable/icon_faction_tr" />
+            android:contentDescription="@string/text_killer_faction" />
 
     </LinearLayout>
 
@@ -73,7 +72,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/ImageViewWeaponItemImage"
+            android:id="@+id/ImageViewKillItemWeaponImage"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_gravity="center"

@@ -103,27 +103,34 @@ public class WeaponItemAdapter extends BaseAdapter {
 		holder.medal.setImageBitmap(icon_auraxium);
 	}
 	
-	holder.kills.setText(stat.getKills());
+	//TODO Externalize strings
+	holder.kills.setText("Kills: " + stat.getKills());
+
+	if(stat.getKills() == 0){
+		stat.setKills(1);
+	}
 	
-	if (this.characterFaction == Faction.VS){
+	if (this.characterFaction.equals(Faction.VS)){
 		holder.ratios.setText(	"NC: " + stat.getNC() / stat.getKills() +
 								"% TR: " + stat.getTR() / stat.getKills() + "%");
-	}else if(this.characterFaction == Faction.NC){
+	}else if(this.characterFaction.equals(Faction.NC)){
 		holder.ratios.setText(	"TR: " + stat.getTR() / stat.getKills() + 
 								"% VS: " + stat.getVS() / stat.getKills() + "%");
-	}else if(this.characterFaction == Faction.TR){
+	}else if(this.characterFaction.equals(Faction.TR)){
 		holder.ratios.setText(	"NC: " + stat.getNC() / stat.getKills() + 
 								"% VS: " + stat.getVS() / stat.getKills() + "%");
 	}
 	
-	holder.headshots.setText(stat.getHeadshots());
+	//TODO Externalize strings
+	holder.headshots.setText("Headshots: " + stat.getHeadshots());
 
 	if(stat.getVehicleKills() > 0){
-		holder.vehiclekills.setText(stat.getVehicleKills());
+		holder.vehiclekills.setText("Vehicle Kills: " + stat.getVehicleKills());
 	}else{
 		holder.vehiclekills.setText("");
 	}
 	
+	//TODO Externalize strings
 	holder.weaponImage.setImageUrl(SOECensus.ENDPOINT_URL + "/" + stat.getImagePath(), ApplicationPS2Link.mImageLoader);
 	
 	return convertView;

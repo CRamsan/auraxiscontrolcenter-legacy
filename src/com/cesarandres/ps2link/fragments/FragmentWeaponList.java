@@ -167,15 +167,15 @@ public class FragmentWeaponList extends BaseFragment {
 			}else{
 				stat = weaponMap.get(weaponName);
 			}
-			if (profileFaction == Faction.VS){
-				statA = stat.getTR();
-				statB = stat.getNC();
-			}else if(profileFaction == Faction.NC){
-				statA = stat.getTR();
-				statB = stat.getVS();
-			}else if(profileFaction == Faction.TR){
-				statA = stat.getVS();
-				statB = stat.getNC();
+			if (profileFaction.equals(Faction.VS)){
+				statA = weapon.getValue_tr();
+				statB = weapon.getValue_nc();
+			}else if(profileFaction.equals(Faction.NC)){
+				statA = weapon.getValue_tr();
+				statB = weapon.getValue_vs();
+			}else if(profileFaction.equals(Faction.TR)){
+				statA = weapon.getValue_vs();
+				statB = weapon.getValue_nc();
 			}
 			if(weapon.getStat_name().equals("weapon_vehicle_kills")){
 				stat.setVehicleKills(statA + statB);
@@ -185,6 +185,7 @@ public class FragmentWeaponList extends BaseFragment {
 				stat.setKills(statA + statB);
 			} 
 		}
+		stats = new ArrayList<WeaponStat>(weaponMap.values());
 		java.util.Collections.sort(stats);
 	    return stats;
 	}
