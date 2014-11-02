@@ -105,6 +105,8 @@ public class KillItemAdapter extends BaseAdapter {
 		downloadPictures(getItem(position).getAttacker_vehicle_id(), PS2Collection.VEHICLE, holder.weaponName, holder.weaponImage, position,
 			convertView);
 	    } else {
+		    holder.weaponName.setText("Unknown");
+		    holder.weaponImage.setImageUrl("", null);
 	    }
 	}
 
