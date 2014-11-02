@@ -110,6 +110,7 @@ public class FragmentProfileList extends BaseFragment {
 	protected ArrayList<CharacterProfile> doInBackground(Integer... params) {
 	    ArrayList<CharacterProfile> tmpProfileList = null;
 	    ObjectDataSource data = getActivityContainer().getData();
+	    data.deleteAllCharacterProfiles(false);
 	    tmpProfileList = data.getAllCharacterProfiles(false);
 	    return tmpProfileList;
 	}

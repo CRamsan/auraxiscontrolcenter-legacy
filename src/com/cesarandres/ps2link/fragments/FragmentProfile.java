@@ -309,7 +309,11 @@ public class FragmentProfile extends BaseFragment {
 	    ObjectDataSource data = getActivityContainer().getData();
 	    try {
 		profile = args[0];
-		data.updateCharacter(profile, !profile.isCached());
+		if(data.getCharacter(profileId) != null){
+			data.updateCharacter(profile, !profile.isCached());
+		}else{
+			data.insertCharacter(profile, !profile.isCached());
+		}
 	    } catch (Exception e) {
 
 	    }

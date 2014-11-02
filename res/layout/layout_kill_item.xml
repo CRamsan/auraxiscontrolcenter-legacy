@@ -14,30 +14,12 @@
         android:layout_marginRight="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/imageViewKillItemFactionIcon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1" >
-
-        <TextView
-            android:id="@+id/TextViewKillItemWeaponName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/ImageViewKillItemWeaponImage"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:scaleType="centerInside" />
-    </LinearLayout>
+        android:contentDescription="@string/text_killer_faction"
+        android:scaleType="centerInside" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -49,7 +31,7 @@
             android:id="@+id/TextViewKillItemCharacterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="start"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:maxLines="1"
@@ -59,16 +41,29 @@
             android:id="@+id/TextViewKillItemTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="start"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageViewKillItemFactionIcon"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/TextViewKillItemWeaponName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:contentDescription="@string/text_killer_faction" />
+        android:layout_gravity="end"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAlignment="textEnd"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/ImageViewKillItemWeaponImage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:scaleType="centerInside" />
 
 </LinearLayout>

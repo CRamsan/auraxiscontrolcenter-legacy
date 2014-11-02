@@ -42,22 +42,10 @@
                 android:text="@string/twitter_mhigby" />
 
             <CheckBox
-                android:id="@+id/checkBoxTwitterPSTray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_ps_tray" />
-
-            <CheckBox
                 android:id="@+id/checkBoxTwitterRadarx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/twitter_radarx" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterArclegger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_arclegger" />
 
             <CheckBox
                 android:id="@+id/checkBoxTwitterMuldoonx9"
@@ -65,30 +53,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/twitter_muldoonx9" />
 
-            <CheckBox
-                android:id="@+id/checkBoxTwitterXalorn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_xalorn" />
+	     	<CheckBox
+	     	    android:id="@+id/checkBoxTwitterDcarey"
+	     	    android:layout_width="wrap_content"
+	     	    android:layout_height="wrap_content"
+	     	    android:text="@string/dcarey7761" />
 
             <CheckBox
-                android:id="@+id/checkBoxTwitterTayradactyl"
+                android:id="@+id/checkBoxTwitterWrel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/twitter_tayradactyl" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterXanderClauss"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_xanderclauss" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterPurrfectstorm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_purrfectstorm" />
-        </LinearLayout>
+                android:text="@string/wrelplays" />
+       	</LinearLayout>
     </HorizontalScrollView>
 
     <ListView

@@ -4,7 +4,8 @@
     style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:baselineAligned="false" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,23 +20,40 @@
             android:layout_marginRight="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/TextViewKillItemCharacterName"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/TextViewKillItemTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp" />
+            <ImageView
+                android:id="@+id/imageViewKillItemFactionIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/text_killer_faction" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/TextViewKillItemCharacterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:maxLines="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/TextViewKillItemTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +66,7 @@
             android:id="@+id/TextViewKillItemWeaponName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
+            android:layout_gravity="end"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:ellipsize="end"
@@ -59,15 +77,9 @@
             android:id="@+id/ImageViewKillItemWeaponImage"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:layout_gravity="center"
+            android:layout_gravity="end"
             android:scaleType="centerInside"
             tools:ignore="MissingRegistered" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageViewKillItemFactionIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/text_killer_faction" />
 
 </LinearLayout>

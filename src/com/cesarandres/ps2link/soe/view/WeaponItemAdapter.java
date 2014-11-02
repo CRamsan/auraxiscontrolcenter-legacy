@@ -145,7 +145,7 @@ public class WeaponItemAdapter extends BaseAdapter {
 	}else{
 		holder.medal.setVisibility(View.GONE);
 		holder.ratios.setVisibility(View.GONE);
-		holder.kills.setText("Killed: " + stat.getKills());
+		holder.kills.setText("Killed: " + stat.getKills() + " times");
 		holder.headshots.setVisibility(View.GONE);
 		holder.vehiclekills.setVisibility(View.GONE);
 	}

@@ -111,6 +111,7 @@ public class FragmentOutfitList extends BaseFragment {
 	    ArrayList<Outfit> outfitList = new ArrayList<Outfit>();
 	    ObjectDataSource data = getActivityContainer().getData();
 	    outfitList = data.getAllOutfits(false);
+	    data.deleteAllOutfit(false);
 	    return outfitList;
 	}
 

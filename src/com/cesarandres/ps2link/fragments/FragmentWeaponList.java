@@ -184,7 +184,7 @@ public class FragmentWeaponList extends BaseFragment {
 			WeaponStat stat;
 			HashMap<String, WeaponStat> statMap;
 			if(weapon.getItem_id_join_item() == null){
-				weaponName = "";
+				continue;
 			}else{
 				weaponName = weapon.getItem_id_join_item().getName().getEn();
 			}

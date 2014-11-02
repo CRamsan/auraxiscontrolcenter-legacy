@@ -21,14 +21,10 @@ public class TwitterUtil {
     public static final String PLANETSIDE2EU = "ps2eu";
     public static final String PS2DAILYDEALS = "PS2DailyDeals";
     public static final String MHIDGY = "mhigby";
-    public static final String PS_TRAY = "PS_TRay";
     public static final String RADARX = "radarx";
-    public static final String ADAMCLEGG = "Arclegger";
     public static final String MULDOONX9 = "muldoonx9";
-    public static final String XALORN = "xalorn";
-    public static final String TAYRADACTYL = "Tayradactyl";
-    public static final String XANDERCLAUSS = "XanderClauss";
-    public static final String PURRFECTSTORM = "PurrfectStorm";
+    public static final String DCAREY = "dcarey7761";
+    public static final String WREL = "WrelPlays";
 
     private static final String CONSUMER_SECRET = "eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw";
     private static final String CONSUMER_KEY = "AdtZzl6c9v4QiqC6yHWSVw";

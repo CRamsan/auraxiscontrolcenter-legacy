@@ -341,6 +341,27 @@ public class ObjectDataSource {
     }
 
     /**
+     * @param all
+     *            true to remove all characters in database, false will
+     *            delete only the non-temporary ones
+     * @return int number of charaters deleted
+     */
+    public int deleteAllCharacterProfiles(boolean all) {
+	int removed = 0;
+	try {
+	    if (all) {
+	    	removed = database.delete(SQLiteManager.TABLE_CHARACTERS_NAME, "*", null);
+	    } else {
+			removed = database.delete(SQLiteManager.TABLE_CHARACTERS_NAME, SQLiteManager.CACHE_COLUMN_SAVES + " = 0", null);
+	    }
+	} catch (IllegalStateException e) {
+	    Logger.log(Log.INFO, this, "Connection closed while deleting profiles");
+	}
+
+	return removed;
+    }
+    
+    /**
      * @param faction
      *            Faction to be inserted to the database
      * @return true if the process was succesful, false otherwise
@@ -797,6 +818,46 @@ public class ObjectDataSource {
     }
 
     /**
+     * @param all
+     *            true will remove all outfits, false will only remove the ones set
+     *            as temporary entries.
+     */
+    public int deleteAllOutfit(boolean all) {	
+	String target = SQLiteManager.TABLE_OUTFITS_NAME;
+
+	try {
+	    Cursor cursor = null;
+	    if (all) {
+		cursor = database.query(target, allColumnsOutfit, null, null, null, null, null);
+	    } else {
+		cursor = database.query(target, allColumnsOutfit, SQLiteManager.CACHE_COLUMN_SAVES + " = 0", null, null, null, null);
+	    }
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+		Outfit outfit = cursorToOutfit(cursor);
+		deleteAllMembers(outfit.getOutfit_Id());
+		cursor.moveToNext();
+	    }
+	    cursor.close();
+	} catch (IllegalStateException e) {
+	    Logger.log(Log.INFO, this, "Connection closed while getting all outfits");
+	}
+	
+	int removed = 0;
+	try {
+		if(all){
+			removed = database.delete(target, "*", null);
+		}else{
+			removed = database.delete(target, SQLiteManager.CACHE_COLUMN_SAVES + " = 0", null);
+		}
+	} catch (IllegalStateException e) {
+	    Logger.log(Log.INFO, this, "Connection closed while deleting an outfit");
+	}
+	return removed;
+    }
+    
+    /**
      * @param cursor
      *            cursor pointing at an outfit in the database
      * @return the outfit the cursor is pointing at
@@ -1147,6 +1208,22 @@ public class ObjectDataSource {
 
     }
 
+    /**
+     * @param older
+     *            delete all the tweets older than the specified ammount.
+     * @return return the number of tweets removed
+     */
+    public int deleteAllTweet(int older) {
+	String target = SQLiteManager.TABLE_TWEETS_NAME;
+	int removed = 0;
+	try {
+	    removed = database.delete(target, SQLiteManager.TWEETS_COLUMN_DATE + " < " + older, null);
+	} catch (IllegalStateException e) {
+	    Logger.log(Log.INFO, this, "Connection closed while removing all tweets");
+	}
+	return removed;
+    }
+    
     /**
      * @param users
      *            array with users to retrieve tweets from
