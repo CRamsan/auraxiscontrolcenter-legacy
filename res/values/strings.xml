@@ -57,5 +57,7 @@
     <string name="text_add">Add</string>
     <string name="text_killer_faction">Killer\'s Faction</string>
     <string name="text_class">Class</string>
+    <string name="text_my_kills">My kills</string>
+    <string name="text_killed_by">Killed by</string>
 
 </resources>

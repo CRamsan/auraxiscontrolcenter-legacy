@@ -135,26 +135,32 @@ public class FragmentProfilePager extends BaseFragment {
 		case PROFILE:
 		    fragmentStar.setVisibility(View.VISIBLE);
 		    fragmentAppend.setVisibility(View.VISIBLE);
+		    fragmentMyWeapons.setVisibility(View.GONE);
 		    break;
 		case FRIENDS:
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentMyWeapons.setVisibility(View.GONE);
 		    break;
 		case STATS:
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentMyWeapons.setVisibility(View.GONE);
 		    break;
 		case KILLBOARD:
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentMyWeapons.setVisibility(View.GONE);
 		    break;
 		case WEAPONS:
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentMyWeapons.setVisibility(View.VISIBLE);
 		    break;
 		default:
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentMyWeapons.setVisibility(View.GONE);
 		    break;
 		}
 	    }

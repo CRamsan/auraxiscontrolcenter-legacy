@@ -59,6 +59,15 @@
             android:drawableEnd="@drawable/ps2_button_action_append"
             android:textOff="@string/text_empty"
             android:textOn="@string/text_empty" />
+        	
+		<ToggleButton
+		    android:id="@+id/toggleButtonWeapons"
+		    style="@style/ActionBarButtonStyle"
+		    android:checked="true"
+		    android:textAppearance="?android:attr/textAppearanceSmall"
+		    android:textOff="@string/text_killed_by"
+		    android:textOn="@string/text_my_kills" />
+
     </LinearLayout>
 
 </HorizontalScrollView>

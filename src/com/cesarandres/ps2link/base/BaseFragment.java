@@ -41,6 +41,7 @@ public abstract class BaseFragment extends Fragment {
     protected ImageButton fragmentAdd;
     protected ToggleButton fragmentStar;
     protected ToggleButton fragmentAppend;
+    protected ToggleButton fragmentMyWeapons;
 
     private static FragmentCallbacks emptyCallbacks = new FragmentCallbacks() {
 	@Override
@@ -110,6 +111,7 @@ public abstract class BaseFragment extends Fragment {
 	this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
 	this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+	this.fragmentMyWeapons = (ToggleButton) getActivity().findViewById(R.id.toggleButtonWeapons);
     }
 
     /*

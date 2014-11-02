@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,18 +18,15 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.content.CharacterEvent;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
 import com.cesarandres.ps2link.soe.content.item.Weapon;
 import com.cesarandres.ps2link.soe.content.item.WeaponStat;
 import com.cesarandres.ps2link.soe.content.response.Weapon_list_response;
-import com.cesarandres.ps2link.soe.util.Collections;
 import com.cesarandres.ps2link.soe.view.WeaponItemAdapter;
 
 /**
@@ -40,6 +38,9 @@ public class FragmentWeaponList extends BaseFragment {
     private String profileId;
     private String profileFaction;
 
+    private ArrayList<WeaponStat> weaponKills;
+    private ArrayList<WeaponStat> weaponKilledBy;
+    
     /*
      * (non-Javadoc)
      * 
@@ -65,11 +66,24 @@ public class FragmentWeaponList extends BaseFragment {
 	listRoot.setOnItemClickListener(new OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });
+	    	//TODO Give a correct behaviour to this item
+	    	/*mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
+			new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });*/
 	    }
 	});
 
+	this.fragmentMyWeapons.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+	    @Override
+	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	    	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewWeaponList);
+		    WeaponItemAdapter weaponAdapter = (WeaponItemAdapter) listRoot.getAdapter();
+		    if(weaponAdapter != null){
+		    	weaponAdapter.setMyWeapons(isChecked);		    	
+		 	    listRoot.setAdapter(weaponAdapter);
+		    }
+	    }
+	});
+	
 	this.profileId = getArguments().getString("PARAM_0");
 	this.profileFaction = "";
     }
@@ -85,6 +99,17 @@ public class FragmentWeaponList extends BaseFragment {
 	downloadWeaponList(this.profileId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+	super.onSaveInstanceState(savedInstanceState);
+    }
+    
     /**
      * @param character_id
      *            retrieve the weapon list for a character with the given
@@ -127,7 +152,7 @@ public class FragmentWeaponList extends BaseFragment {
      * Use this task to go over the data we recieved and generate the objects that 
      * we are going to pass to the adapter
      */
-    private class GenerateWeaponStats extends AsyncTask<Weapon_list_response, Integer, ArrayList<WeaponStat>> {
+    private class GenerateWeaponStats extends AsyncTask<Weapon_list_response, Integer, Integer> {
 
 	/*
 	 * (non-Javadoc)
@@ -145,49 +170,93 @@ public class FragmentWeaponList extends BaseFragment {
 	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
 	 */
 	@Override
-	protected ArrayList<WeaponStat> doInBackground(Weapon_list_response... args) {
+	protected Integer doInBackground(Weapon_list_response... args) {
 		Weapon_list_response response = args[0];
-		ArrayList<WeaponStat> stats = new ArrayList<WeaponStat>();
+		ArrayList<WeaponStat> weaponKillStats = new ArrayList<WeaponStat>();
+		ArrayList<WeaponStat> weaponKilledByStats = new ArrayList<WeaponStat>();
+		
 		HashMap<String, WeaponStat> weaponMap = new HashMap<String, WeaponStat>();
+		HashMap<String, WeaponStat> weaponKilledMap = new HashMap<String, WeaponStat>();
 		
 		int statA = 0, statB = 0;
 		String weaponName;
 		for(Weapon weapon : response.getcharacters_weapon_stat_by_faction_list()){
+			WeaponStat stat;
+			HashMap<String, WeaponStat> statMap;
 			if(weapon.getItem_id_join_item() == null){
 				weaponName = "";
 			}else{
 				weaponName = weapon.getItem_id_join_item().getName().getEn();
 			}
 			
-			WeaponStat stat;
-			if(!weaponMap.containsKey(weaponName)){
+			if(		weapon.getStat_name().equals("weapon_vehicle_kills") || 
+					weapon.getStat_name().equals("weapon_headshots")	||
+					weapon.getStat_name().equals("weapon_kills")){
+				statMap = weaponMap;
+			} else if(weapon.getStat_name().equals("weapon_killed_by")){
+				statMap = weaponKilledMap;
+			}else {
+				continue;
+			}
+			
+			if(!statMap.containsKey(weaponName)){
 				stat = new WeaponStat();
+				if(weapon.getItem_id_join_item() != null){
+					stat.setImagePath(weapon.getItem_id_join_item().getImage_path());
+				}
 				stat.setName(weaponName);
-				weaponMap.put(weaponName, stat);
+				statMap.put(weaponName, stat);
 			}else{
-				stat = weaponMap.get(weaponName);
+				stat = statMap.get(weaponName);
 			}
-			if (profileFaction.equals(Faction.VS)){
-				statA = weapon.getValue_tr();
-				statB = weapon.getValue_nc();
-			}else if(profileFaction.equals(Faction.NC)){
-				statA = weapon.getValue_tr();
-				statB = weapon.getValue_vs();
-			}else if(profileFaction.equals(Faction.TR)){
-				statA = weapon.getValue_vs();
-				statB = weapon.getValue_nc();
+
+			if(statMap == weaponKilledMap){
+				stat.setKills(	weapon.getValue_nc() + 
+								weapon.getValue_tr() + 
+								weapon.getValue_vs());
+				
+			}else{
+				if (profileFaction.equals(Faction.VS)){
+					statA = weapon.getValue_tr();
+					statB = weapon.getValue_nc();
+				}else if(profileFaction.equals(Faction.NC)){
+					statA = weapon.getValue_tr();
+					statB = weapon.getValue_vs();
+				}else if(profileFaction.equals(Faction.TR)){
+					statA = weapon.getValue_vs();
+					statB = weapon.getValue_nc();
+				}
+							
+				if(weapon.getStat_name().equals("weapon_vehicle_kills")){
+					stat.setVehicleKills(statA + statB);
+				}else if(weapon.getStat_name().equals("weapon_headshots")){
+					stat.setHeadshots(statA + statB);
+				}else if(weapon.getStat_name().equals("weapon_kills")){
+					stat.setKills(statA + statB);
+					stat.setVS(weapon.getValue_vs());
+					stat.setTR(weapon.getValue_tr());
+					stat.setNC(weapon.getValue_nc());
+				} 				
 			}
-			if(weapon.getStat_name().equals("weapon_vehicle_kills")){
-				stat.setVehicleKills(statA + statB);
-			}else if(weapon.getStat_name().equals("weapon_headshots")){
-				stat.setHeadshots(statA + statB);
-			}else if(weapon.getStat_name().equals("weapon_kills")){
-				stat.setKills(statA + statB);
-			} 
 		}
-		stats = new ArrayList<WeaponStat>(weaponMap.values());
-		java.util.Collections.sort(stats);
-	    return stats;
+		weaponKillStats = new ArrayList<WeaponStat>(weaponMap.values());
+		weaponKilledByStats = new ArrayList<WeaponStat>(weaponKilledMap.values());
+		
+		java.util.Collections.sort(weaponKillStats);
+		java.util.Collections.sort(weaponKilledByStats);
+		
+		for (int i = weaponKillStats.size() - 1; i >= 0; i--){
+			if(weaponKillStats.get(i).getKills() <= 0){
+				weaponKillStats.remove(i);
+			} else if(weaponKillStats.get(i).getKills() > 0){
+				break;
+			}
+		}
+		
+		weaponKills = weaponKillStats;
+		weaponKilledBy = weaponKilledByStats;
+		
+	    return weaponKilledByStats.size() + weaponKilledByStats.size();
 	}
 
 	/*
@@ -196,9 +265,9 @@ public class FragmentWeaponList extends BaseFragment {
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override
-	protected void onPostExecute(ArrayList<WeaponStat> result) {
+	protected void onPostExecute(Integer result) {
 	    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewWeaponList);
-	    listRoot.setAdapter(new WeaponItemAdapter(getActivity(), result, profileId, profileFaction));
+	    listRoot.setAdapter(new WeaponItemAdapter(getActivity(), weaponKills, weaponKilledBy, profileFaction, FragmentWeaponList.this.fragmentMyWeapons.isChecked()));
 	    setProgressButton(false);
 	}
     }

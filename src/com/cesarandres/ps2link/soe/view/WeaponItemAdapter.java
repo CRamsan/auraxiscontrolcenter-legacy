@@ -24,9 +24,12 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
 
 public class WeaponItemAdapter extends BaseAdapter {
 
-    private ArrayList<WeaponStat> weapons;
+	private boolean myWeapons;
+	
+    private ArrayList<WeaponStat> weaponKills;
+    private ArrayList<WeaponStat> weaponKilledBy;
+	
     protected LayoutInflater mInflater;
-    private String characterId;
     private String characterFaction;
     private Bitmap icon_auraxium;
     private Bitmap icon_gold;
@@ -36,10 +39,11 @@ public class WeaponItemAdapter extends BaseAdapter {
 
     private Hashtable<View, GsonRequest<Item_list_response>> requestTable;
 
-    public WeaponItemAdapter(Context context, ArrayList<WeaponStat> weapons, String characterId, String faction) {
-	this.mInflater = LayoutInflater.from(context);
-	this.weapons = weapons;
-	this.characterId = characterId;
+    public WeaponItemAdapter(Context context, ArrayList<WeaponStat> weaponKills, ArrayList<WeaponStat> weaponKilledBy, String faction, boolean myKills) {
+    this.myWeapons = myKills;
+    this.mInflater = LayoutInflater.from(context);
+	this.weaponKills = weaponKills;
+	this.weaponKilledBy = weaponKilledBy;
 	this.characterFaction = faction;
 	requestTable = new Hashtable<View, GsonRequest<Item_list_response>>(20);
 	icon_auraxium = BitmapFactory.decodeResource(context.getResources(), R.drawable.medal_araxium);
@@ -48,16 +52,24 @@ public class WeaponItemAdapter extends BaseAdapter {
 	icon_copper = BitmapFactory.decodeResource(context.getResources(), R.drawable.medal_copper);
 	icon_empty = BitmapFactory.decodeResource(context.getResources(), R.drawable.medal_empty); 
 	}
-
+    
     @Override
     public int getCount() {
-	return this.weapons.size();
+    	if(this.myWeapons){
+    		return this.weaponKills.size();
+    	}else{
+    		return this.weaponKilledBy.size();
+    	}
     }
 
     @Override
     public WeaponStat getItem(int position) {
-	return weapons.get(position);
-    }
+    	if(this.myWeapons){
+    		return this.weaponKills.get(position);
+    	}else{
+    		return this.weaponKilledBy.get(position);
+    	}
+	}
 
     @Override
     public long getItemId(int position) {
@@ -91,45 +103,53 @@ public class WeaponItemAdapter extends BaseAdapter {
 	WeaponStat stat = getItem(position);
 	
 	holder.name.setText(stat.getName());
-	if(stat.getKills() < 10){
-		holder.medal.setImageBitmap(icon_empty);
-	}else if(stat.getKills() < 60){
-		holder.medal.setImageBitmap(icon_copper);
-	}else if(stat.getKills() < 160){
-		holder.medal.setImageBitmap(icon_silver);
-	}else if(stat.getKills() <= 1160){
-		holder.medal.setImageBitmap(icon_gold);
-	}else {
-		holder.medal.setImageBitmap(icon_auraxium);
-	}
 	
-	//TODO Externalize strings
-	holder.kills.setText("Kills: " + stat.getKills());
+	if(this.myWeapons){
+		holder.medal.setVisibility(View.VISIBLE);
+		if(stat.getKills() < 10){
+			holder.medal.setImageBitmap(icon_empty);
+		}else if(stat.getKills() < 60){
+			holder.medal.setImageBitmap(icon_copper);
+		}else if(stat.getKills() < 160){
+			holder.medal.setImageBitmap(icon_silver);
+		}else if(stat.getKills() <= 1160){
+			holder.medal.setImageBitmap(icon_gold);
+		}else {
+			holder.medal.setImageBitmap(icon_auraxium);
+		}
+		
+		holder.kills.setText("Kills: " + stat.getKills());
+		
+		holder.ratios.setVisibility(View.VISIBLE);
+		if (this.characterFaction.equals(Faction.VS)){
+			holder.ratios.setText(	"NC: " + Math.round(100 * stat.getNC() / (float)stat.getKills()) +
+									"% TR: " + Math.round(100 * stat.getTR() / (float)stat.getKills()) + "%");
+		}else if(this.characterFaction.equals(Faction.NC)){
+			holder.ratios.setText(	"TR: " + Math.round( 100 * stat.getTR() / (float)stat.getKills()) + 
+									"% VS: " + Math.round( 100 * stat.getVS() / (float)stat.getKills()) + "%");
+		}else if(this.characterFaction.equals(Faction.TR)){
+			holder.ratios.setText(	"NC: " + Math.round( 100 * stat.getNC() / (float)stat.getKills()) + 
+									"% VS: " + Math.round( 100 * stat.getVS() / (float)stat.getKills()) + "%");
+		}
+		
+		holder.headshots.setVisibility(View.VISIBLE);
+		holder.headshots.setText("Headshots: " + stat.getHeadshots());
 
-	if(stat.getKills() == 0){
-		stat.setKills(1);
-	}
-	
-	if (this.characterFaction.equals(Faction.VS)){
-		holder.ratios.setText(	"NC: " + stat.getNC() / stat.getKills() +
-								"% TR: " + stat.getTR() / stat.getKills() + "%");
-	}else if(this.characterFaction.equals(Faction.NC)){
-		holder.ratios.setText(	"TR: " + stat.getTR() / stat.getKills() + 
-								"% VS: " + stat.getVS() / stat.getKills() + "%");
-	}else if(this.characterFaction.equals(Faction.TR)){
-		holder.ratios.setText(	"NC: " + stat.getNC() / stat.getKills() + 
-								"% VS: " + stat.getVS() / stat.getKills() + "%");
-	}
-	
-	//TODO Externalize strings
-	holder.headshots.setText("Headshots: " + stat.getHeadshots());
-
-	if(stat.getVehicleKills() > 0){
-		holder.vehiclekills.setText("Vehicle Kills: " + stat.getVehicleKills());
+		//TODO Externalize strings
+		holder.vehiclekills.setVisibility(View.VISIBLE);
+		if(stat.getVehicleKills() > 0){
+			holder.vehiclekills.setText("Vehicle Kills: " + stat.getVehicleKills());
+		}else{
+			holder.vehiclekills.setText("");
+		}
 	}else{
-		holder.vehiclekills.setText("");
+		holder.medal.setVisibility(View.GONE);
+		holder.ratios.setVisibility(View.GONE);
+		holder.kills.setText("Killed: " + stat.getKills());
+		holder.headshots.setVisibility(View.GONE);
+		holder.vehiclekills.setVisibility(View.GONE);
 	}
-	
+
 	//TODO Externalize strings
 	holder.weaponImage.setImageUrl(SOECensus.ENDPOINT_URL + "/" + stat.getImagePath(), ApplicationPS2Link.mImageLoader);
 	
@@ -145,4 +165,12 @@ public class WeaponItemAdapter extends BaseAdapter {
 	TextView headshots;
 	TextView vehiclekills;
     }
+
+	public boolean isMyWeapons() {
+		return myWeapons;
+	}
+
+	public void setMyWeapons(boolean myWeapons) {
+		this.myWeapons = myWeapons;
+	}
 }

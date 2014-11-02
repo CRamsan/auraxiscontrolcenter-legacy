@@ -77,6 +77,14 @@ public class WeaponStat implements Comparable<WeaponStat>{
 
 	@Override
 	public int compareTo(WeaponStat another) {
-		return another.getKills() - this.getKills();
+		if(another.getKills() - this.getKills() == 0){
+			if(another.getHeadshots() - this.getHeadshots() == 0){
+				return another.getVehicleKills() - this.getVehicleKills();
+			}else {
+				return another.getHeadshots() - this.getHeadshots();
+			}
+		}else{
+			return another.getKills() - this.getKills();
+		}
 	}
 }
