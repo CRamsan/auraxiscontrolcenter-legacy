@@ -125,7 +125,8 @@ public class FragmentWeaponList extends BaseFragment {
     	
 	setProgressButton(true);
 	String url = 	"http://census.soe.com/get/ps2:v2/characters_weapon_stat_by_faction/?" +
-					"character_id=" + character_id + "&c:join=item^show:image_path'name.en&c:limit=10000";
+					"character_id=" + character_id + "&c:join=item^show:image_path'name.en&" +
+					"c:join=vehicle^show:name.en&c:limit=10000";
 	Listener<Weapon_list_response> success = new Response.Listener<Weapon_list_response>() {
 	    @Override
 	    public void onResponse(Weapon_list_response response) {
@@ -183,10 +184,24 @@ public class FragmentWeaponList extends BaseFragment {
 		for(Weapon weapon : response.getcharacters_weapon_stat_by_faction_list()){
 			WeaponStat stat;
 			HashMap<String, WeaponStat> statMap;
-			if(weapon.getItem_id_join_item() == null){
+			if(weapon.getItem_id_join_item() == null && weapon.getVehicle_id_join_vehicle() == null){
 				continue;
 			}else{
-				weaponName = weapon.getItem_id_join_item().getName().getEn();
+				if(weapon.getItem_id_join_item() != null){
+					weaponName = weapon.getItem_id_join_item().getName().getEn();
+					
+					if(weapon.getVehicle_id_join_vehicle() != null){
+						weaponName += "(" +weapon.getVehicle_id_join_vehicle().getName().getEn()+")";
+					}else{
+						weaponName = null;
+					}
+				}else{
+					if(weapon.getVehicle_id_join_vehicle() != null){
+						weaponName = weapon.getVehicle_id_join_vehicle().getName().getEn();
+					}else{
+						weaponName = null;
+					}
+				}
 			}
 			
 			if(		weapon.getStat_name().equals("weapon_vehicle_kills") || 
@@ -204,7 +219,14 @@ public class FragmentWeaponList extends BaseFragment {
 				if(weapon.getItem_id_join_item() != null){
 					stat.setImagePath(weapon.getItem_id_join_item().getImage_path());
 				}
-				stat.setName(weaponName);
+				
+				if(weapon.getVehicle_id_join_vehicle() != null){
+					stat.setName(weaponName);
+					stat.setVehicle(weapon.getVehicle_id_join_vehicle().getName().getEn());
+				}else{
+					stat.setName(weaponName);
+				}
+
 				statMap.put(weaponName, stat);
 			}else{
 				stat = statMap.get(weaponName);

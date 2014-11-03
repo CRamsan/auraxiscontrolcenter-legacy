@@ -102,7 +102,11 @@ public class WeaponItemAdapter extends BaseAdapter {
 
 	WeaponStat stat = getItem(position);
 	
-	holder.name.setText(stat.getName());
+	if(stat.getVehicle() != null){
+		holder.name.setText(stat.getName() + "(" + stat.getVehicle() + ")");
+	}else{
+		holder.name.setText(stat.getName());		
+	}
 	
 	if(this.myWeapons){
 		holder.medal.setVisibility(View.VISIBLE);

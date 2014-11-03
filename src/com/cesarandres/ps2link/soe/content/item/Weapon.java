@@ -6,6 +6,7 @@ package com.cesarandres.ps2link.soe.content.item;
 		private String last_save_date;
     	private String stat_name;
     	private WeaponInfo item_id_join_item;
+    	private WeaponInfo vehicle_id_join_vehicle;
     	private int value_nc;
     	private int value_tr;
     	private int value_vs;
@@ -63,5 +64,11 @@ package com.cesarandres.ps2link.soe.content.item;
 		}
 		public void setItem_id_join_item(WeaponInfo item_id_join_item) {
 			this.item_id_join_item = item_id_join_item;
+		}
+		public WeaponInfo getVehicle_id_join_vehicle() {
+			return vehicle_id_join_vehicle;
+		}
+		public void setVehicle_id_join_vehicle(WeaponInfo vehicle_id_join_vehicle) {
+			this.vehicle_id_join_vehicle = vehicle_id_join_vehicle;
 		}
     }

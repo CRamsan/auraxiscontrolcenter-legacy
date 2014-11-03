@@ -3,6 +3,7 @@ package com.cesarandres.ps2link.soe.content.item;
 public class WeaponStat implements Comparable<WeaponStat>{
 
 	private String name;
+	private String vehicle;
 	private String imagePath;
 	private int kills;
 	private int TR;
@@ -86,5 +87,13 @@ public class WeaponStat implements Comparable<WeaponStat>{
 		}else{
 			return another.getKills() - this.getKills();
 		}
+	}
+
+	public String getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(String vehicle) {
+		this.vehicle = vehicle;
 	}
 }
