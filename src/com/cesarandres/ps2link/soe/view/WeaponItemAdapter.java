@@ -103,7 +103,11 @@ public class WeaponItemAdapter extends BaseAdapter {
 	WeaponStat stat = getItem(position);
 	
 	if(stat.getVehicle() != null){
-		holder.name.setText(stat.getName() + "(" + stat.getVehicle() + ")");
+		if(stat.getVehicle().equals(stat.getName())){
+			holder.name.setText(stat.getName());
+		}else{
+			holder.name.setText(stat.getName() + "(" + stat.getVehicle() + ")");			
+		}
 	}else{
 		holder.name.setText(stat.getName());		
 	}

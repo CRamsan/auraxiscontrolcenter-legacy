@@ -126,7 +126,7 @@ public class FragmentWeaponList extends BaseFragment {
 	setProgressButton(true);
 	String url = 	"http://census.soe.com/get/ps2:v2/characters_weapon_stat_by_faction/?" +
 					"character_id=" + character_id + "&c:join=item^show:image_path'name.en&" +
-					"c:join=vehicle^show:name.en&c:limit=10000";
+					"c:join=vehicle^show:image_path'name.en&c:limit=10000";
 	Listener<Weapon_list_response> success = new Response.Listener<Weapon_list_response>() {
 	    @Override
 	    public void onResponse(Weapon_list_response response) {
@@ -188,19 +188,9 @@ public class FragmentWeaponList extends BaseFragment {
 				continue;
 			}else{
 				if(weapon.getItem_id_join_item() != null){
-					weaponName = weapon.getItem_id_join_item().getName().getEn();
-					
-					if(weapon.getVehicle_id_join_vehicle() != null){
-						weaponName += "(" +weapon.getVehicle_id_join_vehicle().getName().getEn()+")";
-					}else{
-						weaponName = null;
-					}
+				    weaponName = weapon.getItem_id_join_item().getName().getEn();
 				}else{
-					if(weapon.getVehicle_id_join_vehicle() != null){
-						weaponName = weapon.getVehicle_id_join_vehicle().getName().getEn();
-					}else{
-						weaponName = null;
-					}
+					continue;
 				}
 			}
 			
@@ -216,9 +206,13 @@ public class FragmentWeaponList extends BaseFragment {
 			
 			if(!statMap.containsKey(weaponName)){
 				stat = new WeaponStat();
+
 				if(weapon.getItem_id_join_item() != null){
 					stat.setImagePath(weapon.getItem_id_join_item().getImage_path());
+				}else if(weapon.getVehicle_id_join_vehicle() != null){
+					stat.setImagePath(weapon.getVehicle_id_join_vehicle().getImage_path());
 				}
+				
 				
 				if(weapon.getVehicle_id_join_vehicle() != null){
 					stat.setName(weaponName);
@@ -231,7 +225,7 @@ public class FragmentWeaponList extends BaseFragment {
 			}else{
 				stat = statMap.get(weaponName);
 			}
-
+			
 			if(statMap == weaponKilledMap){
 				stat.setKills(	weapon.getValue_nc() + 
 								weapon.getValue_tr() + 
