@@ -129,7 +129,7 @@ public class FragmentMembersList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	downloadOutfitMembers();
+	//downloadOutfitMembers();
     }
 
     /*
@@ -261,8 +261,12 @@ public class FragmentMembersList extends BaseFragment {
 	    Outfit outfit = null;
 	    ObjectDataSource data = getActivityContainer().getData();
 	    outfit = data.getOutfit(args[0]);
-	    isCached = outfit.isCached();
-	    return outfit;
+	    if(outfit != null){
+	    	isCached = outfit.isCached();
+	    	return outfit;
+	    }else{
+	    	return null;
+	    }
 	}
 
 	/*
@@ -272,11 +276,13 @@ public class FragmentMembersList extends BaseFragment {
 	 */
 	@Override
 	protected void onPostExecute(Outfit result) {
-	    outfitId = result.getOutfit_Id();
-	    outfitName = result.getName();
-	    outfitSize = result.getMember_count();
+		if(result != null){
+		    outfitId = result.getOutfit_Id();
+		    outfitName = result.getName();
+		    outfitSize = result.getMember_count();
+		    updateContent();
+		}
 	    setProgressButton(false);
-	    updateContent();
 	    downloadOutfitMembers();
 	}
     }

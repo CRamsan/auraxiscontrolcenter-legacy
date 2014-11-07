@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -77,7 +80,7 @@ public class FragmentProfile extends BaseFragment {
      * @param character
      *            Character that contains all the data to populate the UI
      */
-    private void updateUI(CharacterProfile character) {
+    private void updateUI(final CharacterProfile character) {
 	this.fragmentTitle.setText(character.getName().getFirst());
 	try {
 	    if (this.getView() != null) {
@@ -127,10 +130,21 @@ public class FragmentProfile extends BaseFragment {
 		((TextView) getActivity().findViewById(R.id.textViewProfileLastLogin)).setText(lastLogin);
 
 		if (character.getOutfitName() == null) {
+	    	Button outfitButton = (Button)getActivity().findViewById(R.id.buttonProfileToOutfit);
 		    if (character.getOutfit() == null) {
-			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
+		    	((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
+		    	outfitButton.setVisibility(View.GONE);
+		    	outfitButton.setOnClickListener(null);	    	
 		    } else {
-			((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfit().getName());
+		    	getActivity().findViewById(R.id.textViewOutfitText).setVisibility(View.GONE);
+		    	outfitButton.setVisibility(View.VISIBLE);
+		    	outfitButton.setText(character.getOutfit().getName());
+		    	outfitButton.setOnClickListener(new OnClickListener() {					
+					@Override
+					public void onClick(View v) {
+				    	mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(), new String[] { character.getOutfit().getOutfit_Id() });
+					}
+				});	
 		    }
 		} else {
 		    ((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
