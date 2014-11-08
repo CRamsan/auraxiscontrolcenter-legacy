@@ -177,20 +177,11 @@
                     android:text="@string/title_outfit"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                <TextView
-                    android:id="@+id/textViewOutfitText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/title_unkown"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-                
                 <Button
                     android:id="@+id/buttonProfileToOutfit"
                     style="@style/ButtonStyle"
-                    android:visibility="gone" />
+                    android:enabled="True"
+                    android:text="@string/title_unkown" />
 
             </LinearLayout>
 

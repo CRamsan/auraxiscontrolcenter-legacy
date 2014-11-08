@@ -33,6 +33,7 @@ import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterProfile;
 import com.cesarandres.ps2link.soe.content.Faction;
+import com.cesarandres.ps2link.soe.content.Outfit;
 import com.cesarandres.ps2link.soe.content.response.Character_list_response;
 import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.soe.util.Logger;
@@ -132,13 +133,12 @@ public class FragmentProfile extends BaseFragment {
 		if (character.getOutfitName() == null) {
 	    	Button outfitButton = (Button)getActivity().findViewById(R.id.buttonProfileToOutfit);
 		    if (character.getOutfit() == null) {
-		    	((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText("NONE");
-		    	outfitButton.setVisibility(View.GONE);
 		    	outfitButton.setOnClickListener(null);	    	
+		    	outfitButton.setEnabled(false);
+		    	outfitButton.getBackground().setAlpha(85);
 		    } else {
-		    	getActivity().findViewById(R.id.textViewOutfitText).setVisibility(View.GONE);
-		    	outfitButton.setVisibility(View.VISIBLE);
 		    	outfitButton.setText(character.getOutfit().getName());
+		    	outfitButton.setEnabled(true);
 		    	outfitButton.setOnClickListener(new OnClickListener() {					
 					@Override
 					public void onClick(View v) {
@@ -146,8 +146,6 @@ public class FragmentProfile extends BaseFragment {
 					}
 				});	
 		    }
-		} else {
-		    ((TextView) getActivity().findViewById(R.id.textViewOutfitText)).setText(character.getOutfitName());
 		}
 
 		if (character.getServer() != null) {
@@ -328,6 +326,15 @@ public class FragmentProfile extends BaseFragment {
 		}else{
 			data.insertCharacter(profile, !profile.isCached());
 		}
+		
+		if(profile.getOutfit() != null){
+			Outfit outfit = data.getOutfit(profile.getOutfit().getOutfit_Id());
+			if(outfit == null){
+				outfit = profile.getOutfit();
+				data.insertOutfit(outfit, true);
+			}
+		}
+		
 	    } catch (Exception e) {
 
 	    }
