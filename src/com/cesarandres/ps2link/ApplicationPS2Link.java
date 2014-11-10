@@ -1,5 +1,10 @@
 package com.cesarandres.ps2link;
 
+import org.acra.ACRA;
+import org.acra.ReportField;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
 import android.app.Application;
 import android.graphics.Bitmap;
 
@@ -7,6 +12,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
+
+@ReportsCrashes(	formKey = "", // will not be used
+					mailTo = "reports@yourdomain.com",
+					mode = ReportingInteractionMode.TOAST,
+					customReportContent = { ReportField.APP_VERSION_CODE, 
+											ReportField.APP_VERSION_NAME, 
+											ReportField.ANDROID_VERSION, 
+											ReportField.PHONE_MODEL, 
+											ReportField.CUSTOM_DATA, 
+											ReportField.STACK_TRACE, 
+											ReportField.LOGCAT },                
+					resToastText = R.string.text_acra_toast)
 
 /**
  * 
@@ -52,7 +69,7 @@ public class ApplicationPS2Link extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		ACRA.init(this);
 		// Volley and the image loader are singletons and should always be
 		// available
 		if (volley == null) {

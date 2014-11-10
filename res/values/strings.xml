@@ -61,5 +61,6 @@
     <string name="text_killed_by">Killed by</string>
     <string name="dcarey7761">Dcarey7761</string>
     <string name="wrelplays">WrelPlays</string>
+    <string name="text_acra_toast">&quot;Let's send this crash information&quot;</string>
 
 </resources>
