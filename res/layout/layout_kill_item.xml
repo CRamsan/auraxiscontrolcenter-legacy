@@ -50,13 +50,13 @@
         android:id="@+id/TextViewKillItemWeaponName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="1"
         android:ellipsize="end"
+        android:gravity="end"
         android:maxLines="1"
-        android:textAlignment="textEnd"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <com.android.volley.toolbox.NetworkImageView

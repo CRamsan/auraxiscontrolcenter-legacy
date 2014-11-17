@@ -129,7 +129,7 @@ public class FragmentMembersList extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	//downloadOutfitMembers();
+	downloadOutfitMembers();
     }
 
     /*
