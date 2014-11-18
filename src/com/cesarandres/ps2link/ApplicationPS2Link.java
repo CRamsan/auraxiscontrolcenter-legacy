@@ -13,7 +13,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
 
-@ReportsCrashes(	formKey = "", // will not be used
+/*@ReportsCrashes(	formKey = "", // will not be used
 					mailTo = "reports@yourdomain.com",
 					mode = ReportingInteractionMode.TOAST,
 					customReportContent = { ReportField.APP_VERSION_CODE, 
@@ -23,7 +23,7 @@ import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
 											ReportField.CUSTOM_DATA, 
 											ReportField.STACK_TRACE, 
 											ReportField.LOGCAT },                
-					resToastText = R.string.text_acra_toast)
+					resToastText = R.string.text_acra_toast)*/
 
 /**
  * 
@@ -69,7 +69,7 @@ public class ApplicationPS2Link extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		ACRA.init(this);
+		//ACRA.init(this);
 		// Volley and the image loader are singletons and should always be
 		// available
 		if (volley == null) {
