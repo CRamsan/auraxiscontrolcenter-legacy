@@ -21,7 +21,6 @@
             android:layout_marginRight="5dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="H-V45"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <com.android.volley.toolbox.NetworkImageView
@@ -50,7 +49,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:maxLines="1"
-                android:text="1534 kills"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -58,8 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="14%TR 42%VS" />
+                android:layout_marginRight="5dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -71,16 +68,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="142 Headshots" />
+                android:layout_marginRight="5dp"/>
 
             <TextView
                 android:id="@+id/TextViewWeaponItemVehicleKills"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="VehicleKills: 4" />
+                android:layout_marginRight="5dp"/>
 
         </LinearLayout>
 

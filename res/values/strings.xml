@@ -21,16 +21,10 @@
     <string name="text_empty"></string>
     <string name="twitter_ps2dailydeals">PS2DailyDeals</string>
     <string name="twitter_planetside2">Planetside2</string>
-    <string name="twitter_purrfectstorm">PurrfectStorm</string>
-    <string name="twitter_ps_tray">PS_TRay</string>
     <string name="twitter_mhigby">MHigby</string>
     <string name="twitter_planetside2eu">Planetside2EU</string>
     <string name="twitter_radarx">RadarX</string>
-    <string name="twitter_arclegger">Arclegger</string>
     <string name="twitter_muldoonx9">MuldoonX9</string>
-    <string name="twitter_xalorn">Xalorn</string>
-    <string name="twitter_tayradactyl">Tayradactyl</string>
-    <string name="twitter_xanderclauss">XanderClauss</string>
     <string name="title_links">LINKS</string>
     <string name="title_official_forums">FORUMS</string>
     <string name="title_psu">PS UNIVERSE</string>
@@ -61,6 +55,4 @@
     <string name="text_killed_by">Killed by</string>
     <string name="dcarey7761">Dcarey7761</string>
     <string name="wrelplays">WrelPlays</string>
-    <string name="text_acra_toast">&quot;Let's send this crash information&quot;</string>
-
 </resources>
