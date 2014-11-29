@@ -1,20 +1,12 @@
-Auraxis Control Center
-======================
-
+#Auraxis Control Center
 This is the source code for the Auraxis Control Center
 
-Currently all the features available on the app are available here. Due to time constrains I will not be able to work on this app for couple weeks so I decided that it was better to provide it to the community. 
+You can download the app from the [Play Store](https://play.google.com/store/apps/details?id=com.cesarandres.ps2link)
 
-The Plan
-========
+#The Future
+Work on AAC has slowed down, but I am still providing new updates and fixing crashes when I get reports.For submitting new feature requests or other feedback, you can find the current list of tasks at our [Isuue Page](https://github.com/cesarramirez/auraxiscontrolcenter/issues)
 
-* Fix some FCs
-* Add some toasts to provide feedback.
-* Implement the correct use of fragments.
-* Adding a link to http://www.reddit.com/r/Planetsidelore
-
-License
-=======
+#License
 This application uses the MIT License for the source code and where explicitly stated. The images provided by SOE were retrieved from https://census.soe.com/ and SOE reserves all rights and title.
 
 The MIT License (MIT)
