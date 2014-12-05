@@ -73,11 +73,9 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		width = size.x;
 		height = size.y;
 	    } else {
-		// TODO Find replacement
-	    Point psize = new Point();
-	    display.getSize(psize);
-	    width = psize.x;
-	    height = psize.y;
+	    	Point psize = new Point();
+	    	width = display.getWidth();
+	    	height = display.getHeight();
 	    }
 
 	    InputStream ims;
