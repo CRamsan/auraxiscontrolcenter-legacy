@@ -1,29 +1,26 @@
 package com.cesarandres.ps2link;
 
-import org.acra.ACRA;
-import org.acra.ReportField;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
-
-/*@ReportsCrashes(	formKey = "", // will not be used
-					mailTo = "reports@yourdomain.com",
-					mode = ReportingInteractionMode.TOAST,
-					customReportContent = { ReportField.APP_VERSION_CODE, 
-											ReportField.APP_VERSION_NAME, 
-											ReportField.ANDROID_VERSION, 
-											ReportField.PHONE_MODEL, 
-											ReportField.CUSTOM_DATA, 
-											ReportField.STACK_TRACE, 
-											ReportField.LOGCAT },                
-					resToastText = R.string.text_acra_toast)*/
 
 /**
  * 
@@ -40,7 +37,8 @@ public class ApplicationPS2Link extends Application {
 	private static WallPaperMode wallpaper = WallPaperMode.PS2;
 
 	static final String ACTIVITY_MODE_KEY = "activity_mode";
-	
+	private static final int MAX_CACHE_SIZE = 2000000; //2 MB
+
 	/**
 	 * 
 	 * 
@@ -69,15 +67,17 @@ public class ApplicationPS2Link extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//ACRA.init(this);
-		// Volley and the image loader are singletons and should always be
-		// available
+
 		if (volley == null) {
 			ApplicationPS2Link.volley = Volley.newRequestQueue(this);
 		}
 		if (mImageLoader == null) {
 			mImageLoader = new ImageLoader(ApplicationPS2Link.volley,
 					new BitmapLruCache());
+		}
+		
+		if(getCacheSize(this) > MAX_CACHE_SIZE){
+			new ClearCache().execute();
 		}
 
 	}
@@ -111,5 +111,144 @@ public class ApplicationPS2Link extends Application {
 	 */
 	public static void setBackground(Bitmap background) {
 		ApplicationPS2Link.background = background;
+	}
+
+	
+	/**
+	 * @return the size in bytes of all the files in the cache
+	 */
+	public static long getCacheSize(Context context){
+		String[] fileList = context.fileList();
+		long size = 0;
+		for(String file : fileList){
+			size += new File(file).length();
+		}
+		return size;
+	}
+
+	public void WriteToCache(String ID, String data) {
+		String FILENAME = ID;
+
+		FileOutputStream fos;
+		try {
+			fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+			try {
+				fos.write(data.getBytes());
+				fos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String ReadFromCache(String ID) {
+		String FILENAME = ID;
+		String result = null;
+	    FileInputStream fis;
+		try {
+			fis = openFileInput(FILENAME);
+			 
+		    StringBuilder textBuilder = new StringBuilder();
+		    	Reader reader = new BufferedReader(new InputStreamReader(fis, Charset.defaultCharset()));
+		    	int c = 0;
+		        try {
+					while ((c = reader.read()) != -1) {
+					    textBuilder.append((char) c);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        result = textBuilder.toString();
+			    fis.close();			    	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * This AsyncTask will delete all the files from the cache.
+	 */
+	public class ClearCache extends AsyncTask<String, Integer, Boolean> {
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected Boolean doInBackground(String... args) {
+			String[] fileList = fileList();
+			for(String file : fileList){
+				deleteFile(file);
+			}
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(Boolean result) {
+
+		}
+	}
+	
+	/**
+	 * This AsyncTask will delete the least used files from the cache until it reaches its maximum size allowed.
+	 */
+	public class TrimCache extends AsyncTask<String, Integer, Boolean> {
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected Boolean doInBackground(String... args) {
+
+			File[] files = getFilesDir().listFiles();
+
+			Arrays.sort(files, new Comparator<File>(){
+			    public int compare(File f1, File f2)
+			    {
+			        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+			    } });
+
+			int i = 0;
+			while(getCacheSize(getApplicationContext()) > MAX_CACHE_SIZE && i < files.length){
+				deleteFile(files[i].getAbsolutePath());
+				i++;
+			}
+			
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(Boolean result) {
+
+		}
 	}
 }

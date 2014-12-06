@@ -51,8 +51,9 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
      * 
      * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    @Override
+    @SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	@Override
     protected Bitmap doInBackground(String... params) {
 	data = params[0];
 
@@ -73,7 +74,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		width = size.x;
 		height = size.y;
 	    } else {
-	    	Point psize = new Point();
 	    	width = display.getWidth();
 	    	height = display.getHeight();
 	    }

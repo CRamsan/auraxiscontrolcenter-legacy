@@ -27,6 +27,10 @@ import com.cesarandres.ps2link.soe.util.Logger;
  * here.
  * 
  */
+/**
+ * @author cramsan
+ *
+ */
 public abstract class BaseFragment extends Fragment {
 
     protected FragmentCallbacks mCallbacks = emptyCallbacks;
@@ -245,6 +249,15 @@ public abstract class BaseFragment extends Fragment {
 	this.currentTask = currentTask;
     }
 
+    /**
+     * If there is a current task set, cancel it.
+     */
+    public void cancelCurrentTask() {
+    	if(this.currentTask != null){
+    		this.currentTask.cancel(true);
+    	}
+    }
+    
     /**
      * 
      * 
