@@ -20,7 +20,7 @@ public class CharactersDirectiveList {
     private String directiveId;
     @SerializedName("directive_id_join_directive")
     @Expose
-    private DirectiveIdJoinDirective directiveIdJoinDirective;
+    private Directive directiveIdJoinDirective;
     @SerializedName("directive_tree_id")
     @Expose
     private String directiveTreeId;
@@ -102,7 +102,7 @@ public class CharactersDirectiveList {
      * @return
      *     The directiveIdJoinDirective
      */
-    public DirectiveIdJoinDirective getDirectiveIdJoinDirective() {
+    public Directive getDirectiveIdJoinDirective() {
         return directiveIdJoinDirective;
     }
 
@@ -111,7 +111,7 @@ public class CharactersDirectiveList {
      * @param directiveIdJoinDirective
      *     The directive_id_join_directive
      */
-    public void setDirectiveIdJoinDirective(DirectiveIdJoinDirective directiveIdJoinDirective) {
+    public void setDirectiveIdJoinDirective(Directive directiveIdJoinDirective) {
         this.directiveIdJoinDirective = directiveIdJoinDirective;
     }
 

@@ -4,7 +4,7 @@ package com.cesarandres.ps2link.soe.content;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DirectiveIdJoinDirective {
+public class Directive {
 
     @Expose
     private Name name;
@@ -18,13 +18,13 @@ public class DirectiveIdJoinDirective {
     private String directiveTierId;
     @SerializedName("directive_tier_id_join_directive_tier")
     @Expose
-    private DirectiveTierIdJoinDirectiveTier directiveTierIdJoinDirectiveTier;
+    private DirectiveTier directiveTierIdJoinDirectiveTier;
     @SerializedName("directive_tree_id")
     @Expose
     private String directiveTreeId;
     @SerializedName("directive_tree_id_join_directive_tree")
     @Expose
-    private DirectiveTreeIdJoinDirectiveTree directiveTreeIdJoinDirectiveTree;
+    private DirectiveTree directiveTreeIdJoinDirectiveTree;
     @SerializedName("image_id")
     @Expose
     private String imageId;
@@ -115,7 +115,7 @@ public class DirectiveIdJoinDirective {
      * @return
      *     The directiveTierIdJoinDirectiveTier
      */
-    public DirectiveTierIdJoinDirectiveTier getDirectiveTierIdJoinDirectiveTier() {
+    public DirectiveTier getDirectiveTierIdJoinDirectiveTier() {
         return directiveTierIdJoinDirectiveTier;
     }
 
@@ -124,7 +124,7 @@ public class DirectiveIdJoinDirective {
      * @param directiveTierIdJoinDirectiveTier
      *     The directive_tier_id_join_directive_tier
      */
-    public void setDirectiveTierIdJoinDirectiveTier(DirectiveTierIdJoinDirectiveTier directiveTierIdJoinDirectiveTier) {
+    public void setDirectiveTierIdJoinDirectiveTier(DirectiveTier directiveTierIdJoinDirectiveTier) {
         this.directiveTierIdJoinDirectiveTier = directiveTierIdJoinDirectiveTier;
     }
 
@@ -151,7 +151,7 @@ public class DirectiveIdJoinDirective {
      * @return
      *     The directiveTreeIdJoinDirectiveTree
      */
-    public DirectiveTreeIdJoinDirectiveTree getDirectiveTreeIdJoinDirectiveTree() {
+    public DirectiveTree getDirectiveTreeIdJoinDirectiveTree() {
         return directiveTreeIdJoinDirectiveTree;
     }
 
@@ -160,7 +160,7 @@ public class DirectiveIdJoinDirective {
      * @param directiveTreeIdJoinDirectiveTree
      *     The directive_tree_id_join_directive_tree
      */
-    public void setDirectiveTreeIdJoinDirectiveTree(DirectiveTreeIdJoinDirectiveTree directiveTreeIdJoinDirectiveTree) {
+    public void setDirectiveTreeIdJoinDirectiveTree(DirectiveTree directiveTreeIdJoinDirectiveTree) {
         this.directiveTreeIdJoinDirectiveTree = directiveTreeIdJoinDirectiveTree;
     }
 

@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class DirectiveTreeCategoryIdJoinDirectiveTreeCategory {
+public class DirectiveTreeCategory {
 
     @Expose
     private Name___ name;

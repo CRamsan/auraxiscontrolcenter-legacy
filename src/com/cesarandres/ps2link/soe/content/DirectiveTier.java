@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class DirectiveTierIdJoinDirectiveTier {
+public class DirectiveTier {
 
     @Expose
     private Name_ name;

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.fragments.FragmentDirectiveList;
 import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
 import com.cesarandres.ps2link.fragments.FragmentProfile;
@@ -36,6 +37,7 @@ public class FragmentProfilePager extends BaseFragment {
     private static final int STATS = 2;
     private static final int KILLBOARD = 3;
     private static final int WEAPONS = 4;
+    private static final int DIRECTIVES = 5;
 
     /*
      * (non-Javadoc)
@@ -118,6 +120,9 @@ public class FragmentProfilePager extends BaseFragment {
 		case WEAPONS:
 		    ((FragmentWeaponList) selectedFragment).downloadWeaponList(profileId);
 		    break;
+		case DIRECTIVES:
+		    ((FragmentDirectiveList) selectedFragment).downloadDirectivesList();
+		    break;		    
 		default:
 		    break;
 		}
@@ -156,6 +161,11 @@ public class FragmentProfilePager extends BaseFragment {
 		    fragmentStar.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
 		    fragmentMyWeapons.setVisibility(View.VISIBLE);
+		    break;
+		case DIRECTIVES:
+		    fragmentStar.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentMyWeapons.setVisibility(View.GONE);
 		    break;
 		default:
 		    fragmentStar.setVisibility(View.GONE);
@@ -237,6 +247,9 @@ public class FragmentProfilePager extends BaseFragment {
 	    case WEAPONS:
 		fragment = new FragmentWeaponList();
 		break;
+	    case DIRECTIVES:
+		fragment = new FragmentDirectiveList();
+		break;
 	    default:
 		break;
 	    }
@@ -267,7 +280,7 @@ public class FragmentProfilePager extends BaseFragment {
 	 */
 	@Override
 	public int getCount() {
-	    return 5;
+	    return 6;
 	}
 
 	/*
@@ -289,6 +302,8 @@ public class FragmentProfilePager extends BaseFragment {
 		return "STATS";
 	    case WEAPONS:
 		return "WEAPONS";
+	    case DIRECTIVES:
+		return "DIRECTIVES";
 	    default:
 		return "OVERVIEW";
 	    }

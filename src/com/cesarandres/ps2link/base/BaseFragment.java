@@ -218,7 +218,7 @@ public abstract class BaseFragment extends Fragment {
      *            if set to true, the progress view is displayed and the update
      *            view is hidden. If set to false, the opposite will happen
      */
-    protected void setProgressButton(boolean enabled) {
+    public void setProgressButton(boolean enabled) {
 	if (enabled) {
 	    this.fragmentUpdate.setVisibility(View.GONE);
 	    this.fragmentProgress.setVisibility(View.VISIBLE);

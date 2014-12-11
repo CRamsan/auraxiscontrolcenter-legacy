@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class DirectiveTreeIdJoinDirectiveTree {
+public class DirectiveTree {
 
     @Expose
     private Name__ name;
@@ -14,7 +14,7 @@ public class DirectiveTreeIdJoinDirectiveTree {
     private String directiveTreeCategoryId;
     @SerializedName("directive_tree_category_id_join_directive_tree_category")
     @Expose
-    private DirectiveTreeCategoryIdJoinDirectiveTreeCategory directiveTreeCategoryIdJoinDirectiveTreeCategory;
+    private DirectiveTreeCategory directiveTreeCategoryIdJoinDirectiveTreeCategory;
     @SerializedName("directive_tree_id")
     @Expose
     private String directiveTreeId;
@@ -69,7 +69,7 @@ public class DirectiveTreeIdJoinDirectiveTree {
      * @return
      *     The directiveTreeCategoryIdJoinDirectiveTreeCategory
      */
-    public DirectiveTreeCategoryIdJoinDirectiveTreeCategory getDirectiveTreeCategoryIdJoinDirectiveTreeCategory() {
+    public DirectiveTreeCategory getDirectiveTreeCategoryIdJoinDirectiveTreeCategory() {
         return directiveTreeCategoryIdJoinDirectiveTreeCategory;
     }
 
@@ -78,7 +78,7 @@ public class DirectiveTreeIdJoinDirectiveTree {
      * @param directiveTreeCategoryIdJoinDirectiveTreeCategory
      *     The directive_tree_category_id_join_directive_tree_category
      */
-    public void setDirectiveTreeCategoryIdJoinDirectiveTreeCategory(DirectiveTreeCategoryIdJoinDirectiveTreeCategory directiveTreeCategoryIdJoinDirectiveTreeCategory) {
+    public void setDirectiveTreeCategoryIdJoinDirectiveTreeCategory(DirectiveTreeCategory directiveTreeCategoryIdJoinDirectiveTreeCategory) {
         this.directiveTreeCategoryIdJoinDirectiveTreeCategory = directiveTreeCategoryIdJoinDirectiveTreeCategory;
     }
 
