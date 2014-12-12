@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.content.DirectiveTree;
-import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
 import com.cesarandres.ps2link.soe.content.response.Directive_tree_list;
 import com.cesarandres.ps2link.soe.util.EmbeddableExpandableListView;
  
@@ -55,7 +53,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.layout_loading_item, null);
+            convertView = infalInflater.inflate(R.layout.layout_directive_loading, null);
         }
         return convertView;
     }
@@ -121,7 +119,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
      * @param character_id
      *            Character id that will be used to request the list of directives
      */
-    public void downloadDirectivesTreeList(final DirectiveListAdapter parent, final View view, String categoryId) {
+    public void downloadDirectivesTreeList(final DirectiveCategoryTreeListAdapter parent, final View view, String categoryId) {
 	this.fragment.setProgressButton(true);
 	String url = 	"http://census.soe.com/get/ps2:v2/" +
 			"directive_tree?c:limit=1000&" + 

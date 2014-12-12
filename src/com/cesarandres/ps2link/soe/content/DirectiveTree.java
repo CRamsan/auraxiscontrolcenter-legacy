@@ -9,21 +9,31 @@ public class DirectiveTree {
 
     @Expose
     private Name__ name;
+    
     @SerializedName("directive_tree_category_id")
     @Expose
     private String directiveTreeCategoryId;
+    
     @SerializedName("directive_tree_category_id_join_directive_tree_category")
     @Expose
     private DirectiveTreeCategory directiveTreeCategoryIdJoinDirectiveTreeCategory;
+    
+    @SerializedName("directive_tree_id_join_directive_tree")
+    @Expose
+    private DirectiveTree directiveTreeIdJoinDirectiveTree;
+    
     @SerializedName("directive_tree_id")
     @Expose
     private String directiveTreeId;
+    
     @SerializedName("image_id")
     @Expose
     private String imageId;
+    
     @SerializedName("image_path")
     @Expose
     private String imagePath;
+    
     @SerializedName("image_set_id")
     @Expose
     private String imageSetId;

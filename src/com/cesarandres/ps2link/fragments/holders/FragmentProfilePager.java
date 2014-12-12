@@ -121,7 +121,7 @@ public class FragmentProfilePager extends BaseFragment {
 		    ((FragmentWeaponList) selectedFragment).downloadWeaponList(profileId);
 		    break;
 		case DIRECTIVES:
-		    ((FragmentDirectiveList) selectedFragment).downloadDirectivesList();
+		    ((FragmentDirectiveList) selectedFragment).downloadDirectivesList(profileId);
 		    break;		    
 		default:
 		    break;

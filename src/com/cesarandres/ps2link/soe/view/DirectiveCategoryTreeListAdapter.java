@@ -22,18 +22,15 @@ import com.cesarandres.ps2link.soe.SOECensus;
 import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
 import com.cesarandres.ps2link.soe.content.response.Directive_tree_category_list;
  
-public class DirectiveListAdapter extends BaseExpandableListAdapter implements OnGroupExpandListener, OnGroupClickListener{
+public class DirectiveCategoryTreeListAdapter extends BaseExpandableListAdapter implements OnGroupExpandListener, OnGroupClickListener{
 
-	private String profileId;
-    
     private ExpandableListView expandableList;
     private BaseFragment fragment;
     private ArrayList<DirectiveTreeCategory> categories;
     private DirectiveTreeListAdapter nextAdapter;
     
-    public DirectiveListAdapter(BaseFragment fragment, ExpandableListView expandableList, String profileId) {
+    public DirectiveCategoryTreeListAdapter(BaseFragment fragment, ExpandableListView expandableList, String profileId) {
     	this.fragment = fragment;
-        this.profileId = profileId;
         this.expandableList = expandableList;
         this.nextAdapter = new DirectiveTreeListAdapter(fragment, profileId);
     }
@@ -55,7 +52,7 @@ public class DirectiveListAdapter extends BaseExpandableListAdapter implements O
     	if(!this.nextAdapter.isReady()){
     		LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
     				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    		convertView = infalInflater.inflate(R.layout.layout_directive_category_item, parent, false);
+    		convertView = infalInflater.inflate(R.layout.layout_directive_loading, parent, false);
             
             this.nextAdapter.downloadDirectivesTreeList(this, convertView, ((DirectiveTreeCategory)this.getGroup(groupPosition)).getDirectiveTreeCategoryId());
             
@@ -92,7 +89,7 @@ public class DirectiveListAdapter extends BaseExpandableListAdapter implements O
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.layout_directive_category_item, null);
+            convertView = infalInflater.inflate(R.layout.layout_directive_category_item, parent, false);
         }
  
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.textViewDirectiveCategoryName);
@@ -144,9 +141,9 @@ public class DirectiveListAdapter extends BaseExpandableListAdapter implements O
 		fragment.setProgressButton(false);
 		try {
 			categories = response.getDirective_tree_category_list();
-		    expandableList.setOnGroupExpandListener(DirectiveListAdapter.this);
-		    expandableList.setOnGroupClickListener(DirectiveListAdapter.this);			
-		    expandableList.setAdapter(DirectiveListAdapter.this);
+		    expandableList.setOnGroupExpandListener(DirectiveCategoryTreeListAdapter.this);
+		    expandableList.setOnGroupClickListener(DirectiveCategoryTreeListAdapter.this);			
+		    expandableList.setAdapter(DirectiveCategoryTreeListAdapter.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
