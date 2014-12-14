@@ -22,18 +22,13 @@ import com.cesarandres.ps2link.soe.content.response.Directive_tree_list;
 import com.cesarandres.ps2link.soe.util.EmbeddableExpandableListView;
  
 public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implements OnGroupExpandListener{
-
-	private String profileId;
 	
     private BaseFragment fragment;
     private EmbeddableExpandableListView expandableList;
     private ArrayList<DirectiveTree> categories;
-    private boolean isReady;
  
-    public DirectiveTreeListAdapter(BaseFragment fragment, String profileId) {
+    public DirectiveTreeListAdapter(BaseFragment fragment) {
     	this.fragment = fragment;
-        this.profileId = profileId;
-        this.isReady = false;
     }
  
     @Override
@@ -119,7 +114,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
      * @param character_id
      *            Character id that will be used to request the list of directives
      */
-    public void downloadDirectivesTreeList(final DirectiveCategoryTreeListAdapter parent, final View view, String categoryId) {
+    public void downloadDirectivesTreeList(final DirectiveTreeCategoryListAdapter parent, final View view, String categoryId) {
 	this.fragment.setProgressButton(true);
 	String url = 	"http://census.soe.com/get/ps2:v2/" +
 			"directive_tree?c:limit=1000&" + 
@@ -137,7 +132,6 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
 		    expandableList.setRow_height(view.getHeight());
 		    expandableList.setAdapter(DirectiveTreeListAdapter.this);
 		    expandableList.setOnGroupExpandListener(DirectiveTreeListAdapter.this);
-		    isReady = true;
 			parent.notifyDataSetChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,15 +148,6 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
 
 	SOECensus.sendGsonRequest(url, Directive_tree_list.class, success, error, this);
     }
-
-	public boolean isReady() {
-		return isReady;
-	}
-
-	public void setReady(boolean isReady) {
-		this.isReady = isReady;
-		this.notifyDataSetInvalidated();
-	}
 	
 	public View getExpandableView(){
 		return this.expandableList;

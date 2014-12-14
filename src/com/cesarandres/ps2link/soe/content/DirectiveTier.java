@@ -1,6 +1,8 @@
 
 package com.cesarandres.ps2link.soe.content;
 
+import java.util.ArrayList;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -34,6 +36,8 @@ public class DirectiveTier {
     @Expose
     private String rewardSetId;
 
+    private ArrayList<Directive> charactersDirective;
+    
     /**
      * 
      * @return
@@ -195,5 +199,16 @@ public class DirectiveTier {
     public void setRewardSetId(String rewardSetId) {
         this.rewardSetId = rewardSetId;
     }
+
+	public ArrayList<Directive> getCharactersDirective() {
+		return charactersDirective;
+	}
+	
+	public void registerDirective (Directive newDirective){
+		if(charactersDirective == null){
+			charactersDirective = new ArrayList<Directive>();
+		}
+		charactersDirective.add(newDirective);
+	}
 
 }

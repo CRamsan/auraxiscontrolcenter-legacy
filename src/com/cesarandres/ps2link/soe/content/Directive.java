@@ -38,6 +38,8 @@ public class Directive {
     @Expose
     private String objectiveSetId;
 
+    private DirectiveObjective directiveObjective;
+    
     /**
      * 
      * @return
@@ -235,5 +237,13 @@ public class Directive {
     public void setObjectiveSetId(String objectiveSetId) {
         this.objectiveSetId = objectiveSetId;
     }
+
+	public DirectiveObjective getDirectiveObjective() {
+		return directiveObjective;
+	}
+
+	public void setDirectiveObjective(DirectiveObjective directiveObjective) {
+		this.directiveObjective = directiveObjective;
+	}
 
 }

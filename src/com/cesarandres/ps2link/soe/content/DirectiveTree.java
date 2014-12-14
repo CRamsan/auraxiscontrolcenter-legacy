@@ -1,6 +1,8 @@
 
 package com.cesarandres.ps2link.soe.content;
 
+import java.util.ArrayList;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -38,6 +40,9 @@ public class DirectiveTree {
     @Expose
     private String imageSetId;
 
+    private ArrayList<DirectiveTier> directiveTiers;
+    private int higestTier;
+    
     /**
      * 
      * @return
@@ -164,4 +169,22 @@ public class DirectiveTree {
         this.imageSetId = imageSetId;
     }
 
+	public ArrayList<DirectiveTier> getDirectiveTiers() {
+		return directiveTiers;
+	}
+
+	public void registerDirectiveTiers(DirectiveTier newDirectiveTier) {
+		if(this.directiveTiers == null){
+			this.directiveTiers = new ArrayList<DirectiveTier>();
+		}
+		this.directiveTiers.add(newDirectiveTier);
+		int newDirectiveTierValue = Integer.parseInt(newDirectiveTier.getDirectiveTierId());
+		if(newDirectiveTierValue > this.higestTier){
+			this.higestTier = newDirectiveTierValue;
+		}
+	}
+
+	public int getHigestTier() {
+		return higestTier;
+	}
 }
