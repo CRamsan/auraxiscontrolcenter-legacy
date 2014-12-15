@@ -1,6 +1,8 @@
 
 package com.cesarandres.ps2link.soe.content;
 
+import java.util.ArrayList;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,6 +15,8 @@ public class DirectiveTreeCategory {
     @Expose
     private String directiveTreeCategoryId;
 
+    private ArrayList<CharacterDirectiveTree> characterDirectiveTreeList;
+    
     /**
      * 
      * @return
@@ -48,5 +52,17 @@ public class DirectiveTreeCategory {
     public void setDirectiveTreeCategoryId(String directiveTreeCategoryId) {
         this.directiveTreeCategoryId = directiveTreeCategoryId;
     }
+
+	public ArrayList<CharacterDirectiveTree> getCharacterDirectiveTreeList() {
+		return characterDirectiveTreeList;
+	}
+
+	public void registerCharacterDirectiveTreeList(
+			CharacterDirectiveTree characterDirectiveTree) {
+		if(this.characterDirectiveTreeList == null){
+			this.characterDirectiveTreeList = new ArrayList<CharacterDirectiveTree>();
+		}
+		this.characterDirectiveTreeList.add(characterDirectiveTree);
+	}
 
 }

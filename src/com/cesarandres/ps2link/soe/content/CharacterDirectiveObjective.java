@@ -1,6 +1,6 @@
 package com.cesarandres.ps2link.soe.content;
 
-public class DirectiveObjective {
+public class CharacterDirectiveObjective {
 
 	private String character_id;
 	private Objective objective_id_join_objective;

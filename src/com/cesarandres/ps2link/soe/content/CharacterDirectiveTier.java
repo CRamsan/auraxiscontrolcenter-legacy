@@ -1,18 +1,22 @@
 
 package com.cesarandres.ps2link.soe.content;
 
+import java.util.ArrayList;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Directive {
+
+public class CharacterDirectiveTier {
 
     @Expose
-    private Name name;
+    private Name_ name;
+    @SerializedName("completion_count")
     @Expose
-    private Description description;
-    @SerializedName("directive_id")
+    private String completionCount;
+    @SerializedName("directive_points")
     @Expose
-    private String directiveId;
+    private String directivePoints;
     @SerializedName("directive_tier_id")
     @Expose
     private String directiveTierId;
@@ -28,16 +32,18 @@ public class Directive {
     @SerializedName("image_set_id")
     @Expose
     private String imageSetId;
-    @SerializedName("objective_set_id")
+    @SerializedName("reward_set_id")
     @Expose
-    private String objectiveSetId;
+    private String rewardSetId;
+
+    private ArrayList<CharacterDirective> charactersDirective;
     
     /**
      * 
      * @return
      *     The name
      */
-    public Name getName() {
+    public Name_ getName() {
         return name;
     }
 
@@ -46,44 +52,44 @@ public class Directive {
      * @param name
      *     The name
      */
-    public void setName(Name name) {
+    public void setName(Name_ name) {
         this.name = name;
     }
 
     /**
      * 
      * @return
-     *     The description
+     *     The completionCount
      */
-    public Description getDescription() {
-        return description;
+    public String getCompletionCount() {
+        return completionCount;
     }
 
     /**
      * 
-     * @param description
-     *     The description
+     * @param completionCount
+     *     The completion_count
      */
-    public void setDescription(Description description) {
-        this.description = description;
+    public void setCompletionCount(String completionCount) {
+        this.completionCount = completionCount;
     }
 
     /**
      * 
      * @return
-     *     The directiveId
+     *     The directivePoints
      */
-    public String getDirectiveId() {
-        return directiveId;
+    public String getDirectivePoints() {
+        return directivePoints;
     }
 
     /**
      * 
-     * @param directiveId
-     *     The directive_id
+     * @param directivePoints
+     *     The directive_points
      */
-    public void setDirectiveId(String directiveId) {
-        this.directiveId = directiveId;
+    public void setDirectivePoints(String directivePoints) {
+        this.directivePoints = directivePoints;
     }
 
     /**
@@ -179,18 +185,30 @@ public class Directive {
     /**
      * 
      * @return
-     *     The objectiveSetId
+     *     The rewardSetId
      */
-    public String getObjectiveSetId() {
-        return objectiveSetId;
+    public String getRewardSetId() {
+        return rewardSetId;
     }
 
     /**
      * 
-     * @param objectiveSetId
-     *     The objective_set_id
+     * @param rewardSetId
+     *     The reward_set_id
      */
-    public void setObjectiveSetId(String objectiveSetId) {
-        this.objectiveSetId = objectiveSetId;
+    public void setRewardSetId(String rewardSetId) {
+        this.rewardSetId = rewardSetId;
     }
+
+	public ArrayList<CharacterDirective> getCharactersDirective() {
+		return charactersDirective;
+	}
+	
+	public void registerDirective (CharacterDirective newDirective){
+		if(charactersDirective == null){
+			charactersDirective = new ArrayList<CharacterDirective>();
+		}
+		charactersDirective.add(newDirective);
+	}
+
 }

@@ -16,8 +16,10 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.content.Directive;
-import com.cesarandres.ps2link.soe.content.DirectiveObjective;
+import com.cesarandres.ps2link.soe.content.CharacterDirective;
+import com.cesarandres.ps2link.soe.content.CharacterDirectiveObjective;
+import com.cesarandres.ps2link.soe.content.CharacterDirectiveTier;
+import com.cesarandres.ps2link.soe.content.CharacterDirectiveTree;
 import com.cesarandres.ps2link.soe.content.DirectiveTier;
 import com.cesarandres.ps2link.soe.content.DirectiveTree;
 import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
@@ -39,10 +41,10 @@ public class FragmentDirectiveList extends BaseFragment {
     private DirectiveTreeCategoryListAdapter adapter;
     private ExpandableListView expandableListView;
     
-    private ArrayList<Directive> charactersDirective;
-    private ArrayList<DirectiveObjective> charactersDirectiveObjective;
-    private ArrayList<DirectiveTree> charactersDirectiveTrees;
-    private ArrayList<DirectiveTier> charactersDirectiveTiers;
+    private ArrayList<CharacterDirective> charactersDirective;
+    private ArrayList<CharacterDirectiveObjective> charactersDirectiveObjective;
+    private ArrayList<CharacterDirectiveTree> charactersDirectiveTrees;
+    private ArrayList<CharacterDirectiveTier> charactersDirectiveTiers;
     private ArrayList<DirectiveTreeCategory> charactersDirectiveTreeCategories;
     
     /*
@@ -201,72 +203,64 @@ public class FragmentDirectiveList extends BaseFragment {
     
     public boolean generateDirectiveMap(){
     	//TODO Completely refactor this method
-    	HashMap<String, Object> objectMap = new HashMap<String, Object>();
     	this.charactersDirectiveTreeCategories = new ArrayList<DirectiveTreeCategory>();
     	
-    	for(Directive directive : charactersDirective){
-    		objectMap.put("d"+directive.getDirectiveId(), directive);
-    		
+    	HashMap<String, CharacterDirectiveTree> treeMap = new HashMap<String, CharacterDirectiveTree>();
+    	HashMap<String, CharacterDirectiveTier> tierMap = new HashMap<String, CharacterDirectiveTier>();
+    	HashMap<String, DirectiveTreeCategory> categoryMap = new HashMap<String, DirectiveTreeCategory>();
+
+    	//Generate TreeMap
+    	for(CharacterDirectiveTree directiveTree : charactersDirectiveTrees){
+			String newCategoryId = directiveTree.getDirective_tree_id_join_directive_tree().getDirectiveTreeCategoryId();
+			String newDirectiveTreeId = directiveTree.getDirective_tree_id();
+			
+			if(!categoryMap.containsKey(newCategoryId)){
+    			Name___ name = new Name___();
+    			
+    			DirectiveTreeCategory newDirectiveTreeCategory = new DirectiveTreeCategory();
+    			if(newCategoryId.equalsIgnoreCase("3")){
+    				name.setEn("Infantry");
+				}else if(newCategoryId.equalsIgnoreCase("4")){
+    				name.setEn("Vehicle");
+				}else if(newCategoryId.equalsIgnoreCase("5")){
+    				name.setEn("Strategic");
+				}else if(newCategoryId.equalsIgnoreCase("6")){
+    				name.setEn("Prestige");
+				}else if(newCategoryId.equalsIgnoreCase("7")){
+    				name.setEn("Weapons");
+				}else if(newCategoryId.equalsIgnoreCase("8")){
+    				name.setEn("Events");
+				}else{
+    				name.setEn("Others");
+				}
+				newDirectiveTreeCategory.setName(name);
+				newDirectiveTreeCategory.setDirectiveTreeCategoryId(newCategoryId);
+				newDirectiveTreeCategory.registerCharacterDirectiveTreeList(directiveTree);
+				categoryMap.put(newCategoryId, newDirectiveTreeCategory);
+    			this.charactersDirectiveTreeCategories.add(newDirectiveTreeCategory);
+    		}
+			
+			treeMap.put(newDirectiveTreeId, directiveTree);
+    	}
+    	
+    	for(CharacterDirectiveTier directiveTier : charactersDirectiveTiers){
+    		String newDirectiveTierId = directiveTier.getDirectiveTierId();
+    		tierMap.put(newDirectiveTierId, directiveTier);
+    		CharacterDirectiveTree parentDirectiveTree = treeMap.get(directiveTier.getDirectiveTreeId());
+    		parentDirectiveTree.registerDirectiveTiers(directiveTier);
+    	}
+    	
+    	for(CharacterDirective directive : charactersDirective){    		
     		for(int i=0; i < charactersDirectiveObjective.size(); i++){
-    			if(charactersDirectiveObjective.get(i).getDirective_id().equalsIgnoreCase(directive.getDirectiveId())){
+    			if(charactersDirectiveObjective.get(i).getDirective_id().equalsIgnoreCase(directive.getDirective_id())){
     				directive.setDirectiveObjective(charactersDirectiveObjective.get(i));
     				charactersDirectiveObjective.remove(i);
     				break;
     			}
     		}
-    		
-        	for(DirectiveTier directiveTier : charactersDirectiveTiers){
-        		String directiveTierKey = "dt"+directiveTier.getDirectiveTierId();
-        		if(!objectMap.containsKey(directiveTierKey)){
-        			objectMap.put(directiveTierKey, directiveTier);
-        		}
-        		if(directiveTier.getDirectiveTierId().equalsIgnoreCase(directive.getDirectiveTierId())){
-        			directiveTier.registerDirective(directive);
-        		}else{
-        			break;
-        		}
-        		
-            	for(DirectiveTree directiveTree : charactersDirectiveTrees){
-            		String directiveTreeKey = "dtr"+directiveTree.getDirectiveTreeId();
-            		if(!objectMap.containsKey(directiveTreeKey)){
-            			objectMap.put(directiveTreeKey, directiveTree);
-            		}
-            		
-            		if(directiveTree.getDirectiveTreeId().equalsIgnoreCase(directiveTier.getDirectiveTreeId())){
-            			directiveTree.registerDirectiveTiers(directiveTier);
-            		}else{
-            			break;
-            		}
-            		
-            		boolean found = false;
-            		for(int i = 0; i < this.charactersDirectiveTreeCategories.size(); i++){
-            			if(this.charactersDirectiveTreeCategories.get(i).getDirectiveTreeCategoryId().equalsIgnoreCase(directiveTree.getDirectiveTreeCategoryId())){
-            				found = true;
-            			}
-            		}
-            		if(!found){
-            			DirectiveTreeCategory newDirectiveTreeCategory = new DirectiveTreeCategory();
-            			if(newDirectiveTreeCategory.getDirectiveTreeCategoryId().equalsIgnoreCase("3")){
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Infantry");}});
-						}else if(newDirectiveTreeCategory.getDirectiveTreeCategoryId().equalsIgnoreCase("4")){
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Vehicles");}});
-						}else if(newDirectiveTreeCategory.getDirectiveTreeCategoryId().equalsIgnoreCase("5")){
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Strateic");}});
-						}else if(newDirectiveTreeCategory.getDirectiveTreeCategoryId().equalsIgnoreCase("6")){
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Prestige");}});
-						}else if(newDirectiveTreeCategory.getDirectiveTreeCategoryId().equalsIgnoreCase("7")){
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Weapons");}});
-						}else if(newDirectiveTreeCategory.getDirectiveTreeCategoryId().equalsIgnoreCase("8")){
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Events");}});
-						}else{
-            				newDirectiveTreeCategory.setName(new Name___(){{setEn("Other");}});
-						}
-            			this.charactersDirectiveTreeCategories.add(newDirectiveTreeCategory);
-            		}
-            	}
-        	}
-    		
-    	}
+    		CharacterDirectiveTier parentDirectiveTier = tierMap.get(directive.getDirective_id_join_directive().getDirectiveTierId());
+    		parentDirectiveTier.registerDirective(directive);    		
+        }
     	return true;
     }
 }

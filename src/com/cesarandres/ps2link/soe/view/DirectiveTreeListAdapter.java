@@ -17,7 +17,7 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.content.DirectiveTree;
+import com.cesarandres.ps2link.soe.content.CharacterDirectiveTree;
 import com.cesarandres.ps2link.soe.content.response.Directive_tree_list;
 import com.cesarandres.ps2link.soe.util.EmbeddableExpandableListView;
  
@@ -25,7 +25,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
 	
     private BaseFragment fragment;
     private EmbeddableExpandableListView expandableList;
-    private ArrayList<DirectiveTree> categories;
+    private ArrayList<CharacterDirectiveTree> categories;
  
     public DirectiveTreeListAdapter(BaseFragment fragment) {
     	this.fragment = fragment;
@@ -76,7 +76,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
-        DirectiveTree headerTitle = (DirectiveTree) getGroup(groupPosition);
+        CharacterDirectiveTree headerTitle = (CharacterDirectiveTree) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -84,7 +84,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
         }
  
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.textViewDirectiveCategoryName);
-        lblListHeader.setText(headerTitle.getName().getEn());
+        lblListHeader.setText(headerTitle.getDirective_tree_id_join_directive_tree().getName().getEn());
  
         return convertView;
     }
