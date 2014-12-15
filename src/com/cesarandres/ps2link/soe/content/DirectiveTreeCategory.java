@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class DirectiveTreeCategory {
+public class DirectiveTreeCategory implements Comparable<DirectiveTreeCategory> {
 
     @Expose
     private Name___ name;
@@ -17,6 +17,9 @@ public class DirectiveTreeCategory {
 
     private ArrayList<CharacterDirectiveTree> characterDirectiveTreeList;
     
+    private int maxValue;
+    private int currentValue;
+
     /**
      * 
      * @return
@@ -64,5 +67,43 @@ public class DirectiveTreeCategory {
 		}
 		this.characterDirectiveTreeList.add(characterDirectiveTree);
 	}
+	
+	public int getMaxValue() {
+		return maxValue;
+	}
 
+	public int getCurrentValue() {
+		return currentValue;
+	}
+
+	public void generateValues(){
+		for(CharacterDirectiveTree tree : characterDirectiveTreeList){
+			this.maxValue += 145;
+			switch (Integer.parseInt(tree.getCurrent_directive_tier_id())) {
+			case 0:
+				tree.setCurrent_level_value(0);
+				break;
+			case 1:
+				tree.setCurrent_level_value(5);
+				break;
+			case 2:
+				tree.setCurrent_level_value(15);
+				break;
+			case 3:
+				tree.setCurrent_level_value(45);
+				break;
+			case 4:
+				tree.setCurrent_level_value(145);
+				break;
+			default:
+				break;
+			}
+			this.currentValue += tree.getCurrent_level_value();
+		}
+	}
+
+	@Override
+	public int compareTo(DirectiveTreeCategory another) {
+		return this.getName().getEn().compareToIgnoreCase(another.getName().getEn());
+	}
 }

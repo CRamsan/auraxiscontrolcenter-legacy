@@ -5,10 +5,32 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/networkImageViewDirectoryTreeTier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <TextView
-        android:id="@+id/textViewDirectiveCategoryName"
+        android:id="@+id/textViewDirectiveTreeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medic" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewDirectiveTreeValueq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/imageViewDirectiveIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_directive" />
+
+    <ImageView
+        android:id="@+id/imageViewDirectiveLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

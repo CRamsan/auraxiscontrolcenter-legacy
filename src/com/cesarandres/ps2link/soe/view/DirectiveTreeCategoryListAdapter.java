@@ -2,13 +2,13 @@ package com.cesarandres.ps2link.soe.view;
  
 import java.util.ArrayList;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
@@ -21,13 +21,14 @@ public class DirectiveTreeCategoryListAdapter extends BaseExpandableListAdapter 
     private ExpandableListView expandableList;
     private BaseFragment fragment;
     private ArrayList<DirectiveTreeCategory> categories;
-
+    protected LayoutInflater mInflater;
     private DirectiveTreeListAdapter nextAdapter;
     private EmbeddableExpandableListView  nextList;
     
     public DirectiveTreeCategoryListAdapter(BaseFragment fragment, ExpandableListView expandableList) {
+    	this.mInflater = LayoutInflater.from(fragment.getActivity());
     	this.fragment = fragment;
-        this.expandableList = expandableList;
+    	this.expandableList = expandableList;
         this.nextAdapter = new DirectiveTreeListAdapter(fragment);
     }
  
@@ -80,16 +81,24 @@ public class DirectiveTreeCategoryListAdapter extends BaseExpandableListAdapter 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
-        DirectiveTreeCategory headerTitle = (DirectiveTreeCategory) getGroup(groupPosition);
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.layout_directive_category_item, parent, false);
-        }
- 
-        TextView lblListHeader = (TextView) convertView.findViewById(R.id.textViewDirectiveCategoryName);
-        lblListHeader.setText(headerTitle.getName().getEn());
- 
+    	ViewHolder holder;
+    	
+    	if (convertView == null) {
+    	    convertView = mInflater.inflate(R.layout.layout_directive_category_item, parent, false);
+
+    	    holder = new ViewHolder();
+    	    holder.categoryName = (TextView) convertView.findViewById(R.id.textViewDirectiveCategoryName);
+    	    holder.progress = (ProgressBar) convertView.findViewById(R.id.progressBarDirectiveCategoryValue);
+    	    convertView.setTag(holder);
+    	} else {
+    	    holder = (ViewHolder) convertView.getTag();
+    	}
+    	
+    	DirectiveTreeCategory category = this.categories.get(groupPosition);
+        holder.categoryName.setText(category.getName().getEn());
+        holder.progress.setMax(category.getMaxValue());
+        holder.progress.setProgress(category.getCurrentValue());
+        
         return convertView;
     }
  
@@ -116,5 +125,10 @@ public class DirectiveTreeCategoryListAdapter extends BaseExpandableListAdapter 
 	
 	public void setCategories(ArrayList<DirectiveTreeCategory> categories) {
 		this.categories = categories;
+	}
+	
+	static class ViewHolder{
+		TextView categoryName;
+		ProgressBar progress;
 	}
 }

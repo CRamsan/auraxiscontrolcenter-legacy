@@ -17,11 +17,7 @@ public class DirectiveTree {
     @SerializedName("directive_tree_category_id_join_directive_tree_category")
     @Expose
     private DirectiveTreeCategory directiveTreeCategoryIdJoinDirectiveTreeCategory;
-    
-    @SerializedName("directive_tree_id_join_directive_tree")
-    @Expose
-    private DirectiveTree directiveTreeIdJoinDirectiveTree;
-    
+        
     @SerializedName("directive_tree_id")
     @Expose
     private String directiveTreeId;

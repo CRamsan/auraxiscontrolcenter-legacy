@@ -3,202 +3,62 @@ package com.cesarandres.ps2link.soe.content;
 
 import java.util.ArrayList;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 
 public class CharacterDirectiveTier {
 
-    @Expose
-    private Name_ name;
-    @SerializedName("completion_count")
-    @Expose
-    private String completionCount;
-    @SerializedName("directive_points")
-    @Expose
-    private String directivePoints;
-    @SerializedName("directive_tier_id")
-    @Expose
-    private String directiveTierId;
-    @SerializedName("directive_tree_id")
-    @Expose
-    private String directiveTreeId;
-    @SerializedName("image_id")
-    @Expose
-    private String imageId;
-    @SerializedName("image_path")
-    @Expose
-    private String imagePath;
-    @SerializedName("image_set_id")
-    @Expose
-    private String imageSetId;
-    @SerializedName("reward_set_id")
-    @Expose
-    private String rewardSetId;
-
+ 
     private ArrayList<CharacterDirective> charactersDirective;
+    private String character_id;
+    private String completion_time;
+    private String directive_tier_id;
+    private String directive_tree_id;
+    private DirectiveTier directive_tier_id_join_directive_tier;
     
-    /**
-     * 
-     * @return
-     *     The name
-     */
-    public Name_ getName() {
-        return name;
-    }
+	public String getCharacter_id() {
+		return character_id;
+	}
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
-    public void setName(Name_ name) {
-        this.name = name;
-    }
+	public void setCharacter_id(String character_id) {
+		this.character_id = character_id;
+	}
 
-    /**
-     * 
-     * @return
-     *     The completionCount
-     */
-    public String getCompletionCount() {
-        return completionCount;
-    }
+	public String getCompletion_time() {
+		return completion_time;
+	}
 
-    /**
-     * 
-     * @param completionCount
-     *     The completion_count
-     */
-    public void setCompletionCount(String completionCount) {
-        this.completionCount = completionCount;
-    }
+	public void setCompletion_time(String completion_time) {
+		this.completion_time = completion_time;
+	}
 
-    /**
-     * 
-     * @return
-     *     The directivePoints
-     */
-    public String getDirectivePoints() {
-        return directivePoints;
-    }
+	public String getDirective_tier_id() {
+		return directive_tier_id;
+	}
 
-    /**
-     * 
-     * @param directivePoints
-     *     The directive_points
-     */
-    public void setDirectivePoints(String directivePoints) {
-        this.directivePoints = directivePoints;
-    }
+	public void setDirective_tier_id(String directive_tier_id) {
+		this.directive_tier_id = directive_tier_id;
+	}
 
-    /**
-     * 
-     * @return
-     *     The directiveTierId
-     */
-    public String getDirectiveTierId() {
-        return directiveTierId;
-    }
+	public String getDirective_tree_id() {
+		return directive_tree_id;
+	}
 
-    /**
-     * 
-     * @param directiveTierId
-     *     The directive_tier_id
-     */
-    public void setDirectiveTierId(String directiveTierId) {
-        this.directiveTierId = directiveTierId;
-    }
+	public void setDirective_tree_id(String directive_tree_id) {
+		this.directive_tree_id = directive_tree_id;
+	}
 
-    /**
-     * 
-     * @return
-     *     The directiveTreeId
-     */
-    public String getDirectiveTreeId() {
-        return directiveTreeId;
-    }
+	public DirectiveTier getDirective_tier_id_join_directive_tier() {
+		return directive_tier_id_join_directive_tier;
+	}
 
-    /**
-     * 
-     * @param directiveTreeId
-     *     The directive_tree_id
-     */
-    public void setDirectiveTreeId(String directiveTreeId) {
-        this.directiveTreeId = directiveTreeId;
-    }
+	public void setDirective_tier_id_join_directive_tier(
+			DirectiveTier directive_tier_id_join_directive_tier) {
+		this.directive_tier_id_join_directive_tier = directive_tier_id_join_directive_tier;
+	}
 
-    /**
-     * 
-     * @return
-     *     The imageId
-     */
-    public String getImageId() {
-        return imageId;
-    }
-
-    /**
-     * 
-     * @param imageId
-     *     The image_id
-     */
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
-
-    /**
-     * 
-     * @return
-     *     The imagePath
-     */
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    /**
-     * 
-     * @param imagePath
-     *     The image_path
-     */
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    /**
-     * 
-     * @return
-     *     The imageSetId
-     */
-    public String getImageSetId() {
-        return imageSetId;
-    }
-
-    /**
-     * 
-     * @param imageSetId
-     *     The image_set_id
-     */
-    public void setImageSetId(String imageSetId) {
-        this.imageSetId = imageSetId;
-    }
-
-    /**
-     * 
-     * @return
-     *     The rewardSetId
-     */
-    public String getRewardSetId() {
-        return rewardSetId;
-    }
-
-    /**
-     * 
-     * @param rewardSetId
-     *     The reward_set_id
-     */
-    public void setRewardSetId(String rewardSetId) {
-        this.rewardSetId = rewardSetId;
-    }
+	public void setCharactersDirective(
+			ArrayList<CharacterDirective> charactersDirective) {
+		this.charactersDirective = charactersDirective;
+	}
 
 	public ArrayList<CharacterDirective> getCharactersDirective() {
 		return charactersDirective;

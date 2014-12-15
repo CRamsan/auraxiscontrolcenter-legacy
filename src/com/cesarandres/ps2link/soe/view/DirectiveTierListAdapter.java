@@ -12,14 +12,14 @@ import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.content.CharacterDirective;
+import com.cesarandres.ps2link.soe.content.Directive;
 import com.cesarandres.ps2link.soe.util.EmbeddableExpandableListView;
  
 public class DirectiveTierListAdapter extends BaseExpandableListAdapter implements OnGroupExpandListener{
 	
     private BaseFragment fragment;
     private EmbeddableExpandableListView expandableList;
-    private ArrayList<CharacterDirective> directives;
+    private ArrayList<Directive> directives;
  
     public DirectiveTierListAdapter(BaseFragment fragment) {
     	this.fragment = fragment;
@@ -54,7 +54,12 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
  
     @Override
     public int getGroupCount() {
+    	try{
     	return this.directives.size();
+    	}catch(Exception e){
+    		this.directives = new ArrayList<Directive>();
+    		return this.directives.size();
+    	}
     }
  
     @Override
@@ -65,7 +70,7 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
-        CharacterDirective headerTitle = (CharacterDirective) getGroup(groupPosition);
+        Directive headerTitle = (Directive) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -75,7 +80,7 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.textViewDirectiveCategoryName);
         String name = "None";
         try{
-        	name = headerTitle.getDirective_id_join_directive().getName().getEn();        	
+        	name = headerTitle.getName().getEn();        	
         }catch(Exception e){
 
         }
@@ -105,7 +110,7 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
 	    }
 	}
 
-	public void setDirectives(ArrayList<CharacterDirective> directives) {
+	public void setDirectives(ArrayList<Directive> directives) {
 		this.directives = directives;
 	}
 }

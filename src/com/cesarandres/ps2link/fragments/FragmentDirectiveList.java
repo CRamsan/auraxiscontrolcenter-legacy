@@ -21,12 +21,15 @@ import com.cesarandres.ps2link.soe.content.CharacterDirectiveObjective;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveTier;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveTree;
 import com.cesarandres.ps2link.soe.content.Directive;
+import com.cesarandres.ps2link.soe.content.DirectiveTier;
 import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
 import com.cesarandres.ps2link.soe.content.Name___;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_list;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_objective_list;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_tier_list;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_tree_list;
+import com.cesarandres.ps2link.soe.content.response.Directive_list;
+import com.cesarandres.ps2link.soe.content.response.Directive_tier_list;
 import com.cesarandres.ps2link.soe.view.DirectiveTreeCategoryListAdapter;
 
 /**
@@ -44,6 +47,8 @@ public class FragmentDirectiveList extends BaseFragment {
     private ArrayList<CharacterDirectiveObjective> charactersDirectiveObjective;
     private ArrayList<CharacterDirectiveTree> charactersDirectiveTrees;
     private ArrayList<CharacterDirectiveTier> charactersDirectiveTiers;
+    private ArrayList<DirectiveTier> directiveTiers;
+    private ArrayList<Directive> directives;
     private ArrayList<DirectiveTreeCategory> charactersDirectiveTreeCategories;
     
     /*
@@ -91,7 +96,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	this.setProgressButton(true);
     	String url = 	"http://census.soe.com/get/ps2:v2/" + 
     					"characters_directive?character_id=" + profileId +
-    					"&c:lang=en&c:limit=5000&c:join=directive";
+    					"&c:lang=en&c:limit=5000";
 
     	Listener<Characters_directive_list> success = new Response.Listener<Characters_directive_list>() {
     	    @Override
@@ -155,7 +160,7 @@ public class FragmentDirectiveList extends BaseFragment {
     		@Override
     	    public void onResponse(Characters_directive_tree_list response) {
     	    	charactersDirectiveTrees = response.getCharacters_directive_tree_list();
-    	    	downloadDirectiveTiers(profileId);
+    	    	downloadAllDirectiveTiers(profileId);
     	    }
     	};
 
@@ -167,6 +172,52 @@ public class FragmentDirectiveList extends BaseFragment {
     	};
 
     	SOECensus.sendGsonRequest(url, Characters_directive_tree_list.class, success, error, this);
+    }
+    
+    public void downloadAllDirectiveTiers(final String profileId) {
+    	this.setProgressButton(true);
+    	String url =	"http://census.soe.com/get/ps2:v2/" + 
+    					"directive_tier?&c:lang=en&c:limit=5000"; 					
+    		
+    	Listener<Directive_tier_list> success = new Response.Listener<Directive_tier_list>() {
+    	    @Override
+    	    public void onResponse(Directive_tier_list response) {
+    	    	directiveTiers = response.getDirective_tier_list();
+    	    	downloadAllDirectives(profileId);
+    	    }
+    	};
+
+    	ErrorListener error = new Response.ErrorListener() {
+    	    @Override
+    	    public void onErrorResponse(VolleyError error) {
+    		setProgressButton(false);
+    	    }
+    	};
+
+    	SOECensus.sendGsonRequest(url, Directive_tier_list.class, success, error, this);
+    }
+    
+    public void downloadAllDirectives(final String profileId) {
+    	this.setProgressButton(true);
+    	String url =	"http://census.soe.com/get/ps2:v2/" + 
+    					"directive?c:limit=5000&c:lang=en"; 					
+    		
+    	Listener<Directive_list> success = new Response.Listener<Directive_list>() {
+    	    @Override
+    	    public void onResponse(Directive_list response) {
+    	    	directives = response.getDirective_list();
+    	    	downloadDirectiveTiers(profileId);
+    	    }
+    	};
+
+    	ErrorListener error = new Response.ErrorListener() {
+    	    @Override
+    	    public void onErrorResponse(VolleyError error) {
+    		setProgressButton(false);
+    	    }
+    	};
+
+    	SOECensus.sendGsonRequest(url, Directive_list.class, success, error, this);
     }
     
     /**
@@ -205,7 +256,9 @@ public class FragmentDirectiveList extends BaseFragment {
     	this.charactersDirectiveTreeCategories = new ArrayList<DirectiveTreeCategory>();
     	
     	HashMap<String, CharacterDirectiveTree> treeMap = new HashMap<String, CharacterDirectiveTree>();
-    	HashMap<String, CharacterDirectiveTier> tierMap = new HashMap<String, CharacterDirectiveTier>();
+    	HashMap<String, CharacterDirectiveTier> characterTierMap = new HashMap<String, CharacterDirectiveTier>();
+    	HashMap<String, DirectiveTier> tierMap = new HashMap<String, DirectiveTier>();
+    	HashMap<String, Directive> directiveMap = new HashMap<String, Directive>();
     	HashMap<String, DirectiveTreeCategory> categoryMap = new HashMap<String, DirectiveTreeCategory>();
 
     	//Generate TreeMap
@@ -241,14 +294,33 @@ public class FragmentDirectiveList extends BaseFragment {
 			treeMap.put(newDirectiveTreeId, directiveTree);
     	}
     	
-    	for(CharacterDirectiveTier directiveTier : charactersDirectiveTiers){
-    		String newDirectiveTierId = directiveTier.getDirectiveTierId();
+    	for(DirectiveTier directiveTier : directiveTiers){
+    		String newDirectiveTierId = directiveTier.getDirectiveTierId()+directiveTier.getDirectiveTreeId();
     		tierMap.put(newDirectiveTierId, directiveTier);
-    		CharacterDirectiveTree parentDirectiveTree = treeMap.get(directiveTier.getDirectiveTreeId());
-    		parentDirectiveTree.registerDirectiveTiers(directiveTier);
+    	}
+    	
+    	for(Directive directive : directives){
+    		String newDirectiveTierId = directive.getDirectiveTierId()+directive.getDirectiveTreeId();
+    		tierMap.get(newDirectiveTierId).registerDirective(directive);    		
+    		directiveMap.put(directive.getDirectiveId(), directive);
+    	}
+    	
+    	for(CharacterDirectiveTier directiveTier : charactersDirectiveTiers){
+    		String newDirectiveTierId = directiveTier.getDirective_tier_id();
+    		characterTierMap.put(newDirectiveTierId, directiveTier);
+    		CharacterDirectiveTree parentDirectiveTree = treeMap.get(directiveTier.getDirective_tree_id());
+    		DirectiveTier tier = tierMap.get(directiveTier.getDirective_tier_id()+directiveTier.getDirective_tree_id());
+    		parentDirectiveTree.setDirective_tier(tier);
     	}
     	
     	for(CharacterDirective directive : charactersDirective){    		
+    		Directive dis = directive.getDirective_id_join_directive();
+    		try{
+    		dis.getName().getEn();
+    		}catch(Exception e){
+    			continue;
+    		}
+    		
     		for(int i=0; i < charactersDirectiveObjective.size(); i++){
     			if(charactersDirectiveObjective.get(i).getDirective_id().equalsIgnoreCase(directive.getDirective_id())){
     				directive.setDirectiveObjective(charactersDirectiveObjective.get(i));
@@ -256,18 +328,18 @@ public class FragmentDirectiveList extends BaseFragment {
     				break;
     			}
     		}
-    		CharacterDirectiveTier parentDirectiveTier = tierMap.get(directive.getDirective_id_join_directive().getDirectiveTierId());
+    		CharacterDirectiveTier parentDirectiveTier = characterTierMap.get(directive.getDirective_id_join_directive().getDirectiveTierId());
     		parentDirectiveTier.registerDirective(directive);
-    		CharacterDirectiveTree parentDirectiveTree = treeMap.get(directive.getDirective_id_join_directive().getDirectiveTreeId());
-    		parentDirectiveTree.registerDirective(directive);
-    		
-    		Directive dis = directive.getDirective_id_join_directive();
-    		try{
-    		dis.getName().getEn();
-    		}catch(Exception e){
-    			System.out.println(dis.getDirectiveId());
-    		}
+
+    		directiveMap.get(directive.getDirective_id()).setDirective(directive);
         }
-    	return true;
+    	
+    	for(DirectiveTreeCategory category : this.charactersDirectiveTreeCategories){
+    		category.generateValues();
+    		java.util.Collections.sort(category.getCharacterDirectiveTreeList());
+    	}
+		java.util.Collections.sort(this.charactersDirectiveTreeCategories);
+
+		return true;
     }
 }

@@ -1,22 +1,21 @@
 
 package com.cesarandres.ps2link.soe.content;
 
-import java.util.ArrayList;
 
 
 
-public class CharacterDirectiveTree {
+public class CharacterDirectiveTree implements Comparable<CharacterDirectiveTree>{
             
     private DirectiveTree directive_tree_id_join_directive_tree;
     private String character_id;
     private String completion_time_date;
     private String completion_time;
     private String current_directive_tier_id;
-    private String currrent_level;
+    private String current_level;
+    private int current_level_value;
     private String directive_tree_id;
-    private ArrayList<CharacterDirectiveTier> directiveTiers;
-    private ArrayList<CharacterDirective> charactersDirectives;
-
+    private DirectiveTier directive_tier;
+    
 	public DirectiveTree getDirective_tree_id_join_directive_tree() {
 		return directive_tree_id_join_directive_tree;
 	}
@@ -42,11 +41,11 @@ public class CharacterDirectiveTree {
 	public void setCurrent_directive_tier_id(String current_directive_tier_id) {
 		this.current_directive_tier_id = current_directive_tier_id;
 	}
-	public String getCurrrent_level() {
-		return currrent_level;
+	public String getCurrent_level() {
+		return current_level;
 	}
-	public void setCurrrent_level(String currrent_level) {
-		this.currrent_level = currrent_level;
+	public void setCurrrent_level(String current_level) {
+		this.current_level = current_level;
 	}
 	public String getDirective_tree_id() {
 		return directive_tree_id;
@@ -60,26 +59,22 @@ public class CharacterDirectiveTree {
 	public void setCompletion_time_date(String completion_time_date) {
 		this.completion_time_date = completion_time_date;
 	}
-
-	public ArrayList<CharacterDirectiveTier> getDirectiveTiers() {
-		return directiveTiers;
-	}
-
-	public void registerDirectiveTiers(CharacterDirectiveTier newDirectiveTier) {
-		if(this.directiveTiers == null){
-			this.directiveTiers = new ArrayList<CharacterDirectiveTier>();
-		}
-		this.directiveTiers.add(newDirectiveTier);
-	}
 	
-	public ArrayList<CharacterDirective> getCharactersDirectives() {
-		return charactersDirectives;
+	@Override
+	public int compareTo(CharacterDirectiveTree another) {
+		this.getDirective_tree_id_join_directive_tree().getName().getEn().compareTo(another.getDirective_tree_id_join_directive_tree().getName().getEn());
+		return 1;
 	}
-	
-	public void registerDirective (CharacterDirective newDirective){
-		if(charactersDirectives == null){
-			charactersDirectives = new ArrayList<CharacterDirective>();
-		}
-		charactersDirectives.add(newDirective);
+	public int getCurrent_level_value() {
+		return current_level_value;
+	}
+	public void setCurrent_level_value(int current_level_value) {
+		this.current_level_value = current_level_value;
+	}
+	public DirectiveTier getDirective_tier() {
+		return directive_tier;
+	}
+	public void setDirective_tier(DirectiveTier directive_tier) {
+		this.directive_tier = directive_tier;
 	}
 }

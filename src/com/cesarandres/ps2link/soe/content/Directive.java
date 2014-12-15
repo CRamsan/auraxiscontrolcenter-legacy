@@ -32,6 +32,8 @@ public class Directive {
     @Expose
     private String objectiveSetId;
     
+    private CharacterDirective directive;
+    
     /**
      * 
      * @return
@@ -193,4 +195,12 @@ public class Directive {
     public void setObjectiveSetId(String objectiveSetId) {
         this.objectiveSetId = objectiveSetId;
     }
+
+	public CharacterDirective getDirective() {
+		return directive;
+	}
+
+	public void setDirective(CharacterDirective directive) {
+		this.directive = directive;
+	}
 }
