@@ -45,11 +45,15 @@ public class DirectiveTreeCategoryListAdapter extends BaseExpandableListAdapter 
     public View getChildView(int groupPosition, final int childPosition,
             boolean isLastChild, View convertView, ViewGroup parent) {
 
+    	this.nextAdapter.setDirectiveTrees(this.categories.get(groupPosition).getCharacterDirectiveTreeList());
+    	
     	if(this.nextList == null){
     		this.nextList = new EmbeddableExpandableListView(this.fragment.getActivity());
-    		this.nextList.setRows(this.categories.size());
-    		this.nextList.setRow_height(50);			
+    		this.nextList.setRows(this.categories.get(groupPosition).getCharacterDirectiveTreeList().size());
+    		this.nextList.setRow_height(150);
+    		this.nextList.setAdapter(nextAdapter);
     	}
+    	this.nextAdapter.notifyDataSetInvalidated();
     	return this.nextList;
     }
  

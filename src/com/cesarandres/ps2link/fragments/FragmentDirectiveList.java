@@ -20,8 +20,7 @@ import com.cesarandres.ps2link.soe.content.CharacterDirective;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveObjective;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveTier;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveTree;
-import com.cesarandres.ps2link.soe.content.DirectiveTier;
-import com.cesarandres.ps2link.soe.content.DirectiveTree;
+import com.cesarandres.ps2link.soe.content.Directive;
 import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
 import com.cesarandres.ps2link.soe.content.Name___;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_list;
@@ -235,11 +234,10 @@ public class FragmentDirectiveList extends BaseFragment {
 				}
 				newDirectiveTreeCategory.setName(name);
 				newDirectiveTreeCategory.setDirectiveTreeCategoryId(newCategoryId);
-				newDirectiveTreeCategory.registerCharacterDirectiveTreeList(directiveTree);
 				categoryMap.put(newCategoryId, newDirectiveTreeCategory);
     			this.charactersDirectiveTreeCategories.add(newDirectiveTreeCategory);
     		}
-			
+			categoryMap.get(newCategoryId).registerCharacterDirectiveTreeList(directiveTree);			
 			treeMap.put(newDirectiveTreeId, directiveTree);
     	}
     	
@@ -259,7 +257,16 @@ public class FragmentDirectiveList extends BaseFragment {
     			}
     		}
     		CharacterDirectiveTier parentDirectiveTier = tierMap.get(directive.getDirective_id_join_directive().getDirectiveTierId());
-    		parentDirectiveTier.registerDirective(directive);    		
+    		parentDirectiveTier.registerDirective(directive);
+    		CharacterDirectiveTree parentDirectiveTree = treeMap.get(directive.getDirective_id_join_directive().getDirectiveTreeId());
+    		parentDirectiveTree.registerDirective(directive);
+    		
+    		Directive dis = directive.getDirective_id_join_directive();
+    		try{
+    		dis.getName().getEn();
+    		}catch(Exception e){
+    			System.out.println(dis.getDirectiveId());
+    		}
         }
     	return true;
     }

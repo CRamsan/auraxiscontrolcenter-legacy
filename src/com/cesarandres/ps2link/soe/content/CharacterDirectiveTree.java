@@ -15,6 +15,7 @@ public class CharacterDirectiveTree {
     private String currrent_level;
     private String directive_tree_id;
     private ArrayList<CharacterDirectiveTier> directiveTiers;
+    private ArrayList<CharacterDirective> charactersDirectives;
 
 	public DirectiveTree getDirective_tree_id_join_directive_tree() {
 		return directive_tree_id_join_directive_tree;
@@ -69,5 +70,16 @@ public class CharacterDirectiveTree {
 			this.directiveTiers = new ArrayList<CharacterDirectiveTier>();
 		}
 		this.directiveTiers.add(newDirectiveTier);
+	}
+	
+	public ArrayList<CharacterDirective> getCharactersDirectives() {
+		return charactersDirectives;
+	}
+	
+	public void registerDirective (CharacterDirective newDirective){
+		if(charactersDirectives == null){
+			charactersDirectives = new ArrayList<CharacterDirective>();
+		}
+		charactersDirectives.add(newDirective);
 	}
 }
