@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="150px"
     android:orientation="horizontal" >
 
     <com.android.volley.toolbox.NetworkImageView

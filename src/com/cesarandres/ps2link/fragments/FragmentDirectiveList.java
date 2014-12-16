@@ -300,9 +300,11 @@ public class FragmentDirectiveList extends BaseFragment {
     	}
     	
     	for(Directive directive : directives){
-    		String newDirectiveTierId = directive.getDirectiveTierId()+directive.getDirectiveTreeId();
-    		tierMap.get(newDirectiveTierId).registerDirective(directive);    		
-    		directiveMap.put(directive.getDirectiveId(), directive);
+    		if(directive.getName() != null){
+	    		String newDirectiveTierId = directive.getDirectiveTierId()+directive.getDirectiveTreeId();
+	    		tierMap.get(newDirectiveTierId).registerDirective(directive);    		
+	    		directiveMap.put(directive.getDirectiveId(), directive);
+    		}
     	}
     	
     	for(CharacterDirectiveTier directiveTier : charactersDirectiveTiers){
