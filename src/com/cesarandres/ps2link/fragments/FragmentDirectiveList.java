@@ -24,6 +24,7 @@ import com.cesarandres.ps2link.soe.content.Directive;
 import com.cesarandres.ps2link.soe.content.DirectiveTier;
 import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
 import com.cesarandres.ps2link.soe.content.Name___;
+import com.cesarandres.ps2link.soe.content.Objective;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_list;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_objective_list;
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_tier_list;
@@ -45,6 +46,7 @@ public class FragmentDirectiveList extends BaseFragment {
     
     private ArrayList<CharacterDirective> charactersDirective;
     private ArrayList<CharacterDirectiveObjective> charactersDirectiveObjective;
+    private ArrayList<Objective> objectives;
     private ArrayList<CharacterDirectiveTree> charactersDirectiveTrees;
     private ArrayList<CharacterDirectiveTier> charactersDirectiveTiers;
     private ArrayList<DirectiveTier> directiveTiers;
@@ -300,11 +302,9 @@ public class FragmentDirectiveList extends BaseFragment {
     	}
     	
     	for(Directive directive : directives){
-    		if(directive.getName() != null){
-	    		String newDirectiveTierId = directive.getDirectiveTierId()+directive.getDirectiveTreeId();
-	    		tierMap.get(newDirectiveTierId).registerDirective(directive);    		
-	    		directiveMap.put(directive.getDirectiveId(), directive);
-    		}
+	    	String newDirectiveTierId = directive.getDirectiveTierId()+directive.getDirectiveTreeId();
+	    	tierMap.get(newDirectiveTierId).registerDirective(directive);    		
+	    	directiveMap.put(directive.getDirectiveId(), directive);
     	}
     	
     	for(CharacterDirectiveTier directiveTier : charactersDirectiveTiers){
@@ -316,13 +316,8 @@ public class FragmentDirectiveList extends BaseFragment {
     	}
     	
     	for(CharacterDirective directive : charactersDirective){    		
-    		Directive dis = directive.getDirective_id_join_directive();
-    		try{
-    		dis.getName().getEn();
-    		}catch(Exception e){
-    			continue;
-    		}
-    		
+    		Directive dis = directiveMap.get(directive.getDirective_id());
+    		directive.setDirective_id_join_directive(dis);
     		for(int i=0; i < charactersDirectiveObjective.size(); i++){
     			if(charactersDirectiveObjective.get(i).getDirective_id().equalsIgnoreCase(directive.getDirective_id())){
     				directive.setDirectiveObjective(charactersDirectiveObjective.get(i));

@@ -52,7 +52,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
     	if(this.nextList == null){
     		this.nextList = new EmbeddableExpandableListView(this.fragment.getActivity());
     		this.nextList.setRows(this.directiveTrees.get(groupPosition).getDirective_tier().getDirectives().size());
-    		this.nextList.setRow_height(150);
+    		this.nextList.setRow_height(75);
     		this.nextList.setAdapter(nextAdapter);
     	}
     	this.nextAdapter.notifyDataSetInvalidated();

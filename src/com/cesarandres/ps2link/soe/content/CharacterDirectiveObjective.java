@@ -3,7 +3,6 @@ package com.cesarandres.ps2link.soe.content;
 public class CharacterDirectiveObjective {
 
 	private String character_id;
-	private Objective objective_id_join_objective;
 	private String directive_id;
 	private String objective_group_id;
 	private String objective_id;
@@ -15,12 +14,6 @@ public class CharacterDirectiveObjective {
 	}
 	public void setCharacter_id(String character_id) {
 		this.character_id = character_id;
-	}
-	public Objective getObjective_id_join_objective() {
-		return objective_id_join_objective;
-	}
-	public void setObjective_id_join_objective(Objective objective_id_join_objective) {
-		this.objective_id_join_objective = objective_id_join_objective;
 	}
 	public String getDirective_id() {
 		return directive_id;

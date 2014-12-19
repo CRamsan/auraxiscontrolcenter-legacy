@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
@@ -74,10 +75,11 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.fragment.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.layout_directive_category_item, parent, false);
+            convertView = infalInflater.inflate(R.layout.layout_directive_item, parent, false);
         }
  
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.textViewDirectiveCategoryName);
+        ProgressBar pbar = (ProgressBar) convertView.findViewById(R.id.progressBarDirectiveProgress);
         String name = "None";
         try{
         	name = headerTitle.getName().getEn();        	
@@ -85,7 +87,16 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
 
         }
         lblListHeader.setText(name);
- 
+        int value = 0;
+        int max = 0;
+        try{
+        value = Integer.parseInt(headerTitle.getDirective().getDirectiveObjective().getState_data());
+        //max = Integer.parseInt(headerTitle.getDirective().getDirectiveObjective().getObjective_id_join_objective().getParam1());
+        }catch(Exception e){
+        	
+        }
+        pbar.setProgress(value);
+        pbar.setMax(max);
         return convertView;
     }
  

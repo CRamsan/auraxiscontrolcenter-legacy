@@ -12,6 +12,7 @@ public class CharacterDirective {
     private Directive directive_id_join_directive;
 
     private CharacterDirectiveObjective directiveObjective;
+    private Objective objective;
     
 	public Directive getDirective_id_join_directive() {
 		return directive_id_join_directive;
@@ -60,6 +61,14 @@ public class CharacterDirective {
 
 	public void setDirectiveObjective(CharacterDirectiveObjective directiveObjective) {
 		this.directiveObjective = directiveObjective;
+	}
+
+	public Objective getObjective() {
+		return objective;
+	}
+
+	public void setObjective(Objective objective) {
+		this.objective = objective;
 	}
 
 }

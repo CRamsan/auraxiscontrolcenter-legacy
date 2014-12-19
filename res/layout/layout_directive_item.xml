@@ -2,13 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
-    android:layout_height="150px"
+    android:layout_height="75px"
     android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/textViewDirectiveCategoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Kills" />
+
+    <ProgressBar
+        android:id="@+id/progressBarDirectiveProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
