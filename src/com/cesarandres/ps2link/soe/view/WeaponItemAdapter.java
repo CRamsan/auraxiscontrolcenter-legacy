@@ -86,6 +86,7 @@ public class WeaponItemAdapter extends BaseAdapter {
 	    holder = new ViewHolder();
 	    holder.name = (TextView) convertView.findViewById(R.id.TextViewWeaponItemName);
 	    holder.weaponImage = (NetworkImageView) convertView.findViewById(R.id.ImageViewWeaponItemImage);
+	    holder.weaponImage.setErrorImageResId(R.drawable.image_not_found);
 	    holder.kills = (TextView) convertView.findViewById(R.id.TextViewWeaponItemKiils);
 	    holder.ratios = (TextView) convertView.findViewById(R.id.TextViewWeaponItemRatio);
 	    holder.headshots = (TextView) convertView.findViewById(R.id.TextViewWeaponItemHeadshots);

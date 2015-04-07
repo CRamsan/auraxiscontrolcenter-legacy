@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.soe.SOECensus;
+import com.cesarandres.ps2link.soe.SOECensus.Verb;
 import com.cesarandres.ps2link.soe.content.CharacterDirective;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveObjective;
 import com.cesarandres.ps2link.soe.content.CharacterDirectiveTier;
@@ -31,6 +32,10 @@ import com.cesarandres.ps2link.soe.content.response.Characters_directive_tier_li
 import com.cesarandres.ps2link.soe.content.response.Characters_directive_tree_list;
 import com.cesarandres.ps2link.soe.content.response.Directive_list;
 import com.cesarandres.ps2link.soe.content.response.Directive_tier_list;
+import com.cesarandres.ps2link.soe.util.QueryString;
+import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.soe.view.DirectiveTreeCategoryListAdapter;
 
 /**
@@ -96,9 +101,12 @@ public class FragmentDirectiveList extends BaseFragment {
      */
     public void downloadDirectivesList(final String profileId) {
     	this.setProgressButton(true);
-    	String url = 	"http://census.soe.com/get/ps2:v2/" + 
-    					"characters_directive?character_id=" + profileId +
-    					"&c:lang=en&c:limit=5000";
+    	//TODO: Fix this language use
+    	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.CHARACTERS_DIRECTIVE, null, 
+    			QueryString.generateQeuryString().
+    			AddComparison("character_id", SearchModifier.EQUALS, profileId).
+    			AddComparison("c:lang", SearchModifier.EQUALS, "en").
+    			AddComparison("c:limit", SearchModifier.EQUALS, "5000")).toString();
 
     	Listener<Characters_directive_list> success = new Response.Listener<Characters_directive_list>() {
     	    @Override

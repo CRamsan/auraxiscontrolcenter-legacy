@@ -280,7 +280,7 @@ public class FragmentProfilePager extends BaseFragment {
 	 */
 	@Override
 	public int getCount() {
-	    return 6;
+	    return 5;
 	}
 
 	/*

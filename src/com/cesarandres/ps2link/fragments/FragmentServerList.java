@@ -114,7 +114,7 @@ public class FragmentServerList extends BaseFragment {
     public void downloadServerPopulation() {
 	setProgressButton(true);
 	// This is not an standard API call
-	String url = "https://census.soe.com/s:PS2Link/json/status/ps2";
+	String url = "http://census.daybreakgames.com/s:PS2Link/json/status/ps2";
 
 	Listener<Server_Status_response> success = new Response.Listener<Server_Status_response>() {
 	    @Override

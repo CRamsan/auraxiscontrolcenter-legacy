@@ -15,9 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.graphics.drawable.AnimationDrawable;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.NetworkImageView;
 import com.cesarandres.ps2link.ApplicationPS2Link;
@@ -81,6 +86,7 @@ public class KillItemAdapter extends BaseAdapter {
 	    holder.time = (TextView) convertView.findViewById(R.id.TextViewKillItemTime);
 	    holder.weaponName = (TextView) convertView.findViewById(R.id.TextViewKillItemWeaponName);
 	    holder.weaponImage = (NetworkImageView) convertView.findViewById(R.id.ImageViewKillItemWeaponImage);
+	    holder.weaponImage.setErrorImageResId(R.drawable.image_not_found);
 	    convertView.setTag(holder);
 	} else {
 	    holder = (ViewHolder) convertView.getTag();
@@ -106,7 +112,7 @@ public class KillItemAdapter extends BaseAdapter {
 			convertView);
 	    } else {
 		    holder.weaponName.setText("Unknown");
-		    holder.weaponImage.setImageUrl("", null);
+		    holder.weaponImage.setImageResource(R.drawable.image_not_found);
 	    }
 	}
 
@@ -181,7 +187,16 @@ public class KillItemAdapter extends BaseAdapter {
 		image.setImageUrl(SOECensus.ENDPOINT_URL + "/" + item.getImagePath(), ApplicationPS2Link.mImageLoader);
 	    }
 	};
-	GsonRequest<Item_list_response> request = new GsonRequest<Item_list_response>(url.toString(), Item_list_response.class, null, success, null);
+	
+	ErrorListener error = new Response.ErrorListener() {
+	    @Override
+	    public void onErrorResponse(VolleyError error) {
+		    name.setText("Unknown");
+		    image.setImageResource(R.drawable.image_not_found);
+	    }
+	};
+	
+	GsonRequest<Item_list_response> request = new GsonRequest<Item_list_response>(url.toString(), Item_list_response.class, null, success, error);
 	requestTable.put(view, request);
 	ApplicationPS2Link.volley.add(request);
     }

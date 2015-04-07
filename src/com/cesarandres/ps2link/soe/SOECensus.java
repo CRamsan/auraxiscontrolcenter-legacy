@@ -26,13 +26,13 @@ import com.cesarandres.ps2link.soe.volley.GsonRequest;
  * /verb/game/collection/[identifier]?[queryString]
  * 
  * This class is been designed by following the design specified on
- * http://census.soe.com/.
+ * http://census.daybreakgames.com/.
  */
 
 public class SOECensus {
 
 	public static final String SERVICE_ID = "s:PS2Link";
-    public static final String ENDPOINT_URL = "http://census.soe.com";
+    public static final String ENDPOINT_URL = "http://census.daybreakgames.com";
     public static final String IMG = "img";
     public static final String ITEM = "item";
 

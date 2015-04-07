@@ -17,7 +17,10 @@ public class Collections {
 		"leaderboard"), MAP("map"), OUTFIT("outfit"), OUTFIT_MEMBER("outfit_member"), OUTFIT_MEMBER_EXTENDED("outfit_member_extended"), OUTFIT_RANK(
 		"outfit_rank"), PROFILE("profile"), PROFILETYPE("profile.type"), RANK("rank"), RESOURCE("resource"), SINGLE_CHARACTER_BY_ID(
 		"single_character_by_id"), STAT_INFO("stat_info"), VEHICLE("vehicle"), WORLD("world"), WORLD_EVENT("world_event"), WORLD_STAT_HISTORY(
-		"world_stat_history"), ZONE("zone");
+		"world_stat_history"), ZONE("zone"),
+		//This are a new set of directives added later on on the Census implementation. Not all the collections have been added, 
+		//instead they will be added when needed.
+		CHARACTERS_DIRECTIVE("characters_directive");
 
 	private final String collection;
 

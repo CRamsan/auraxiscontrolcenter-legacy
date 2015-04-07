@@ -124,7 +124,7 @@ public class FragmentWeaponList extends BaseFragment {
     }
     	
 	setProgressButton(true);
-	String url = 	"http://census.soe.com/get/ps2:v2/characters_weapon_stat_by_faction/?" +
+	String url = 	"http://census.daybreakgames.com/get/ps2:v2/characters_weapon_stat_by_faction/?" +
 					"character_id=" + character_id + "&c:join=item^show:image_path'name.en&" +
 					"c:join=vehicle^show:image_path'name.en&c:limit=10000";
 	Listener<Weapon_list_response> success = new Response.Listener<Weapon_list_response>() {

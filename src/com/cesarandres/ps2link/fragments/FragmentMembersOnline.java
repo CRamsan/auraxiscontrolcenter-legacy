@@ -104,7 +104,7 @@ public class FragmentMembersOnline extends BaseFragment {
 	setProgressButton(true);
 	// TODO Remove the hardcoded string and use the SOECensus class to
 	// create a query
-	String url = "http://census.soe.com/get/ps2:v2/outfit_member?c:limit=10000&c:resolve=online_status,character(name,battle_rank,profile_id)&c:join=type:profile^list:0^inject_at:profile^show:name.en^on:character.profile_id^to:profile_id&outfit_id="
+	String url = "http://census.daybreakgames.com/get/ps2:v2/outfit_member?c:limit=10000&c:resolve=online_status,character(name,battle_rank,profile_id)&c:join=type:profile^list:0^inject_at:profile^show:name.en^on:character.profile_id^to:profile_id&outfit_id="
 		+ this.outfitId;
 
 	Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {

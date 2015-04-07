@@ -68,6 +68,7 @@ public class TwitterItemAdapter extends DBItemAdapter {
 	    holder.tweetText = (TextView) convertView.findViewById(R.id.textViewTwitterText);
 	    holder.tweetDate = (TextView) convertView.findViewById(R.id.textViewTwitterDate);
 	    holder.userImage = (NetworkImageView) convertView.findViewById(R.id.networkImageViewTweet);
+	    holder.userImage.setErrorImageResId(R.drawable.image_not_found);
 	    convertView.setTag(holder);
 	} else {
 	    holder = (ViewHolder) convertView.getTag();
