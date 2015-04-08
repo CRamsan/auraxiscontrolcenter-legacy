@@ -13,15 +13,15 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.character.Stats;
-import com.cesarandres.ps2link.soe.content.response.Character_list_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.view.StatItemAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.CharacterProfile;
+import com.cesarandres.ps2link.dbg.content.character.Stats;
+import com.cesarandres.ps2link.dbg.content.response.Character_list_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.view.StatItemAdapter;
 
 /**
  * Retrieve the stats for the given character
@@ -71,7 +71,7 @@ public class FragmentStatList extends BaseFragment {
      */
     public void downloadStatList(String character_id) {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(
+	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
 		PS2Collection.CHARACTER,
 		character_id,
@@ -101,6 +101,6 @@ public class FragmentStatList extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
     }
 }

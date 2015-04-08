@@ -24,17 +24,17 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.Outfit;
+import com.cesarandres.ps2link.dbg.content.response.Outfit_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.dbg.view.LoadingItemAdapter;
+import com.cesarandres.ps2link.dbg.view.OutfitItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.Outfit;
-import com.cesarandres.ps2link.soe.content.response.Outfit_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.LoadingItemAdapter;
-import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
 /**
  * 
@@ -142,7 +142,7 @@ public class FragmentAddOutfit extends BaseFragment {
 
 	query.AddCommand(QueryCommand.LIMIT, "15");
 
-	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.OUTFIT, "", query).toString();
+	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.OUTFIT, "", query).toString();
 
 	Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
 	    @SuppressWarnings("unchecked")
@@ -184,7 +184,7 @@ public class FragmentAddOutfit extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Outfit_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Outfit_response.class, success, error, this);
     }
 
     /**

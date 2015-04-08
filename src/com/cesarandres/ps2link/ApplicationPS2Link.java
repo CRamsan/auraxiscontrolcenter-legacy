@@ -1,14 +1,6 @@
 package com.cesarandres.ps2link;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -20,7 +12,7 @@ import android.os.AsyncTask;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.cesarandres.ps2link.soe.volley.BitmapLruCache;
+import com.cesarandres.ps2link.dbg.volley.BitmapLruCache;
 
 /**
  * 
@@ -126,53 +118,6 @@ public class ApplicationPS2Link extends Application {
 		return size;
 	}
 
-	public void WriteToCache(String ID, String data) {
-		String FILENAME = ID;
-
-		FileOutputStream fos;
-		try {
-			fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-			try {
-				fos.write(data.getBytes());
-				fos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public String ReadFromCache(String ID) {
-		String FILENAME = ID;
-		String result = null;
-	    FileInputStream fis;
-		try {
-			fis = openFileInput(FILENAME);
-			 
-		    StringBuilder textBuilder = new StringBuilder();
-		    	Reader reader = new BufferedReader(new InputStreamReader(fis, Charset.defaultCharset()));
-		    	int c = 0;
-		        try {
-					while ((c = reader.read()) != -1) {
-					    textBuilder.append((char) c);
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        result = textBuilder.toString();
-			    fis.close();			    	
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
 	/**
 	 * This AsyncTask will delete all the files from the cache.
 	 */

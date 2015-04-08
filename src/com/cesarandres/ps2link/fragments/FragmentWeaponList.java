@@ -20,14 +20,14 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.content.CharacterProfile;
+import com.cesarandres.ps2link.dbg.content.Faction;
+import com.cesarandres.ps2link.dbg.content.item.Weapon;
+import com.cesarandres.ps2link.dbg.content.item.WeaponStat;
+import com.cesarandres.ps2link.dbg.content.response.Weapon_list_response;
+import com.cesarandres.ps2link.dbg.view.WeaponItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.item.Weapon;
-import com.cesarandres.ps2link.soe.content.item.WeaponStat;
-import com.cesarandres.ps2link.soe.content.response.Weapon_list_response;
-import com.cesarandres.ps2link.soe.view.WeaponItemAdapter;
 
 /**
  * This fragment will retrieve the list of weapons for a player and display it.
@@ -146,7 +146,7 @@ public class FragmentWeaponList extends BaseFragment {
 		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
-	SOECensus.sendGsonRequest(url, Weapon_list_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Weapon_list_response.class, success, error, this);
     }
     
     /**

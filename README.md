@@ -7,7 +7,7 @@ You can download the app from the [Play Store](https://play.google.com/store/app
 Work on AAC has slowed down, but I am still providing new updates and fixing crashes when I get reports.For submitting new feature requests or other feedback, you can find the current list of tasks at our [Isuue Page](https://github.com/cesarramirez/auraxiscontrolcenter/issues)
 
 #License
-This application uses the MIT License for the source code and where explicitly stated. The images provided by SOE were retrieved from https://census.soe.com/ and SOE reserves all rights and title.
+This application uses the MIT License for the source code and where explicitly stated. The images provided by DayBreakGames were retrieved from https://census.daybreakgames.com/ and DayBreakGames reserves all rights and title.
 
 The MIT License (MIT)
 

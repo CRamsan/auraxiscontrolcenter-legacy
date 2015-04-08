@@ -23,11 +23,11 @@ import android.widget.ListView;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.util.Logger;
+import com.cesarandres.ps2link.dbg.view.TwitterItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 import com.cesarandres.ps2link.module.twitter.TwitterUtil;
-import com.cesarandres.ps2link.soe.util.Logger;
-import com.cesarandres.ps2link.soe.view.TwitterItemAdapter;
 
 /**
  * Fragment that retrieves the Twitter feed for several users planetside 2

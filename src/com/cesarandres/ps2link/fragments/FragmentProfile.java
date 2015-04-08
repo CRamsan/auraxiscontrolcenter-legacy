@@ -28,17 +28,17 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.CharacterProfile;
+import com.cesarandres.ps2link.dbg.content.Faction;
+import com.cesarandres.ps2link.dbg.content.Outfit;
+import com.cesarandres.ps2link.dbg.content.response.Character_list_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.Logger;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.Outfit;
-import com.cesarandres.ps2link.soe.content.response.Character_list_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.Logger;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
 
 /**
  * This fragment will read a profile from the database and display it to the
@@ -208,7 +208,7 @@ public class FragmentProfile extends BaseFragment {
      */
     public void downloadProfiles(String character_id) {
 	this.setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(
+	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
 		PS2Collection.CHARACTER,
 		character_id,
@@ -239,7 +239,7 @@ public class FragmentProfile extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
     }
 
     /**

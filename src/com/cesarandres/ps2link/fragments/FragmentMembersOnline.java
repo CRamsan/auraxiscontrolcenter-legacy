@@ -18,10 +18,10 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.content.Member;
-import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
-import com.cesarandres.ps2link.soe.view.OnlineMemberItemAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.content.Member;
+import com.cesarandres.ps2link.dbg.content.response.Outfit_member_response;
+import com.cesarandres.ps2link.dbg.view.OnlineMemberItemAdapter;
 
 /**
  * This fragment will do a request to retrieve all members for the given outfit
@@ -127,7 +127,7 @@ public class FragmentMembersOnline extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);
     }
 
     /**

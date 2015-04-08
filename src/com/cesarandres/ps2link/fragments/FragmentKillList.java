@@ -16,15 +16,15 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterEvent;
-import com.cesarandres.ps2link.soe.content.response.Characters_event_list_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.KillItemAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.CharacterEvent;
+import com.cesarandres.ps2link.dbg.content.response.Characters_event_list_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.dbg.view.KillItemAdapter;
 
 /**
  * This fragment will retrieve the killboard of a player and display it.
@@ -86,7 +86,7 @@ public class FragmentKillList extends BaseFragment {
      */
     public void downloadKillList(String character_id) {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(
+	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
 		PS2Collection.CHARACTERS_EVENT,
 		null,
@@ -113,6 +113,6 @@ public class FragmentKillList extends BaseFragment {
 		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
-	SOECensus.sendGsonRequest(url, Characters_event_list_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Characters_event_list_response.class, success, error, this);
     }
 }

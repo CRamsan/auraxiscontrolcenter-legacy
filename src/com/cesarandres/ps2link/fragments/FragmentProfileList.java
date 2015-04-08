@@ -15,9 +15,9 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.content.CharacterProfile;
+import com.cesarandres.ps2link.dbg.view.ProfileItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
 
 /**
  * Fragment that reads the profiles from the database that have been set as not

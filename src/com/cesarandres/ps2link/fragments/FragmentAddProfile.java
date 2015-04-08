@@ -21,16 +21,16 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.response.Character_list_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.LoadingItemAdapter;
-import com.cesarandres.ps2link.soe.view.ProfileItemAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.CharacterProfile;
+import com.cesarandres.ps2link.dbg.content.response.Character_list_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.dbg.view.LoadingItemAdapter;
+import com.cesarandres.ps2link.dbg.view.ProfileItemAdapter;
 
 /**
  * This fragment will show the user with a field and a button to search for
@@ -106,7 +106,7 @@ public class FragmentAddProfile extends BaseFragment {
 	listRoot.setOnItemClickListener(null);
 	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 
-	String url = SOECensus.generateGameDataRequest(
+	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
 		PS2Collection.CHARACTER_NAME,
 		"",
@@ -144,6 +144,6 @@ public class FragmentAddProfile extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Character_list_response.class, success, error, this);
     }
 }

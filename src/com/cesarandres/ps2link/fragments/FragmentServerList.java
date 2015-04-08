@@ -16,15 +16,15 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.response.Server_Status_response;
-import com.cesarandres.ps2link.soe.content.response.Server_response;
-import com.cesarandres.ps2link.soe.content.response.server.LiveServers;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.view.ServerItemAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.response.Server_Status_response;
+import com.cesarandres.ps2link.dbg.content.response.Server_response;
+import com.cesarandres.ps2link.dbg.content.response.server.LiveServers;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.view.ServerItemAdapter;
 
 /**
  * This fragment will display the servers and theirs status
@@ -79,7 +79,7 @@ public class FragmentServerList extends BaseFragment {
      */
     public void downloadServers() {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
+	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
 		QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10")).toString();
 
 	Listener<Server_response> success = new Response.Listener<Server_response>() {
@@ -103,7 +103,7 @@ public class FragmentServerList extends BaseFragment {
 		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
-	SOECensus.sendGsonRequest(url, Server_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Server_response.class, success, error, this);
     }
 
     /**
@@ -138,6 +138,6 @@ public class FragmentServerList extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
     }
 }

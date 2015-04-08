@@ -17,14 +17,12 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:visibility="visible" />
 
-        <ProgressBar
+     	<ProgressBar
             android:id="@+id/progressBarFragmentTitleLoading"
             style="@style/ActionBarButtonStyle"
-            android:layout_height="fill_parent"
-            android:maxHeight="15dp"
-            android:minHeight="15dp"
-            android:scaleType="centerInside" />
-
+            android:indeterminateDrawable="@drawable/loading"
+            android:visibility="gone" />
+                    
         <ImageButton
             android:id="@+id/buttonFragmentUpdate"
             style="@style/ActionBarButtonStyle"

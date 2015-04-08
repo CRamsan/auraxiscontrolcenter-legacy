@@ -15,28 +15,26 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterDirective;
-import com.cesarandres.ps2link.soe.content.CharacterDirectiveObjective;
-import com.cesarandres.ps2link.soe.content.CharacterDirectiveTier;
-import com.cesarandres.ps2link.soe.content.CharacterDirectiveTree;
-import com.cesarandres.ps2link.soe.content.Directive;
-import com.cesarandres.ps2link.soe.content.DirectiveTier;
-import com.cesarandres.ps2link.soe.content.DirectiveTreeCategory;
-import com.cesarandres.ps2link.soe.content.Name___;
-import com.cesarandres.ps2link.soe.content.Objective;
-import com.cesarandres.ps2link.soe.content.response.Characters_directive_list;
-import com.cesarandres.ps2link.soe.content.response.Characters_directive_objective_list;
-import com.cesarandres.ps2link.soe.content.response.Characters_directive_tier_list;
-import com.cesarandres.ps2link.soe.content.response.Characters_directive_tree_list;
-import com.cesarandres.ps2link.soe.content.response.Directive_list;
-import com.cesarandres.ps2link.soe.content.response.Directive_tier_list;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.DirectiveTreeCategoryListAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.CharacterDirective;
+import com.cesarandres.ps2link.dbg.content.CharacterDirectiveObjective;
+import com.cesarandres.ps2link.dbg.content.CharacterDirectiveTier;
+import com.cesarandres.ps2link.dbg.content.CharacterDirectiveTree;
+import com.cesarandres.ps2link.dbg.content.Directive;
+import com.cesarandres.ps2link.dbg.content.DirectiveTier;
+import com.cesarandres.ps2link.dbg.content.DirectiveTreeCategory;
+import com.cesarandres.ps2link.dbg.content.Name___;
+import com.cesarandres.ps2link.dbg.content.response.Characters_directive_list;
+import com.cesarandres.ps2link.dbg.content.response.Characters_directive_objective_list;
+import com.cesarandres.ps2link.dbg.content.response.Characters_directive_tier_list;
+import com.cesarandres.ps2link.dbg.content.response.Characters_directive_tree_list;
+import com.cesarandres.ps2link.dbg.content.response.Directive_list;
+import com.cesarandres.ps2link.dbg.content.response.Directive_tier_list;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.dbg.view.DirectiveTreeCategoryListAdapter;
 
 /**
  * This fragment will display the directives of a given user. This fragment is
@@ -51,7 +49,6 @@ public class FragmentDirectiveList extends BaseFragment {
     
     private ArrayList<CharacterDirective> charactersDirective;
     private ArrayList<CharacterDirectiveObjective> charactersDirectiveObjective;
-    private ArrayList<Objective> objectives;
     private ArrayList<CharacterDirectiveTree> charactersDirectiveTrees;
     private ArrayList<CharacterDirectiveTier> charactersDirectiveTiers;
     private ArrayList<DirectiveTier> directiveTiers;
@@ -102,7 +99,7 @@ public class FragmentDirectiveList extends BaseFragment {
     public void downloadDirectivesList(final String profileId) {
     	this.setProgressButton(true);
     	//TODO: Fix this language use
-    	String url = SOECensus.generateGameDataRequest(Verb.GET, PS2Collection.CHARACTERS_DIRECTIVE, null, 
+    	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.CHARACTERS_DIRECTIVE, null, 
     			QueryString.generateQeuryString().
     			AddComparison("character_id", SearchModifier.EQUALS, profileId).
     			AddComparison("c:lang", SearchModifier.EQUALS, "en").
@@ -123,7 +120,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	    }
     	};
 
-    	SOECensus.sendGsonRequest(url, Characters_directive_list.class, success, error, this);
+    	DBGCensus.sendGsonRequest(url, Characters_directive_list.class, success, error, this);
     }
     
     /**
@@ -153,7 +150,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	    }
     	};
 
-    	SOECensus.sendGsonRequest(url, Characters_directive_objective_list.class, success, error, this);
+    	DBGCensus.sendGsonRequest(url, Characters_directive_objective_list.class, success, error, this);
     }
     
     /**
@@ -181,7 +178,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	    }
     	};
 
-    	SOECensus.sendGsonRequest(url, Characters_directive_tree_list.class, success, error, this);
+    	DBGCensus.sendGsonRequest(url, Characters_directive_tree_list.class, success, error, this);
     }
     
     public void downloadAllDirectiveTiers(final String profileId) {
@@ -204,7 +201,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	    }
     	};
 
-    	SOECensus.sendGsonRequest(url, Directive_tier_list.class, success, error, this);
+    	DBGCensus.sendGsonRequest(url, Directive_tier_list.class, success, error, this);
     }
     
     public void downloadAllDirectives(final String profileId) {
@@ -227,7 +224,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	    }
     	};
 
-    	SOECensus.sendGsonRequest(url, Directive_list.class, success, error, this);
+    	DBGCensus.sendGsonRequest(url, Directive_list.class, success, error, this);
     }
     
     /**
@@ -258,7 +255,7 @@ public class FragmentDirectiveList extends BaseFragment {
     	    }
     	};
 
-    	SOECensus.sendGsonRequest(url, Characters_directive_tier_list.class, success, error, this);
+    	DBGCensus.sendGsonRequest(url, Characters_directive_tier_list.class, success, error, this);
     }
     
     public boolean generateDirectiveMap(){

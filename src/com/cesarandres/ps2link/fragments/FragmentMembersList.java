@@ -22,17 +22,17 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.Member;
+import com.cesarandres.ps2link.dbg.content.Outfit;
+import com.cesarandres.ps2link.dbg.content.response.Outfit_member_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.dbg.view.MemberItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.Member;
-import com.cesarandres.ps2link.soe.content.Outfit;
-import com.cesarandres.ps2link.soe.content.response.Outfit_member_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.MemberItemAdapter;
 
 /**
  * Fargment that will retrieve and display all the members of an outfit in
@@ -153,7 +153,7 @@ public class FragmentMembersList extends BaseFragment {
      */
     public void downloadOutfitMembers() {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(
+	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
 		PS2Collection.OUTFIT,
 		"",
@@ -185,7 +185,7 @@ public class FragmentMembersList extends BaseFragment {
 		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
 	    }
 	};
-	SOECensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);
     }
 
     /**

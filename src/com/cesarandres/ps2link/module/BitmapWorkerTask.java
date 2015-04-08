@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.view.Display;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
 
@@ -94,8 +95,9 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		ApplicationPS2Link.setBackground(image);
 		return image;
 	    } catch (IOException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
+		//TODO: Externalize string
+		Toast.makeText(context, "Error while loading image", Toast.LENGTH_SHORT).show();
 		return null;
 	    }
 	} else {

@@ -16,7 +16,7 @@ import android.widget.ToggleButton;
 import com.cesarandres.ps2link.ActivityContainer;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
-import com.cesarandres.ps2link.soe.util.Logger;
+import com.cesarandres.ps2link.dbg.util.Logger;
 
 /**
  * 
@@ -51,11 +51,6 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onItemSelected(String id, String args[]) {
 	    Logger.log(Log.WARN, this, "Item selected when no activity was set, this should never happen");
-	}
-
-	@Override
-	public void onDataRecieved(String key, String value) {
-	    Logger.log(Log.WARN, this, "Data recieved when no activity was set, this should never happen");
 	}
     };
 
@@ -267,6 +262,5 @@ public abstract class BaseFragment extends Fragment {
      */
     public interface FragmentCallbacks {
 	public void onItemSelected(String id, String args[]);
-	public void onDataRecieved(String key, String value);
     }
 }

@@ -14,9 +14,9 @@ import android.widget.ListView;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.content.Outfit;
+import com.cesarandres.ps2link.dbg.view.OutfitItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
-import com.cesarandres.ps2link.soe.content.Outfit;
-import com.cesarandres.ps2link.soe.view.OutfitItemAdapter;
 
 /**
  * This fragment will read and display all the outfits that have been set as

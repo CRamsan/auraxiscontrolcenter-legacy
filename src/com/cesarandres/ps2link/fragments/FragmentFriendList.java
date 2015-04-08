@@ -16,15 +16,15 @@ import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.cesarandres.ps2link.soe.SOECensus;
-import com.cesarandres.ps2link.soe.SOECensus.Verb;
-import com.cesarandres.ps2link.soe.content.CharacterFriend;
-import com.cesarandres.ps2link.soe.content.response.Character_friend_list_response;
-import com.cesarandres.ps2link.soe.util.Collections.PS2Collection;
-import com.cesarandres.ps2link.soe.util.QueryString;
-import com.cesarandres.ps2link.soe.util.QueryString.QueryCommand;
-import com.cesarandres.ps2link.soe.util.QueryString.SearchModifier;
-import com.cesarandres.ps2link.soe.view.FriendItemAdapter;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.CharacterFriend;
+import com.cesarandres.ps2link.dbg.content.response.Character_friend_list_response;
+import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
+import com.cesarandres.ps2link.dbg.util.QueryString;
+import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
+import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
+import com.cesarandres.ps2link.dbg.view.FriendItemAdapter;
 
 /**
  * This fragment will display the friends of a given user. This fragment is
@@ -86,7 +86,7 @@ public class FragmentFriendList extends BaseFragment {
      */
     public void downloadFriendsList(String character_id) {
 	setProgressButton(true);
-	String url = SOECensus.generateGameDataRequest(
+	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
 		PS2Collection.CHARACTERS_FRIEND,
 		null,
@@ -114,7 +114,7 @@ public class FragmentFriendList extends BaseFragment {
 	    }
 	};
 
-	SOECensus.sendGsonRequest(url, Character_friend_list_response.class, success, error, this);
+	DBGCensus.sendGsonRequest(url, Character_friend_list_response.class, success, error, this);
     }
 
 }

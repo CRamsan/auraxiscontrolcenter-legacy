@@ -9,19 +9,19 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.cesarandres.ps2link.dbg.content.CharacterProfile;
+import com.cesarandres.ps2link.dbg.content.Faction;
+import com.cesarandres.ps2link.dbg.content.Member;
+import com.cesarandres.ps2link.dbg.content.Outfit;
+import com.cesarandres.ps2link.dbg.content.World;
+import com.cesarandres.ps2link.dbg.content.character.BattleRank;
+import com.cesarandres.ps2link.dbg.content.character.Certs;
+import com.cesarandres.ps2link.dbg.content.character.Name;
+import com.cesarandres.ps2link.dbg.content.character.Server;
+import com.cesarandres.ps2link.dbg.content.character.Times;
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
+import com.cesarandres.ps2link.dbg.util.Logger;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
-import com.cesarandres.ps2link.soe.content.CharacterProfile;
-import com.cesarandres.ps2link.soe.content.Faction;
-import com.cesarandres.ps2link.soe.content.Member;
-import com.cesarandres.ps2link.soe.content.Outfit;
-import com.cesarandres.ps2link.soe.content.World;
-import com.cesarandres.ps2link.soe.content.character.BattleRank;
-import com.cesarandres.ps2link.soe.content.character.Certs;
-import com.cesarandres.ps2link.soe.content.character.Name;
-import com.cesarandres.ps2link.soe.content.character.Server;
-import com.cesarandres.ps2link.soe.content.character.Times;
-import com.cesarandres.ps2link.soe.content.world.Name_Multi;
-import com.cesarandres.ps2link.soe.util.Logger;
 
 
 
