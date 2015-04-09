@@ -19,6 +19,7 @@
     <string name="text_loading">Loading&#8230;</string>
     <string name="text_status">STATUS</string>
     <string name="text_empty"></string>
+    <string name="text_none">NONE</string>
     <string name="twitter_ps2dailydeals">PS2DailyDeals</string>
     <string name="twitter_planetside2">Planetside2</string>
     <string name="twitter_mhigby">MHigby</string>
@@ -53,6 +54,15 @@
     <string name="text_class">Class</string>
     <string name="text_my_kills">My kills</string>
     <string name="text_killed_by">Killed by</string>
+    <string name="text_kills">Kills:</string>
+    <string name="text_tr_">TR:</string>
+    <string name="text_nc_">NC:</string>
+    <string name="text_vs_">VS:</string>
+    <string name="text_headshots_">Headshots:</string>   
+    <string name="text_vehicle_kills_">Vehicle Kills: </string>
+    <string name="text_wia_killed">Killed: </string>
+    <string name="text_wia_times"> times</string>
+    <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
     <string name="dcarey7761">Dcarey7761</string>
     <string name="wrelplays">WrelPlays</string>
 </resources>

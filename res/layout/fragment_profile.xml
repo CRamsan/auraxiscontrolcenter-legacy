@@ -180,8 +180,9 @@
                 <Button
                     android:id="@+id/buttonProfileToOutfit"
                     style="@style/ButtonStyle"
+                    android:alpha="0.3"
                     android:enabled="True"
-                    android:text="@string/title_unkown" />
+                    android:text="@string/text_none" />
 
             </LinearLayout>
 

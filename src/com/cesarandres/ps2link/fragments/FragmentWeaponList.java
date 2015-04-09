@@ -330,8 +330,7 @@ public class FragmentWeaponList extends BaseFragment {
 			profileFaction = result.getFaction_id();
 			downloadWeaponList(this.profile_id);
 		}else{
-			//TODO Externalize string
-			Toast.makeText(getActivity(), "Profile data is being downloaded.", Toast.LENGTH_SHORT).show();;
+			Toast.makeText(getActivity(), getResources().getString(R.string.toast_profile_download_failed), Toast.LENGTH_SHORT).show();;
 		}
 	}
 	}

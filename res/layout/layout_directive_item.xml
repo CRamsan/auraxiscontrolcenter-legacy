@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
-    android:layout_height="75px"
+    android:layout_height="15dp"
     android:orientation="horizontal" >
 
     <TextView
@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Kills" />
+        android:text="@string/text_kills" />
 
     <ProgressBar
         android:id="@+id/progressBarDirectiveProgress"

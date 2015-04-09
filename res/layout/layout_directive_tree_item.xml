@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LayoutFrameStyle"
     android:layout_width="match_parent"
-    android:layout_height="150px"
+    android:layout_height="50dp"
     android:orientation="horizontal" >
 
     <com.android.volley.toolbox.NetworkImageView
@@ -26,11 +26,13 @@
         android:id="@+id/imageViewDirectiveIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_directive" />
+        android:contentDescription="@string/text_kills"
+        android:src="@drawable/icon_eng" />
 
     <ImageView
         android:id="@+id/imageViewDirectiveLevel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/text_kills"/>
 
 </LinearLayout>

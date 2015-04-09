@@ -25,6 +25,7 @@ import com.cesarandres.ps2link.dbg.volley.GsonRequest;
 public class WeaponItemAdapter extends BaseAdapter {
 
 	private boolean myWeapons;
+	private Context context;
 	
     private ArrayList<WeaponStat> weaponKills;
     private ArrayList<WeaponStat> weaponKilledBy;
@@ -51,6 +52,7 @@ public class WeaponItemAdapter extends BaseAdapter {
 	icon_silver = BitmapFactory.decodeResource(context.getResources(), R.drawable.medal_silver);
 	icon_copper = BitmapFactory.decodeResource(context.getResources(), R.drawable.medal_copper);
 	icon_empty = BitmapFactory.decodeResource(context.getResources(), R.drawable.medal_empty); 
+	this.context = context;
 	}
     
     @Override
@@ -127,39 +129,37 @@ public class WeaponItemAdapter extends BaseAdapter {
 			holder.medal.setImageBitmap(icon_auraxium);
 		}
 		
-		holder.kills.setText("Kills: " + stat.getKills());
+		holder.kills.setText(this.context.getResources().getString(R.string.text_kills) + " " + stat.getKills());
 		
 		holder.ratios.setVisibility(View.VISIBLE);
 		if (this.characterFaction.equals(Faction.VS)){
-			holder.ratios.setText(	"NC: " + Math.round(100 * stat.getNC() / (float)stat.getKills()) +
-									"% TR: " + Math.round(100 * stat.getTR() / (float)stat.getKills()) + "%");
+			holder.ratios.setText(	this.context.getResources().getString(R.string.text_nc_) + " " + Math.round(100 * stat.getNC() / (float)stat.getKills()) +
+									"% " + this.context.getResources().getString(R.string.text_tr_) + " " + Math.round(100 * stat.getTR() / (float)stat.getKills()) + "%");
 		}else if(this.characterFaction.equals(Faction.NC)){
-			holder.ratios.setText(	"TR: " + Math.round( 100 * stat.getTR() / (float)stat.getKills()) + 
-									"% VS: " + Math.round( 100 * stat.getVS() / (float)stat.getKills()) + "%");
+			holder.ratios.setText(	this.context.getResources().getString(R.string.text_tr_) + " " + Math.round( 100 * stat.getTR() / (float)stat.getKills()) + 
+									"% " + this.context.getResources().getString(R.string.text_nc_) + " " + Math.round( 100 * stat.getVS() / (float)stat.getKills()) + "%");
 		}else if(this.characterFaction.equals(Faction.TR)){
-			holder.ratios.setText(	"NC: " + Math.round( 100 * stat.getNC() / (float)stat.getKills()) + 
-									"% VS: " + Math.round( 100 * stat.getVS() / (float)stat.getKills()) + "%");
+			holder.ratios.setText(	this.context.getResources().getString(R.string.text_nc_) + " " + Math.round( 100 * stat.getNC() / (float)stat.getKills()) + 
+									"% " + this.context.getResources().getString(R.string.text_vs_) + " " + Math.round( 100 * stat.getVS() / (float)stat.getKills()) + "%");
 		}
 		
 		holder.headshots.setVisibility(View.VISIBLE);
-		holder.headshots.setText("Headshots: " + stat.getHeadshots());
+		holder.headshots.setText(this.context.getResources().getString(R.string.text_headshots_) + " " + stat.getHeadshots());
 
-		//TODO Externalize strings
 		holder.vehiclekills.setVisibility(View.VISIBLE);
 		if(stat.getVehicleKills() > 0){
-			holder.vehiclekills.setText("Vehicle Kills: " + stat.getVehicleKills());
+			holder.vehiclekills.setText(this.context.getResources().getString(R.string.text_vehicle_kills_) + stat.getVehicleKills());
 		}else{
 			holder.vehiclekills.setText("");
 		}
 	}else{
 		holder.medal.setVisibility(View.GONE);
 		holder.ratios.setVisibility(View.GONE);
-		holder.kills.setText("Killed: " + stat.getKills() + " times");
+		holder.kills.setText(this.context.getResources().getString(R.string.text_wia_killed) + stat.getKills() + this.context.getResources().getString(R.string.text_wia_times));
 		holder.headshots.setVisibility(View.GONE);
 		holder.vehiclekills.setVisibility(View.GONE);
 	}
 
-	//TODO Externalize strings
 	holder.weaponImage.setImageUrl(DBGCensus.ENDPOINT_URL + "/" + stat.getImagePath(), ApplicationPS2Link.mImageLoader);
 	
 	return convertView;
