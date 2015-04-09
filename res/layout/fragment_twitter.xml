@@ -5,65 +5,15 @@
     android:orientation="vertical" >
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView1"
         style="@style/LayoutFrameStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <LinearLayout
+            android:id="@+id/linearLayoutTwitterHolder"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal" >
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterPlanetside"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:text="@string/twitter_planetside2" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterPlanetsideEU"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:text="@string/twitter_planetside2eu" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterPS2Deals"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_ps2dailydeals" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterMhigby"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_mhigby" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterRadarx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_radarx" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterMuldoonx9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter_muldoonx9" />
-
-	     	<CheckBox
-	     	    android:id="@+id/checkBoxTwitterDcarey"
-	     	    android:layout_width="wrap_content"
-	     	    android:layout_height="wrap_content"
-	     	    android:text="@string/dcarey7761" />
-
-            <CheckBox
-                android:id="@+id/checkBoxTwitterWrel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/wrelplays" />
        	</LinearLayout>
     </HorizontalScrollView>
 

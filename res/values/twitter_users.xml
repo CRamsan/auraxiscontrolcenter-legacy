@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="twitter_users">
+        <item>planetside2</item>
+        <item>ps2eu</item>
+        <item>PS2DailyDeals</item>
+        <item>mhigby</item>
+        <item>radarx</item>
+        <item>muldoonx9</item>
+        <item>dcarey7761</item>
+        <item>WrelPlays</item>
+    </string-array>    
+</resources>

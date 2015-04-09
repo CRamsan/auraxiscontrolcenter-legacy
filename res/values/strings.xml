@@ -20,12 +20,6 @@
     <string name="text_status">STATUS</string>
     <string name="text_empty"></string>
     <string name="text_none">NONE</string>
-    <string name="twitter_ps2dailydeals">PS2DailyDeals</string>
-    <string name="twitter_planetside2">Planetside2</string>
-    <string name="twitter_mhigby">MHigby</string>
-    <string name="twitter_planetside2eu">Planetside2EU</string>
-    <string name="twitter_radarx">RadarX</string>
-    <string name="twitter_muldoonx9">MuldoonX9</string>
     <string name="title_links">LINKS</string>
     <string name="title_official_forums">FORUMS</string>
     <string name="title_psu">PS UNIVERSE</string>
@@ -63,6 +57,4 @@
     <string name="text_wia_killed">Killed: </string>
     <string name="text_wia_times"> times</string>
     <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
-    <string name="dcarey7761">Dcarey7761</string>
-    <string name="wrelplays">WrelPlays</string>
 </resources>
