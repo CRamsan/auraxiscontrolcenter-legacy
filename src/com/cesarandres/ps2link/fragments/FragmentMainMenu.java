@@ -55,6 +55,7 @@ public class FragmentMainMenu extends BaseFragment {
 	Button buttonOutfit = (Button) getActivity().findViewById(R.id.buttonOutfit);
 	Button buttonNews = (Button) getActivity().findViewById(R.id.buttonNews);
 	Button buttonTwitter = (Button) getActivity().findViewById(R.id.buttonTwitter);
+	Button buttonReddit = (Button) getActivity().findViewById(R.id.buttonRedditFragment);
 
 	buttonCharacters.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -81,7 +82,12 @@ public class FragmentMainMenu extends BaseFragment {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_TWITTER.toString(), null);
 	    }
 	});
-
+	buttonReddit.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_REDDIT.toString(), null);
+	    }
+	});
+	
 	final ImageButton buttonPS2Background = (ImageButton) getActivity().findViewById(R.id.buttonPS2);
 	buttonPS2Background.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {

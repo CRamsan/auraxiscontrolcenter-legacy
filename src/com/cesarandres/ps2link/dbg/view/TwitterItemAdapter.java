@@ -19,7 +19,7 @@ import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 
 public class TwitterItemAdapter extends DBItemAdapter {
 
-    private PrettyTime p = new PrettyTime();
+    private static PrettyTime p = new PrettyTime();
 
     public TwitterItemAdapter(Context context, String[] users, ObjectDataSource data) {
 	// Cache the LayoutInflate to avoid asking for a new one each time.

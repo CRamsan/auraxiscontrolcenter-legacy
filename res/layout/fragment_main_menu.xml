@@ -59,6 +59,11 @@
                 android:text="@string/title_twitter" />
 
             <Button
+                android:id="@+id/buttonRedditFragment"
+                style="@style/ButtonStyle"
+                android:text="@string/title_reddit" />
+                        
+            <Button
                 android:id="@+id/buttonNews"
                 style="@style/ButtonStyle"
                 android:text="@string/title_links" />

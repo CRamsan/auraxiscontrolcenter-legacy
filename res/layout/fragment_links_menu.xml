@@ -5,21 +5,26 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/buttonForums"
-            style="@style/ButtonStyle"
-            android:text="@string/title_official_forums" />
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="vertical" >
 
         <Button
             android:id="@+id/buttonReddit"
             style="@style/ButtonStyle"
             android:text="@string/title_reddit" />
+
+        <Button
+            android:id="@+id/buttonForums"
+            style="@style/ButtonStyle"
+            android:text="@string/title_official_forums" />
 
         <Button
             android:id="@+id/buttonPSU"
@@ -51,5 +56,5 @@
             style="@style/ButtonStyle"
             android:text="@string/title_ps2alerts" />
     </LinearLayout>
-
+    </LinearLayout>
 </ScrollView>

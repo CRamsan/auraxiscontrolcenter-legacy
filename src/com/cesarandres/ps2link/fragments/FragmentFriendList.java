@@ -116,5 +116,4 @@ public class FragmentFriendList extends BaseFragment {
 
 	DBGCensus.sendGsonRequest(url, Character_friend_list_response.class, success, error, this);
     }
-
 }

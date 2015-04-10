@@ -54,10 +54,12 @@
     <string name="text_nc_">NC:</string>
     <string name="text_vs_">VS:</string>
     <string name="text_headshots_">Headshots:</string>   
+    <string name="text_comments">comments</string>
     <string name="text_vehicle_kills_">Vehicle Kills: </string>
     <string name="text_wia_killed">Killed: </string>
     <string name="text_wia_times"> times</string>
     <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
+    <string name="toast_error_download_failed">Error retrieving data</string>
     <string name="text_loading_ellipsis">Loading&#8230;</string>
     <string name="text_suicide_caps">SUICIDE</string>
     <string name="text_killed_caps">KILLED</string>
