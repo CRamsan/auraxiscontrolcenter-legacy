@@ -53,7 +53,7 @@ public class FragmentTwitter extends BaseFragment {
 	this.users = getActivity().getResources().getStringArray(R.array.twitter_users);
 	for(String user : this.users){
 		CheckBox cb = new CheckBox(getActivity());
-	    cb.setText(user);
+	    cb.setText("@"+user);
 	    cb.setTag(user);
 	    holder.addView(cb);
 	}

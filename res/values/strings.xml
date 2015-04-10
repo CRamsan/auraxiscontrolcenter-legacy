@@ -28,6 +28,7 @@
     <string name="title_commclash">COMM. CLASH</string>
     <string name="title_ps2alerts">PS2 ALERTS</string>
     <string name="text_tag_too_short">Tag is too short</string>
+    <string name="text_unknown">Unknown</string>
     <string name="text_outfit_name_too_short">Outfit name is too short</string>
     <string name="text_profile_name_too_short">Name is too short</string>
     <string name="text_problem_encoding">There was a problem trying to read the input</string>
@@ -57,4 +58,8 @@
     <string name="text_wia_killed">Killed: </string>
     <string name="text_wia_times"> times</string>
     <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
+    <string name="text_loading_ellipsis">Loading&#8230;</string>
+    <string name="text_suicide_caps">SUICIDE</string>
+    <string name="text_killed_caps">KILLED</string>
+    <string name="text_killed_by_caps">KILLED BY</string>
 </resources>
