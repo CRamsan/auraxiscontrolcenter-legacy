@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonFragmentGoToReddit"
+    style="@style/ActionBarButtonStyle"
+    android:text="@string/text_open_reddit"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:visibility="visible" />
+

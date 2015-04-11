@@ -3,11 +3,15 @@ package com.cesarandres.ps2link.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,7 +34,9 @@ import com.cesarandres.ps2link.module.reddit.RedditItemAdapter;
 public class FragmentReddit extends BaseFragment {
 
 	private static final String REDDIT_ENDPOINT = "http://www.reddit.com/r/Planetside/hot.json";
-
+	private static final String REDDIT_URL = "http://www.reddit.com/r/Planetside/";
+	private Button goToReddit;
+	
     /*
      * (non-Javadoc)
      * 
@@ -39,6 +45,15 @@ public class FragmentReddit extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    goToReddit = (Button)inflater.inflate(R.layout.layout_go_to_reddit, null);
+	goToReddit.setOnClickListener(new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+	    	Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(REDDIT_URL));
+	    	startActivity(openRedditIntent);
+		}
+	});
+	
     return inflater.inflate(R.layout.fragment_reddit, container, false);
     }
 
@@ -73,9 +88,27 @@ public class FragmentReddit extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_REDDIT);
+	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+	titleLayout.addView(goToReddit);
+	LinearLayout.LayoutParams params = (LayoutParams) goToReddit.getLayoutParams();
+	params.gravity = Gravity.CENTER_VERTICAL;
+	goToReddit.setLayoutParams(params);
+	titleLayout.invalidate();
 	updatePosts();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cesarandres.ps2link.base.BaseFragment#onPause()
+     */
+    @Override
+    public void onPause() {
+	super.onPause();
+	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+	titleLayout.removeView(goToReddit);
+	}
+    
     /*
      * (non-Javadoc)
      * 

@@ -9,52 +9,53 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-        
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/buttonReddit"
-            style="@style/ButtonStyle"
-            android:text="@string/title_reddit" />
+            <Button
+                android:id="@+id/buttonReddit"
+                style="@style/ButtonStyle"
+                android:text="@string/title_reddit" />
 
-        <Button
-            android:id="@+id/buttonForums"
-            style="@style/ButtonStyle"
-            android:text="@string/title_official_forums" />
+            <Button
+                android:id="@+id/buttonForums"
+                style="@style/ButtonStyle"
+                android:text="@string/title_official_forums" />
 
-        <Button
-            android:id="@+id/buttonPSU"
-            style="@style/ButtonStyle"
-            android:text="@string/title_psu" />
+            <Button
+                android:id="@+id/buttonPSU"
+                style="@style/ButtonStyle"
+                android:text="@string/title_psu" />
 
-        <Button
-            android:id="@+id/buttonWikia"
-            style="@style/ButtonStyle"
-            android:text="@string/title_ps2_wikia" />
+            <Button
+                android:id="@+id/buttonWikia"
+                style="@style/ButtonStyle"
+                android:text="@string/title_ps2_wikia" />
 
-        <Button
-            android:id="@+id/buttonPS2Maps"
-            style="@style/ButtonStyle"
-            android:text="@string/title_ps2maps" />
+            <Button
+                android:id="@+id/buttonPS2Maps"
+                style="@style/ButtonStyle"
+                android:text="@string/title_ps2maps" />
 
-        <Button
-            android:id="@+id/buttonLore"
-            style="@style/ButtonStyle"
-            android:text="@string/title_reddit_lore" />
+            <Button
+                android:id="@+id/buttonLore"
+                style="@style/ButtonStyle"
+                android:text="@string/title_reddit_lore" />
 
-        <Button
-            android:id="@+id/buttonCommClash"
-            style="@style/ButtonStyle"
-            android:text="@string/title_commclash" />
+            <Button
+                android:id="@+id/buttonCommClash"
+                style="@style/ButtonStyle"
+                android:text="@string/title_commclash" />
 
-        <Button
-            android:id="@+id/buttonPS2Alerts"
-            style="@style/ButtonStyle"
-            android:text="@string/title_ps2alerts" />
+            <Button
+                android:id="@+id/buttonPS2Alerts"
+                style="@style/ButtonStyle"
+                android:text="@string/title_ps2alerts" />
+        </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
+
 </ScrollView>
