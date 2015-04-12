@@ -1,12 +1,12 @@
 package com.cesarandres.ps2link.fragments;
 
 import java.util.Date;
+
 import org.ocpsoft.prettytime.PrettyTime;
-import android.annotation.TargetApi;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -80,7 +81,6 @@ public class FragmentProfile extends BaseFragment {
      * @param character
      *            Character that contains all the data to populate the UI
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void updateUI(final CharacterProfile character) {
 	this.fragmentTitle.setText(character.getName().getFirst());
 	try {
@@ -134,16 +134,12 @@ public class FragmentProfile extends BaseFragment {
 		
 	    if (character.getOutfit() == null) {
 	    	outfitButton.setEnabled(false);
-		    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
-		    	outfitButton.setAlpha(0.5f);;
-			}
+		    outfitButton.setAlpha(0.5f);;
 	    	outfitButton.setOnClickListener(null);
 	    } else {
 	    	outfitButton.setText(character.getOutfit().getName());
 	    	outfitButton.setEnabled(true);
-		    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
-		    	outfitButton.setAlpha(1);
-		    }
+		    outfitButton.setAlpha(1);
 		    outfitButton.setOnClickListener(new OnClickListener() {					
 				@Override
 				public void onClick(View v) {

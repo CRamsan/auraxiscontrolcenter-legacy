@@ -1,7 +1,25 @@
 package com.cesarandres.ps2link.fragments;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +27,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -26,6 +46,9 @@ import com.cesarandres.ps2link.module.BitmapWorkerTask;
  */
 public class FragmentMainMenu extends BaseFragment {
 
+	private IInAppBillingService mService;
+	private ServiceConnection mServiceConn;
+	
     /*
      * (non-Javadoc)
      * 
@@ -56,6 +79,8 @@ public class FragmentMainMenu extends BaseFragment {
 	Button buttonNews = (Button) getActivity().findViewById(R.id.buttonNews);
 	Button buttonTwitter = (Button) getActivity().findViewById(R.id.buttonTwitter);
 	Button buttonReddit = (Button) getActivity().findViewById(R.id.buttonRedditFragment);
+	Button buttonDonate = (Button) getActivity().findViewById(R.id.buttonDonate);
+	Button buttonAbout = (Button) getActivity().findViewById(R.id.buttonAbout);
 
 	buttonCharacters.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -87,6 +112,17 @@ public class FragmentMainMenu extends BaseFragment {
 		mCallbacks.onItemSelected(ActivityMode.ACTIVITY_REDDIT.toString(), null);
 	    }
 	});
+	buttonAbout.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+	    mCallbacks.onItemSelected(ActivityMode.ACTIVITY_ABOUT.toString(), null);		
+	    }
+	});
+	buttonDonate.setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View v) {
+	    	DownloadDonationsTask task = new DownloadDonationsTask();
+	    	task.execute();
+	    }
+	});	
 	
 	final ImageButton buttonPS2Background = (ImageButton) getActivity().findViewById(R.id.buttonPS2);
 	buttonPS2Background.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +174,23 @@ public class FragmentMainMenu extends BaseFragment {
 		editor.commit();
 	    }
 	});
+	
+	mServiceConn = new ServiceConnection() {
+		   @Override
+		   public void onServiceDisconnected(ComponentName name) {
+		       mService = null;
+		   }
+
+		   @Override
+		   public void onServiceConnected(ComponentName name, 
+		      IBinder service) {
+		       mService = IInAppBillingService.Stub.asInterface(service);
+		   }
+		};
+		
+	  Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+	  serviceIntent.setPackage("com.android.vending");
+	  getActivity().bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
     }
 
     /*
@@ -194,5 +247,155 @@ public class FragmentMainMenu extends BaseFragment {
 	    buttonPreferedOutfit.setVisibility(View.GONE);
 	}
 
+    }
+    
+    /* (non-Javadoc)
+     * @see com.cesarandres.ps2link.base.BaseFragment#onDestroy()
+     */
+    @Override
+	public void onDestroy() {
+        super.onDestroy();
+        if (mService != null) {
+            getActivity().unbindService(mServiceConn);
+        }
+    }
+    
+    /**
+     * @author cramsan
+     *
+     */
+    private class DownloadDonationsTask extends AsyncTask<Void, Void, ArrayList<String>> {
+
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+		 */
+		@Override
+		protected ArrayList<String> doInBackground(Void... params) {
+			int response = -1;
+			Bundle ownedItems;
+
+			try {
+				ownedItems = mService.getPurchases(3, getActivity().getPackageName(), "inapp", null);
+				response = ownedItems.getInt("RESPONSE_CODE");
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+				return null;
+			}
+
+			if (response == 0) {
+				ArrayList<String>  purchaseDataList = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+			   
+				for (int i = 0; i < purchaseDataList.size(); ++i) {
+					String purchaseData = purchaseDataList.get(i);
+					try {
+						JSONObject ownedObject;
+						ownedObject = new JSONObject(purchaseData);
+						String token = ownedObject.getString("purchaseToken");
+						response = mService.consumePurchase(3, getActivity().getPackageName(), token);
+					} catch (JSONException e) {
+						e.printStackTrace();
+						return null;
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					return null;
+				}
+			   }
+			}
+						
+			ArrayList<String> skuList = new ArrayList<String> ();
+			skuList.add("test_product_1");
+			Bundle querySkus = new Bundle();
+			querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+			Bundle skuDetails;
+			try {
+				skuDetails = mService.getSkuDetails(3, getActivity().getPackageName(), "inapp", querySkus);
+				response = skuDetails.getInt("RESPONSE_CODE");
+				if (response == 0) {
+				   return skuDetails.getStringArrayList("DETAILS_LIST");			   
+				}else{
+					return null;
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+				return null;
+			}		
+		}
+		
+        /* (non-Javadoc)
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        protected void onPostExecute(ArrayList<String> result) {
+        	if(result != null){
+        		if(result.size() > 0){
+        		DonationsDialogFragment newFragment = new DonationsDialogFragment();
+                if(!newFragment.setResponseList(result)){
+            		Toast.makeText(getActivity(), "Error in response from the server", Toast.LENGTH_LONG).show();
+            		return;
+                }
+                newFragment.show(getFragmentManager(), "donations");	
+        		}else{
+            		//TODO LEts externalize this
+            		Toast.makeText(getActivity(), "Donation data was empty, please try again later", Toast.LENGTH_LONG).show();
+        		}
+        	}else{
+        		//TODO LEts externalize this
+        		Toast.makeText(getActivity(), "Could not retrieve any donation data", Toast.LENGTH_LONG).show();
+        	}
+        }
+
+    }
+    
+    public class DonationsDialogFragment extends DialogFragment {
+    	
+    	private ArrayList<String> responseList;
+    	private CharSequence[] displayData;
+    	
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder	.setTitle(R.string.text_about_description)
+            		.setItems(displayData, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int index) {
+        			String thisResponse = responseList.get(index);
+  					JSONObject object;
+					try {
+						object = new JSONObject(thisResponse);
+	   				    String sku = object.getString("productId");
+	                	Bundle buyIntentBundle = mService.getBuyIntent(3, getActivity().getPackageName(), sku, "inapp", "");
+	                	PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+	                	getActivity().startIntentSenderForResult(pendingIntent.getIntentSender(),
+	                			   1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
+	                			   Integer.valueOf(0));
+	                	return;
+					} catch (JSONException e) {
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (SendIntentException e) {
+						e.printStackTrace();
+					}
+	        		//TODO LEts externalize this
+	        		Toast.makeText(getActivity(), "Error sending donation request", Toast.LENGTH_LONG).show();
+	        		return;
+                }});
+            return builder.create();
+        }
+
+		public boolean setResponseList(ArrayList<String> responseList) {
+			this.displayData = new String[responseList.size()];
+			for (int i=0; i<responseList.size(); i++) {
+				String thisResponse = responseList.get(i);
+				try {
+					JSONObject object = new JSONObject(thisResponse);
+				    String sku = object.getString("productId");
+				    displayData[i] = sku;
+				} catch (JSONException e) {
+					e.printStackTrace();
+					return false;
+				}			      
+			}
+			this.responseList = responseList;
+			return true;
+		}
     }
 }

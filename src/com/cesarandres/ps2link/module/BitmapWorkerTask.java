@@ -7,13 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Environment;
 import android.view.Display;
 import android.widget.ImageView;
@@ -52,8 +50,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
      * 
      * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
      */
-    @SuppressWarnings("deprecation")
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	@Override
     protected Bitmap doInBackground(String... params) {
 	data = params[0];
@@ -70,14 +66,9 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 	    Display display = context.getWindowManager().getDefaultDisplay();
 	    Point size = new Point();
 	    int width, height;
-	    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
 		display.getSize(size);
 		width = size.x;
 		height = size.y;
-	    } else {
-	    	width = display.getWidth();
-	    	height = display.getHeight();
-	    }
 
 	    InputStream ims;
 	    try {

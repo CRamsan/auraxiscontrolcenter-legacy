@@ -67,6 +67,16 @@
                 android:id="@+id/buttonNews"
                 style="@style/ButtonStyle"
                 android:text="@string/title_links" />
+            
+          	<Button
+                android:id="@+id/buttonAbout"
+                style="@style/ButtonStyle"
+                android:text="@string/title_about" />
+          	
+          	<Button
+                android:id="@+id/buttonDonate"
+                style="@style/ButtonStyle"
+                android:text="@string/title_donate" />
         </LinearLayout>
 
         <HorizontalScrollView

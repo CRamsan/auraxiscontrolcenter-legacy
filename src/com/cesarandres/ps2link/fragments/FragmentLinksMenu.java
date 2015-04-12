@@ -131,6 +131,6 @@ public class FragmentLinksMenu extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
+	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_LINK_MENU);
     }
 }
