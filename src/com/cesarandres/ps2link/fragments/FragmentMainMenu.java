@@ -303,7 +303,10 @@ public class FragmentMainMenu extends BaseFragment {
 			}
 						
 			ArrayList<String> skuList = new ArrayList<String> ();
-			skuList.add("test_product_1");
+			skuList.add("item_donation_1");
+			skuList.add("item_donation_2");
+			skuList.add("item_donation_3");
+			skuList.add("item_donation_4");
 			Bundle querySkus = new Bundle();
 			querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
 			Bundle skuDetails;
@@ -329,17 +332,15 @@ public class FragmentMainMenu extends BaseFragment {
         		if(result.size() > 0){
         		DonationsDialogFragment newFragment = new DonationsDialogFragment();
                 if(!newFragment.setResponseList(result)){
-            		Toast.makeText(getActivity(), "Error in response from the server", Toast.LENGTH_LONG).show();
+            		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_server_error), Toast.LENGTH_LONG).show();
             		return;
                 }
                 newFragment.show(getFragmentManager(), "donations");	
         		}else{
-            		//TODO LEts externalize this
-            		Toast.makeText(getActivity(), "Donation data was empty, please try again later", Toast.LENGTH_LONG).show();
+            		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_empty_response), Toast.LENGTH_LONG).show();
         		}
         	}else{
-        		//TODO LEts externalize this
-        		Toast.makeText(getActivity(), "Could not retrieve any donation data", Toast.LENGTH_LONG).show();
+        		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_response_error), Toast.LENGTH_LONG).show();
         	}
         }
 
@@ -353,7 +354,7 @@ public class FragmentMainMenu extends BaseFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder	.setTitle(R.string.text_about_description)
+            builder	.setTitle(R.string.text_choose_donation)
             		.setItems(displayData, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int index) {
         			String thisResponse = responseList.get(index);
@@ -375,9 +376,10 @@ public class FragmentMainMenu extends BaseFragment {
 						e.printStackTrace();
 					}
 	        		//TODO LEts externalize this
-	        		Toast.makeText(getActivity(), "Error sending donation request", Toast.LENGTH_LONG).show();
+	        		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_error_sending), Toast.LENGTH_LONG).show();
 	        		return;
                 }});
+            setRetainInstance(true);
             return builder.create();
         }
 
@@ -387,7 +389,7 @@ public class FragmentMainMenu extends BaseFragment {
 				String thisResponse = responseList.get(i);
 				try {
 					JSONObject object = new JSONObject(thisResponse);
-				    String sku = object.getString("productId");
+				    String sku = object.getString("title");
 				    displayData[i] = sku;
 				} catch (JSONException e) {
 					e.printStackTrace();

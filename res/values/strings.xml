@@ -68,6 +68,13 @@
     <string name="text_killed_by_caps">KILLED BY</string>
     <string name="text_open_reddit">Open</string>
     <string name="text_developed_by">developed by Cesar Ramirez</string>
-    <string name="text_about_description">TEST</string>
+    <string name="text_about_description">Thanks for downloading this app. I hope you will enjoy using it and if you have some feedback I would really like to hear it. I can always be reached at cesar.ramsan@gmail.com, CRamsan at Reddit or CRamsan in the Emerald server.</string>
     <string name="url_homepage">http://cesarandres.com/</string>
+    <string name="toast_error_server_error">Could not retrieve any donation data</string>
+    <string name="toast_error_response_error">Error in response from the server</string>
+    <string name="toast_error_empty_response">Donation data was empty, please try again later</string>
+	<string name="toast_error_error_sending">Error sending donation request</string>    
+	<string name="text_choose_donation">Choose Donation</string>
+	<string name="text_thanks">Thanks for your support</string>
+	<string name="text_thanks_failed">There was a problem processing your donation</string>
 </resources>

@@ -86,23 +86,24 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
        if (requestCode == 1001) {           
-          int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+          //int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
           String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
-          String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+          //String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
             
           if (resultCode == RESULT_OK) {
              try {
                 JSONObject jo = new JSONObject(purchaseData);
-                String sku = jo.getString("productId");
-                Toast.makeText(this, "You have bought the " + sku + ". Excellent choice, adventurer!", Toast.LENGTH_LONG).show();
+                //We can use this later
+                //String sku = jo.getString("productId");
+                Toast.makeText(this, getResources().getString(R.string.text_thanks), Toast.LENGTH_LONG).show();
               }
               catch (JSONException e) {
-                 Toast.makeText(this, "Failed to parse purchase data.", Toast.LENGTH_LONG).show();
+                 Toast.makeText(this, getResources().getString(R.string.text_thanks_failed), Toast.LENGTH_LONG).show();
                  e.printStackTrace();
               }
           }
        }else{
-           Toast.makeText(this, "Failed to parse purchase data.", Toast.LENGTH_LONG).show();
+           Toast.makeText(this, getResources().getString(R.string.text_thanks_failed), Toast.LENGTH_LONG).show();
        }
     }
 }
