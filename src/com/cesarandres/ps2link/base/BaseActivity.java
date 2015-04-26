@@ -92,7 +92,8 @@ public abstract class BaseActivity extends FragmentActivity {
             
           if (resultCode == RESULT_OK) {
              try {
-                JSONObject jo = new JSONObject(purchaseData);
+                @SuppressWarnings("unused")
+				JSONObject jo = new JSONObject(purchaseData);
                 //We can use this later
                 //String sku = jo.getString("productId");
                 Toast.makeText(this, getResources().getString(R.string.text_thanks), Toast.LENGTH_LONG).show();

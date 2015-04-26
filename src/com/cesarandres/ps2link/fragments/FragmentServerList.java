@@ -25,6 +25,7 @@ import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.dbg.util.QueryString;
 import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.dbg.view.ServerItemAdapter;
+import com.cesarandres.ps2link.module.ButtonSelectSource;
 
 /**
  * This fragment will display the servers and theirs status
@@ -39,7 +40,9 @@ public class FragmentServerList extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.fragment_server_list, container, false);
+	View view = inflater.inflate(R.layout.fragment_server_list, container, false);
+	new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	return view;
     }
 
     @Override

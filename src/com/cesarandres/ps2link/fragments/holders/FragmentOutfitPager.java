@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
 
@@ -29,6 +31,7 @@ public class FragmentOutfitPager extends BaseFragment {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private String outfitId;
+    private String namespace;
     private static final int ONLINE = 0;
     private static final int MEMBERS = 1;
 
@@ -52,6 +55,8 @@ public class FragmentOutfitPager extends BaseFragment {
 	}
 
 	outfitId = extras.getString("PARAM_0");
+	this.namespace = extras.getString("PARAM_1");
+	DBGCensus.currentNamespace = Namespace.valueOf(namespace);
 
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -158,6 +163,9 @@ public class FragmentOutfitPager extends BaseFragment {
 	    }
 	    Bundle args = new Bundle();
 	    args.putString("PARAM_0", outfitId);
+	    if(namespace != null){
+	    	args.putString("PARAM_1", namespace);
+	    }
 	    fragment.setArguments(args);
 	    mMap.put(position, fragment);
 	    return fragment;

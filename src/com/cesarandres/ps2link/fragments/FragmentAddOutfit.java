@@ -25,6 +25,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
 import com.cesarandres.ps2link.dbg.content.Outfit;
 import com.cesarandres.ps2link.dbg.content.response.Outfit_response;
@@ -34,6 +35,7 @@ import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.dbg.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.dbg.view.OutfitItemAdapter;
+import com.cesarandres.ps2link.module.ButtonSelectSource;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**
@@ -47,6 +49,8 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
  */
 public class FragmentAddOutfit extends BaseFragment {
 
+	private Namespace lastUsedNamespace;
+	
     /*
      * (non-Javadoc)
      * 
@@ -55,7 +59,9 @@ public class FragmentAddOutfit extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.fragment_add_outfit, container, false);
+	View view = inflater.inflate(R.layout.fragment_add_outfit, container, false);
+	new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	return view;
     }
 
     /*
@@ -104,6 +110,8 @@ public class FragmentAddOutfit extends BaseFragment {
      * information.
      */
     public void downloadOutfits() {
+    this.lastUsedNamespace = DBGCensus.currentNamespace;
+    	
 	EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchOutfit);
 	EditText searchTagField = (EditText) getActivity().findViewById(R.id.fieldSearchTag);
 	String outfitName = searchField.getText().toString().toLowerCase(Locale.getDefault());
@@ -157,7 +165,7 @@ public class FragmentAddOutfit extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 			    mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
-				    new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id() });
+				    new String[] { ((Outfit) myAdapter.getItemAtPosition(myItemInt)).getOutfit_Id(), lastUsedNamespace.name() });
 			}
 		    });
 

@@ -1,5 +1,6 @@
 package com.cesarandres.ps2link.dbg.content;
 
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.dbg.content.character.BattleRank;
 import com.cesarandres.ps2link.dbg.content.character.Certs;
 import com.cesarandres.ps2link.dbg.content.character.Server;
@@ -23,6 +24,7 @@ public class CharacterProfile {
     private Server server;
     private int online_status;
     private boolean cached;
+    private Namespace namespace;
 
     public Certs getCerts() {
 	return this.certs;
@@ -143,4 +145,12 @@ public class CharacterProfile {
     public void setServer(Server server) {
 	this.server = server;
     }
+
+	public Namespace getNamespace() {
+		return namespace;
+	}
+
+	public void setNamespace(Namespace namespace) {
+		this.namespace = namespace;
+	}
 }

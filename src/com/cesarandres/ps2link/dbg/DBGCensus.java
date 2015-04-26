@@ -8,7 +8,6 @@ import android.util.Log;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.cesarandres.ps2link.ApplicationPS2Link;
-import com.cesarandres.ps2link.dbg.util.Collections.ImageCollection;
 import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.dbg.util.Logger;
 import com.cesarandres.ps2link.dbg.util.QueryString;
@@ -36,6 +35,8 @@ public class DBGCensus {
     public static final String IMG = "img";
     public static final String ITEM = "item";
 
+    public static Namespace currentNamespace = Namespace.PS2PC;
+    
     public static enum Verb {
 	GET("get"), COUNT("count");
 
@@ -50,19 +51,21 @@ public class DBGCensus {
 	    return this.verb;
 	}
     }
+    
+    public static enum Namespace {
+	PS2PC("ps2:v2"), 
+	PS2PS4US("ps2ps4us:v2"),
+	PS2PS4EU("ps2ps4eu:v2");
 
-    public static enum Game {
-	PS2("ps2"),PS2V2("ps2:v2"); @Deprecated
+	private final String namespace;
 
-	private final String game;
-
-	private Game(final String game) {
-	    this.game = game;
+	private Namespace(final String namespace) {
+	    this.namespace = namespace;
 	}
 
 	@Override
 	public String toString() {
-	    return this.game;
+	    return this.namespace;
 	}
     }
 
@@ -79,41 +82,6 @@ public class DBGCensus {
 	public String toString() {
 	    return this.imagetype;
 	}
-    }
-
-    /**
-     * @param game
-     *            the game to retrieve information from
-     * @param collection
-     *            the data collection of the game
-     * @param identifier
-     *            id for a given resource
-     * @return the url for this request
-     * @throws MalformedURLException
-     *             when there is a problem generating a valid url
-     */
-    public static URL generateGameImageRequest(Game game, ImageCollection collection, String identifier) throws MalformedURLException {
-	URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + IMG + "/" + game.toString() + "/" + collection + "/" + identifier + "/" + ITEM);
-	return requestDataURL;
-    }
-
-    /**
-     * @param game
-     *            the game to retrieve information from
-     * @param collection
-     *            the data collection of the game
-     * @param identifier
-     *            id for a given resource
-     * @param type
-     *            the type of image to retrieve
-     * @return the url for this request
-     * @throws MalformedURLException
-     *             when there is a problem generating a valid url
-     */
-    public static URL generateGameImageRequest(Game game, ImageCollection collection, String identifier, ImageType type) throws MalformedURLException {
-	URL requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + IMG + "/" + game.toString() + "/" + "icon" + "/" + identifier + "/"
-		+ type.toString() + "/" + ITEM);
-	return requestDataURL;
     }
 
     /**
@@ -136,7 +104,7 @@ public class DBGCensus {
 	}
 	URL requestDataURL = null;
 	try {
-	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + Game.PS2V2 + "/" + collection.toString() + "/"
+	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + DBGCensus.currentNamespace + "/" + collection.toString() + "/"
 		    + identifier + "?" + query.toString());
 	} catch (MalformedURLException e) {
 	    Logger.log(Log.ERROR, "DBGCensus", "There was a problem creating the URL");
@@ -144,6 +112,21 @@ public class DBGCensus {
 	return requestDataURL;
     }
 
+    /**
+     * @param urlParams that will be attached to the end of the default request body.
+     * 
+     * @return url to retrieve the requested resource
+     */
+    public static URL generateGameDataRequest(String urlParams) {
+	URL requestDataURL = null;
+	try {
+	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + Verb.GET + "/" + DBGCensus.currentNamespace + "/" + urlParams);
+	} catch (MalformedURLException e) {
+	    Logger.log(Log.ERROR, "DBGCensus", "There was a problem creating the URL");
+	}
+	return requestDataURL;
+    }
+    
     /**
      * @param url
      *            the url to request

@@ -289,6 +289,7 @@ public class FragmentProfile extends BaseFragment {
 		downloadProfiles(profile_id);
 	    } else {
 		profile = result;
+		DBGCensus.currentNamespace = profile.getNamespace();
 		updateUI(result);
 		downloadProfiles(result.getCharacterId());
 	    }

@@ -2,6 +2,8 @@ package com.cesarandres.ps2link.dbg.content;
 
 import java.util.ArrayList;
 
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
+
 public class Outfit {
     private String outfit_id;
     private String name;
@@ -12,6 +14,7 @@ public class Outfit {
     private String world_id;
     private String faction_id;
     private boolean isCached;
+    private Namespace namespace;
     private ArrayList<Member> members;
 
     public String getAlias() {
@@ -93,5 +96,13 @@ public class Outfit {
     public void setCached(boolean isCached) {
 	this.isCached = isCached;
     }
+
+	public Namespace getNamespace() {
+		return namespace;
+	}
+
+	public void setNamespace(Namespace namespace) {
+		this.namespace = namespace;
+	}
 
 }

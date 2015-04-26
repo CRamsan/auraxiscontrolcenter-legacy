@@ -45,6 +45,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String CHARACTERS_COLUMN_WORLD_ID = "world_id";
 	public static final String CHARACTERS_COLUMN_OUTFIT_NAME = "outfit_name";
 	public static final String CHARACTERS_COLUMN_WORLD_NAME = "world_name";
+	public static final String CHARACTERS_COLUMN_NAMESPACE = "namespace";
 
 	public static final String MEMBERS_COLUMN_ID = "character_id";
 	public static final String MEMBERS_COLUMN_RANK = "rank";
@@ -60,6 +61,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String OUTFIT_COLUMN_TIME_CREATED = "time_created";
 	public static final String OUTFIT_COLUMN_WORDL_ID = "world_id";
 	public static final String OUTFIT_COLUMN_FACTION_ID = "faction_id";
+	public static final String OUTFIT_COLUMN_NAMESPACE = "namespace";
 
 	public static final String TWEETS_COLUMN_DATE = "date";
 	public static final String TWEETS_COLUMN_ID = "id";
@@ -70,7 +72,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	public static final String TWEETS_COLUMN_OWNER = "owner";
 
 	public static final String DATABASE_NAME = "ps2link.db";
-	public static final int DATABASE_VERSION = 32;
+	public static final int DATABASE_VERSION = 33;
 
 	private static final String CREATE_WORLDS_TABLE = "create table " + TABLE_WORLDS_NAME + " ( " + WORLDS_COLUMN_ID + " Int, " + WORLDS_COLUMN_STATE
 			+ " Int, " + WORLDS_COLUMN_NAME + " varchar(-1), " + "PRIMARY KEY (" + WORLDS_COLUMN_ID + "));";
@@ -83,7 +85,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			+ " Int, " + CHARACTERS_COLUMN_CURRENT_POINTS + " Int, " + CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_CERT + " Int, "
 			+ CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_RANK + " Int, " + CHARACTERS_COLUMN_RANK_VALUE + " Int, " + CHARACTERS_COLUMN_LAST_LOGIN + " Int, "
 			+ CHARACTERS_COLUMN_MINUTES_PLAYED + " Int, " + CHARACTERS_COLUMN_FACTION_ID + " varchar(-1), " + CHARACTERS_COLUMN_WORLD_ID + " varchar(-1), "
-			+ CHARACTERS_COLUMN_OUTFIT_NAME + " varchar(-1), " + CACHE_COLUMN_SAVES + " Int, "+ CHARACTERS_COLUMN_WORLD_NAME + " varchar(-1), " + "PRIMARY KEY (" + CHARACTERS_COLUMN_ID + "), "
+			+ CHARACTERS_COLUMN_OUTFIT_NAME + " varchar(-1), " + CACHE_COLUMN_SAVES + " Int, "+ CHARACTERS_COLUMN_WORLD_NAME + " varchar(-1), " + CHARACTERS_COLUMN_OUTFIT_NAME + " varchar(-1), " + "PRIMARY KEY (" + CHARACTERS_COLUMN_ID + "), "
 			+ "FOREIGN KEY(" + CHARACTERS_COLUMN_FACTION_ID + ") REFERENCES " + TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID + "));";
 
 	private static final String CREATE_MEMBERS_TABLE = "create table " + TABLE_MEMBERS_NAME + " ( " + MEMBERS_COLUMN_ID + " varchar(-1), "
@@ -93,7 +95,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 	private static final String CREATE_OUTFITS_TABLE = "create table " + TABLE_OUTFITS_NAME + " ( " + OUTFIT_COLUMN_ID + " varchar(-1), " + OUTFIT_COLUMN_NAME
 			+ " varchar(-1), " + OUTFIT_COLUMN_ALIAS + " varchar(-1), " + OUTFIT_COLUMN_LEADER_CHARACTER_ID + " varchar(-1), " + OUTFIT_COLUMN_MEMBER_COUNT
 			+ " Int, " + OUTFIT_COLUMN_TIME_CREATED + " Int, " + OUTFIT_COLUMN_WORDL_ID + " Int, " + OUTFIT_COLUMN_FACTION_ID + " varchar(-1), "
-			+ CACHE_COLUMN_SAVES + " Int, " + "FOREIGN KEY(" + OUTFIT_COLUMN_FACTION_ID + ") REFERENCES " + TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID
+			+ CACHE_COLUMN_SAVES + " Int, " + OUTFIT_COLUMN_NAMESPACE + " varchar(-1), " + "FOREIGN KEY(" + OUTFIT_COLUMN_FACTION_ID + ") REFERENCES " + TABLE_FACTIONS_NAME + "(" + FACTIONS_COLUMN_ID
 			+ "), " + "FOREIGN KEY(" + OUTFIT_COLUMN_WORDL_ID + ") REFERENCES " + TABLE_WORLDS_NAME + "(" + WORLDS_COLUMN_ID + "), " + "PRIMARY KEY ("
 			+ OUTFIT_COLUMN_ID + "));";
 
@@ -140,8 +142,12 @@ public class SQLiteManager extends SQLiteOpenHelper {
 		if (oldVersion < 31) {
 			db.execSQL("ALTER TABLE " + TABLE_CHARACTERS_NAME + " ADD COLUMN " + CHARACTERS_COLUMN_OUTFIT_NAME + " varchar(-1) DEFAULT '';");
 		}
-		if (oldVersion < 42) {
+		if (oldVersion < 32) {
 			db.execSQL("ALTER TABLE " + TABLE_CHARACTERS_NAME + " ADD COLUMN " + CHARACTERS_COLUMN_WORLD_NAME + " varchar(-1) DEFAULT '';");
+		}
+		if (oldVersion < 33) {
+			db.execSQL("ALTER TABLE " + TABLE_CHARACTERS_NAME + " ADD COLUMN " + CHARACTERS_COLUMN_NAMESPACE + " varchar(-1) DEFAULT 'ps2pc';");
+			db.execSQL("ALTER TABLE " + TABLE_OUTFITS_NAME + " ADD COLUMN " + OUTFIT_COLUMN_NAMESPACE + " varchar(-1) DEFAULT 'ps2pc';");
 		}
 		// onCreate(db);
 	}

@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.fragments.FragmentDirectiveList;
 import com.cesarandres.ps2link.fragments.FragmentFriendList;
 import com.cesarandres.ps2link.fragments.FragmentKillList;
@@ -31,6 +33,7 @@ public class FragmentProfilePager extends BaseFragment {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private String profileId;
+    private String namespace;
     private String profileName;
     private static final int PROFILE = 0;
     private static final int FRIENDS = 1;
@@ -96,7 +99,9 @@ public class FragmentProfilePager extends BaseFragment {
 	    extras = getArguments();
 	}
 	profileId = extras.getString("PARAM_0");
-
+	this.namespace = extras.getString("PARAM_1");
+	DBGCensus.currentNamespace = Namespace.valueOf(namespace);
+	
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -255,6 +260,9 @@ public class FragmentProfilePager extends BaseFragment {
 	    }
 	    Bundle args = new Bundle();
 	    args.putString("PARAM_0", profileId);
+	    if(namespace != null){
+	    	args.putString("PARAM_1", namespace);
+	    }
 	    fragment.setArguments(args);
 	    mMap.put(position, fragment);
 	    return fragment;

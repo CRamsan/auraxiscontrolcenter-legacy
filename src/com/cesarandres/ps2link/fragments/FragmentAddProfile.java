@@ -22,6 +22,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
 import com.cesarandres.ps2link.dbg.content.CharacterProfile;
 import com.cesarandres.ps2link.dbg.content.response.Character_list_response;
@@ -31,6 +32,7 @@ import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.dbg.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.dbg.view.ProfileItemAdapter;
+import com.cesarandres.ps2link.module.ButtonSelectSource;
 
 /**
  * This fragment will show the user with a field and a button to search for
@@ -40,6 +42,8 @@ import com.cesarandres.ps2link.dbg.view.ProfileItemAdapter;
  */
 public class FragmentAddProfile extends BaseFragment {
 
+	private Namespace lastUsedNamespace;
+	
     /*
      * (non-Javadoc)
      * 
@@ -48,7 +52,9 @@ public class FragmentAddProfile extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.fragment_add_profile, container, false);
+	View view = inflater.inflate(R.layout.fragment_add_profile, container, false);
+	new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	return view;
     }
 
     /*
@@ -73,6 +79,7 @@ public class FragmentAddProfile extends BaseFragment {
 		downloadProfiles();
 	    }
 	});
+	
     }
 
     @Override
@@ -95,7 +102,7 @@ public class FragmentAddProfile extends BaseFragment {
      */
     private void downloadProfiles() {
 	EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchProfile);
-
+	this.lastUsedNamespace = DBGCensus.currentNamespace;
 	if (searchField.getText().toString().length() < 3) {
 	    Toast.makeText(getActivity(), R.string.text_profile_name_too_short, Toast.LENGTH_SHORT).show();
 	    return;
@@ -124,7 +131,7 @@ public class FragmentAddProfile extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 			    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-				    new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId() });
+				    new String[] { ((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId(), lastUsedNamespace.name() });
 			}
 		    });
 		} catch (Exception e) {

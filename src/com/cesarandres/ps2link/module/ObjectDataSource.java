@@ -9,6 +9,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.dbg.content.CharacterProfile;
 import com.cesarandres.ps2link.dbg.content.Faction;
 import com.cesarandres.ps2link.dbg.content.Member;
@@ -44,14 +45,14 @@ public class ObjectDataSource {
 	    SQLiteManager.CHARACTERS_COLUMN_CURRENT_POINTS, SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_CERT,
 	    SQLiteManager.CHARACTERS_COLUMN_PERCENTAGE_TO_NEXT_RANK, SQLiteManager.CHARACTERS_COLUMN_RANK_VALUE, SQLiteManager.CHARACTERS_COLUMN_LAST_LOGIN,
 	    SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, SQLiteManager.CHARACTERS_COLUMN_FACTION_ID, SQLiteManager.CHARACTERS_COLUMN_WORLD_ID,
-	    SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, SQLiteManager.CACHE_COLUMN_SAVES, SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME };
+	    SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, SQLiteManager.CACHE_COLUMN_SAVES, SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, SQLiteManager.CHARACTERS_COLUMN_NAMESPACE };
 
     private String[] allColumnsMembers = { SQLiteManager.MEMBERS_COLUMN_ID, SQLiteManager.MEMBERS_COLUMN_RANK, SQLiteManager.MEMBERS_COLUMN_OUTFIT_ID,
 	    SQLiteManager.MEMBERS_COLUMN_ONLINE_STATUS, SQLiteManager.MEMBERS_COLUMN_NAME, SQLiteManager.CACHE_COLUMN_SAVES };
 
     private String[] allColumnsOutfit = { SQLiteManager.OUTFIT_COLUMN_ID, SQLiteManager.OUTFIT_COLUMN_NAME, SQLiteManager.OUTFIT_COLUMN_ALIAS,
 	    SQLiteManager.OUTFIT_COLUMN_LEADER_CHARACTER_ID, SQLiteManager.OUTFIT_COLUMN_MEMBER_COUNT, SQLiteManager.OUTFIT_COLUMN_TIME_CREATED,
-	    SQLiteManager.OUTFIT_COLUMN_WORDL_ID, SQLiteManager.OUTFIT_COLUMN_FACTION_ID, SQLiteManager.CACHE_COLUMN_SAVES };
+	    SQLiteManager.OUTFIT_COLUMN_WORDL_ID, SQLiteManager.OUTFIT_COLUMN_FACTION_ID, SQLiteManager.CACHE_COLUMN_SAVES, SQLiteManager.OUTFIT_COLUMN_NAMESPACE };
 
     private String[] allColumnsTweet = { SQLiteManager.TWEETS_COLUMN_ID, SQLiteManager.TWEETS_COLUMN_DATE, SQLiteManager.TWEETS_COLUMN_USER,
 	    SQLiteManager.TWEETS_COLUMN_TAG, SQLiteManager.TWEETS_COLUMN_CONTENT, SQLiteManager.TWEETS_COLUMN_PICTURE, SQLiteManager.TWEETS_COLUMN_OWNER };
@@ -145,6 +146,8 @@ public class ObjectDataSource {
 	    values.put(SQLiteManager.CACHE_COLUMN_SAVES, true);
 	}
 
+    values.put(SQLiteManager.CHARACTERS_COLUMN_NAMESPACE, character.getNamespace().name());
+    
 	long insertId = -1;
 	try {
 	    insertId = database.insert(target, null, values);
@@ -305,6 +308,8 @@ public class ObjectDataSource {
 	    }
 	});
 
+	character.setNamespace(Namespace.valueOf(cursor.getString(11)));
+	
 	return character;
     }
 
@@ -789,6 +794,7 @@ public class ObjectDataSource {
 	values.put(SQLiteManager.OUTFIT_COLUMN_TIME_CREATED, outfit.getLeader_character_id());
 	values.put(SQLiteManager.OUTFIT_COLUMN_WORDL_ID, outfit.getWorld_id());
 	values.put(SQLiteManager.OUTFIT_COLUMN_FACTION_ID, outfit.getFaction_id());
+	values.put(SQLiteManager.OUTFIT_COLUMN_NAMESPACE, outfit.getNamespace().name());
 	if (temp) {
 	    values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
 	} else {
@@ -877,6 +883,7 @@ public class ObjectDataSource {
 	} else {
 	    outfit.setCached(false);
 	}
+	outfit.setNamespace(Namespace.valueOf(cursor.getString(9)));
 
 	return outfit;
     }
