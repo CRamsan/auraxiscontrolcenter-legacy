@@ -148,14 +148,14 @@ public class WeaponItemAdapter extends BaseAdapter {
 
 		holder.vehiclekills.setVisibility(View.VISIBLE);
 		if(stat.getVehicleKills() > 0){
-			holder.vehiclekills.setText(this.context.getResources().getString(R.string.text_vehicle_kills_) + stat.getVehicleKills());
+			holder.vehiclekills.setText(this.context.getResources().getString(R.string.text_vehicle_kills_) + " " + stat.getVehicleKills());
 		}else{
 			holder.vehiclekills.setText("");
 		}
 	}else{
 		holder.medal.setVisibility(View.GONE);
 		holder.ratios.setVisibility(View.GONE);
-		holder.kills.setText(this.context.getResources().getString(R.string.text_wia_killed) + stat.getKills() + this.context.getResources().getString(R.string.text_wia_times));
+		holder.kills.setText(this.context.getResources().getString(R.string.text_wia_killed) + " " + stat.getKills() + " " + this.context.getResources().getString(R.string.text_wia_times));
 		holder.headshots.setVisibility(View.GONE);
 		holder.vehiclekills.setVisibility(View.GONE);
 	}
