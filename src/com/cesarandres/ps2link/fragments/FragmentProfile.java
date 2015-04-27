@@ -220,6 +220,7 @@ public class FragmentProfile extends BaseFragment {
 		setProgressButton(false);
 		try {
 		    profile = response.getCharacter_list().get(0);
+		    profile.setNamespace(DBGCensus.currentNamespace);
 		    profile.setCached(isCached);
 		    updateUI(profile);
 		    UpdateProfileToTable task = new UpdateProfileToTable();
@@ -289,8 +290,8 @@ public class FragmentProfile extends BaseFragment {
 		downloadProfiles(profile_id);
 	    } else {
 		profile = result;
-		DBGCensus.currentNamespace = profile.getNamespace();
 		updateUI(result);
+		DBGCensus.currentNamespace = profile.getNamespace();
 		downloadProfiles(result.getCharacterId());
 	    }
 	}

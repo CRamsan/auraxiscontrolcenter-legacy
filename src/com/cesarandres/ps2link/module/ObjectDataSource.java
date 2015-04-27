@@ -308,7 +308,7 @@ public class ObjectDataSource {
 	    }
 	});
 
-	character.setNamespace(Namespace.valueOf(cursor.getString(11)));
+	character.setNamespace(Namespace.valueOf(cursor.getString(15)));
 	
 	return character;
     }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.dbg.content.World;
-import com.cesarandres.ps2link.dbg.content.response.server.LiveServers;
+import com.cesarandres.ps2link.dbg.content.response.server.PS2;
 import com.cesarandres.ps2link.dbg.util.Logger;
 
 public class ServerItemAdapter extends BaseAdapter {
@@ -35,21 +35,37 @@ public class ServerItemAdapter extends BaseAdapter {
      * @param serverList
      *            List of servers with population information
      */
-    public void setServerPopulation(LiveServers serverList) {
+    public void setServerPopulation(PS2 serverList) {
 	String name, population = "";
 	for (World world : this.serverList) {
 	    name = world.getName().getEn();
 	    try {
 		if (name.equals("Briggs")) {
-		    population = serverList.getBriggs().getStatus();
+		    population = serverList.getLive().getBriggs().getStatus();
 		} else if (name.equals("Emerald")) {
-		    population = serverList.getEmerald().getStatus();
+		    population = serverList.getLive().getEmerald().getStatus();
 		} else if (name.equals("Connery")) {
-		    population = serverList.getConnery().getStatus();
+		    population = serverList.getLive().getConnery().getStatus();
 		} else if (name.equals("Miller")) {
-		    population = serverList.getMiller().getStatus();
+		    population = serverList.getLive().getMiller().getStatus();
 		} else if (name.equals("Cobalt")) {
-		    population = serverList.getCobalt().getStatus();
+		    population = serverList.getLive().getCobalt().getStatus();
+		} else if (name.equals("Ceres")) {
+		    population = serverList.getLivePS4().getCeres().getStatus();
+		} else if (name.equals("Crux")) {
+		    population = serverList.getLivePS4().getCrux().getStatus();
+		} else if (name.equals("Dahaka")) {
+		    population = serverList.getLivePS4().getDahaka().getStatus();
+		} else if (name.equals("Genudine")) {
+		    population = serverList.getLivePS4().getGenudine().getStatus();		    
+		} else if (name.equals("Lithcorp")) {
+		    population = serverList.getLivePS4().getLithcorp().getStatus();
+		} else if (name.equals("Palos")) {
+		    population = serverList.getLivePS4().getPalos().getStatus();
+		} else if (name.equals("Rashnu")) {
+		    population = serverList.getLivePS4().getRashnu().getStatus();
+		} else if (name.equals("Searhus")) {
+		    population = serverList.getLivePS4().getSearhus().getStatus();		    		    
 		} else{
 		    population = null;
 		}
@@ -59,6 +75,7 @@ public class ServerItemAdapter extends BaseAdapter {
 	    }
 	    world.setPopulation(population);
 	}
+	
 	this.notifyDataSetChanged();
     }
 

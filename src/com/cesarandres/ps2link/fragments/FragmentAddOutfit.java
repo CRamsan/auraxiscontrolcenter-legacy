@@ -229,7 +229,9 @@ public class FragmentAddOutfit extends BaseFragment {
 		outfit = data.getOutfit(list.get(i).getOutfit_Id());
 		// If outfit is not in cache
 		if (outfit == null) {
-		    data.insertOutfit(list.get(i), true);
+			Outfit newOutfit = list.get(i);
+			newOutfit.setNamespace(lastUsedNamespace);
+		    data.insertOutfit(newOutfit, true);
 		} else {
 		    // If not, update the record
 		    if (outfit.isCached()) {

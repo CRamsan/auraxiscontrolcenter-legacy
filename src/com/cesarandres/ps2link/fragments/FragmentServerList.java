@@ -20,7 +20,7 @@ import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
 import com.cesarandres.ps2link.dbg.content.response.Server_Status_response;
 import com.cesarandres.ps2link.dbg.content.response.Server_response;
-import com.cesarandres.ps2link.dbg.content.response.server.LiveServers;
+import com.cesarandres.ps2link.dbg.content.response.server.PS2;
 import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.dbg.util.QueryString;
 import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
@@ -125,7 +125,7 @@ public class FragmentServerList extends BaseFragment {
 		setProgressButton(false);
 		try {
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-		    LiveServers servers = response.getPs2().getLive();
+		    PS2 servers = response.getPs2();
 		    ((ServerItemAdapter) listRoot.getAdapter()).setServerPopulation(servers);
 		} catch (Exception e) {
 		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
