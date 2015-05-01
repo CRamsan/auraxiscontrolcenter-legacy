@@ -19,6 +19,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 import com.cesarandres.ps2link.ApplicationPS2Link;
+import com.cesarandres.ps2link.R;
 
 /**
  * This async task will receive resize an image to a size that will fit inside
@@ -87,8 +88,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		return image;
 	    } catch (IOException e) {
 		e.printStackTrace();
-		//TODO: Externalize string
-		Toast.makeText(context, "Error while loading image", Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, R.string.toast_error_loading_image, Toast.LENGTH_SHORT).show();
 		return null;
 	    }
 	} else {

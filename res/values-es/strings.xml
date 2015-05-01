@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Centro de Control de Auraxis</string>
+    <string name="app_name_capital">CENTRO DE CONTROL DE AURAXIS</string>
+    
+    <string name="title_profiles">PERFILES</string>
+    <string name="title_servers">SERVIDORES</string>
+    <string name="title_outfits">BRIGADAS</string>
+    <string name="title_twitter">TWITTER</string>
+    <string name="title_server">SERVIDOR</string>
+    <string name="title_outfit">BRIGADA</string>
+    <string name="title_unkown">DESCONOCIDO</string>
+    <string name="title_reddit">REDDIT</string>
+    <string name="title_donate">DONAR</string>
+    <string name="title_about">ACERCA DE</string>
+	<string name="title_links">ENLACES</string>
+    <string name="title_official_forums">FOROS</string>
+    <string name="title_psu">PS UNIVERSE</string>
+    <string name="title_ps2_wikia">WIKIA</string>
+    <string name="title_ps2maps">PS2 MAPS</string>
+    <string name="title_commclash">COMM. CLASH</string>
+    <string name="title_ps2alerts">PS2 ALERTS</string>
+        
+    <string name="text_hours_played">HORAS JUGADAS</string>
+    <string name="text_show_online">SOLO EN LINEA</string>
+    <string name="text_last_login">ULTIMO ACCESO</string>
+    <string name="text_show_offline">MOSTRAR TODO</string>
+    <string name="text_loading">Cargando&#8230;</string>
+    <string name="text_status">ESTADO</string>
+    <string name="text_empty"></string>
+    <string name="text_none">NADA</string>
+    <string name="text_tag_too_short">Etiquieta es muy corta</string>
+    <string name="text_unknown">Desconocido</string>
+    <string name="text_outfit_name_too_short">Nombre de brigada es muy corto</string>
+    <string name="text_profile_name_too_short">Nombre es tu corto</string>
+    <string name="text_problem_encoding">Problema leyendo texto</string>
+    <string name="text_Background">Fondo</string>
+    <string name="text_search_button">Boton de busqueda</string>
+    <string name="text_tag">Etiqueta</string>
+    <string name="text_outfit_name">Nombre de brigada</string>
+    <string name="text_ps2_icon">Icono de Planetside 2</string>
+    <string name="text_nc_icon">Icono del NC</string>
+    <string name="text_tr_icon">Icono de la RT</string>
+    <string name="text_vs_icon">Icono de la SV</string>
+    <string name="text_profile">Perfil</string>
+    <string name="text_faction_icon">Icono de faccion</string>
+    <string name="text_certs">Certificatciones</string>
+    <string name="text_update">Actualizar</string>
+    <string name="text_add">Agregar</string>
+    <string name="text_killer_faction">Faccion del atacante</string>
+    <string name="text_class">Clase</string>
+    <string name="text_my_kills">Mis victimas</string>
+    <string name="text_killed_by">Conquistado por</string>
+    <string name="text_kills">Victimas:</string>
+    <string name="text_tr_">RT:</string>
+    <string name="text_nc_">NC:</string>
+    <string name="text_vs_">SV:</string>
+    <string name="text_headshots_">Headshots:</string>   
+    <string name="text_comments">comentarios</string>
+    <string name="text_vehicle_kills_">Vehiculos destruidos: </string>
+    <string name="text_wia_killed">Victimas: </string>
+    <string name="text_wia_times"> veces</string>
+    <string name="toast_profile_download_failed">Descargando informacion del perfil.</string>
+    <string name="toast_error_download_failed">Error recibiendo datos</string>
+    <string name="text_loading_ellipsis">Cargando&#8230;</string>
+    <string name="text_suicide_caps">SUICIDIO</string>
+    <string name="text_killed_caps">CONQUISTADO</string>
+    <string name="text_killed_by_caps">CONQUISTADO POR</string>
+    <string name="text_open_reddit">Abrir</string>
+    
+    <string name="text_developed_by">desarrollado por Cesar Ramirez</string>
+    <string name="text_about_description">Muchas gracias por descargar esta aplicacion. Espero que te guste usarla y si tienes comentarios me encataria oirlos. Me puedes contactar a cesar.ramsan@gmail.com, CRamsan en Reddit o CRamsan en el servidor Emerald.</string>
+    <string name="url_homepage">http://cesarandres.com/</string>
+    
+    <string name="toast_error_server_error">No se pudo recibir datos para la donacion</string>
+    <string name="toast_error_response_error">Error en la respuesta del servidor</string>
+    <string name="toast_error_empty_response">Informacion de la donacion esta vacia, por favor intente otra vez mas tarde</string>
+	<string name="toast_error_error_sending">Error enviando pedido de donacion</string>    
+	<string name="text_choose_donation">Elige tu donacion</string>
+	<string name="text_thanks">Gracias por tu apoyo</string>
+	<string name="text_thanks_failed">Hubo un problema procesando la donacion</string>
+	
+	<string name="toast_error_refresing_outfit">Hubo un problema actualizando, intente otra vez</string>    
+	<string name="toast_error_retrieving_data">Error recibiendo la informacion</string>    
+	<string name="toast_error_loading_image">Error cargando la image</string>
+
+	<string name="text_profile_pager_title_overview">GENERAL</string>
+	<string name="text_profile_pager_title_friends">AMIGOS</string>
+	<string name="text_profile_pager_title_killboard">VICTIMAS</string>
+	<string name="text_profile_pager_title_stats">ESTADISTICA</string>
+	<string name="text_profile_pager_title_weapons">ARMAS</string>
+	<string name="text_profile_pager_title_directives">DIRECTRICES</string>
+
+	<string name="text_online">En linea</string>
+	<string name="text_offline">Desconectado</string>
+	<string name="text_online_caps">EN LINEA</string>
+	<string name="text_offline_caps">DESCONECTADO</string>	
+	<string name="text_members">Integrantes</string>		
+
+</resources>

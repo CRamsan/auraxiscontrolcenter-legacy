@@ -92,7 +92,7 @@ public class FragmentServerList extends BaseFragment {
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
 		    listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 		setProgressButton(true);
 		downloadServerPopulation();
@@ -103,7 +103,7 @@ public class FragmentServerList extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 	DBGCensus.sendGsonRequest(url, Server_response.class, success, error, this);
@@ -128,7 +128,7 @@ public class FragmentServerList extends BaseFragment {
 		    PS2 servers = response.getPs2();
 		    ((ServerItemAdapter) listRoot.getAdapter()).setServerPopulation(servers);
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 	    }
 	};
@@ -137,7 +137,7 @@ public class FragmentServerList extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 

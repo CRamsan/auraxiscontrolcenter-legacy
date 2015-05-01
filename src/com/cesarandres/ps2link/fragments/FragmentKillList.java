@@ -101,7 +101,7 @@ public class FragmentKillList extends BaseFragment {
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
 		    listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 	    }
 	};
@@ -110,7 +110,7 @@ public class FragmentKillList extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 	DBGCensus.sendGsonRequest(url, Characters_event_list_response.class, success, error, this);

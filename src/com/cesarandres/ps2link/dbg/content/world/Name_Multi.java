@@ -1,5 +1,7 @@
 package com.cesarandres.ps2link.dbg.content.world;
 
+import com.cesarandres.ps2link.dbg.DBGCensus;
+
 public class Name_Multi {
     private String de;
     private String en;
@@ -54,5 +56,23 @@ public class Name_Multi {
 
     public void setTr(String tr) {
 	this.tr = tr;
+    }
+    
+    public String getName(){
+    	switch (DBGCensus.currentLang) {
+    	case DE:
+    		return this.de;
+    	case ES:
+    		return this.es;
+    	case FR:
+    		return this.fr;
+    	case IT:
+    		return this.it;
+    	case TR:
+    		return this.tr;
+		case EN:
+		default:
+			return this.en;
+		}
     }
 }

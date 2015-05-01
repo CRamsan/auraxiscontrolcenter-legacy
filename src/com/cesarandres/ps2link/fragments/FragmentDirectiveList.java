@@ -98,7 +98,7 @@ public class FragmentDirectiveList extends BaseFragment {
      */
     public void downloadDirectivesList(final String profileId) {
     	this.setProgressButton(true);
-    	//TODO: Fix this language use
+    	//TODO Fix this language use
     	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.CHARACTERS_DIRECTIVE, null, 
     			QueryString.generateQeuryString().
     			AddComparison("character_id", SearchModifier.EQUALS, profileId).

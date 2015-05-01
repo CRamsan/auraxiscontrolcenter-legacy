@@ -77,7 +77,7 @@ public class FragmentOutfitPager extends BaseFragment {
 			break;
 		    }
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "There was a problem trying to refresh. Please try again.", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 	    }
 	});
@@ -205,11 +205,11 @@ public class FragmentOutfitPager extends BaseFragment {
 	public CharSequence getPageTitle(int position) {
 	    switch (position) {
 	    case ONLINE:
-		return "ONLINE";
+	    return getResources().getString(R.string.text_online_caps);
 	    case MEMBERS:
-		return "MEMBERS";
+	    return getResources().getString(R.string.text_members);
 	    default:
-		return "ONLINE";
+	    return getResources().getString(R.string.text_online_caps);
 	    }
 	}
 

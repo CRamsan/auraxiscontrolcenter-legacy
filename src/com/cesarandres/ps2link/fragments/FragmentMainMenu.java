@@ -375,7 +375,6 @@ public class FragmentMainMenu extends BaseFragment {
 					} catch (SendIntentException e) {
 						e.printStackTrace();
 					}
-	        		//TODO LEts externalize this
 	        		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_error_sending), Toast.LENGTH_LONG).show();
 	        		return;
                 }});

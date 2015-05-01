@@ -111,7 +111,7 @@ public class FragmentMembersOnline extends BaseFragment {
 		try{
 		    updateContent(response.getOutfit_member_list());
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}		
 	    }
 	};
@@ -120,7 +120,7 @@ public class FragmentMembersOnline extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 

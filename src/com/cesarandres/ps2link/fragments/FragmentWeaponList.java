@@ -66,7 +66,6 @@ public class FragmentWeaponList extends BaseFragment {
 	listRoot.setOnItemClickListener(new OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-	    	//TODO Give a correct behaviour to this item
 	    	/*mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
 			new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });*/
 	    }
@@ -135,7 +134,7 @@ public class FragmentWeaponList extends BaseFragment {
 		try {
 			new GenerateWeaponStats().execute(response);
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 	    }
 	};
@@ -144,7 +143,7 @@ public class FragmentWeaponList extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 	DBGCensus.sendGsonRequest(url, Weapon_list_response.class, success, error, this);

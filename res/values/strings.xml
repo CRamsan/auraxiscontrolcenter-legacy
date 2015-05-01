@@ -3,6 +3,7 @@
 
     <string name="app_name">Auraxis Control Center</string>
     <string name="app_name_capital">AURAXIS CONTROL CENTER</string>
+    
     <string name="title_profiles">PROFILES</string>
     <string name="title_servers">SERVERS</string>
     <string name="title_outfits">OUTFITS</string>
@@ -14,6 +15,14 @@
     <string name="title_reddit_lore">FAN-LORE</string>
     <string name="title_donate">DONATE</string>
     <string name="title_about">ABOUT</string>
+	<string name="title_links">LINKS</string>
+    <string name="title_official_forums">FORUMS</string>
+    <string name="title_psu">PS UNIVERSE</string>
+    <string name="title_ps2_wikia">WIKIA</string>
+    <string name="title_ps2maps">PS2 MAPS</string>
+    <string name="title_commclash">COMM. CLASH</string>
+    <string name="title_ps2alerts">PS2 ALERTS</string>
+        
     <string name="text_hours_played">HOURS PLAYED</string>
     <string name="text_show_online">HIDE OFFLINE</string>
     <string name="text_last_login">LAST LOGIN</string>
@@ -22,13 +31,6 @@
     <string name="text_status">STATUS</string>
     <string name="text_empty"></string>
     <string name="text_none">NONE</string>
-    <string name="title_links">LINKS</string>
-    <string name="title_official_forums">FORUMS</string>
-    <string name="title_psu">PS UNIVERSE</string>
-    <string name="title_ps2_wikia">WIKIA</string>
-    <string name="title_ps2maps">PS2 MAPS</string>
-    <string name="title_commclash">COMM. CLASH</string>
-    <string name="title_ps2alerts">PS2 ALERTS</string>
     <string name="text_tag_too_short">Tag is too short</string>
     <string name="text_unknown">Unknown</string>
     <string name="text_outfit_name_too_short">Outfit name is too short</string>
@@ -67,9 +69,11 @@
     <string name="text_killed_caps">KILLED</string>
     <string name="text_killed_by_caps">KILLED BY</string>
     <string name="text_open_reddit">Open</string>
+    
     <string name="text_developed_by">developed by Cesar Ramirez</string>
     <string name="text_about_description">Thanks for downloading this app. I hope you will enjoy using it and if you have some feedback I would really like to hear it. I can always be reached at cesar.ramsan@gmail.com, CRamsan at Reddit or CRamsan in the Emerald server.</string>
     <string name="url_homepage">http://cesarandres.com/</string>
+    
     <string name="toast_error_server_error">Could not retrieve any donation data</string>
     <string name="toast_error_response_error">Error in response from the server</string>
     <string name="toast_error_empty_response">Donation data was empty, please try again later</string>
@@ -77,4 +81,23 @@
 	<string name="text_choose_donation">Choose Donation</string>
 	<string name="text_thanks">Thanks for your support</string>
 	<string name="text_thanks_failed">There was a problem processing your donation</string>
+	
+	<string name="toast_error_refresing_outfit">There was a problem trying to refresh. Please try again</string>    
+	<string name="toast_error_retrieving_data">Error retrieving data</string>    
+	<string name="toast_error_loading_image">Error while loading image</string>
+
+	<string name="text_profile_pager_title_overview">OVERVIEW</string>
+	<string name="text_profile_pager_title_friends">FRIENDS</string>
+	<string name="text_profile_pager_title_killboard">KILLBOARD</string>
+	<string name="text_profile_pager_title_stats">STATS</string>
+	<string name="text_profile_pager_title_weapons">WEAPONS</string>
+	<string name="text_profile_pager_title_directives">DIRECTIVES</string>
+
+	<string name="text_online">Online</string>
+	<string name="text_offline">Offline</string>
+	<string name="text_online_caps">ONLINE</string>
+	<string name="text_offline_caps">OFFLINE</string>	
+	<string name="text_members">MEMBERS</string>		
+	
+
 </resources>

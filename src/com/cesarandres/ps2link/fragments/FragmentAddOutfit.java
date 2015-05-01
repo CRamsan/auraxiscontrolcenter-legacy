@@ -175,7 +175,7 @@ public class FragmentAddOutfit extends BaseFragment {
 		    currentTask.execute(response.getOutfit_list());
 		    listRoot.setTextFilterEnabled(true);
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 	    }
 	};
@@ -188,7 +188,7 @@ public class FragmentAddOutfit extends BaseFragment {
 		if (listRoot != null) {
 		    listRoot.setAdapter(null);
 		}
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 

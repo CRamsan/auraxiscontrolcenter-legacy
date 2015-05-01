@@ -111,13 +111,13 @@ public class FragmentProfile extends BaseFragment {
 		certs.setText(character.getCerts().getAvailable_points());
 
 		TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
-		String onlineStatusText = "UNKOWN";
+		String onlineStatusText = getActivity().getResources().getString(R.string.text_unknown);
 		if (character.getOnline_status() == 0) {
-		    onlineStatusText = "OFFLINE";
+		    onlineStatusText = getActivity().getResources().getString(R.string.text_offline_caps);
 		    loginStatus.setText(onlineStatusText);
 		    loginStatus.setTextColor(Color.RED);
 		} else {
-		    onlineStatusText = "ONLINE";
+		    onlineStatusText = getActivity().getResources().getString(R.string.text_online_caps);
 		    loginStatus.setText(onlineStatusText);
 		    loginStatus.setTextColor(Color.GREEN);
 		}
@@ -151,7 +151,7 @@ public class FragmentProfile extends BaseFragment {
 		if (character.getServer() != null) {
 		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(character.getServer().getName().getEn());
 		} else {
-		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText("UNKNOWN");
+		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(getActivity().getResources().getString(R.string.text_unknown));
 		}
 
 	    }
@@ -197,7 +197,6 @@ public class FragmentProfile extends BaseFragment {
 		}
 	    });
 	} catch (NullPointerException e) {
-	    // TODO Check when this error happens
 	    Logger.log(Log.ERROR, this, "Null Pointer while trying to set character data on UI");
 	}
     }
@@ -227,7 +226,7 @@ public class FragmentProfile extends BaseFragment {
 		    setCurrentTask(task);
 		    task.execute(profile);
 		} catch (Exception e) {
-		    Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}
 	    }
 	};
@@ -236,7 +235,7 @@ public class FragmentProfile extends BaseFragment {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
 		setProgressButton(false);
-		Toast.makeText(getActivity(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 	    }
 	};
 

@@ -24,9 +24,6 @@ import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 import com.cesarandres.ps2link.dbg.util.Logger;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 
-
-
-//TODO This class needs to be cleaned up, methods have inconsistent parameters and return values can be misleading
 /**
  * Class that retrieves information from the SQLiteManager and convert it into
  * objects that can be used by other classes.

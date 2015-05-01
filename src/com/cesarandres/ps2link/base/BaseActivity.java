@@ -48,8 +48,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	// Read the current wallpaper from the settings
 	SharedPreferences settings = getSharedPreferences("PREFERENCES", 0);
 	String preferedWallpaper = settings.getString("preferedWallpaper", WallPaperMode.PS2.toString());
-	// TODO Check if the wallpaper mode needs to be set everytime an
-	// activity is resumed
 	ApplicationPS2Link.setWallpaperMode(WallPaperMode.valueOf(preferedWallpaper));
 
 	if (ApplicationPS2Link.getWallpaperMode() != WallPaperMode.PS2) {

@@ -300,22 +300,21 @@ public class FragmentProfilePager extends BaseFragment {
 	 */
 	@Override
 	public CharSequence getPageTitle(int position) {
-		//TODO Externalize this strings!
 	    switch (position) {
 	    case PROFILE:
-		return "OVERVIEW";
+		return getResources().getString(R.string.text_profile_pager_title_overview);
 	    case FRIENDS:
-		return "FRIENDS";
+	   	return getResources().getString(R.string.text_profile_pager_title_friends);
 	    case KILLBOARD:
-		return "KILLBOARD";
+	    return getResources().getString(R.string.text_profile_pager_title_killboard);
 	    case STATS:
-		return "STATS";
+	    return getResources().getString(R.string.text_profile_pager_title_stats);
 	    case WEAPONS:
-		return "WEAPONS";
+	    return getResources().getString(R.string.text_profile_pager_title_weapons);
 	    case DIRECTIVES:
-		return "DIRECTIVES";
+	    return getResources().getString(R.string.text_profile_pager_title_directives);
 	    default:
-		return "OVERVIEW";
+	    return getResources().getString(R.string.text_profile_pager_title_overview);
 	    }
 	}
 

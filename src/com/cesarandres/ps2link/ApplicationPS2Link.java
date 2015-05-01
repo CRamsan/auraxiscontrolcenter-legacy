@@ -3,6 +3,7 @@ package com.cesarandres.ps2link;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Locale;
 
 import android.app.Application;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.os.AsyncTask;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.CensusLang;
 import com.cesarandres.ps2link.dbg.volley.BitmapLruCache;
 
 /**
@@ -71,7 +74,14 @@ public class ApplicationPS2Link extends Application {
 		if(getCacheSize(this) > MAX_CACHE_SIZE){
 			new ClearCache().execute();
 		}
-
+		
+		String lang =  Locale.getDefault().getLanguage();
+		DBGCensus.currentLang = DBGCensus.CensusLang.EN;
+		for(DBGCensus.CensusLang clang : DBGCensus.CensusLang.values()){
+			if(lang.equalsIgnoreCase(clang.name())){
+				DBGCensus.currentLang = clang;
+			}
+		}
 	}
 
 	/**

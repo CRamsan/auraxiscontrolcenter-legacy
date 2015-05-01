@@ -36,6 +36,11 @@ public class DBGCensus {
     public static final String ITEM = "item";
 
     public static Namespace currentNamespace = Namespace.PS2PC;
+    public static CensusLang currentLang = CensusLang.EN;
+    
+    public static enum CensusLang {
+    	DE, EN, ES, FR, IT, TR
+    }
     
     public static enum Verb {
 	GET("get"), COUNT("count");
@@ -105,7 +110,7 @@ public class DBGCensus {
 	URL requestDataURL = null;
 	try {
 	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + verb.toString() + "/" + DBGCensus.currentNamespace + "/" + collection.toString() + "/"
-		    + identifier + "?" + query.toString());
+		    + identifier + "?" + query.toString() + "&c:lang=" + currentLang.name().toLowerCase());
 	} catch (MalformedURLException e) {
 	    Logger.log(Log.ERROR, "DBGCensus", "There was a problem creating the URL");
 	}
@@ -120,7 +125,7 @@ public class DBGCensus {
     public static URL generateGameDataRequest(String urlParams) {
 	URL requestDataURL = null;
 	try {
-	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + Verb.GET + "/" + DBGCensus.currentNamespace + "/" + urlParams);
+	    requestDataURL = new URL(ENDPOINT_URL + "/" + SERVICE_ID + "/" + Verb.GET + "/" + DBGCensus.currentNamespace + "/" + urlParams + "&c:lang=" + currentLang.name().toLowerCase());
 	} catch (MalformedURLException e) {
 	    Logger.log(Log.ERROR, "DBGCensus", "There was a problem creating the URL");
 	}
