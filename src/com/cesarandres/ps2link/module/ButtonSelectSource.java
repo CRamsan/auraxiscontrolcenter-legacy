@@ -31,6 +31,8 @@ public class ButtonSelectSource {
 	private ImageButton ps4usNamespaceButton;
 	private Context context;
 	
+	private SourceSelectionChangedListener listener;
+	
 	public ButtonSelectSource(Context context, ViewGroup root){
 		this.context = context;
 	    SharedPreferences settings = context.getSharedPreferences("PREFERENCES", 0);
@@ -94,5 +96,21 @@ public class ButtonSelectSource {
 		pcNamespaceButton.setVisibility(namespace == Namespace.PS2PC ? View.VISIBLE : View.GONE);
 		ps4euNamespaceButton.setVisibility(namespace == Namespace.PS2PS4EU ? View.VISIBLE : View.GONE);
 		ps4usNamespaceButton.setVisibility(namespace == Namespace.PS2PS4US ? View.VISIBLE : View.GONE);
+		
+		if(listener != null){
+			listener.onSourceSelectionChanged(namespace);
+		}
+	}
+	
+	public SourceSelectionChangedListener getListener() {
+		return listener;
+	}
+
+	public void setListener(SourceSelectionChangedListener listener) {
+		this.listener = listener;
+	}
+
+	public interface SourceSelectionChangedListener{
+		public void onSourceSelectionChanged(DBGCensus.Namespace selectedNamespace);
 	}
 }

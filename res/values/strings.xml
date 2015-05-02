@@ -57,7 +57,29 @@
     <string name="text_tr_">TR:</string>
     <string name="text_nc_">NC:</string>
     <string name="text_vs_">VS:</string>
-    <string name="text_headshots_">Headshots:</string>   
+    <string name="text_headshots_">Headshots:</string>
+    
+    <string name="text_time_played_caps">TIME PLAYED</string>
+    <string name="text_hours">hours</string>
+    <string name="text_stat_total">Total:</string>
+    <string name="text_stat_all">All Time:</string>    
+    <string name="text_stat_today">Today:</string>
+    <string name="text_stat_week">This week:</string>
+    <string name="text_stat_month">This month:</string>   
+
+    <string name="text_stat_score_hour">SCORE/HOUR</string>
+    <string name="text_stat_kdr">KDR</string>
+    <string name="text_stat_battle_rank">BATTLE RANK</string>
+    <string name="text_stat_certs">CERTS</string>
+    <string name="text_stat_deaths">DEATHS</string>
+    <string name="text_stat_fac_captured">FACILITIES CAPTURES</string>
+    <string name="text_stat_fac_defended">FACILITIES DEFENDED</string>
+    <string name="text_stat_kills">KILLS</string>
+    <string name="text_stat_medals">MEDALS</string>
+    <string name="text_stat_ribbons">RIBBONS</string>
+    <string name="text_stat_score">SCORE</string>
+                
+        
     <string name="text_comments">comments</string>
     <string name="text_vehicle_kills_">Vehicle Kills: </string>
     <string name="text_wia_killed">Killed: </string>

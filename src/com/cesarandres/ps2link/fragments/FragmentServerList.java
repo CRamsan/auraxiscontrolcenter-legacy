@@ -17,6 +17,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.dbg.DBGCensus;
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
 import com.cesarandres.ps2link.dbg.content.response.Server_Status_response;
 import com.cesarandres.ps2link.dbg.content.response.Server_response;
@@ -26,11 +27,12 @@ import com.cesarandres.ps2link.dbg.util.QueryString;
 import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
 import com.cesarandres.ps2link.dbg.view.ServerItemAdapter;
 import com.cesarandres.ps2link.module.ButtonSelectSource;
+import com.cesarandres.ps2link.module.ButtonSelectSource.SourceSelectionChangedListener;
 
 /**
  * This fragment will display the servers and theirs status
  */
-public class FragmentServerList extends BaseFragment {
+public class FragmentServerList extends BaseFragment implements SourceSelectionChangedListener{
 
     /*
      * (non-Javadoc)
@@ -41,7 +43,8 @@ public class FragmentServerList extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View view = inflater.inflate(R.layout.fragment_server_list, container, false);
-	new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	ButtonSelectSource selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	selectionButton.setListener(this);
 	return view;
     }
 
@@ -143,4 +146,9 @@ public class FragmentServerList extends BaseFragment {
 
 	DBGCensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
     }
+
+	@Override
+	public void onSourceSelectionChanged(Namespace selectedNamespace) {
+		downloadServers();
+	}
 }

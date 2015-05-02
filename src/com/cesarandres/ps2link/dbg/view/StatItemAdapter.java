@@ -17,10 +17,12 @@ public class StatItemAdapter extends BaseAdapter {
 
     private ArrayList<Stat> stats;
     protected LayoutInflater mInflater;
+    private Context context;
 
     public StatItemAdapter(Context context, ArrayList<Stat> stats, String characterId) {
 	this.mInflater = LayoutInflater.from(context);
 	this.stats = stats;
+	this.context = context;
 	Stat kills = null;
 	Stat deaths = null;
 	Stat score = null;
@@ -53,7 +55,7 @@ public class StatItemAdapter extends BaseAdapter {
 	kdr.setWeek(kdr.new Week());
 	kdr.setMonth(kdr.new Month());
 
-	kdr.setStat_name("KDR");
+	kdr.setStat_name("kdr");
 	kdr.setAll_time(Float.toString(Float.parseFloat(kills.getAll_time()) / Float.parseFloat(deaths.getAll_time())));
 	kdr.setToday(kills.getToday() / deaths.getToday());
 	kdr.setThisWeek(kills.getThisWeek() / deaths.getThisWeek());
@@ -77,7 +79,7 @@ public class StatItemAdapter extends BaseAdapter {
 	sph.setWeek(sph.new Week());
 	sph.setMonth(sph.new Month());
 
-	sph.setStat_name("Score/Hour");
+	sph.setStat_name("socrehour");
 	sph.setAll_time(Float.toString(Float.parseFloat(score.getAll_time()) / (Float.parseFloat(time.getAll_time()) / 3600f)));
 	sph.setToday(score.getToday() / (time.getToday() / 3600f));
 	sph.setThisWeek(score.getThisWeek() / (time.getThisWeek() / 3600f));
@@ -119,18 +121,46 @@ public class StatItemAdapter extends BaseAdapter {
 	    holder = (ViewHolder) convertView.getTag();
 	}
 
-	if (getItem(position).getStat_name().equals("time")) {
-	    holder.name.setText("TIME PLAYED");
-	    holder.total.setText("Total: " + (Float.valueOf(getItem(position).getAll_time()).intValue() / 3600) + " hours");
-	    holder.today.setText("Today: " + (Float.valueOf(getItem(position).getDay().d01).intValue() / 3600) + " hours");
-	    holder.week.setText("This week: " + (Float.valueOf(getItem(position).getWeek().w01).intValue() / 3600) + " hours");
-	    holder.month.setText("This month: " + (Float.valueOf(getItem(position).getMonth().m01).intValue() / 3600) + " hours");
+	Stat stat = getItem(position);
+	if (stat.getStat_name().equals("time")) {
+	    holder.name.setText(R.string.text_time_played_caps);
+	    String hours = context.getResources().getString(R.string.text_hours);
+	    holder.total.setText(context.getResources().getString(R.string.text_stat_total) + " " + (Float.valueOf(stat.getAll_time()).intValue() / 3600) + " " + hours);
+	    holder.today.setText(context.getResources().getString(R.string.text_stat_today) + " " + (Float.valueOf(stat.getDay().d01).intValue() / 3600) + " " + hours);
+	    holder.week.setText(context.getResources().getString(R.string.text_stat_week) + " " + (Float.valueOf(stat.getWeek().w01).intValue() / 3600) + " " + hours);
+	    holder.month.setText(context.getResources().getString(R.string.text_stat_month) + " " + (Float.valueOf(stat.getMonth().m01).intValue() / 3600) + " " + hours);
 	} else {
-	    holder.name.setText(getItem(position).getStat_name().toUpperCase(Locale.getDefault()).replaceAll("_", " "));
-	    holder.total.setText("All Time: " + getItem(position).getAll_time());
-	    holder.today.setText("Today: " + getItem(position).getDay().d01);
-	    holder.week.setText("This week: " + getItem(position).getWeek().w01);
-	    holder.month.setText("This month: " + getItem(position).getMonth().m01);
+		String statName = "";
+		
+		if(stat.getStat_name().equalsIgnoreCase("battle_rank")){
+			statName = context.getResources().getString(R.string.text_stat_battle_rank);
+		}else if(stat.getStat_name().equalsIgnoreCase("certs")){
+			statName = context.getResources().getString(R.string.text_stat_certs);
+		}else if(stat.getStat_name().equalsIgnoreCase("deaths")){
+			statName = context.getResources().getString(R.string.text_stat_deaths);
+		}else if(stat.getStat_name().equalsIgnoreCase("facility_capture")){
+			statName = context.getResources().getString(R.string.text_stat_fac_captured);
+		}else if(stat.getStat_name().equalsIgnoreCase("facility_defend")){
+			statName = context.getResources().getString(R.string.text_stat_fac_defended);			
+		}else if(stat.getStat_name().equalsIgnoreCase("kills")){
+			statName = context.getResources().getString(R.string.text_stat_kills);
+		}else if(stat.getStat_name().equalsIgnoreCase("medals")){
+			statName = context.getResources().getString(R.string.text_stat_medals);
+		}else if(stat.getStat_name().equalsIgnoreCase("ribbons")){
+			statName = context.getResources().getString(R.string.text_stat_ribbons);
+		}else if(stat.getStat_name().equalsIgnoreCase("score")){
+			statName = context.getResources().getString(R.string.text_stat_score);
+		}else if(stat.getStat_name().equalsIgnoreCase("kdr")){
+			statName = context.getResources().getString(R.string.text_stat_kdr);
+		}else if(stat.getStat_name().equalsIgnoreCase("scorehour")){
+			statName = context.getResources().getString(R.string.text_stat_score_hour);
+		}
+		
+	    holder.name.setText(statName);
+	    holder.total.setText(context.getResources().getString(R.string.text_stat_all) + " " + stat.getAll_time());
+	    holder.today.setText(context.getResources().getString(R.string.text_stat_today) + " " + stat.getDay().d01);
+	    holder.week.setText(context.getResources().getString(R.string.text_stat_week) + " " + stat.getWeek().w01);
+	    holder.month.setText(context.getResources().getString(R.string.text_stat_month) + " " + stat.getMonth().m01);
 	}
 
 	return convertView;

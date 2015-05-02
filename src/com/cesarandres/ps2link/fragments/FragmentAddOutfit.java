@@ -36,6 +36,7 @@ import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
 import com.cesarandres.ps2link.dbg.view.LoadingItemAdapter;
 import com.cesarandres.ps2link.dbg.view.OutfitItemAdapter;
 import com.cesarandres.ps2link.module.ButtonSelectSource;
+import com.cesarandres.ps2link.module.ButtonSelectSource.SourceSelectionChangedListener;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**
@@ -47,7 +48,7 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
  * database.
  * 
  */
-public class FragmentAddOutfit extends BaseFragment {
+public class FragmentAddOutfit extends BaseFragment implements SourceSelectionChangedListener{
 
 	private Namespace lastUsedNamespace;
 	
@@ -60,7 +61,8 @@ public class FragmentAddOutfit extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View view = inflater.inflate(R.layout.fragment_add_outfit, container, false);
-	new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	ButtonSelectSource selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	selectionButton.setListener(this);
 	return view;
     }
 
@@ -254,4 +256,9 @@ public class FragmentAddOutfit extends BaseFragment {
 	    setProgressButton(false);
 	}
     }
+
+	@Override
+	public void onSourceSelectionChanged(Namespace selectedNamespace) {
+		downloadOutfits();
+	}
 }

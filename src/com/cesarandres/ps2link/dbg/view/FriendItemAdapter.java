@@ -18,9 +18,11 @@ public class FriendItemAdapter extends BaseAdapter {
 
     private ArrayList<CharacterFriend> friends;
     protected LayoutInflater mInflater;
+    private Context context;
 
     public FriendItemAdapter(Context context, ArrayList<CharacterFriend> friends) {
 	this.mInflater = LayoutInflater.from(context);
+	this.context = context;
 
 	for (int i = 0; i < friends.size(); i++) {
 	    if (!friends.get(i).isValid()) {
@@ -66,10 +68,10 @@ public class FriendItemAdapter extends BaseAdapter {
 	holder.friendName.setText(getItem(position).getName().getFirst());
 
 	if (getItem(position).getOnline() == 0) {
-	    holder.friendStatus.setText("Offline");
+	    holder.friendStatus.setText(context.getText(R.string.text_offline));
 	    holder.friendStatus.setTextColor(Color.RED);
 	} else {
-	    holder.friendStatus.setText("Online");
+	    holder.friendStatus.setText(context.getText(R.string.text_online));
 	    holder.friendStatus.setTextColor(Color.GREEN);
 	}
 
