@@ -124,8 +124,8 @@ public class FragmentWeaponList extends BaseFragment {
     	
 	setProgressButton(true);
 	String url = DBGCensus.generateGameDataRequest("characters_weapon_stat_by_faction/?" +
-			"character_id=" + character_id + "&c:join=item^show:image_path'name.en&" +
-			"c:join=vehicle^show:image_path'name.en&c:limit=10000").toString();
+			"character_id=" + character_id + "&c:join=item^show:image_path'name." + DBGCensus.currentLang.name().toLowerCase() +
+			"&c:join=vehicle^show:image_path'name." + DBGCensus.currentLang.name().toLowerCase() + "&c:limit=10000").toString();
 	
 	Listener<Weapon_list_response> success = new Response.Listener<Weapon_list_response>() {
 	    @Override
@@ -188,7 +188,7 @@ public class FragmentWeaponList extends BaseFragment {
 				continue;
 			}else{
 				if(weapon.getItem_id_join_item() != null){
-				    weaponName = weapon.getItem_id_join_item().getName().getEn();
+				    weaponName = weapon.getItem_id_join_item().getName().getLocalizedName();
 				}else{
 					continue;
 				}
@@ -216,7 +216,7 @@ public class FragmentWeaponList extends BaseFragment {
 				
 				if(weapon.getVehicle_id_join_vehicle() != null){
 					stat.setName(weaponName);
-					stat.setVehicle(weapon.getVehicle_id_join_vehicle().getName().getEn());
+					stat.setVehicle(weapon.getVehicle_id_join_vehicle().getName().getLocalizedName());
 				}else{
 					stat.setName(weaponName);
 				}

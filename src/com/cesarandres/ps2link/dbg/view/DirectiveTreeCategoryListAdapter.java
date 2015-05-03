@@ -95,7 +95,7 @@ public class DirectiveTreeCategoryListAdapter extends BaseExpandableListAdapter 
     	}
     	
     	DirectiveTreeCategory category = this.categories.get(groupPosition);
-        holder.categoryName.setText(category.getName().getEn());
+        holder.categoryName.setText(category.getName().getLocalizedName());
         holder.progress.setMax(category.getMaxValue());
         holder.progress.setProgress(category.getCurrentValue());
         

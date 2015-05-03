@@ -12,7 +12,6 @@
     <string name="title_outfit">OUTFIT</string>
     <string name="title_unkown">UNKOWN</string>
     <string name="title_reddit">REDDIT</string>
-    <string name="title_reddit_lore">FAN-LORE</string>
     <string name="title_donate">DONATE</string>
     <string name="title_about">ABOUT</string>
 	<string name="title_links">LINKS</string>
@@ -82,7 +81,7 @@
         
     <string name="text_comments">comments</string>
     <string name="text_vehicle_kills_">Vehicle Kills: </string>
-    <string name="text_wia_killed">Killed: </string>
+    <string name="text_wia_killed">Victim: </string>
     <string name="text_wia_times"> times</string>
     <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
     <string name="toast_error_download_failed">Error retrieving data</string>
@@ -104,7 +103,6 @@
 	<string name="text_thanks">Thanks for your support</string>
 	<string name="text_thanks_failed">There was a problem processing your donation</string>
 	
-	<string name="toast_error_refresing_outfit">There was a problem trying to refresh. Please try again</string>    
 	<string name="toast_error_retrieving_data">Error retrieving data</string>    
 	<string name="toast_error_loading_image">Error while loading image</string>
 

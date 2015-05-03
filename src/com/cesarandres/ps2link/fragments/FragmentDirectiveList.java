@@ -24,13 +24,13 @@ import com.cesarandres.ps2link.dbg.content.CharacterDirectiveTree;
 import com.cesarandres.ps2link.dbg.content.Directive;
 import com.cesarandres.ps2link.dbg.content.DirectiveTier;
 import com.cesarandres.ps2link.dbg.content.DirectiveTreeCategory;
-import com.cesarandres.ps2link.dbg.content.Name___;
 import com.cesarandres.ps2link.dbg.content.response.Characters_directive_list;
 import com.cesarandres.ps2link.dbg.content.response.Characters_directive_objective_list;
 import com.cesarandres.ps2link.dbg.content.response.Characters_directive_tier_list;
 import com.cesarandres.ps2link.dbg.content.response.Characters_directive_tree_list;
 import com.cesarandres.ps2link.dbg.content.response.Directive_list;
 import com.cesarandres.ps2link.dbg.content.response.Directive_tier_list;
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.dbg.util.QueryString;
 import com.cesarandres.ps2link.dbg.util.QueryString.SearchModifier;
@@ -274,7 +274,7 @@ public class FragmentDirectiveList extends BaseFragment {
 			String newDirectiveTreeId = directiveTree.getDirective_tree_id();
 			
 			if(!categoryMap.containsKey(newCategoryId)){
-    			Name___ name = new Name___();
+				Name_Multi name = new Name_Multi();
     			
     			DirectiveTreeCategory newDirectiveTreeCategory = new DirectiveTreeCategory();
     			if(newCategoryId.equalsIgnoreCase("3")){

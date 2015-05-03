@@ -3,6 +3,7 @@ package com.cesarandres.ps2link.dbg.content;
 
 import java.util.ArrayList;
 
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 public class DirectiveTreeCategory implements Comparable<DirectiveTreeCategory> {
 
     @Expose
-    private Name___ name;
+    private Name_Multi name;
     @SerializedName("directive_tree_category_id")
     @Expose
     private String directiveTreeCategoryId;
@@ -25,7 +26,7 @@ public class DirectiveTreeCategory implements Comparable<DirectiveTreeCategory> 
      * @return
      *     The name
      */
-    public Name___ getName() {
+    public Name_Multi getName() {
         return name;
     }
 
@@ -34,7 +35,7 @@ public class DirectiveTreeCategory implements Comparable<DirectiveTreeCategory> 
      * @param name
      *     The name
      */
-    public void setName(Name___ name) {
+    public void setName(Name_Multi name) {
         this.name = name;
     }
 
@@ -104,6 +105,6 @@ public class DirectiveTreeCategory implements Comparable<DirectiveTreeCategory> 
 
 	@Override
 	public int compareTo(DirectiveTreeCategory another) {
-		return this.getName().getEn().compareToIgnoreCase(another.getName().getEn());
+		return this.getName().getLocalizedName().compareToIgnoreCase(another.getName().getLocalizedName());
 	}
 }

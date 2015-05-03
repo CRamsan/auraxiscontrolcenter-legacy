@@ -62,7 +62,7 @@ public class CharacterDirectiveTree implements Comparable<CharacterDirectiveTree
 	
 	@Override
 	public int compareTo(CharacterDirectiveTree another) {
-		this.getDirective_tree_id_join_directive_tree().getName().getEn().compareTo(another.getDirective_tree_id_join_directive_tree().getName().getEn());
+		this.getDirective_tree_id_join_directive_tree().getName().getLocalizedName().compareTo(another.getDirective_tree_id_join_directive_tree().getName().getLocalizedName());
 		return 1;
 	}
 	public int getCurrent_level_value() {

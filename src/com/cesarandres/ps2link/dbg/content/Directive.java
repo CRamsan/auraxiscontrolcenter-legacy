@@ -1,13 +1,14 @@
 
 package com.cesarandres.ps2link.dbg.content;
 
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Directive {
 
     @Expose
-    private Name name;
+    private Name_Multi name;
     @Expose
     private Description description;
     @SerializedName("directive_id")
@@ -39,7 +40,7 @@ public class Directive {
      * @return
      *     The name
      */
-    public Name getName() {
+    public Name_Multi getName() {
         return name;
     }
 
@@ -48,7 +49,7 @@ public class Directive {
      * @param name
      *     The name
      */
-    public void setName(Name name) {
+    public void setName(Name_Multi name) {
         this.name = name;
     }
 

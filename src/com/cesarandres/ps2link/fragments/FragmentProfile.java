@@ -149,7 +149,7 @@ public class FragmentProfile extends BaseFragment {
 	    }
 	
 		if (character.getServer() != null) {
-		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(character.getServer().getName().getEn());
+		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(character.getServer().getName().getLocalizedName());
 		} else {
 		    ((TextView) getActivity().findViewById(R.id.textViewServerText)).setText(getActivity().getResources().getString(R.string.text_unknown));
 		}

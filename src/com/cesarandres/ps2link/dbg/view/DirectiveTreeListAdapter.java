@@ -99,7 +99,7 @@ public class DirectiveTreeListAdapter extends BaseExpandableListAdapter implemen
     	
     	CharacterDirectiveTree tree = this.directiveTrees.get(groupPosition);
     	holder.treeIcon.setImageUrl(DBGCensus.ENDPOINT_URL + "/" + tree.getDirective_tier().getImagePath(), ApplicationPS2Link.mImageLoader);
-    	holder.treeName.setText(tree.getDirective_tree_id_join_directive_tree().getName().getEn());
+    	holder.treeName.setText(tree.getDirective_tree_id_join_directive_tree().getName().getLocalizedName());
     	holder.treeValue.setText(Integer.toString(tree.getCurrent_level_value()));
     	int resID = this.fragment.getActivity().getResources().getIdentifier("objective_progress_" + tree.getCurrent_directive_tier_id()
     	+ "_0", "drawable","com.cesarandres.ps2link");

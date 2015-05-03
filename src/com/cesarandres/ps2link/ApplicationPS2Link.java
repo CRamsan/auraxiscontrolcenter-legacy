@@ -14,7 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.dbg.DBGCensus;
-import com.cesarandres.ps2link.dbg.DBGCensus.CensusLang;
 import com.cesarandres.ps2link.dbg.volley.BitmapLruCache;
 
 /**

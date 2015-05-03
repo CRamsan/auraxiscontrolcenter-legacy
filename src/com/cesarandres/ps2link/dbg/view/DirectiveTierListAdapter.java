@@ -82,7 +82,7 @@ public class DirectiveTierListAdapter extends BaseExpandableListAdapter implemen
         ProgressBar pbar = (ProgressBar) convertView.findViewById(R.id.progressBarDirectiveProgress);
         String name = "None";
         try{
-        	name = headerTitle.getName().getEn();        	
+        	name = headerTitle.getName().getLocalizedName();        	
         }catch(Exception e){
 
         }

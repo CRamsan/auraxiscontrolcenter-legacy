@@ -86,7 +86,7 @@ public class OnlineMemberItemAdapter extends BaseAdapter {
 		holder.memberRank.setTextColor(Color.GREEN);
 	    }
 	    holder.memberName.setText(getItem(position).getCharacter().getName().getFirst());
-	    String currentClass = getItem(position).getCharacter().getProfile().getName().getEn();
+	    String currentClass = getItem(position).getCharacter().getProfile().getName().getLocalizedName();
 	    holder.memberRank.setText(currentClass);
 
 	    if (currentClass.equals("Light Assault")) {

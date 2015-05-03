@@ -38,12 +38,10 @@ public class ServerItemAdapter extends BaseAdapter {
     public void setServerPopulation(PS2 serverList) {
 	String name, population = "";
 	for (World world : this.serverList) {
-	    name = world.getName().getEn();
+	    name = world.getName().getLocalizedName();
 	    try {
 		if (name.equals("Briggs")) {
 		    population = serverList.getLive().getBriggs().getStatus();
-		} else if (name.equals("Emerald")) {
-		    population = serverList.getLive().getEmerald().getStatus();
 		} else if (name.equals("Connery")) {
 		    population = serverList.getLive().getConnery().getStatus();
 		} else if (name.equals("Miller")) {
@@ -66,6 +64,8 @@ public class ServerItemAdapter extends BaseAdapter {
 		    population = serverList.getLivePS4().getRashnu().getStatus();
 		} else if (name.equals("Searhus")) {
 		    population = serverList.getLivePS4().getSearhus().getStatus();		    		    
+		} else if (name.equals("Emerald") || name.equals("Smaragd")  || name.equals("Esmeralda") || name.equals("Smeraldo")) {
+		    population = serverList.getLive().getEmerald().getStatus();
 		} else{
 		    population = null;
 		}
@@ -156,11 +156,11 @@ public class ServerItemAdapter extends BaseAdapter {
 	    holder.serverStatus.setTextColor(Color.RED);	    
 	}
 
-	String name = this.serverList.get(position).getName().getEn();
+	String name = this.serverList.get(position).getName().getLocalizedName();
 
 	if (name.equals("Briggs")) {
 	    holder.serverRegion.setText("(AU)");
-	} else if (name.equals("Emerald")) {
+	} else if (name.equals("Emerald") || name.equals("Smaragd")  || name.equals("Esmeralda") || name.equals("Smeraldo")) {
 	    holder.serverRegion.setText("(US EAST)");
 	} else if (name.equals("Connery")) {
 	    holder.serverRegion.setText("(US WEST)");

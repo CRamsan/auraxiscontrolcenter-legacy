@@ -42,11 +42,6 @@
                 android:text="@string/title_ps2maps" />
 
             <Button
-                android:id="@+id/buttonLore"
-                style="@style/ButtonStyle"
-                android:text="@string/title_reddit_lore" />
-
-            <Button
                 android:id="@+id/buttonCommClash"
                 style="@style/ButtonStyle"
                 android:text="@string/title_commclash" />

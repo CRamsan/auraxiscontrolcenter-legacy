@@ -3,6 +3,7 @@ package com.cesarandres.ps2link.dbg.content;
 
 import java.util.ArrayList;
 
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 public class DirectiveTier {
 
     @Expose
-    private Name_ name;
+    private Name_Multi name;
     @SerializedName("completion_count")
     @Expose
     private String completionCount;
@@ -42,7 +43,7 @@ public class DirectiveTier {
      * @return
      *     The name
      */
-    public Name_ getName() {
+    public Name_Multi getName() {
         return name;
     }
 
@@ -51,7 +52,7 @@ public class DirectiveTier {
      * @param name
      *     The name
      */
-    public void setName(Name_ name) {
+    public void setName(Name_Multi name) {
         this.name = name;
     }
 

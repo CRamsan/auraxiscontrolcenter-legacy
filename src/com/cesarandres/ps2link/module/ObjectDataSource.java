@@ -129,7 +129,7 @@ public class ObjectDataSource {
 	values.put(SQLiteManager.CHARACTERS_COLUMN_MINUTES_PLAYED, character.getTimes().getMinutes_played());
 	values.put(SQLiteManager.CHARACTERS_COLUMN_FACTION_ID, character.getFaction_id());
 	values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_ID, character.getWorld_id());
-	values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, character.getServer().getName().getEn());
+	values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, character.getServer().getName().getLocalizedName());
 	if (character.getOutfit() == null) {
 	    values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, "NONE");
 	} else {
@@ -238,7 +238,7 @@ public class ObjectDataSource {
 	} else if (character.getOutfit() != null) {
 	    values.put(SQLiteManager.CHARACTERS_COLUMN_OUTFIT_NAME, character.getOutfit().getName());
 	}
-	values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, character.getServer().getName().getEn());
+	values.put(SQLiteManager.CHARACTERS_COLUMN_WORLD_NAME, character.getServer().getName().getLocalizedName());
 
 	if (temp) {
 	    values.put(SQLiteManager.CACHE_COLUMN_SAVES, false);
@@ -371,7 +371,7 @@ public class ObjectDataSource {
     public boolean insertFaction(Faction faction) {
 	ContentValues values = new ContentValues();
 	values.put(SQLiteManager.FACTIONS_COLUMN_ID, faction.getId());
-	values.put(SQLiteManager.FACTIONS_COLUMN_NAME, faction.getName().getEn());
+	values.put(SQLiteManager.FACTIONS_COLUMN_NAME, faction.getName().getLocalizedName());
 	values.put(SQLiteManager.FACTIONS_COLUMN_CODE, faction.getCode());
 	values.put(SQLiteManager.FACTIONS_COLUMN_ICON, faction.getIcon());
 	long insertId = -1;
@@ -481,7 +481,7 @@ public class ObjectDataSource {
     public int updateFaction(Faction faction) {
 	ContentValues values = new ContentValues();
 	values.put(SQLiteManager.FACTIONS_COLUMN_ID, faction.getId());
-	values.put(SQLiteManager.FACTIONS_COLUMN_NAME, faction.getName().getEn());
+	values.put(SQLiteManager.FACTIONS_COLUMN_NAME, faction.getName().getLocalizedName());
 	values.put(SQLiteManager.FACTIONS_COLUMN_CODE, faction.getCode());
 	values.put(SQLiteManager.FACTIONS_COLUMN_ICON, faction.getIcon());
 	int rowsChanged = 0;
@@ -998,7 +998,7 @@ public class ObjectDataSource {
      */
     public boolean insertWorld(World world) {
 	ContentValues values = new ContentValues();
-	values.put(SQLiteManager.WORLDS_COLUMN_NAME, world.getName().getEn());
+	values.put(SQLiteManager.WORLDS_COLUMN_NAME, world.getName().getLocalizedName());
 	values.put(SQLiteManager.WORLDS_COLUMN_ID, world.getWorld_id());
 	values.put(SQLiteManager.WORLDS_COLUMN_STATE, world.getState());
 	long insertId = -1;
@@ -1106,7 +1106,7 @@ public class ObjectDataSource {
     public int updateWorld(World world) {
 
 	ContentValues values = new ContentValues();
-	values.put(SQLiteManager.WORLDS_COLUMN_NAME, world.getName().getEn());
+	values.put(SQLiteManager.WORLDS_COLUMN_NAME, world.getName().getLocalizedName());
 	values.put(SQLiteManager.WORLDS_COLUMN_ID, world.getWorld_id());
 	values.put(SQLiteManager.WORLDS_COLUMN_STATE, world.getState());
 	int rowsChanged = 0;

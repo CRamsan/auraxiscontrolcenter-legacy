@@ -56,10 +56,31 @@
     <string name="text_tr_">RT:</string>
     <string name="text_nc_">NC:</string>
     <string name="text_vs_">SV:</string>
-    <string name="text_headshots_">Headshots:</string>   
+    <string name="text_headshots_">Headshots:</string> 
+    
+    <string name="text_time_played_caps">TIEMPO JUGADO</string>
+    <string name="text_hours">horas</string>
+    <string name="text_stat_total">Total:</string>
+    <string name="text_stat_all">En total:</string>    
+    <string name="text_stat_today">Hoy:</string>
+    <string name="text_stat_week">Esta semana:</string>
+    <string name="text_stat_month">Este mes:</string>   
+
+    <string name="text_stat_score_hour">PUNTOS/HORA</string>
+    <string name="text_stat_kdr">KDR</string>
+    <string name="text_stat_battle_rank">RANCO</string>
+    <string name="text_stat_certs">CERTIFICACIONES</string>
+    <string name="text_stat_deaths">DEATHS</string>
+    <string name="text_stat_fac_captured">FACILIDADES CAPTURADAS</string>
+    <string name="text_stat_fac_defended">FACILIDADES DEFENDIDAS</string>
+    <string name="text_stat_kills">ACESINATOS</string>
+    <string name="text_stat_medals">MEDALLAS</string>
+    <string name="text_stat_ribbons">MEDALLAS</string>
+    <string name="text_stat_score">PUNTAGE</string>
+    
     <string name="text_comments">comentarios</string>
     <string name="text_vehicle_kills_">Vehiculos destruidos: </string>
-    <string name="text_wia_killed">Victimas: </string>
+    <string name="text_wia_killed">Victima: </string>
     <string name="text_wia_times"> veces</string>
     <string name="toast_profile_download_failed">Descargando informacion del perfil.</string>
     <string name="toast_error_download_failed">Error recibiendo datos</string>
@@ -81,7 +102,6 @@
 	<string name="text_thanks">Gracias por tu apoyo</string>
 	<string name="text_thanks_failed">Hubo un problema procesando la donacion</string>
 	
-	<string name="toast_error_refresing_outfit">Hubo un problema actualizando, intente otra vez</string>    
 	<string name="toast_error_retrieving_data">Error recibiendo la informacion</string>    
 	<string name="toast_error_loading_image">Error cargando la image</string>
 

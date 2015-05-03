@@ -102,7 +102,7 @@ public class FragmentMembersOnline extends BaseFragment {
      */
     public void downloadOutfitMembers() {
 	setProgressButton(true);
-	String url = DBGCensus.generateGameDataRequest("outfit_member?c:limit=10000&c:resolve=online_status,character(name,battle_rank,profile_id)&c:join=type:profile^list:0^inject_at:profile^show:name.en^on:character.profile_id^to:profile_id&outfit_id=" + this.outfitId).toString();
+	String url = DBGCensus.generateGameDataRequest("outfit_member?c:limit=10000&c:resolve=online_status,character(name,battle_rank,profile_id)&c:join=type:profile^list:0^inject_at:profile^show:name." + DBGCensus.currentLang.name().toLowerCase() + "^on:character.profile_id^to:profile_id&outfit_id=" + this.outfitId).toString();
 	
 	Listener<Outfit_member_response> success = new Response.Listener<Outfit_member_response>() {
 	    @Override

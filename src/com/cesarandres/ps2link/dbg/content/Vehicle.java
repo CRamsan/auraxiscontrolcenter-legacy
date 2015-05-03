@@ -1,10 +1,11 @@
 package com.cesarandres.ps2link.dbg.content;
 
 import com.cesarandres.ps2link.dbg.content.item.IContainDrawable;
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 
 public class Vehicle implements IContainDrawable {
 
-    private Name name;
+    private Name_Multi name;
     private Description description;
     private String cost;
     private String cost_resource_id;
@@ -15,11 +16,11 @@ public class Vehicle implements IContainDrawable {
     private String type_name;
     private String vehicle_id;
 
-    public Name getName() {
+    public Name_Multi getName() {
 	return name;
     }
 
-    public void setName(Name name) {
+    public void setName(Name_Multi name) {
 	this.name = name;
     }
 
@@ -97,7 +98,7 @@ public class Vehicle implements IContainDrawable {
 
     @Override
     public String getNameText() {
-	return getName().getEn();
+	return getName().getLocalizedName();
     }
 
     @Override

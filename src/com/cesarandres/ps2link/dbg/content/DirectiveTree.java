@@ -1,6 +1,7 @@
 
 package com.cesarandres.ps2link.dbg.content;
 
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class DirectiveTree {
 
     @Expose
-    private Name__ name;
+    private Name_Multi name;
     
     @SerializedName("directive_tree_category_id")
     @Expose
@@ -39,7 +40,7 @@ public class DirectiveTree {
      * @return
      *     The name
      */
-    public Name__ getName() {
+    public Name_Multi getName() {
         return name;
     }
 
@@ -48,7 +49,7 @@ public class DirectiveTree {
      * @param name
      *     The name
      */
-    public void setName(Name__ name) {
+    public void setName(Name_Multi name) {
         this.name = name;
     }
 

@@ -91,16 +91,6 @@ public class FragmentLinksMenu extends BaseFragment {
 	    }
 	});
 
-	final Button buttonLore = (Button) getActivity().findViewById(R.id.buttonLore);
-	buttonLore.setOnClickListener(new View.OnClickListener() {
-	    public void onClick(View v) {
-		String url = "http://www.reddit.com/r/Planetsidelore/";
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
-		startActivity(i);
-	    }
-	});
-
 	final Button buttonCommClash = (Button) getActivity().findViewById(R.id.buttonCommClash);
 	buttonCommClash.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {

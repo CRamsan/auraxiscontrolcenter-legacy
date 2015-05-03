@@ -1,10 +1,11 @@
 package com.cesarandres.ps2link.dbg.content;
 
 import com.cesarandres.ps2link.dbg.content.item.IContainDrawable;
+import com.cesarandres.ps2link.dbg.content.world.Name_Multi;
 
 public class Item implements IContainDrawable {
 
-    private Name name;
+    private Name_Multi name;
     private Description description;
 
     private String faction_id;
@@ -18,11 +19,11 @@ public class Item implements IContainDrawable {
     private String item_type_id;
     private String max_stack_size;
 
-    public Name getName() {
+    public Name_Multi getName() {
 	return name;
     }
 
-    public void setName(Name name) {
+    public void setName(Name_Multi name) {
 	this.name = name;
     }
 
@@ -116,7 +117,7 @@ public class Item implements IContainDrawable {
 
     @Override
     public String getNameText() {
-	return getName().getEn();
+	return getName().getLocalizedName();
     }
 
     @Override

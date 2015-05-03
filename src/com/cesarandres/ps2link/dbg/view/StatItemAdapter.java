@@ -1,7 +1,6 @@
 package com.cesarandres.ps2link.dbg.view;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -79,7 +78,7 @@ public class StatItemAdapter extends BaseAdapter {
 	sph.setWeek(sph.new Week());
 	sph.setMonth(sph.new Month());
 
-	sph.setStat_name("socrehour");
+	sph.setStat_name("scorehour");
 	sph.setAll_time(Float.toString(Float.parseFloat(score.getAll_time()) / (Float.parseFloat(time.getAll_time()) / 3600f)));
 	sph.setToday(score.getToday() / (time.getToday() / 3600f));
 	sph.setThisWeek(score.getThisWeek() / (time.getThisWeek() / 3600f));

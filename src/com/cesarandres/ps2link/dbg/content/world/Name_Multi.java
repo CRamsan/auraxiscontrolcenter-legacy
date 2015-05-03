@@ -58,7 +58,7 @@ public class Name_Multi {
 	this.tr = tr;
     }
     
-    public String getName(){
+    public String getLocalizedName(){
     	switch (DBGCensus.currentLang) {
     	case DE:
     		return this.de;
