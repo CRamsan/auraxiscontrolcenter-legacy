@@ -24,6 +24,7 @@ public class CharacterProfile {
     private Server server;
     private int online_status;
     private boolean cached;
+    private CharacterProfile character_id_join_character;
     private Namespace namespace;
 
     public Certs getCerts() {
@@ -152,5 +153,14 @@ public class CharacterProfile {
 
 	public void setNamespace(Namespace namespace) {
 		this.namespace = namespace;
+	}
+
+	public CharacterProfile getCharacter_id_join_character() {
+		return character_id_join_character;
+	}
+
+	public void setCharacter_id_join_character(
+			CharacterProfile character_id_join_character) {
+		this.character_id_join_character = character_id_join_character;
 	}
 }

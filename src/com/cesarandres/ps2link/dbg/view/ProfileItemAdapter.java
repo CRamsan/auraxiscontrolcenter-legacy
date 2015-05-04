@@ -30,11 +30,9 @@ public class ProfileItemAdapter extends BaseAdapter {
 		this.mInflater = LayoutInflater.from(context);
 		this.profileList = new ArrayList<CharacterProfile>(profileList);
 		this.full = full;
-		if (this.full) {
 	    vs_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_vs);
-			tr_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_tr);
-			nc_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_nc);
-		}
+		tr_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_tr);
+		nc_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_faction_nc);
 	}
 
 	@Override
@@ -71,11 +69,9 @@ public class ProfileItemAdapter extends BaseAdapter {
 			// views
 			// we want to bind data to.
 			holder = new ViewHolder();
-			if (full) {
-				holder.faction = (ImageView) convertView.findViewById(R.id.imageViewFaction);
-				holder.battleRank = (TextView) convertView.findViewById(R.id.textViewBattleRank);
-				holder.battleRank.setVisibility(View.VISIBLE);
-			}
+			holder.faction = (ImageView) convertView.findViewById(R.id.imageViewFaction);
+			holder.battleRank = (TextView) convertView.findViewById(R.id.textViewBattleRank);
+			holder.battleRank.setVisibility(View.VISIBLE);
 			holder.name = (TextView) convertView.findViewById(R.id.textViewProfileCharacterName);
 			convertView.setTag(holder);
 		} else {
@@ -85,15 +81,25 @@ public class ProfileItemAdapter extends BaseAdapter {
 		}
 
 		// Bind the data efficiently with the holder.
+		CharacterProfile profile = this.profileList.get(position);
 		if (this.full) {
-			if (this.profileList.get(position).getFaction_id().equals(Faction.VS)) {
+			if (profile.getFaction_id().equals(Faction.VS)) {
 				holder.faction.setImageBitmap(vs_icon);
-			} else if (this.profileList.get(position).getFaction_id().equals(Faction.NC)) {
+			} else if (profile.getFaction_id().equals(Faction.NC)) {
 				holder.faction.setImageBitmap(nc_icon);
-			} else if (this.profileList.get(position).getFaction_id().equals(Faction.TR)) {
+			} else if (profile.getFaction_id().equals(Faction.TR)) {
 				holder.faction.setImageBitmap(tr_icon);
 			}
-			holder.battleRank.setText(Integer.toString(this.profileList.get(position).getBattle_rank().getValue()));
+			holder.battleRank.setText(Integer.toString(profile.getBattle_rank().getValue()));
+		}else{
+			if (profile.getCharacter_id_join_character().getFaction_id().equals(Faction.VS)) {
+				holder.faction.setImageBitmap(vs_icon);
+			} else if (profile.getCharacter_id_join_character().getFaction_id().equals(Faction.NC)) {
+				holder.faction.setImageBitmap(nc_icon);
+			} else if (profile.getCharacter_id_join_character().getFaction_id().equals(Faction.TR)) {
+				holder.faction.setImageBitmap(tr_icon);
+			}
+			holder.battleRank.setText(Integer.toString(profile.getCharacter_id_join_character().getBattle_rank().getValue()));
 		}
 		holder.name.setText(this.profileList.get(position).getName().getFirst());
 

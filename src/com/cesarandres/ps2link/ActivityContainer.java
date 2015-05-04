@@ -19,7 +19,6 @@ import com.cesarandres.ps2link.base.BaseFragment.FragmentCallbacks;
 import com.cesarandres.ps2link.fragments.FragmentAbout;
 import com.cesarandres.ps2link.fragments.FragmentAddOutfit;
 import com.cesarandres.ps2link.fragments.FragmentAddProfile;
-import com.cesarandres.ps2link.fragments.FragmentLinksMenu;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
 import com.cesarandres.ps2link.fragments.FragmentProfileList;
@@ -300,9 +299,6 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    break;
 	case ACTIVITY_PROFILE:
 	    newFragment = new FragmentProfilePager();
-	    break;
-	case ACTIVITY_LINK_MENU:
-	    newFragment = new FragmentLinksMenu();
 	    break;
 	case ACTIVITY_REDDIT:
 	    newFragment = new FragmentReddit();

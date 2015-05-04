@@ -132,7 +132,9 @@ public class FragmentWeaponList extends BaseFragment {
 	    public void onResponse(Weapon_list_response response) {
 		setProgressButton(false);
 		try {
-			new GenerateWeaponStats().execute(response);
+			GenerateWeaponStats currentTask = new GenerateWeaponStats();
+			setCurrentTask(currentTask);
+			currentTask.execute(response);
 		} catch (Exception e) {
 		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
 		}

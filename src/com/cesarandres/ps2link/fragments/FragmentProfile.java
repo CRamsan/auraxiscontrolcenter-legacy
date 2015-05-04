@@ -143,7 +143,9 @@ public class FragmentProfile extends BaseFragment {
 		    outfitButton.setOnClickListener(new OnClickListener() {					
 				@Override
 				public void onClick(View v) {
-			    	mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(), new String[] { character.getOutfit().getOutfit_Id() });
+			    	mCallbacks.onItemSelected(ActivityMode.ACTIVITY_MEMBER_LIST.toString(), new String[] { 
+			    		character.getOutfit().getOutfit_Id(),
+			    		character.getNamespace().name()});
 				}
 			});	
 	    }
@@ -172,9 +174,11 @@ public class FragmentProfile extends BaseFragment {
 		    if (isChecked) {
 			editor.putString("preferedProfile", profile.getCharacterId());
 			editor.putString("preferedProfileName", profile.getName().getFirst());
+			editor.putString("preferedProfileNamespace", DBGCensus.currentNamespace.name());
 		    } else {
 			editor.putString("preferedProfileName", "");
 			editor.putString("preferedProfile", "");
+			editor.putString("preferedProfileNamespace", "");
 		    }
 		    editor.commit();
 		    getActivityContainer().checkPreferedButtons();
@@ -290,7 +294,6 @@ public class FragmentProfile extends BaseFragment {
 	    } else {
 		profile = result;
 		updateUI(result);
-		DBGCensus.currentNamespace = profile.getNamespace();
 		downloadProfiles(result.getCharacterId());
 	    }
 	}

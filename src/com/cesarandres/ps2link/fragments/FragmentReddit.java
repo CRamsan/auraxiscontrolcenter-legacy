@@ -1,5 +1,6 @@
 package com.cesarandres.ps2link.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -43,7 +43,8 @@ public class FragmentReddit extends BaseFragment {
      * @see com.cesarandres.ps2link.base.BaseFragment#onCreateView(android.view.
      * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
      */
-    @Override
+    @SuppressLint("InflateParams")
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     goToReddit = (Button)inflater.inflate(R.layout.layout_go_to_reddit, null);
 	goToReddit.setOnClickListener(new View.OnClickListener() {		
@@ -146,7 +147,7 @@ public class FragmentReddit extends BaseFragment {
     		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewRedditList);
     		    listRoot.setAdapter(new RedditItemAdapter(getActivity(), response.getData().getChildren()));
     		} catch (Exception e) {
-    		    Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_download_failed), Toast.LENGTH_SHORT).show();
+    		    Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();
     		}
     	    }
     	};
@@ -155,7 +156,7 @@ public class FragmentReddit extends BaseFragment {
     	    @Override
     	    public void onErrorResponse(VolleyError error) {
     		setProgressButton(false);
-    		Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_download_failed), Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();
     	    }
     	};
 

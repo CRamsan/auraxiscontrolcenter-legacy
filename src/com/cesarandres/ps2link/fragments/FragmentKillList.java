@@ -60,7 +60,8 @@ public class FragmentKillList extends BaseFragment {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id() });
+			new String[] { ((CharacterEvent) myAdapter.getItemAtPosition(myItemInt)).getImportant_character_id(),
+							DBGCensus.currentNamespace.name()});
 	    }
 	});
 

@@ -66,7 +66,8 @@ public class FragmentMembersOnline extends BaseFragment {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
+			new String[] { 	((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id(),
+							DBGCensus.currentNamespace.name()});
 	    }
 	});
 

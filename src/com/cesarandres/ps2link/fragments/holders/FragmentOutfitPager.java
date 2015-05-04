@@ -56,9 +56,7 @@ public class FragmentOutfitPager extends BaseFragment {
 
 	outfitId = extras.getString("PARAM_0");
 	this.namespace = extras.getString("PARAM_1");
-	if(this.namespace != null){
-		DBGCensus.currentNamespace = Namespace.valueOf(namespace);		
-	}
+	DBGCensus.currentNamespace = Namespace.valueOf(namespace);		
 
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {

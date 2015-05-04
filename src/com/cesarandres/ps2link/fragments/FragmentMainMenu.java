@@ -220,7 +220,8 @@ public class FragmentMainMenu extends BaseFragment {
 		public void onClick(View v) {
 		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			    new String[] { settings.getString("preferedProfile", "") });
+			    new String[] { 	settings.getString("preferedProfile", ""),
+		    					settings.getString("preferedProfileNamespace", "")});
 		}
 	    });
 	    buttonPreferedProfile.setText(preferedProfileName);
@@ -238,7 +239,8 @@ public class FragmentMainMenu extends BaseFragment {
 		public void onClick(View v) {
 		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
-			    new String[] { settings.getString("preferedOutfit", "") });
+			    new String[] { 	settings.getString("preferedOutfit", ""),
+		    					settings.getString("preferedOutfitNamespace", "")});
 		}
 	    });
 	    buttonPreferedOutfit.setVisibility(View.VISIBLE);

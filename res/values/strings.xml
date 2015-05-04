@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- App title with version in all caps -->
     <string name="app_name">Auraxis Control Center</string>
     <string name="app_name_capital">AURAXIS CONTROL CENTER</string>
     
+    <!-- Text for the buttons in the main menu -->
     <string name="title_profiles">PROFILES</string>
     <string name="title_servers">SERVERS</string>
     <string name="title_outfits">OUTFITS</string>
-    <string name="title_twitter">TWITTER</string>
-    <string name="title_server">SERVER</string>
+	<string name="title_server">SERVER</string>
     <string name="title_outfit">OUTFIT</string>
     <string name="title_unkown">UNKOWN</string>
     <string name="title_reddit">REDDIT</string>
     <string name="title_donate">DONATE</string>
     <string name="title_about">ABOUT</string>
 	<string name="title_links">LINKS</string>
-    <string name="title_official_forums">FORUMS</string>
-    <string name="title_psu">PS UNIVERSE</string>
-    <string name="title_ps2_wikia">WIKIA</string>
-    <string name="title_ps2maps">PS2 MAPS</string>
-    <string name="title_commclash">COMM. CLASH</string>
-    <string name="title_ps2alerts">PS2 ALERTS</string>
-        
+    
     <string name="text_hours_played">HOURS PLAYED</string>
-    <string name="text_show_online">HIDE OFFLINE</string>
     <string name="text_last_login">LAST LOGIN</string>
-    <string name="text_show_offline">SHOW ALL</string>
-    <string name="text_loading">Loading&#8230;</string>
     <string name="text_status">STATUS</string>
-    <string name="text_empty"></string>
+
+    <string name="text_time_played_caps">TIME PLAYED</string>
+	<string name="text_stat_score_hour">SCORE/HOUR</string>
+    <string name="text_stat_kdr">KDR</string>
+    <string name="text_stat_battle_rank">BATTLE RANK</string>
+    <string name="text_stat_certs">CERTS</string>
+    <string name="text_stat_deaths">DEATHS</string>
+    <string name="text_stat_fac_captured">FACILITIES CAPTURES</string>
+    <string name="text_stat_fac_defended">FACILITIES DEFENDED</string>
+    <string name="text_stat_kills">KILLS</string>
+    <string name="text_stat_medals">MEDALS</string>
+    <string name="text_stat_ribbons">RIBBONS</string>
+    <string name="text_stat_score">SCORE</string>    
+
+    <string name="text_killed_caps">KILLED</string>
+    <string name="text_killed_by_caps">KILLED BY</string>
+	<string name="text_suicide_caps">SUICIDE</string>
+   
+    <string name="text_show_offline">SHOW ALL</string>
+    <string name="text_show_online">HIDE OFFLINE</string>
+    
+	<string name="text_profile_pager_title_overview">OVERVIEW</string>
+	<string name="text_profile_pager_title_friends">FRIENDS</string>
+	<string name="text_profile_pager_title_killboard">KILLBOARD</string>
+	<string name="text_profile_pager_title_stats">STATS</string>
+	<string name="text_profile_pager_title_weapons">WEAPONS</string>
+	<string name="text_profile_pager_title_directives">DIRECTIVES</string>
+
+	<string name="text_online_caps">ONLINE</string>
+	<string name="text_members">MEMBERS</string>	
+	<string name="text_offline_caps">OFFLINE</string>
+	<string name="text_locked_caps">LOCKED</string>		
     <string name="text_none">NONE</string>
+	
+	<string name="text_low">low</string>
+    <string name="text_medium">medium</string>
+    <string name="text_high">high</string>
+    
     <string name="text_tag_too_short">Tag is too short</string>
     <string name="text_unknown">Unknown</string>
     <string name="text_outfit_name_too_short">Outfit name is too short</string>
     <string name="text_profile_name_too_short">Name is too short</string>
     <string name="text_problem_encoding">There was a problem trying to read the input</string>
+
     <string name="text_Background">Background</string>
     <string name="text_search_button">Search Button</string>
     <string name="text_tag">Tag</string>
@@ -50,74 +79,49 @@
     <string name="text_add">Add</string>
     <string name="text_killer_faction">Killer\'s Faction</string>
     <string name="text_class">Class</string>
+
     <string name="text_my_kills">My kills</string>
     <string name="text_killed_by">Killed by</string>
+    <string name="text_hours">hours</string>
+    <string name="text_wia_times">times</string>
+	<string name="text_online">Online</string>
+	<string name="text_offline">Offline</string>
+    
+    <string name="text_comments">comments</string>
+    <string name="text_open_reddit">Open</string>
+    
+    <string name="text_developed_by">developed by Cesar Ramirez</string>
+    <string name="text_about_description">Thanks for downloading this app. I hope you will enjoy using it and if you have some feedback I would really like to hear it. I can always be reached at cesar.ramsan@gmail.com, CRamsan at Reddit or CRamsan in the Emerald server.</string>
+    
+    <string name="text_loading_ellipsis">Loading&#8230;</string>    
     <string name="text_kills">Kills:</string>
     <string name="text_tr_">TR:</string>
     <string name="text_nc_">NC:</string>
     <string name="text_vs_">VS:</string>
     <string name="text_headshots_">Headshots:</string>
-    
-    <string name="text_time_played_caps">TIME PLAYED</string>
-    <string name="text_hours">hours</string>
     <string name="text_stat_total">Total:</string>
     <string name="text_stat_all">All Time:</string>    
     <string name="text_stat_today">Today:</string>
     <string name="text_stat_week">This week:</string>
     <string name="text_stat_month">This month:</string>   
-
-    <string name="text_stat_score_hour">SCORE/HOUR</string>
-    <string name="text_stat_kdr">KDR</string>
-    <string name="text_stat_battle_rank">BATTLE RANK</string>
-    <string name="text_stat_certs">CERTS</string>
-    <string name="text_stat_deaths">DEATHS</string>
-    <string name="text_stat_fac_captured">FACILITIES CAPTURES</string>
-    <string name="text_stat_fac_defended">FACILITIES DEFENDED</string>
-    <string name="text_stat_kills">KILLS</string>
-    <string name="text_stat_medals">MEDALS</string>
-    <string name="text_stat_ribbons">RIBBONS</string>
-    <string name="text_stat_score">SCORE</string>
-                
-        
-    <string name="text_comments">comments</string>
+    <string name="text_server_population">Population:</string>
     <string name="text_vehicle_kills_">Vehicle Kills: </string>
-    <string name="text_wia_killed">Victim: </string>
-    <string name="text_wia_times"> times</string>
+    <string name="text_wia_killed_by">Victim: </string>
+	<string name="text_choose_donation">Choose Donation</string>
+	<string name="text_thanks">Thanks for your support</string>
+	<string name="text_thanks_failed">There was a problem processing your donation</string>
+	        
     <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
-    <string name="toast_error_download_failed">Error retrieving data</string>
-    <string name="text_loading_ellipsis">Loading&#8230;</string>
-    <string name="text_suicide_caps">SUICIDE</string>
-    <string name="text_killed_caps">KILLED</string>
-    <string name="text_killed_by_caps">KILLED BY</string>
-    <string name="text_open_reddit">Open</string>
-    
-    <string name="text_developed_by">developed by Cesar Ramirez</string>
-    <string name="text_about_description">Thanks for downloading this app. I hope you will enjoy using it and if you have some feedback I would really like to hear it. I can always be reached at cesar.ramsan@gmail.com, CRamsan at Reddit or CRamsan in the Emerald server.</string>
-    <string name="url_homepage">http://cesarandres.com/</string>
-    
     <string name="toast_error_server_error">Could not retrieve any donation data</string>
     <string name="toast_error_response_error">Error in response from the server</string>
     <string name="toast_error_empty_response">Donation data was empty, please try again later</string>
 	<string name="toast_error_error_sending">Error sending donation request</string>    
-	<string name="text_choose_donation">Choose Donation</string>
-	<string name="text_thanks">Thanks for your support</string>
-	<string name="text_thanks_failed">There was a problem processing your donation</string>
-	
 	<string name="toast_error_retrieving_data">Error retrieving data</string>    
 	<string name="toast_error_loading_image">Error while loading image</string>
 
-	<string name="text_profile_pager_title_overview">OVERVIEW</string>
-	<string name="text_profile_pager_title_friends">FRIENDS</string>
-	<string name="text_profile_pager_title_killboard">KILLBOARD</string>
-	<string name="text_profile_pager_title_stats">STATS</string>
-	<string name="text_profile_pager_title_weapons">WEAPONS</string>
-	<string name="text_profile_pager_title_directives">DIRECTIVES</string>
-
-	<string name="text_online">Online</string>
-	<string name="text_offline">Offline</string>
-	<string name="text_online_caps">ONLINE</string>
-	<string name="text_offline_caps">OFFLINE</string>	
-	<string name="text_members">MEMBERS</string>		
+	<!-- This probably does not need to be translated -->	
+    <string name="title_twitter">TWITTER</string>
+    <string name="url_homepage">http://cesarandres.com/</string>
+    <string name="text_empty"></string>
 	
-
 </resources>

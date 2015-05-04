@@ -27,6 +27,7 @@ import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
 import com.cesarandres.ps2link.dbg.content.Member;
 import com.cesarandres.ps2link.dbg.content.Outfit;
 import com.cesarandres.ps2link.dbg.content.response.Outfit_member_response;
+import com.cesarandres.ps2link.dbg.content.response.Outfit_response;
 import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.dbg.util.QueryString;
 import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
@@ -108,9 +109,11 @@ public class FragmentMembersList extends BaseFragment {
 		    if (isChecked) {
 			editor.putString("preferedOutfit", outfitId);
 			editor.putString("preferedOutfitName", outfitName);
+			editor.putString("preferedOutfitNamespace", DBGCensus.currentNamespace.name());
 		    } else {
 			editor.putString("preferedOutfit", "");
 			editor.putString("preferedOutfitName", "");
+			editor.putString("preferedOutfitNamespace", "");
 		    }
 		    editor.commit();
 		    getActivityContainer().checkPreferedButtons();
@@ -119,6 +122,16 @@ public class FragmentMembersList extends BaseFragment {
 	});
 
 	this.fragmentTitle.setText(outfitName);
+	this.fragmentAppend.setClickable(false);
+	
+	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+	String preferedOutfitId = settings.getString("preferedOutfit", "");
+	if (preferedOutfitId.equals(outfitId)) {
+	    this.fragmentStar.setChecked(true);
+	} else {
+	    this.fragmentStar.setChecked(false);
+	}
+
     }
 
     /*
@@ -152,6 +165,7 @@ public class FragmentMembersList extends BaseFragment {
      * start a task to cache that data
      */
     public void downloadOutfitMembers() {
+    this.fragmentAppend.setClickable(true);
 	setProgressButton(true);
 	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
@@ -189,6 +203,46 @@ public class FragmentMembersList extends BaseFragment {
     }
 
     /**
+     * Retrieve updated information for the outfit
+     */
+    public void downloadOutfit() {
+
+	QueryString query = QueryString.generateQeuryString();
+	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.OUTFIT, outfitId, query).toString();
+
+	Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
+	    @Override
+	    public void onResponse(Outfit_response response) {
+		setProgressButton(false);
+		try {
+		    // Add the new outfits to the local cache
+			if(response.getOutfit_list().size() == 1){
+			SaveOutfitToTable currentTask = new SaveOutfitToTable();
+		    setCurrentTask(currentTask);
+		    currentTask.execute(response.getOutfit_list().get(0));
+			}
+		} catch (Exception e) {
+		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
+		}
+	    }
+	};
+
+	ErrorListener error = new Response.ErrorListener() {
+	    @Override
+	    public void onErrorResponse(VolleyError error) {
+		setProgressButton(false);
+		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
+		if (listRoot != null) {
+		    listRoot.setAdapter(null);
+		}
+		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
+	    }
+	};
+
+	DBGCensus.sendGsonRequest(url, Outfit_response.class, success, error, this);
+    }
+    
+    /**
      * This method will set the adapter that will read outfit members from the
      * database
      */
@@ -201,7 +255,8 @@ public class FragmentMembersList extends BaseFragment {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
+			new String[] { 	((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id(),
+							DBGCensus.currentNamespace.name()});
 	    }
 	});
 
@@ -220,14 +275,6 @@ public class FragmentMembersList extends BaseFragment {
 		}
 	    }
 	});
-
-	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-	String preferedOutfitId = settings.getString("preferedOutfit", "");
-	if (preferedOutfitId.equals(outfitId)) {
-	    this.fragmentStar.setChecked(true);
-	} else {
-	    this.fragmentStar.setChecked(false);
-	}
     }
 
     /**
@@ -283,7 +330,7 @@ public class FragmentMembersList extends BaseFragment {
 		    updateContent();
 		}
 	    setProgressButton(false);
-	    downloadOutfitMembers();
+	    downloadOutfit();
 	}
     }
 
@@ -366,7 +413,7 @@ public class FragmentMembersList extends BaseFragment {
 	    Outfit outfit = data.getOutfit(args[0]);
 	    boolean temp = !Boolean.parseBoolean(args[1]);
 	    data.updateOutfit(outfit, temp);
-	    isCached = true;
+	    isCached = !temp;
 	    return 0;
 	}
 
@@ -381,6 +428,64 @@ public class FragmentMembersList extends BaseFragment {
 		updateContent();
 	    }
 	    setProgressButton(false);
+	}
+    }
+    
+    /**
+     * 
+     * 
+     * This task will add the provided outfit into the database
+     * 
+     */
+    private class SaveOutfitToTable extends AsyncTask<Outfit, Integer, Boolean> {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
+	@Override
+	protected void onPreExecute() {
+	    setProgressButton(true);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
+	@Override
+	protected Boolean doInBackground(Outfit... newOutfit) {
+	    Outfit outfit = newOutfit[0];
+	    ObjectDataSource data = getActivityContainer().getData();
+
+		Outfit existingOutfit = data.getOutfit(outfit.getOutfit_Id());
+		// If outfit is not in cache
+		if (existingOutfit == null) {
+			outfit.setNamespace(DBGCensus.currentNamespace);
+		    data.insertOutfit(outfit, true);
+		} else {
+		    // If not, update the record
+		    if (outfit.isCached()) {
+			data.updateOutfit(outfit, false);
+		    } else {
+			data.updateOutfit(outfit, true);
+		    }
+	    }
+	    return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
+	@Override
+	protected void onPostExecute(Boolean result) {
+	    setProgressButton(false);
+	    if(result){
+	    	downloadOutfitMembers();
+	    }
 	}
     }
 }

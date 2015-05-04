@@ -100,9 +100,7 @@ public class FragmentProfilePager extends BaseFragment {
 	}
 	profileId = extras.getString("PARAM_0");
 	this.namespace = extras.getString("PARAM_1");
-	if(this.namespace != null){
-		DBGCensus.currentNamespace = Namespace.valueOf(namespace);
-	}
+	DBGCensus.currentNamespace = Namespace.valueOf(namespace);
 	
 	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {

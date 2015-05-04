@@ -121,7 +121,8 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
 		"",
 		QueryString.generateQeuryString()
 			.AddComparison("name.first_lower", SearchModifier.STARTSWITH, searchField.getText().toString().toLowerCase(Locale.getDefault()))
-			.AddCommand(QueryCommand.LIMIT, "100")).toString();
+			.AddCommand(QueryCommand.LIMIT, "25")
+			.AddCommand(QueryCommand.JOIN, "character")).toString();
 
 	Listener<Character_list_response> success = new Response.Listener<Character_list_response>() {
 	    @Override
