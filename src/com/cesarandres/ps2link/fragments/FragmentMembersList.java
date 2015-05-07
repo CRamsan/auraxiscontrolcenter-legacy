@@ -2,7 +2,6 @@ package com.cesarandres.ps2link.fragments;
 
 import java.util.ArrayList;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,7 +25,6 @@ import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
 import com.cesarandres.ps2link.dbg.content.Member;
 import com.cesarandres.ps2link.dbg.content.Outfit;
 import com.cesarandres.ps2link.dbg.content.response.Outfit_member_response;
-import com.cesarandres.ps2link.dbg.content.response.Outfit_response;
 import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
 import com.cesarandres.ps2link.dbg.util.QueryString;
 import com.cesarandres.ps2link.dbg.util.QueryString.QueryCommand;
@@ -73,10 +70,7 @@ public class FragmentMembersList extends BaseFragment {
 
 	// Check if outfit data has already been loaded
 	if (savedInstanceState == null) {
-	    UpdateOutfitFromTable task = new UpdateOutfitFromTable();
 	    this.outfitId = getArguments().getString("PARAM_0");
-	    setCurrentTask(task);
-	    task.execute(this.outfitId);
 	} else {
 	    this.outfitSize = savedInstanceState.getInt("outfitSize", 0);
 	    this.outfitId = savedInstanceState.getString("outfitId");
@@ -100,38 +94,6 @@ public class FragmentMembersList extends BaseFragment {
 		updateContent();
 	    }
 	});
-
-	this.fragmentStar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (outfitId != null && outfitName != null) {
-		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-		    SharedPreferences.Editor editor = settings.edit();
-		    if (isChecked) {
-			editor.putString("preferedOutfit", outfitId);
-			editor.putString("preferedOutfitName", outfitName);
-			editor.putString("preferedOutfitNamespace", DBGCensus.currentNamespace.name());
-		    } else {
-			editor.putString("preferedOutfit", "");
-			editor.putString("preferedOutfitName", "");
-			editor.putString("preferedOutfitNamespace", "");
-		    }
-		    editor.commit();
-		    getActivityContainer().checkPreferedButtons();
-		}
-	    }
-	});
-
-	this.fragmentTitle.setText(outfitName);
-	this.fragmentAppend.setClickable(false);
-	
-	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-	String preferedOutfitId = settings.getString("preferedOutfit", "");
-	if (preferedOutfitId.equals(outfitId)) {
-	    this.fragmentStar.setChecked(true);
-	} else {
-	    this.fragmentStar.setChecked(false);
-	}
-
     }
 
     /*
@@ -165,7 +127,6 @@ public class FragmentMembersList extends BaseFragment {
      * start a task to cache that data
      */
     public void downloadOutfitMembers() {
-    this.fragmentAppend.setClickable(true);
 	setProgressButton(true);
 	String url = DBGCensus.generateGameDataRequest(
 		Verb.GET,
@@ -182,7 +143,6 @@ public class FragmentMembersList extends BaseFragment {
 		try {
 		    UpdateMembers task = new UpdateMembers();
 		    setCurrentTask(task);
-		    fragmentTitle.setText(response.getOutfit_list().get(0).getName());
 		    ArrayList<Member> list = response.getOutfit_list().get(0).getMembers();
 		    // Check this warning
 		    task.execute(list);
@@ -200,46 +160,6 @@ public class FragmentMembersList extends BaseFragment {
 	    }
 	};
 	DBGCensus.sendGsonRequest(url, Outfit_member_response.class, success, error, this);
-    }
-
-    /**
-     * Retrieve updated information for the outfit
-     */
-    public void downloadOutfit() {
-
-	QueryString query = QueryString.generateQeuryString();
-	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.OUTFIT, outfitId, query).toString();
-
-	Listener<Outfit_response> success = new Response.Listener<Outfit_response>() {
-	    @Override
-	    public void onResponse(Outfit_response response) {
-		setProgressButton(false);
-		try {
-		    // Add the new outfits to the local cache
-			if(response.getOutfit_list().size() == 1){
-			SaveOutfitToTable currentTask = new SaveOutfitToTable();
-		    setCurrentTask(currentTask);
-		    currentTask.execute(response.getOutfit_list().get(0));
-			}
-		} catch (Exception e) {
-		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
-		}
-	    }
-	};
-
-	ErrorListener error = new Response.ErrorListener() {
-	    @Override
-	    public void onErrorResponse(VolleyError error) {
-		setProgressButton(false);
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundOutfits);
-		if (listRoot != null) {
-		    listRoot.setAdapter(null);
-		}
-		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
-	    }
-	};
-
-	DBGCensus.sendGsonRequest(url, Outfit_response.class, success, error, this);
     }
     
     /**
@@ -260,80 +180,8 @@ public class FragmentMembersList extends BaseFragment {
 	    }
 	});
 
-	this.fragmentAppend.setOnCheckedChangeListener(null);
-	this.fragmentAppend.setChecked(isCached);
-	this.fragmentAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-		    CacheOutfit task = new CacheOutfit();
-		    setCurrentTask(task);
-		    task.execute(outfitId, "true");
-		} else {
-		    CacheOutfit task = new CacheOutfit();
-		    setCurrentTask(task);
-		    task.execute(outfitId, "false");
-		}
-	    }
-	});
     }
-
-    /**
-     * 
-     * 
-     * This Async task will read the members of the outfit and some other outfit
-     * information from the database. This is useful to show the user with some
-     * information while the network calls are retrieving more up to date
-     * information
-     * 
-     */
-    private class UpdateOutfitFromTable extends AsyncTask<String, Integer, Outfit> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
-	 */
-	@Override
-	protected Outfit doInBackground(String... args) {
-	    Outfit outfit = null;
-	    ObjectDataSource data = getActivityContainer().getData();
-	    outfit = data.getOutfit(args[0]);
-	    if(outfit != null){
-	    	isCached = outfit.isCached();
-	    	return outfit;
-	    }else{
-	    	return null;
-	    }
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(Outfit result) {
-		if(result != null){
-		    outfitId = result.getOutfit_Id();
-		    outfitName = result.getName();
-		    outfitSize = result.getMember_count();
-		    updateContent();
-		}
-	    setProgressButton(false);
-	    downloadOutfit();
-	}
-    }
-
+    
     /**
      * This Async task will replace the old member information with new one. The
      * process will remove all previous members in the outfit and write the new
@@ -385,107 +233,6 @@ public class FragmentMembersList extends BaseFragment {
 	protected void onPostExecute(Integer result) {
 	    setProgressButton(false);
 	    updateContent();
-	}
-    }
-
-    /**
-     * This task will set an outfit as temp or not. The first argument needs to
-     * be the outfit_id and the second a string with true or false, true will
-     * save the outfit and display it on the outfit list, false will save the
-     * outfit in the databse but it will not be displayed on the outfit list.
-     * 
-     */
-    private class CacheOutfit extends AsyncTask<String, Integer, Integer> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
-
-	@Override
-	protected Integer doInBackground(String... args) {
-	    ObjectDataSource data = getActivityContainer().getData();
-	    Outfit outfit = data.getOutfit(args[0]);
-	    boolean temp = !Boolean.parseBoolean(args[1]);
-	    data.updateOutfit(outfit, temp);
-	    isCached = !temp;
-	    return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(Integer result) {
-	    if (isCached) {
-		updateContent();
-	    }
-	    setProgressButton(false);
-	}
-    }
-    
-    /**
-     * 
-     * 
-     * This task will add the provided outfit into the database
-     * 
-     */
-    private class SaveOutfitToTable extends AsyncTask<Outfit, Integer, Boolean> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
-	 */
-	@Override
-	protected Boolean doInBackground(Outfit... newOutfit) {
-	    Outfit outfit = newOutfit[0];
-	    ObjectDataSource data = getActivityContainer().getData();
-
-		Outfit existingOutfit = data.getOutfit(outfit.getOutfit_Id());
-		// If outfit is not in cache
-		if (existingOutfit == null) {
-			outfit.setNamespace(DBGCensus.currentNamespace);
-		    data.insertOutfit(outfit, true);
-		} else {
-		    // If not, update the record
-		    if (outfit.isCached()) {
-			data.updateOutfit(outfit, false);
-		    } else {
-			data.updateOutfit(outfit, true);
-		    }
-	    }
-	    return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(Boolean result) {
-	    setProgressButton(false);
-	    if(result){
-	    	downloadOutfitMembers();
-	    }
 	}
     }
 }

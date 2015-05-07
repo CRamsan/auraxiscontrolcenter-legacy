@@ -21,6 +21,7 @@ import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
+import com.cesarandres.ps2link.fragments.FragmentOutfit;
 
 /**
  * This fragment has a view pager that displays the online member next to all
@@ -32,8 +33,9 @@ public class FragmentOutfitPager extends BaseFragment {
     private ViewPager mViewPager;
     private String outfitId;
     private String namespace;
-    private static final int ONLINE = 0;
-    private static final int MEMBERS = 1;
+    private static final int OUTFIT = 0;
+    private static final int ONLINE = 1;
+    private static final int MEMBERS = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +65,10 @@ public class FragmentOutfitPager extends BaseFragment {
 		Fragment fragment;
 		try {
 		    switch (mViewPager.getCurrentItem()) {
+		    case OUTFIT:
+			fragment = ((FragmentOutfit) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem()));
+			((FragmentOutfit) fragment).downloadOutfit(outfitId);
+			break;
 		    case ONLINE:
 			fragment = ((FragmentMembersOnline) mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem()));
 			((FragmentMembersOnline) fragment).downloadOutfitMembers();
@@ -84,6 +90,11 @@ public class FragmentOutfitPager extends BaseFragment {
 	    @Override
 	    public void onPageSelected(int arg0) {
 		switch (arg0) {
+		case OUTFIT:
+		    fragmentShowOffline.setVisibility(View.GONE);
+		    fragmentAppend.setVisibility(View.VISIBLE);
+		    fragmentStar.setVisibility(View.VISIBLE);
+		    break;
 		case ONLINE:
 		    fragmentShowOffline.setVisibility(View.GONE);
 		    fragmentAppend.setVisibility(View.GONE);
@@ -91,8 +102,8 @@ public class FragmentOutfitPager extends BaseFragment {
 		    break;
 		case MEMBERS:
 		    fragmentShowOffline.setVisibility(View.VISIBLE);
-		    fragmentAppend.setVisibility(View.VISIBLE);
-		    fragmentStar.setVisibility(View.VISIBLE);
+		    fragmentAppend.setVisibility(View.GONE);
+		    fragmentStar.setVisibility(View.GONE);
 		    break;
 		default:
 		    fragmentShowOffline.setVisibility(View.GONE);
@@ -112,6 +123,10 @@ public class FragmentOutfitPager extends BaseFragment {
 
 	    }
 	});
+	
+	this.fragmentAppend.setVisibility(View.VISIBLE);
+	this.fragmentStar.setVisibility(View.VISIBLE);
+	
     }
 
     /*
@@ -152,6 +167,9 @@ public class FragmentOutfitPager extends BaseFragment {
 	public Fragment getItem(int position) {
 	    Fragment fragment = null;
 	    switch (position) {
+	    case OUTFIT:
+		fragment = new FragmentOutfit();
+		break;	    
 	    case ONLINE:
 		fragment = new FragmentMembersOnline();
 		break;
@@ -191,7 +209,7 @@ public class FragmentOutfitPager extends BaseFragment {
 	 */
 	@Override
 	public int getCount() {
-	    return 2;
+	    return 3;
 	}
 
 	/*
@@ -202,6 +220,8 @@ public class FragmentOutfitPager extends BaseFragment {
 	@Override
 	public CharSequence getPageTitle(int position) {
 	    switch (position) {
+	    case OUTFIT:
+	    return getResources().getString(R.string.title_outfit);	    	
 	    case ONLINE:
 	    return getResources().getString(R.string.text_online_caps);
 	    case MEMBERS:

@@ -123,5 +123,6 @@
     <string name="title_twitter">TWITTER</string>
     <string name="url_homepage">http://cesarandres.com/</string>
     <string name="text_empty"></string>
+    <string name="text_leader">LEADER</string>
 	
 </resources>
