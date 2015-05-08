@@ -87,19 +87,20 @@ public class OnlineMemberItemAdapter extends BaseAdapter {
 	    }
 	    holder.memberName.setText(getItem(position).getCharacter().getName().getFirst());
 	    String currentClass = getItem(position).getCharacter().getProfile().getName().getLocalizedName();
+	    String currentClassId = getItem(position).getCharacter().getProfile_id();
 	    holder.memberRank.setText(currentClass);
 
-	    if (currentClass.equals("Light Assault")) {
+	    if (currentClassId.equals("4") || currentClassId.equals("19") || currentClassId.equals("12")) {
 		holder.classIcon.setImageBitmap(lia_icon);
-	    } else if (currentClass.equals("Heavy Assault")) {
+	    } else if (currentClassId.equals("7") || currentClassId.equals("22") || currentClassId.equals("15")) {
 		holder.classIcon.setImageBitmap(hea_icon);
-	    } else if (currentClass.equals("Combat Medic")) {
+	    } else if (currentClassId.equals("5") || currentClassId.equals("20") || currentClassId.equals("13")) {
 		holder.classIcon.setImageBitmap(med_icon);
-	    } else if (currentClass.equals("Engineer")) {
+	    } else if (currentClassId.equals("6") || currentClassId.equals("21") || currentClassId.equals("14")) {
 		holder.classIcon.setImageBitmap(eng_icon);
-	    } else if (currentClass.equals("MAX")) {
+	    } else if (currentClassId.equals("8") || currentClassId.equals("19") || currentClassId.equals("12")) {
 		holder.classIcon.setImageBitmap(max_icon);
-	    } else if (currentClass.equals("Infiltrator")) {
+	    } else if (currentClassId.equals("2") || currentClassId.equals("17") || currentClassId.equals("10")) {
 		holder.classIcon.setImageBitmap(inf_icon);
 	    } else {
 		holder.classIcon.setImageBitmap(null);

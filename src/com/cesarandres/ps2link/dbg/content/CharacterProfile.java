@@ -20,6 +20,7 @@ public class CharacterProfile {
     private Outfit outfit;
     private String outfitName;
     private Profile profile;
+    private String profile_id;
     private Stats stats;
     private Server server;
     private int online_status;
@@ -162,5 +163,13 @@ public class CharacterProfile {
 	public void setCharacter_id_join_character(
 			CharacterProfile character_id_join_character) {
 		this.character_id_join_character = character_id_join_character;
+	}
+
+	public String getProfile_id() {
+		return profile_id;
+	}
+
+	public void setProfile_id(String profile_id) {
+		this.profile_id = profile_id;
 	}
 }
