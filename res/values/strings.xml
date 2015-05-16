@@ -91,7 +91,7 @@
     <string name="text_open_reddit">Open</string>
     
     <string name="text_developed_by">developed by Cesar Ramirez</string>
-    <string name="text_about_description">Thanks for downloading this app. I hope you will enjoy using it and if you have some feedback I would really like to hear it. I can always be reached at cesar.ramsan@gmail.com, CRamsan at Reddit or CRamsan in the Emerald server.</string>
+    <string name="text_about_description">Thanks for downloading this app.\nI hope you will enjoy using it and if you have some feedback I would really like to hear it.\nI can always be reached at cesar.ramsan@gmail.com, CRamsan at Reddit or CRamsan in the Emerald server.</string>
     
     <string name="text_loading_ellipsis">Loading&#8230;</string>    
     <string name="text_kills">Kills:</string>
@@ -124,5 +124,8 @@
     <string name="url_homepage">http://cesarandres.com/</string>
     <string name="text_empty"></string>
     <string name="text_leader">LEADER</string>
+    <string name="text_created">CREATED</string>
+    
+    <string name="text_about_thanks">Special thanks to:\n-[FHM] McTomate\n-PsychosisVS\n-CzerwonyKolorNicku\nFor helping to translate this app.</string>
 	
 </resources>

@@ -26,14 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
+        
         <TextView
-            android:id="@+id/TextViewStatItemWeek"
+            android:id="@+id/TextViewStatItemToday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -45,19 +44,18 @@
         android:layout_marginStart="5dp" >
         
         <TextView
-            android:id="@+id/TextViewStatItemToday"
+            android:id="@+id/TextViewStatItemWeek"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
+   
         <TextView
             android:id="@+id/TextViewStatItemMonth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </LinearLayout>
 
 </LinearLayout>

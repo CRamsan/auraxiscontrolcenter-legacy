@@ -13,6 +13,15 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp" >
 
+        <ImageView
+            android:id="@+id/imageViewOutfitFaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@string/text_faction_icon" />
+
 		<TextView
 		    android:id="@+id/textViewFragmentOutfitName"
 		    style="@style/LayoutFrameStyle"
@@ -20,9 +29,9 @@
 		    android:layout_height="wrap_content"
 		    android:layout_marginBottom="10dp"
 		    android:ellipsize="end"
+		    android:gravity="center"
 		    android:lines="1"
-			android:gravity="center_vertical"
-		    android:textAppearance="?android:attr/textAppearanceMedium" />
+		    android:textAppearance="?android:attr/textAppearanceLarge" />
         
         <LinearLayout
             style="@style/LayoutFrameStyle"
@@ -42,6 +51,31 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/TextViewOutfitLeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/text_leader"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <Button
+                    android:id="@+id/buttonOutfitToLeader"
+                    style="@style/ButtonStyle"
+                    android:alpha="0.3"
+                    android:enabled="True"
+                    android:text="@string/text_unknown" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LayoutFrameStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical" >
+
+                <TextView
                     android:id="@+id/textViewMembers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,6 +86,32 @@
 
                 <TextView
                     android:id="@+id/textViewMembersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LayoutFrameStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/TextViewOutfitCreation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/text_created"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/TextViewOutfitCreationText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"

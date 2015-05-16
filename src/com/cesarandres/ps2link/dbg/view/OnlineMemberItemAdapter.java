@@ -98,7 +98,7 @@ public class OnlineMemberItemAdapter extends BaseAdapter {
 		holder.classIcon.setImageBitmap(med_icon);
 	    } else if (currentClassId.equals("6") || currentClassId.equals("21") || currentClassId.equals("14")) {
 		holder.classIcon.setImageBitmap(eng_icon);
-	    } else if (currentClassId.equals("8") || currentClassId.equals("19") || currentClassId.equals("12")) {
+	    } else if (currentClassId.equals("8") || currentClassId.equals("23") || currentClassId.equals("16")) {
 		holder.classIcon.setImageBitmap(max_icon);
 	    } else if (currentClassId.equals("2") || currentClassId.equals("17") || currentClassId.equals("10")) {
 		holder.classIcon.setImageBitmap(inf_icon);

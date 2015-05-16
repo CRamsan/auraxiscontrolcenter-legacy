@@ -71,7 +71,7 @@ public class RedditItemAdapter extends BaseAdapter{
 
 	holder.author.setText(child.getData().getAuthor());
 	holder.comments.setText(Integer.toString(child.getData().getNumComments()) + " " + context.getResources().getString(R.string.text_comments));	
-	String updateTime = prettyTime.format(new Date(child.getData().getCreated() * 1000l));
+	String updateTime = prettyTime.format(new Date(child.getData().getCreatedUtc() * 1000l));
 	holder.date.setText(updateTime);
 	holder.domain.setText(child.getData().getDomain());
 	if(child.getData().getLinkFlairText() != null){

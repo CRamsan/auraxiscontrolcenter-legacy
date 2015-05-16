@@ -16,6 +16,7 @@ public class Outfit {
     private boolean isCached;
     private Namespace namespace;
     private ArrayList<Member> members;
+    private CharacterProfile leader;
 
     public String getAlias() {
 	return this.alias;
@@ -103,6 +104,14 @@ public class Outfit {
 
 	public void setNamespace(Namespace namespace) {
 		this.namespace = namespace;
+	}
+
+	public CharacterProfile getLeader() {
+		return leader;
+	}
+
+	public void setLeader(CharacterProfile leader) {
+		this.leader = leader;
 	}
 
 }

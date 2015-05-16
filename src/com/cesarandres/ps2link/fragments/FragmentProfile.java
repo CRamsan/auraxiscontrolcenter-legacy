@@ -132,6 +132,10 @@ public class FragmentProfile extends BaseFragment {
 
     	Button outfitButton = (Button)getActivity().findViewById(R.id.buttonProfileToOutfit);
 		
+    	if(character.getOutfitName() != null){
+	    	outfitButton.setText(character.getOutfitName());
+    	}
+    	
 	    if (character.getOutfit() == null) {
 	    	outfitButton.setEnabled(false);
 		    outfitButton.setAlpha(0.5f);;

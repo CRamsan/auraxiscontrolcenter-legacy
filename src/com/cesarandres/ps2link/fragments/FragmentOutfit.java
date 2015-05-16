@@ -1,5 +1,9 @@
 package com.cesarandres.ps2link.fragments;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,8 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +24,11 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
+import com.cesarandres.ps2link.dbg.content.Faction;
 import com.cesarandres.ps2link.dbg.content.Outfit;
 import com.cesarandres.ps2link.dbg.content.response.Outfit_response;
 import com.cesarandres.ps2link.dbg.util.Collections.PS2Collection;
@@ -74,10 +83,44 @@ public class FragmentOutfit extends BaseFragment {
 	try {
 	    if (this.getView() != null) {
 	    	TextView outfitName = ((TextView) getActivity().findViewById(R.id.textViewFragmentOutfitName));
-	    	outfitName.setText(outfit.getName());
+	    	outfitName.setText("[" + outfit.getAlias() + "] " + outfit.getName());
     	
 	    	TextView outfitSize = ((TextView) getActivity().findViewById(R.id.textViewMembersText));
 	    	outfitSize.setText(Integer.toString(outfit.getMember_count()));
+	    		    	
+	    	TextView outfitCreation = ((TextView) getActivity().findViewById(R.id.TextViewOutfitCreationText));
+	    	Date date = new Date(Long.parseLong(outfit.getTime_created()) * 1000);
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd", Locale.getDefault());
+	    	outfitCreation.setText(format.format(date));	    	
+	    	
+	    	Button leaderButton = (Button)getActivity().findViewById(R.id.buttonOutfitToLeader);
+
+	    	if(outfit.getLeader() != null){
+		    	ImageView faction = ((ImageView) getActivity().findViewById(R.id.imageViewOutfitFaction));
+				if (outfit.getLeader().getFaction_id().equals(Faction.VS)) {
+				    faction.setImageResource(R.drawable.icon_faction_vs);
+				} else if (outfit.getLeader().getFaction_id().equals(Faction.NC)) {
+				    faction.setImageResource(R.drawable.icon_faction_nc);
+				} else if (outfit.getLeader().getFaction_id().equals(Faction.TR)) {
+				    faction.setImageResource(R.drawable.icon_faction_tr);
+				}
+
+	    		leaderButton.setText(outfit.getLeader().getName().getFirst());
+	    	}
+	    	
+		    if (outfit.getLeader_character_id() != null) {
+		    	leaderButton.setEnabled(true);
+		    	leaderButton.setAlpha(1);
+		    	leaderButton.setOnClickListener(new OnClickListener() {					
+					@Override
+					public void onClick(View v) {
+				    	mCallbacks.onItemSelected(ActivityMode.ACTIVITY_PROFILE.toString(), new String[] {
+				    		outfit.getLeader_character_id(),
+				    		outfit.getNamespace().name()});
+					}
+				});	
+		    }
+	    	
 	    }
 	    
 	    this.fragmentStar.setOnCheckedChangeListener(null);
@@ -311,57 +354,4 @@ public class FragmentOutfit extends BaseFragment {
 	    setProgressButton(false);
 	}
     }
-    
-    /**
-     * This task will add the provided outfit into the database
-     */
-    private class SaveOutfitToTable extends AsyncTask<Outfit, Integer, Boolean> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
-	 */
-	@Override
-	protected Boolean doInBackground(Outfit... newOutfit) {
-	    Outfit outfit = newOutfit[0];
-	    ObjectDataSource data = getActivityContainer().getData();
-
-		Outfit existingOutfit = data.getOutfit(outfit.getOutfit_Id());
-		// If outfit is not in cache
-		if (existingOutfit == null) {
-			outfit.setNamespace(DBGCensus.currentNamespace);
-		    data.insertOutfit(outfit, true);
-		} else {
-		    // If not, update the record
-		    if (outfit.isCached()) {
-			data.updateOutfit(outfit, false);
-		    } else {
-			data.updateOutfit(outfit, true);
-		    }
-	    }
-	    return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(Boolean result) {
-	    setProgressButton(false);
-	}
-    }
-
 }
