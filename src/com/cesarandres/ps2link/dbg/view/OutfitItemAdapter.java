@@ -16,11 +16,13 @@ import com.cesarandres.ps2link.dbg.content.Outfit;
 public class OutfitItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<Outfit> outfitList;
+    private Context context;
 
     public OutfitItemAdapter(Context context, List<Outfit> outfitList) {
 	// Cache the LayoutInflate to avoid asking for a new one each time.
 	this.mInflater = LayoutInflater.from(context);
 	this.outfitList = new ArrayList<Outfit>(outfitList);
+	this.context = context;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class OutfitItemAdapter extends BaseAdapter {
 	}
 
 	holder.outfitName.setText(this.outfitList.get(position).getName());
-	holder.memberCount.setText("Members: " + this.outfitList.get(position).getMember_count());
+	holder.memberCount.setText(context.getResources().getString(R.string.text_outfit_members) + " " + this.outfitList.get(position).getMember_count());
 	String tag = this.outfitList.get(position).getAlias();
 	if (tag.length() > 0) {
 	    holder.outfitAlias.setText("(" + tag + ")");

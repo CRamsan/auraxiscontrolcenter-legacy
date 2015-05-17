@@ -32,7 +32,7 @@ public class ApplicationPS2Link extends Application {
 
 	static final String ACTIVITY_MODE_KEY = "activity_mode";
 	private static final int MAX_CACHE_SIZE = 2000000; //2 MB
-
+	
 	/**
 	 * 
 	 * 

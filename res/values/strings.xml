@@ -57,7 +57,7 @@
 	<string name="text_low">low</string>
     <string name="text_medium">medium</string>
     <string name="text_high">high</string>
-    
+	<string name="text_outfit_members">Members:</string>	
     <string name="text_tag_too_short">Tag is too short</string>
     <string name="text_unknown">Unknown</string>
     <string name="text_outfit_name_too_short">Outfit name is too short</string>
@@ -111,7 +111,7 @@
 	<string name="text_thanks">Thanks for your support</string>
 	<string name="text_thanks_failed">There was a problem processing your donation</string>
 	        
-    <string name="toast_profile_download_failed">Profile data is being downloaded.</string>
+    <string name="toast_profile_download_failed">Profile data download failed.</string>
     <string name="toast_error_server_error">Could not retrieve any donation data</string>
     <string name="toast_error_response_error">Error in response from the server</string>
     <string name="toast_error_empty_response">Donation data was empty, please try again later</string>

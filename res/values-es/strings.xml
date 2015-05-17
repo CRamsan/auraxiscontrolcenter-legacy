@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App title with version in all caps -->
+    <string name="app_name">Centro de Control de Auraxis</string>
+    <string name="app_name_capital">CENTRO DE CONTROL DE AURAXIS</string>
+    
+    <!-- Text for the buttons in the main menu -->
+    <string name="title_profiles">PERFILES</string>
+    <string name="title_servers">SERVIDORES</string>
+    <string name="title_outfits">BRIGADAS</string>
+	<string name="title_server">SERVIDOR</string>
+    <string name="title_outfit">BRIGADA</string>
+    <string name="title_unkown">DECONOCIDO</string>
+    <string name="title_donate">DONAR</string>
+    <string name="title_about">ACERCA DE</string>
+	<string name="title_links">ENLACES</string>
+    
+    <string name="text_hours_played">HORAS JUGADAS</string>
+    <string name="text_last_login">ÚLTIMO ACCESO</string>
+    <string name="text_status">STADO</string>
+	<string name="text_outfit_members">Miembros:</string>	
+    <string name="text_time_played_caps">TIEMPO JUGADO</string>
+	<string name="text_stat_score_hour">PUNTAGE/HORA</string>
+    <string name="text_stat_kdr">KDR</string>
+    <string name="text_stat_battle_rank">RANGO DE BATALLA</string>
+    <string name="text_stat_certs">CERTS</string>
+    <string name="text_stat_deaths">MUERTES</string>
+    <string name="text_stat_fac_captured">FACILIDADES CAPTURADAS</string>
+    <string name="text_stat_fac_defended">FACILIDADES DEFENDIDAS</string>
+    <string name="text_stat_kills">ASESINATOS</string>
+    <string name="text_stat_medals">MEDALLAS</string>
+    <string name="text_stat_ribbons">CINTAS</string>
+    <string name="text_stat_score">PUNTAGE</string>    
+
+    <string name="text_killed_caps">MATASTE</string>
+    <string name="text_killed_by_caps">ASESINADO POR</string>
+	<string name="text_suicide_caps">SUICIDIO</string>
+   
+    <string name="text_show_offline">TODOS</string>
+    <string name="text_show_online">EN LÍNEA</string>
+    
+	<string name="text_profile_pager_title_overview">GENERAL</string>
+	<string name="text_profile_pager_title_friends">AMIGOS</string>
+	<string name="text_profile_pager_title_killboard">KILLBOARD</string>
+	<string name="text_profile_pager_title_stats">STADISTICAS</string>
+	<string name="text_profile_pager_title_weapons">ARMAS</string>
+	<string name="text_profile_pager_title_directives">DIRECTRICES</string>
+
+	<string name="text_online_caps">EN LÍNEA</string>
+	<string name="text_members">MIEMBROS</string>	
+	<string name="text_offline_caps">SIN CONEXIÓN</string>
+	<string name="text_locked_caps">CERRADO</string>		
+    <string name="text_none">NADA</string>
+	
+	<string name="text_low">bajo</string>
+    <string name="text_medium">medio</string>
+    <string name="text_high">alto</string>
+    
+    <string name="text_tag_too_short">Etiqueta es muy corta</string>
+    <string name="text_unknown">Desconocido</string>
+    <string name="text_outfit_name_too_short">Nombre es muy corto</string>
+    <string name="text_profile_name_too_short">Nombre es muy corto</string>
+    <string name="text_problem_encoding">Hubo un problema leyendo la información</string>
+
+    <string name="text_Background">Fondo</string>
+    <string name="text_search_button">Botón de búsqueda</string>
+    <string name="text_tag">Etiqueta</string>
+    <string name="text_outfit_name">Nombre de Brigada</string>
+    <string name="text_ps2_icon">Ícono de Planetside 2</string>
+    <string name="text_nc_icon">Ícono del NC</string>
+    <string name="text_tr_icon">Ícono de la RT</string>
+    <string name="text_vs_icon">Ícono de la SV</string>
+    <string name="text_profile">Perfiles</string>
+    <string name="text_faction_icon">Ícono de Facción</string>
+    <string name="text_certs">Certificaciones</string>
+    <string name="text_update">Actualizar</string>
+    <string name="text_add">Agregar</string>
+    <string name="text_killer_faction">Facción del Asesino</string>
+    <string name="text_class">Clase</string>
+
+    <string name="text_my_kills">Mis asesinatos</string>
+    <string name="text_killed_by">Asesinado por</string>
+    <string name="text_hours">horas</string>
+    <string name="text_wia_times">veces</string>
+	<string name="text_online">En línea</string>
+	<string name="text_offline">Sin conexión</string>
+    
+    <string name="text_comments">comentarios</string>
+    <string name="text_open_reddit">Abrir</string>
+    
+    <string name="text_developed_by">desarrollado por Cesar Ramirez</string>
+    <string name="text_about_description">Muchas gracias por descargar esta aplicación y espero que te guste.\nSi tienes comentarios o sugerencias me encantaria oírlas.\nMe puedes contactar en cesar.ramsan@gmail.com, CRamsan en Reddit o como CRamsan en el servidor de Emerald.</string>
+    
+    <string name="text_loading_ellipsis">Cargando&#8230;</string>    
+    <string name="text_kills">Asesinatos:</string>
+    <string name="text_tr_">RT:</string>
+    <string name="text_nc_">NC:</string>
+    <string name="text_vs_">SV:</string>
+    <string name="text_headshots_">Headshots:</string>
+    <string name="text_stat_all">Total:</string>    
+    <string name="text_stat_today">Hoy:</string>
+    <string name="text_stat_week">Esta semana:</string>
+    <string name="text_stat_month">Este mes:</string>   
+    <string name="text_server_population">Población:</string>
+    <string name="text_vehicle_kills_">Vehículos Destruidos: </string>
+    <string name="text_wia_killed_by">Víctima: </string>
+	<string name="text_choose_donation">Elige una donación</string>
+	<string name="text_thanks">Muchas gracias por tu apoyo</string>
+	<string name="text_thanks_failed">Hubo un problema procesando tu donación</string>
+	        
+    <string name="toast_profile_download_failed">Error descargando el perfil</string>
+    <string name="toast_error_server_error">No se pudo recibir información para donaciones</string>
+    <string name="toast_error_response_error">Error del servidor</string>
+    <string name="toast_error_empty_response">Respuesta del servidor incorrecta, intente otra vez mas tarde</string>
+	<string name="toast_error_error_sending">Error enviando el pedido de donacion</string>    
+	<string name="toast_error_retrieving_data">Error recibiendo información</string>    
+	<string name="toast_error_loading_image">Error cargando la imagen</string>
+
+    <string name="text_leader">LÍDER</string>
+    <string name="text_created">CREADO</string>
+    
+    <string name="text_about_thanks">Muchas gracias a:\n-[FHM] McTomate\n-PsychosisVS\n-CzerwonyKolorNicku\nPor ayudar a traducir esta aplicación.</string>
+	
+</resources>

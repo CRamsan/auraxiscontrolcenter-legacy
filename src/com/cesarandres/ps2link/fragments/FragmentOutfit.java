@@ -1,6 +1,6 @@
 package com.cesarandres.ps2link.fragments;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -10,11 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
+import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.DBGCensus.Verb;
@@ -90,8 +90,9 @@ public class FragmentOutfit extends BaseFragment {
 	    		    	
 	    	TextView outfitCreation = ((TextView) getActivity().findViewById(R.id.TextViewOutfitCreationText));
 	    	Date date = new Date(Long.parseLong(outfit.getTime_created()) * 1000);
-	    	SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd", Locale.getDefault());
-	    	outfitCreation.setText(format.format(date));	    	
+	    	
+	    	DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());	    	
+	    	outfitCreation.setText(df.format(date));	    	
 	    	
 	    	Button leaderButton = (Button)getActivity().findViewById(R.id.buttonOutfitToLeader);
 

@@ -14,11 +14,14 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
 
 public class MemberItemAdapter extends DBItemAdapter {
 
+	private Context context;
+	
     public MemberItemAdapter(Context context, String outfitId, ObjectDataSource data, boolean showOffline) {
 	// Cache the LayoutInflate to avoid asking for a new one each time.
 	this.mInflater = LayoutInflater.from(context);
 	this.size = data.countAllMembers(outfitId, showOffline);
 	this.cursor = data.getMembersCursor(outfitId, showOffline);
+	this.context = context;
     }
 
     @Override
@@ -71,10 +74,10 @@ public class MemberItemAdapter extends DBItemAdapter {
 	holder.memberRank.setText(getItem(position).getRank());
 
 	if (getItem(position).getOnline_status().equals("0")) {
-	    holder.memberStatus.setText("Offline");
+	    holder.memberStatus.setText(context.getResources().getString(R.string.text_offline));
 	    holder.memberStatus.setTextColor(Color.RED);
 	} else {
-	    holder.memberStatus.setText("Online");
+	    holder.memberStatus.setText(context.getResources().getString(R.string.text_online));
 	    holder.memberStatus.setTextColor(Color.GREEN);
 	}
 

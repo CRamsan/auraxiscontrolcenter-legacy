@@ -21,11 +21,13 @@ import com.cesarandres.ps2link.dbg.util.Logger;
 public class ServerItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<World> serverList;
+    private Context context;
 
     public ServerItemAdapter(Context context, List<World> serverList) {
 	// Cache the LayoutInflate to avoid asking for a new one each time.
 	this.mInflater = LayoutInflater.from(context);
 	this.serverList = new ArrayList<World>(serverList);
+	this.context = context;
     }
 
     /**
@@ -127,19 +129,22 @@ public class ServerItemAdapter extends BaseAdapter {
 	// Bind the data efficiently with the holder.
 	String serverPopulation = this.serverList.get(position).getPopulation();
 	if (serverPopulation != null) {
-	    holder.serverPopulation.setText("Population: " + serverPopulation.toUpperCase(Locale.getDefault()));
 	    if (serverPopulation.equalsIgnoreCase("low")) {
 		// Orange color
 		holder.serverPopulation.setTextColor(Color.rgb(250, 140, 0));
+	    holder.serverPopulation.setText(context.getResources().getString(R.string.text_server_population) + " " + context.getResources().getString(R.string.text_low).toUpperCase());
 	    } else if (serverPopulation.equalsIgnoreCase("medium")) {
 		holder.serverPopulation.setTextColor(Color.YELLOW);
+	    holder.serverPopulation.setText(context.getResources().getString(R.string.text_server_population) + " " + context.getResources().getString(R.string.text_medium).toUpperCase());
 	    } else if (serverPopulation.equalsIgnoreCase("high")) {
 		holder.serverPopulation.setTextColor(Color.GREEN);
+	    holder.serverPopulation.setText(context.getResources().getString(R.string.text_server_population) + " " + context.getResources().getString(R.string.text_high).toUpperCase());
 	    } else {
 		holder.serverPopulation.setTextColor(Color.RED);
+	    holder.serverPopulation.setText(context.getResources().getString(R.string.text_server_population) + " " + serverPopulation.toUpperCase());
 	    }
 	}else{
-	    holder.serverPopulation.setText("Population: Not Available");
+	    holder.serverPopulation.setText(context.getResources().getString(R.string.text_server_population) + " " + "Not Available");
 	    holder.serverPopulation.setTextColor(Color.WHITE);
 	}
 
