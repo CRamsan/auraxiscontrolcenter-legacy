@@ -124,7 +124,7 @@ public class StatItemAdapter extends BaseAdapter {
 	if (stat.getStat_name().equals("time")) {
 	    holder.name.setText(R.string.text_time_played_caps);
 	    String hours = context.getResources().getString(R.string.text_hours);
-	    holder.total.setText(context.getResources().getString(R.string.text_stat_total) + " " + (Float.valueOf(stat.getAll_time()).intValue() / 3600) + " " + hours);
+	    holder.total.setText(context.getResources().getString(R.string.text_stat_all) + " " + (Float.valueOf(stat.getAll_time()).intValue() / 3600) + " " + hours);
 	    holder.today.setText(context.getResources().getString(R.string.text_stat_today) + " " + (Float.valueOf(stat.getDay().d01).intValue() / 3600) + " " + hours);
 	    holder.week.setText(context.getResources().getString(R.string.text_stat_week) + " " + (Float.valueOf(stat.getWeek().w01).intValue() / 3600) + " " + hours);
 	    holder.month.setText(context.getResources().getString(R.string.text_stat_month) + " " + (Float.valueOf(stat.getMonth().m01).intValue() / 3600) + " " + hours);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="twitter_users">
+    <string-array name="twitter_users" translatable="false">
         <item>planetside2</item>
         <item>ps2eu</item>
         <item>PS2DailyDeals</item>

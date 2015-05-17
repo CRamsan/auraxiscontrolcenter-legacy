@@ -12,7 +12,7 @@
 	<string name="title_server">SERVER</string>
     <string name="title_outfit">OUTFIT</string>
     <string name="title_unkown">UNKOWN</string>
-    <string name="title_reddit">REDDIT</string>
+    <string name="title_reddit" translatable="false">REDDIT</string>
     <string name="title_donate">DONATE</string>
     <string name="title_about">ABOUT</string>
 	<string name="title_links">LINKS</string>
@@ -99,7 +99,6 @@
     <string name="text_nc_">NC:</string>
     <string name="text_vs_">VS:</string>
     <string name="text_headshots_">Headshots:</string>
-    <string name="text_stat_total">Total:</string>
     <string name="text_stat_all">All Time:</string>    
     <string name="text_stat_today">Today:</string>
     <string name="text_stat_week">This week:</string>
@@ -120,9 +119,9 @@
 	<string name="toast_error_loading_image">Error while loading image</string>
 
 	<!-- This probably does not need to be translated -->	
-    <string name="title_twitter">TWITTER</string>
-    <string name="url_homepage">http://cesarandres.com/</string>
-    <string name="text_empty"></string>
+    <string name="title_twitter" translatable="false">TWITTER</string>
+    <string name="url_homepage" translatable="false">http://cesarandres.com/</string>
+    <string name="text_empty" translatable="false"></string>
     <string name="text_leader">LEADER</string>
     <string name="text_created">CREATED</string>
     
