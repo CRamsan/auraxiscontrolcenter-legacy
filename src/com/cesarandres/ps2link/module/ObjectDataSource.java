@@ -305,7 +305,11 @@ public class ObjectDataSource {
 	    }
 	});
 
-	character.setNamespace(Namespace.valueOf(cursor.getString(15)));
+	String namespace = cursor.getString(15);
+	if(namespace == null || namespace.isEmpty()){
+		namespace = Namespace.PS2PC.name();
+	}
+	character.setNamespace(Namespace.valueOf(namespace));
 	
 	return character;
     }
@@ -880,7 +884,12 @@ public class ObjectDataSource {
 	} else {
 	    outfit.setCached(false);
 	}
-	outfit.setNamespace(Namespace.valueOf(cursor.getString(9)));
+	
+	String namespace = cursor.getString(9);
+	if(namespace == null || namespace.isEmpty()){
+		namespace = Namespace.PS2PC.name();
+	}	
+	outfit.setNamespace(Namespace.valueOf(namespace));
 
 	return outfit;
     }

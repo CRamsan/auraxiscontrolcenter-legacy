@@ -34,6 +34,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.module.BitmapWorkerTask;
 
 /**
@@ -221,7 +222,7 @@ public class FragmentMainMenu extends BaseFragment {
 		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
 			    new String[] { 	settings.getString("preferedProfile", ""),
-		    					settings.getString("preferedProfileNamespace", "")});
+		    					settings.getString("preferedProfileNamespace", Namespace.PS2PC.name())});
 		}
 	    });
 	    buttonPreferedProfile.setText(preferedProfileName);
@@ -240,7 +241,7 @@ public class FragmentMainMenu extends BaseFragment {
 		    SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 		    mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_MEMBER_LIST.toString(),
 			    new String[] { 	settings.getString("preferedOutfit", ""),
-		    					settings.getString("preferedOutfitNamespace", "")});
+		    					settings.getString("preferedOutfitNamespace", Namespace.PS2PC.name())});
 		}
 	    });
 	    buttonPreferedOutfit.setVisibility(View.VISIBLE);

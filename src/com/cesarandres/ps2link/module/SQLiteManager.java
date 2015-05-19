@@ -1,5 +1,7 @@
 package com.cesarandres.ps2link.module;
 
+import com.cesarandres.ps2link.dbg.DBGCensus;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -146,8 +148,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
 			db.execSQL("ALTER TABLE " + TABLE_CHARACTERS_NAME + " ADD COLUMN " + CHARACTERS_COLUMN_WORLD_NAME + " varchar(-1) DEFAULT '';");
 		}
 		if (oldVersion < 33) {
-			db.execSQL("ALTER TABLE " + TABLE_CHARACTERS_NAME + " ADD COLUMN " + CHARACTERS_COLUMN_NAMESPACE + " varchar(-1) DEFAULT 'ps2pc';");
-			db.execSQL("ALTER TABLE " + TABLE_OUTFITS_NAME + " ADD COLUMN " + OUTFIT_COLUMN_NAMESPACE + " varchar(-1) DEFAULT 'ps2pc';");
+			db.execSQL("ALTER TABLE " + TABLE_CHARACTERS_NAME + " ADD COLUMN " + CHARACTERS_COLUMN_NAMESPACE + " varchar(-1) DEFAULT '" + DBGCensus.Namespace.PS2PC.name() + "';");
+			db.execSQL("ALTER TABLE " + TABLE_OUTFITS_NAME + " ADD COLUMN " + OUTFIT_COLUMN_NAMESPACE + " varchar(-1) DEFAULT '" + DBGCensus.Namespace.PS2PC.name() + "';");
 		}
 		// onCreate(db);
 	}
