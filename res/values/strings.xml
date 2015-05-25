@@ -126,5 +126,5 @@
     <string name="text_created">CREATED</string>
     
     <string name="text_about_thanks">Special thanks to:\n-[FHM] McTomate\n-PsychosisVS\n-CzerwonyKolorNicku\nFor helping to translate this app.</string>
-	
+	<string name="text_toast_acra">Uploading a crash log</string>
 </resources>

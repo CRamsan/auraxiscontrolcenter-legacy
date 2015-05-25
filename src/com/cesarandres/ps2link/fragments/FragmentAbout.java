@@ -37,6 +37,7 @@ public class FragmentAbout extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+	this.fragmentTitle = null;
 	this.fragmentTitle.setText(getString(R.string.title_about));
 	final Button buttonHomepage = (Button) getActivity().findViewById(R.id.buttonAboutHomepage);
 	buttonHomepage.setOnClickListener(new View.OnClickListener() {

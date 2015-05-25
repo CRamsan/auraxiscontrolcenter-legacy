@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Locale;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,10 +22,13 @@ import com.cesarandres.ps2link.dbg.volley.BitmapLruCache;
 
 /**
  * 
- * 
  * This class provides functions and objects that are used application wide.
  * 
  */
+@ReportsCrashes(formUri = "http://amplified-ward-94808.appspot.com/upload",
+				mode = ReportingInteractionMode.TOAST,
+				reportType = org.acra.sender.HttpSender.Type.JSON,
+				resToastText = R.string.text_toast_acra)
 public class ApplicationPS2Link extends Application {
 
 	public static RequestQueue volley;
@@ -61,7 +68,8 @@ public class ApplicationPS2Link extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		ACRA.init(this);
+		
 		if (volley == null) {
 			ApplicationPS2Link.volley = Volley.newRequestQueue(this);
 		}
