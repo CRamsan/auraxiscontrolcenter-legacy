@@ -117,7 +117,7 @@ public class FragmentOutfit extends BaseFragment {
 					public void onClick(View v) {
 				    	mCallbacks.onItemSelected(ActivityMode.ACTIVITY_PROFILE.toString(), new String[] {
 				    		outfit.getLeader_character_id(),
-				    		outfit.getNamespace().name()});
+				    		DBGCensus.currentNamespace.name()});
 					}
 				});	
 		    }

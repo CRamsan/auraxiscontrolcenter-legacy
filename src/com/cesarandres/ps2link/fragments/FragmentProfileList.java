@@ -15,6 +15,7 @@ import com.cesarandres.ps2link.ApplicationPS2Link;
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
+import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.content.CharacterProfile;
 import com.cesarandres.ps2link.dbg.view.ProfileItemAdapter;
 import com.cesarandres.ps2link.module.ObjectDataSource;
@@ -65,7 +66,7 @@ public class FragmentProfileList extends BaseFragment {
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
 			new String[] { 	((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getCharacterId(),
-							((CharacterProfile) myAdapter.getItemAtPosition(myItemInt)).getNamespace().name()});
+							(DBGCensus.currentNamespace.name())});
 	    }
 	});
 

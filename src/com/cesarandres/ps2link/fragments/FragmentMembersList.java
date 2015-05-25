@@ -78,15 +78,6 @@ public class FragmentMembersList extends BaseFragment {
 	    this.shownOffline = savedInstanceState.getBoolean("showOffline");
 	}
 
-	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewMemberList);
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		mCallbacks.onItemSelected(ApplicationPS2Link.ActivityMode.ACTIVITY_PROFILE.toString(),
-			new String[] { ((Member) myAdapter.getItemAtPosition(myItemInt)).getCharacter_id() });
-	    }
-	});
-
 	this.fragmentShowOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 	    @Override
 	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
