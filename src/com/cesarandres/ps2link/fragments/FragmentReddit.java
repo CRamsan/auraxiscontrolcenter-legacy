@@ -15,12 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cesarandres.ps2link.ApplicationPS2Link;
-import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.dbg.volley.GsonRequest;
@@ -33,9 +33,9 @@ import com.cesarandres.ps2link.module.reddit.RedditItemAdapter;
  */
 public class FragmentReddit extends BaseFragment {
 
-	private static final String REDDIT_ENDPOINT = "http://www.reddit.com/r/Planetside/hot.json";
-	private static final String REDDIT_URL = "http://www.reddit.com/r/Planetside/";
-	private Button goToReddit;
+	public static final String REDDIT_URL = "http://www.reddit.com/r/";
+	public static final String REDDIT_ENDPOINT = "/hot.json";
+	private String subReddit;
 	
     /*
      * (non-Javadoc)
@@ -46,15 +46,6 @@ public class FragmentReddit extends BaseFragment {
     @SuppressLint("InflateParams")
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    goToReddit = (Button)inflater.inflate(R.layout.layout_go_to_reddit, null);
-	goToReddit.setOnClickListener(new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-	    	Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(REDDIT_URL));
-	    	startActivity(openRedditIntent);
-		}
-	});
-	
     return inflater.inflate(R.layout.fragment_reddit, container, false);
     }
 
@@ -69,7 +60,9 @@ public class FragmentReddit extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 	this.fragmentTitle.setText(getString(R.string.title_reddit));
-	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewRedditList);
+	ListView listRoot = (ListView) getView().findViewById(R.id.listViewRedditList);
+	Bundle bundle = getArguments();
+	this.subReddit = bundle.getString("PARAM_0");
 	listRoot.setOnItemClickListener(new OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
@@ -88,13 +81,6 @@ public class FragmentReddit extends BaseFragment {
     @Override
     public void onResume() {
 	super.onResume();
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_REDDIT);
-	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
-	titleLayout.addView(goToReddit);
-	LinearLayout.LayoutParams params = (LayoutParams) goToReddit.getLayoutParams();
-	params.gravity = Gravity.CENTER_VERTICAL;
-	goToReddit.setLayoutParams(params);
-	titleLayout.invalidate();
 	updatePosts();
     }
 
@@ -106,8 +92,7 @@ public class FragmentReddit extends BaseFragment {
     @Override
     public void onPause() {
 	super.onPause();
-	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
-	titleLayout.removeView(goToReddit);
+
 	}
     
     /*
@@ -135,16 +120,16 @@ public class FragmentReddit extends BaseFragment {
      * Send a request to get all the information from the Reddit server
      */
     @SuppressWarnings("unchecked")
-	private void updatePosts() {
+	public void updatePosts() {
     	setProgressButton(true);
-    	String url = REDDIT_ENDPOINT;
+    	String url = REDDIT_URL + this.subReddit + REDDIT_ENDPOINT;
 
     	Listener<Content> success = new Response.Listener<Content>() {
     	    @Override
     	    public void onResponse(Content response) {
     		setProgressButton(false);
     		try {
-    		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewRedditList);
+    		    ListView listRoot = (ListView) getView().findViewById(R.id.listViewRedditList);
     		    listRoot.setAdapter(new RedditItemAdapter(getActivity(), response.getData().getChildren()));
     		} catch (Exception e) {
     		    Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();

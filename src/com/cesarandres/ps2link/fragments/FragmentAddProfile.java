@@ -103,7 +103,7 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
      * then the user will see a toast asking to provide more information.
      */
     private void downloadProfiles() {
-	EditText searchField = (EditText) getActivity().findViewById(R.id.fieldSearchProfile);
+	EditText searchField = (EditText) getView().findViewById(R.id.fieldSearchProfile);
 	this.lastUsedNamespace = DBGCensus.currentNamespace;
 	if (searchField.getText().toString().length() < 3) {
 	    Toast.makeText(getActivity(), R.string.text_profile_name_too_short, Toast.LENGTH_SHORT).show();
@@ -111,7 +111,7 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
 	}
 
 	// Set the loading adapter
-	ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+	ListView listRoot = (ListView) getView().findViewById(R.id.listFoundProfiles);
 	listRoot.setOnItemClickListener(null);
 	listRoot.setAdapter(new LoadingItemAdapter(getActivity()));
 
@@ -128,7 +128,7 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
 	    @Override
 	    public void onResponse(Character_list_response response) {
 		try {
-		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+		    ListView listRoot = (ListView) getView().findViewById(R.id.listFoundProfiles);
 		    listRoot.setAdapter(new ProfileItemAdapter(getActivity(), response.getCharacter_name_list(), false));
 		    listRoot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -146,7 +146,7 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
 	ErrorListener error = new Response.ErrorListener() {
 	    @Override
 	    public void onErrorResponse(VolleyError error) {
-		ListView listRoot = (ListView) getActivity().findViewById(R.id.listFoundProfiles);
+		ListView listRoot = (ListView) getView().findViewById(R.id.listFoundProfiles);
 		if (listRoot != null) {
 		    listRoot.setAdapter(null);
 		}

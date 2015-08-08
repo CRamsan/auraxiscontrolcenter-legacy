@@ -134,6 +134,7 @@ public class FragmentTwitter extends BaseFragment {
     public void onResume() {
 	super.onResume();
 	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_TWITTER);
+	this.fragmentUpdate.setVisibility(View.VISIBLE);
 	updateTweets();
     }
 

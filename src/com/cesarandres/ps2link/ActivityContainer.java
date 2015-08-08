@@ -1,6 +1,8 @@
 package com.cesarandres.ps2link;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,11 +24,11 @@ import com.cesarandres.ps2link.fragments.FragmentAddProfile;
 import com.cesarandres.ps2link.fragments.FragmentMainMenu;
 import com.cesarandres.ps2link.fragments.FragmentOutfitList;
 import com.cesarandres.ps2link.fragments.FragmentProfileList;
-import com.cesarandres.ps2link.fragments.FragmentReddit;
 import com.cesarandres.ps2link.fragments.FragmentServerList;
 import com.cesarandres.ps2link.fragments.FragmentTwitter;
 import com.cesarandres.ps2link.fragments.holders.FragmentOutfitPager;
 import com.cesarandres.ps2link.fragments.holders.FragmentProfilePager;
+import com.cesarandres.ps2link.fragments.holders.FragmentRedditPager;
 import com.cesarandres.ps2link.module.ObjectDataSource;
 
 /**
@@ -62,7 +64,8 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
      * 
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
@@ -116,7 +119,19 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 			upNavigation();
 		}
 	});
-	
+		
+	if(getActivityMode() == ActivityMode.ACTIVITY_MAIN_MENU){
+		this.fragmentTitle.setCompoundDrawables( null, null, null, null );
+	} else {
+		Drawable drawable;
+		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+			drawable = getResources().getDrawable(R.drawable.icon_back);
+		}else{
+			drawable = getDrawable(R.drawable.icon_back);
+		}
+		this.fragmentTitle.setCompoundDrawablesWithIntrinsicBounds(drawable , null, null, null );
+	}
+
 	this.getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 	    public void onBackStackChanged() {
 		if (isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -301,7 +316,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    newFragment = new FragmentProfilePager();
 	    break;
 	case ACTIVITY_REDDIT:
-	    newFragment = new FragmentReddit();
+	    newFragment = new FragmentRedditPager();
 	    break;
 	case ACTIVITY_ABOUT:
 	    newFragment = new FragmentAbout();

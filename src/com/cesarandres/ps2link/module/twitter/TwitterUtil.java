@@ -19,8 +19,8 @@ public class TwitterUtil {
 
     private static final String CONSUMER_SECRET = "eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw";
     private static final String CONSUMER_KEY = "AdtZzl6c9v4QiqC6yHWSVw";
-    private static final String ACCESS_TOKEN = "752283427-RmHBauha1JAOWOcFkJvQvt7oLryQqDzBchGE33tG";
-    private static final String ACCESS_TOKEN_SECRET = "liJ8MHWltgNfVW9nORSPRNP6oogQNFr3D08eC0k8A";
+    private static final String ACCESS_TOKEN = "752283427-izyU9iznlS6LHIGjwWaq9RK9mQuaVCr6XpYnJwEB";
+    private static final String ACCESS_TOKEN_SECRET = "qfSQnSs7jQUnNHqt14SWJcY1KmVVm7mf3azPFT4a2OuqV";
 
     /**
      * @param users
