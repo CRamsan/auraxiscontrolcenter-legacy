@@ -102,6 +102,12 @@ public class ButtonSelectSource {
 		}
 	}
 	
+	public void removeButtons(Context context, ViewGroup root){
+		root.removeView(pcNamespaceButton);
+	    root.removeView(ps4euNamespaceButton);
+	    root.removeView(ps4usNamespaceButton);
+	}
+	
 	public SourceSelectionChangedListener getListener() {
 		return listener;
 	}

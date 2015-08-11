@@ -61,26 +61,6 @@ public class FragmentRedditPager extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View view = inflater.inflate(R.layout.fragment_reddit_pager, container, false);
-	goToReddit = (Button)inflater.inflate(R.layout.layout_go_to_reddit, null);
-	goToReddit.setOnClickListener(new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			String intentUri;
-			switch (mViewPager.getCurrentItem()) {
-			case PC:
-				intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
-				break;
-			case PS4:
-				intentUri = FragmentReddit.REDDIT_URL + PS2_PS4;
-				break;
-			default:
-				intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
-				break;
-			}
-	    	Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
-	    	startActivity(openRedditIntent);
-		}
-	});
 	return view;
     }
 
@@ -91,14 +71,53 @@ public class FragmentRedditPager extends BaseFragment {
      */
     @Override
     public void onResume() {
-	super.onResume();
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_REDDIT);
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
-	LinearLayout.LayoutParams params = (LayoutParams) goToReddit.getLayoutParams();
-	params.gravity = Gravity.CENTER_VERTICAL;
-	goToReddit.setLayoutParams(params);
+		super.onResume();
+		getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_REDDIT);
+				
+		this.fragmentUpdate.setVisibility(View.VISIBLE);
+		LinearLayout.LayoutParams params = (LayoutParams) goToReddit.getLayoutParams();
+		if(params != null) {
+			params.gravity = Gravity.CENTER_VERTICAL;
+			goToReddit.setLayoutParams(params);
+		}
     }
 
+    @Override
+    public void onStart(){
+    	super.onStart();
+    	
+    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+    	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) != null) {
+    		goToReddit = (Button)titleLayout.findViewById(R.id.buttonFragmentGoToReddit);
+    	} else {
+    		goToReddit = (Button)View.inflate(getActivity(), R.layout.layout_go_to_reddit, null);    		
+    	}
+    	
+		goToReddit.setOnClickListener(new View.OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				String intentUri;
+				switch (mViewPager.getCurrentItem()) {
+				case PC:
+					intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
+					break;
+				case PS4:
+					intentUri = FragmentReddit.REDDIT_URL + PS2_PS4;
+					break;
+				default:
+					intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
+					break;
+				}
+		    	Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
+		    	startActivity(openRedditIntent);
+			}
+		});
+		
+    	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) == null) {
+    		titleLayout.addView(goToReddit);
+    	}
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -109,11 +128,6 @@ public class FragmentRedditPager extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-
-	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
-	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) == null) {
-		titleLayout.addView(goToReddit);
-	}
 
 	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 	mViewPager = (ViewPager) getActivity().findViewById(R.id.redditPager);
@@ -159,6 +173,14 @@ public class FragmentRedditPager extends BaseFragment {
 	});
     }
 
+    public void onStop(){
+    	super.onStop();
+    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+    	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) != null) {
+    		titleLayout.removeView(goToReddit);
+    	}
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -168,10 +190,6 @@ public class FragmentRedditPager extends BaseFragment {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 	super.onSaveInstanceState(savedInstanceState);
-	String profileName = String.valueOf(fragmentTitle.getText());
-	if (!"".equals(profileName)) {
-	    savedInstanceState.putString("ProfileName", profileName);
-	}
     }
 
     /**

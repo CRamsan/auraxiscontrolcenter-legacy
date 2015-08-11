@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ import com.cesarandres.ps2link.module.ButtonSelectSource.SourceSelectionChangedL
  */
 public class FragmentServerList extends BaseFragment implements SourceSelectionChangedListener{
 
+	private ButtonSelectSource selectionButton;
+	
     /*
      * (non-Javadoc)
      * 
@@ -43,11 +46,18 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View view = inflater.inflate(R.layout.fragment_server_list, container, false);
-	ButtonSelectSource selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
 	selectionButton.setListener(this);
 	return view;
     }
 
+    @Override
+    public void onDestroyView() {
+    	super.onDestroyView();
+    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+    	selectionButton.removeButtons(getActivity(), titleLayout);
+    }
+    
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);

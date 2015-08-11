@@ -83,20 +83,20 @@ public class ProfileItemAdapter extends BaseAdapter {
 		// Bind the data efficiently with the holder.
 		CharacterProfile profile = this.profileList.get(position);
 		if (this.full) {
-			if (profile.getFaction_id().equals(Faction.VS)) {
+			if (Faction.VS.equals(profile.getFaction_id())) {
 				holder.faction.setImageBitmap(vs_icon);
-			} else if (profile.getFaction_id().equals(Faction.NC)) {
+			} else if (Faction.NC.equals(profile.getFaction_id())) {
 				holder.faction.setImageBitmap(nc_icon);
-			} else if (profile.getFaction_id().equals(Faction.TR)) {
+			} else if (Faction.TR.equals(profile.getFaction_id())) {
 				holder.faction.setImageBitmap(tr_icon);
 			}
 			holder.battleRank.setText(Integer.toString(profile.getBattle_rank().getValue()));
 		}else{
-			if (profile.getCharacter_id_join_character().getFaction_id().equals(Faction.VS)) {
+			if (Faction.VS.equals(profile.getCharacter_id_join_character().getFaction_id())) {
 				holder.faction.setImageBitmap(vs_icon);
-			} else if (profile.getCharacter_id_join_character().getFaction_id().equals(Faction.NC)) {
+			} else if (Faction.NC.equals(profile.getCharacter_id_join_character().getFaction_id())) {
 				holder.faction.setImageBitmap(nc_icon);
-			} else if (profile.getCharacter_id_join_character().getFaction_id().equals(Faction.TR)) {
+			} else if (Faction.TR.equals(profile.getCharacter_id_join_character().getFaction_id())) {
 				holder.faction.setImageBitmap(tr_icon);
 			}
 			holder.battleRank.setText(Integer.toString(profile.getCharacter_id_join_character().getBattle_rank().getValue()));

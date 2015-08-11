@@ -69,6 +69,18 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
+	// Load the UI
+	setContentView(R.layout.activity_panel);
+	
+	// Set references to all the buttons in the action bar
+	this.fragmentTitle = (Button) this.findViewById(R.id.buttonFragmentTitle);
+	this.fragmentProgress = (ProgressBar) this.findViewById(R.id.progressBarFragmentTitleLoading);
+	this.fragmentUpdate = (ImageButton) this.findViewById(R.id.buttonFragmentUpdate);
+	this.fragmentShowOffline = (ToggleButton) this.findViewById(R.id.toggleButtonShowOffline);
+	this.fragmentAdd = (ImageButton) this.findViewById(R.id.buttonFragmentAdd);
+	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
+	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
+	
 	// Check if any activity mode has been set, set it to Main Menu
 	// otherwise
 	Bundle extras = getIntent().getExtras();
@@ -85,9 +97,6 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    setActivityMode(ActivityMode.ACTIVITY_MAIN_MENU);
 	}
 
-	// Load the UI
-	setContentView(R.layout.activity_panel);
-
 	// Check if the second panel exists
 	if (findViewById(R.id.activityMainMenuFragment) != null) {
 	    isTablet = true;
@@ -97,21 +106,12 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	    // This will prevent to populate the second panel when starting in
 	    // main menu mode on a tablet
 	    if (!isTablet || getActivityMode() != ActivityMode.ACTIVITY_MAIN_MENU) {
-		BaseFragment fragment = getFragmentByMode(getActivityMode());
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		transaction.add(R.id.activityFrameLayout, fragment);
-		transaction.commit();
+	    	BaseFragment fragment = getFragmentByMode(getActivityMode());
+	    	FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+	    	transaction.add(R.id.activityFrameLayout, fragment);
+	    	transaction.commit();
 	    }
 	}
-
-	// Set references to all the buttons in the action bar
-	this.fragmentTitle = (Button) this.findViewById(R.id.buttonFragmentTitle);
-	this.fragmentProgress = (ProgressBar) this.findViewById(R.id.progressBarFragmentTitleLoading);
-	this.fragmentUpdate = (ImageButton) this.findViewById(R.id.buttonFragmentUpdate);
-	this.fragmentShowOffline = (ToggleButton) this.findViewById(R.id.toggleButtonShowOffline);
-	this.fragmentAdd = (ImageButton) this.findViewById(R.id.buttonFragmentAdd);
-	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
-	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
 
 	this.fragmentTitle.setOnClickListener(new OnClickListener() {
 		@Override
@@ -120,18 +120,6 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 		}
 	});
 		
-	if(getActivityMode() == ActivityMode.ACTIVITY_MAIN_MENU){
-		this.fragmentTitle.setCompoundDrawables( null, null, null, null );
-	} else {
-		Drawable drawable;
-		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-			drawable = getResources().getDrawable(R.drawable.icon_back);
-		}else{
-			drawable = getDrawable(R.drawable.icon_back);
-		}
-		this.fragmentTitle.setCompoundDrawablesWithIntrinsicBounds(drawable , null, null, null );
-	}
-
 	this.getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 	    public void onBackStackChanged() {
 		if (isTablet && getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -259,6 +247,17 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
      */
     public void setActivityMode(ActivityMode activityMode) {
 	this.activityMode = activityMode;
+		if(activityMode == ActivityMode.ACTIVITY_MAIN_MENU){
+			this.fragmentTitle.setCompoundDrawables( null, null, null, null );
+		} else {
+			Drawable drawable;
+			if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+				drawable = getDrawable(R.drawable.icon_back);
+			}else{
+				drawable = getResources().getDrawable(R.drawable.icon_back);
+			}
+			this.fragmentTitle.setCompoundDrawablesWithIntrinsicBounds(drawable , null, null, null );
+		}
     }
 
     /**
