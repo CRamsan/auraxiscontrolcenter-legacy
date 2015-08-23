@@ -86,7 +86,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		fos.close();
 		ApplicationPS2Link.setBackground(image);
 		return image;
-	    } catch (IOException e) {
+	    } catch (IOException | RuntimeException e) {
 		e.printStackTrace();
 		Toast.makeText(context, R.string.toast_error_loading_image, Toast.LENGTH_SHORT).show();
 		return null;

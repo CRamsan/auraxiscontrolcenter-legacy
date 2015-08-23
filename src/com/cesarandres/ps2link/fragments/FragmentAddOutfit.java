@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
  */
 public class FragmentAddOutfit extends BaseFragment implements SourceSelectionChangedListener{
 
+	private ButtonSelectSource selectionButton;
 	private Namespace lastUsedNamespace;
 	
     /*
@@ -61,7 +63,7 @@ public class FragmentAddOutfit extends BaseFragment implements SourceSelectionCh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View view = inflater.inflate(R.layout.fragment_add_outfit, container, false);
-	ButtonSelectSource selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
 	selectionButton.setListener(this);
 	return view;
     }
@@ -92,6 +94,13 @@ public class FragmentAddOutfit extends BaseFragment implements SourceSelectionCh
 
     }
 
+    @Override
+    public void onDestroyView() {
+    	super.onDestroyView();
+    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+    	selectionButton.removeButtons(getActivity(), titleLayout);
+    }
+    
     /*
      * (non-Javadoc)
      * 

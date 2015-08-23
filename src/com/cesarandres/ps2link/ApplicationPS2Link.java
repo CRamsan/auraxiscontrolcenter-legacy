@@ -25,7 +25,7 @@ import com.cesarandres.ps2link.dbg.volley.BitmapLruCache;
  * This class provides functions and objects that are used application wide.
  * 
  */
-@ReportsCrashes(formUri = "http://amplified-ward-94808.appspot.com/upload",
+@ReportsCrashes(formUri = "http://amplified-ward-94808.appspot.com/bugs",
 				mode = ReportingInteractionMode.TOAST,
 				reportType = org.acra.sender.HttpSender.Type.JSON,
 				resToastText = R.string.text_toast_acra)

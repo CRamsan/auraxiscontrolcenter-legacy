@@ -202,6 +202,9 @@ public class FragmentMembersList extends BaseFragment {
 	    ArrayList<Member> newMembers = members[0];
 	    ObjectDataSource data = getActivityContainer().getData();
 	    Outfit outfit = data.getOutfit(outfitId);
+	    if(outfit == null){
+	    	return null;
+	    }
 	    outfit.setMember_count(newMembers.size());
 	    data.updateOutfit(outfit, !outfit.isCached());
 

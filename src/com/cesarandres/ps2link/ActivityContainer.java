@@ -80,7 +80,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	this.fragmentAdd = (ImageButton) this.findViewById(R.id.buttonFragmentAdd);
 	this.fragmentStar = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentStar);
 	this.fragmentAppend = (ToggleButton) this.findViewById(R.id.toggleButtonFragmentAppend);
-	
+		
 	// Check if any activity mode has been set, set it to Main Menu
 	// otherwise
 	Bundle extras = getIntent().getExtras();
@@ -141,6 +141,11 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 	setData(new ObjectDataSource(this));
 	data.open();
     }
+    
+    public void onDestroy(){
+    	super.onDestroy();
+    	data.close();
+    }
 
     /*
      * (non-Javadoc)
@@ -165,8 +170,6 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
     @Override
     public void onItemSelected(String id, String args[]) {
 	// Reset the database, this will also force some tasks to end
-	data.close();
-	data.open();
 
 	ActivityMode mode = ActivityMode.valueOf(id);
 	// Seen as we can't have embedded fragments, we will create a new
@@ -209,7 +212,7 @@ public class ActivityContainer extends BaseActivity implements FragmentCallbacks
 		}
 	    }
 	    intent.putExtra(ApplicationPS2Link.ACTIVITY_MODE_KEY, mode.toString());
-	    clearActionBar();
+	    clearActionBar();	    
 	    startActivity(intent);
 	}
     }

@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ import com.cesarandres.ps2link.module.ButtonSelectSource.SourceSelectionChangedL
 public class FragmentAddProfile extends BaseFragment implements SourceSelectionChangedListener {
 
 	private Namespace lastUsedNamespace;
+	private ButtonSelectSource selectionButton;
 	
     /*
      * (non-Javadoc)
@@ -54,7 +56,7 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View view = inflater.inflate(R.layout.fragment_add_profile, container, false);
-	ButtonSelectSource selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+	selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
 	selectionButton.setListener(this);	
 	return view;
     }
@@ -96,6 +98,13 @@ public class FragmentAddProfile extends BaseFragment implements SourceSelectionC
 	super.onStop();
     }
 
+    @Override
+    public void onDestroyView() {
+    	super.onDestroyView();
+    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+    	selectionButton.removeButtons(getActivity(), titleLayout);
+    }
+    
     /**
      * This method will retrieve profiles based on the criteria given by the
      * user in the text fields. The user needs to provide a name to start a
