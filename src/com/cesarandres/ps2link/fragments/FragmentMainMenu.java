@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,8 +121,11 @@ public class FragmentMainMenu extends BaseFragment {
 	});
 	buttonDonate.setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
-	    	DownloadDonationsTask task = new DownloadDonationsTask();
-	    	task.execute();
+	    	if(mService != null){
+	    		DownloadDonationsTask task = new DownloadDonationsTask();
+	    		setCurrentTask(task);
+	    		task.execute();
+	    	}
 	    }
 	});	
 	
@@ -338,7 +342,12 @@ public class FragmentMainMenu extends BaseFragment {
             		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_server_error), Toast.LENGTH_LONG).show();
             		return;
                 }
-                newFragment.show(getFragmentManager(), "donations");	
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                if(manager != null){
+                	newFragment.show(manager, "donations");	
+                }else{
+            		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_empty_response), Toast.LENGTH_LONG).show();
+                }
         		}else{
             		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_error_empty_response), Toast.LENGTH_LONG).show();
         		}

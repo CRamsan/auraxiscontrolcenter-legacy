@@ -63,7 +63,7 @@ public class KillItemAdapter extends BaseAdapter {
 
     @Override
     public CharacterEvent getItem(int position) {
-	return events.get(position);
+	return this.events.get(position);
     }
 
     @Override

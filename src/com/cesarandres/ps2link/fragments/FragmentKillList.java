@@ -99,6 +99,9 @@ public class FragmentKillList extends BaseFragment {
 	    public void onResponse(Characters_event_list_response response) {
 		setProgressButton(false);
 		try {
+			if(response.getCharacters_event_list() == null){
+				return;
+			}
 		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewKillList);
 		    listRoot.setAdapter(new KillItemAdapter(getActivity(), response.getCharacters_event_list(), profileId));
 		} catch (Exception e) {

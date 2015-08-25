@@ -92,14 +92,22 @@ public class ProfileItemAdapter extends BaseAdapter {
 			}
 			holder.battleRank.setText(Integer.toString(profile.getBattle_rank().getValue()));
 		}else{
-			if (Faction.VS.equals(profile.getCharacter_id_join_character().getFaction_id())) {
-				holder.faction.setImageBitmap(vs_icon);
-			} else if (Faction.NC.equals(profile.getCharacter_id_join_character().getFaction_id())) {
-				holder.faction.setImageBitmap(nc_icon);
-			} else if (Faction.TR.equals(profile.getCharacter_id_join_character().getFaction_id())) {
-				holder.faction.setImageBitmap(tr_icon);
+			if(profile.getCharacter_id_join_character() == null){
+				holder.faction.setImageDrawable(null);
+			}else{
+				if (Faction.VS.equals(profile.getCharacter_id_join_character().getFaction_id())) {
+					holder.faction.setImageBitmap(vs_icon);
+				} else if (Faction.NC.equals(profile.getCharacter_id_join_character().getFaction_id())) {
+					holder.faction.setImageBitmap(nc_icon);
+				} else if (Faction.TR.equals(profile.getCharacter_id_join_character().getFaction_id())) {
+					holder.faction.setImageBitmap(tr_icon);
+				}
 			}
-			holder.battleRank.setText(Integer.toString(profile.getCharacter_id_join_character().getBattle_rank().getValue()));
+			if(profile.getCharacter_id_join_character() == null){
+				holder.battleRank.setText("-");			
+			}else{
+				holder.battleRank.setText(Integer.toString(profile.getCharacter_id_join_character().getBattle_rank().getValue()));
+			}
 		}
 		holder.name.setText(this.profileList.get(position).getName().getFirst());
 
