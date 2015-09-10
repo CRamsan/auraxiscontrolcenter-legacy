@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.cesarandres.ps2link.auraxiscontrolcenter"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "3.1.3"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'ch.acra:acra:4.6.2'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'org.ocpsoft.prettytime:prettytime:3.2.0.Final'
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
+}

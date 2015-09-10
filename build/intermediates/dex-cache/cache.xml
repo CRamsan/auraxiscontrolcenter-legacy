@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/cramsan/.gradle/caches/modules-2/files-2.1/com.mcxiaoke.volley/library/1.0.19/a8f23f65fc1e522ee4a1a697ee569901a46741fa/library-1.0.19.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a8f23f65fc1e522ee4a1a697ee569901a46741fa">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/library-1.0.19-f1c153e442423d8948f54b58b4d906884842d695.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/.gradle/caches/modules-2/files-2.1/ch.acra/acra/4.6.2/b99297996579b72496c9f81b0c12d8404c74e618/acra-4.6.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b99297996579b72496c9f81b0c12d8404c74e618">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/acra-4.6.2-8aa340dcbc104e4243192894d35089925de4dba8.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/classes-2293b9d008e341c39621a7c614992a951ebd5508.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-9965c81ca57c1f705b845f0fe135deb974c92f59.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/.gradle/caches/modules-2/files-2.1/org.twitter4j/twitter4j-core/4.0.4/1f3c896c7b2f20c51103078ccf0bc2ea97ac012a/twitter4j-core-4.0.4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1f3c896c7b2f20c51103078ccf0bc2ea97ac012a">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/twitter4j-core-4.0.4-89f595b6412689fe34c15fda31ce352e4bb476fc.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/gson-2.3-7e438ff0da44983e4e06c57e51ee2da168aa1371.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-1baeedd9b2d09fed7e98341c8ceab5709c856c66.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/.gradle/caches/modules-2/files-2.1/org.ocpsoft.prettytime/prettytime/3.2.0.Final/91e58fc02dede2bfb048580a0f97425c2d861bfd/prettytime-3.2.0.Final.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="91e58fc02dede2bfb048580a0f97425c2d861bfd">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/prettytime-3.2.0.Final-7d5e5d0c439d7146c7b987825368fe82277dd041.jar" />
+    </item>
+    <item
+        jar="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/cramsan/StudioProjects/AuraxisControlCenter/app/build/intermediates/pre-dexed/debug/classes-1b6ba9f6dc9a9eef4a3e24ff8faec8a538699ff0.jar" />
+    </item>
+
+</items>
