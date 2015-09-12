@@ -3,92 +3,92 @@ package com.cesarandres.ps2link.dbg.content.response.server;
 import com.google.gson.annotations.SerializedName;
 
 public class LiveServersPS4 {
-				
-	@SerializedName("Ceres (EU)")
-	private LiveServer Ceres;
-	
-	@SerializedName("Crux")
-	private LiveServer Crux;
-	
-	@SerializedName("Dahaka (EU)")
-	private LiveServer Dahaka;
-	
-	@SerializedName("Genudine")
-	private LiveServer Genudine;
-	
-	@SerializedName("Lithcorp (EU)")
-	private LiveServer Lithcorp;
-	
-	@SerializedName("Palos")
-	private LiveServer Palos;
-	
-	@SerializedName("Rashnu (EU)")
-	private LiveServer Rashnu;
-	
-	@SerializedName("Searhus")
-	private LiveServer Searhus;
-	
-	public LiveServer getCeres() {
-		return Ceres;
-	}
 
-	public void setCeres(LiveServer ceres) {
-		Ceres = ceres;
-	}
+    @SerializedName("Ceres (EU)")
+    private LiveServer Ceres;
 
-	public LiveServer getCrux() {
-		return Crux;
-	}
+    @SerializedName("Crux")
+    private LiveServer Crux;
 
-	public void setCrux(LiveServer crux) {
-		Crux = crux;
-	}
+    @SerializedName("Dahaka (EU)")
+    private LiveServer Dahaka;
 
-	public LiveServer getDahaka() {
-		return Dahaka;
-	}
+    @SerializedName("Genudine")
+    private LiveServer Genudine;
 
-	public void setDahaka(LiveServer dahaka) {
-		Dahaka = dahaka;
-	}
+    @SerializedName("Lithcorp (EU)")
+    private LiveServer Lithcorp;
 
-	public LiveServer getGenudine() {
-		return Genudine;
-	}
+    @SerializedName("Palos")
+    private LiveServer Palos;
 
-	public void setGenudine(LiveServer genudine) {
-		Genudine = genudine;
-	}
+    @SerializedName("Rashnu (EU)")
+    private LiveServer Rashnu;
 
-	public LiveServer getLithcorp() {
-		return Lithcorp;
-	}
+    @SerializedName("Searhus")
+    private LiveServer Searhus;
 
-	public void setLithcorp(LiveServer lithcorp) {
-		Lithcorp = lithcorp;
-	}
+    public LiveServer getCeres() {
+        return Ceres;
+    }
 
-	public LiveServer getPalos() {
-		return Palos;
-	}
+    public void setCeres(LiveServer ceres) {
+        Ceres = ceres;
+    }
 
-	public void setPalos(LiveServer palos) {
-		Palos = palos;
-	}
+    public LiveServer getCrux() {
+        return Crux;
+    }
 
-	public LiveServer getRashnu() {
-		return Rashnu;
-	}
+    public void setCrux(LiveServer crux) {
+        Crux = crux;
+    }
 
-	public void setRashnu(LiveServer rashnu) {
-		Rashnu = rashnu;
-	}
+    public LiveServer getDahaka() {
+        return Dahaka;
+    }
 
-	public LiveServer getSearhus() {
-		return Searhus;
-	}
+    public void setDahaka(LiveServer dahaka) {
+        Dahaka = dahaka;
+    }
 
-	public void setSearhus(LiveServer searhus) {
-		Searhus = searhus;
-	}
+    public LiveServer getGenudine() {
+        return Genudine;
+    }
+
+    public void setGenudine(LiveServer genudine) {
+        Genudine = genudine;
+    }
+
+    public LiveServer getLithcorp() {
+        return Lithcorp;
+    }
+
+    public void setLithcorp(LiveServer lithcorp) {
+        Lithcorp = lithcorp;
+    }
+
+    public LiveServer getPalos() {
+        return Palos;
+    }
+
+    public void setPalos(LiveServer palos) {
+        Palos = palos;
+    }
+
+    public LiveServer getRashnu() {
+        return Rashnu;
+    }
+
+    public void setRashnu(LiveServer rashnu) {
+        Rashnu = rashnu;
+    }
+
+    public LiveServer getSearhus() {
+        return Searhus;
+    }
+
+    public void setSearhus(LiveServer searhus) {
+        Searhus = searhus;
+    }
 }

@@ -19,25 +19,24 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.dbg.util.Logger;
 
 /**
- * 
- * 
  * This class extends fragment to add the support for a callback. All the
  * fragments should extend this class instead of the standard Fragment class.
  * All behavior that is shared across all fragments should also be implemented
  * here.
- * 
  */
+
 /**
  * @author cramsan
- *
  */
 public abstract class BaseFragment extends Fragment {
 
+    private static FragmentCallbacks emptyCallbacks = new FragmentCallbacks() {
+        @Override
+        public void onItemSelected(String id, String args[]) {
+            Logger.log(Log.WARN, this, "Item selected when no activity was set, this should never happen");
+        }
+    };
     protected FragmentCallbacks mCallbacks = emptyCallbacks;
-
-    @SuppressWarnings("rawtypes")
-    private AsyncTask currentTask;
-
     protected Button fragmentTitle;
     protected ProgressBar fragmentProgress;
     protected ImageButton fragmentUpdate;
@@ -46,13 +45,8 @@ public abstract class BaseFragment extends Fragment {
     protected ToggleButton fragmentStar;
     protected ToggleButton fragmentAppend;
     protected ToggleButton fragmentMyWeapons;
-
-    private static FragmentCallbacks emptyCallbacks = new FragmentCallbacks() {
-	@Override
-	public void onItemSelected(String id, String args[]) {
-	    Logger.log(Log.WARN, this, "Item selected when no activity was set, this should never happen");
-	}
-    };
+    @SuppressWarnings("rawtypes")
+    private AsyncTask currentTask;
 
     /*
      * (non-Javadoc)
@@ -61,12 +55,12 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onAttach(Activity activity) {
-	Logger.log(Log.INFO, this, "Fragment onAttach");
-	super.onAttach(activity);
-	if (!(activity instanceof FragmentCallbacks)) {
-	    throw new IllegalStateException("Activity must implement fragment's callbacks.");
-	}
-	mCallbacks = (FragmentCallbacks) activity;
+        Logger.log(Log.INFO, this, "Fragment onAttach");
+        super.onAttach(activity);
+        if (!(activity instanceof FragmentCallbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+        mCallbacks = (FragmentCallbacks) activity;
     }
 
     /*
@@ -76,8 +70,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	Logger.log(Log.INFO, this, "Fragment onCreate");
-	super.onCreate(savedInstanceState);
+        Logger.log(Log.INFO, this, "Fragment onCreate");
+        super.onCreate(savedInstanceState);
     }
 
     /*
@@ -89,8 +83,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	Logger.log(Log.INFO, this, "Fragment onCreateView");
-	return super.onCreateView(inflater, container, savedInstanceState);
+        Logger.log(Log.INFO, this, "Fragment onCreateView");
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     /*
@@ -100,17 +94,17 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-	Logger.log(Log.INFO, this, "Fragment onActivityCreated");
-	super.onActivityCreated(savedInstanceState);
+        Logger.log(Log.INFO, this, "Fragment onActivityCreated");
+        super.onActivityCreated(savedInstanceState);
 
-	this.fragmentTitle = (Button) getActivity().findViewById(R.id.buttonFragmentTitle);
-	this.fragmentProgress = (ProgressBar) getActivity().findViewById(R.id.progressBarFragmentTitleLoading);
-	this.fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
-	this.fragmentShowOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
-	this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
-	this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
-	this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
-	this.fragmentMyWeapons = (ToggleButton) getActivity().findViewById(R.id.toggleButtonWeapons);
+        this.fragmentTitle = (Button) getActivity().findViewById(R.id.buttonFragmentTitle);
+        this.fragmentProgress = (ProgressBar) getActivity().findViewById(R.id.progressBarFragmentTitleLoading);
+        this.fragmentUpdate = (ImageButton) getActivity().findViewById(R.id.buttonFragmentUpdate);
+        this.fragmentShowOffline = (ToggleButton) getActivity().findViewById(R.id.toggleButtonShowOffline);
+        this.fragmentAdd = (ImageButton) getActivity().findViewById(R.id.buttonFragmentAdd);
+        this.fragmentStar = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentStar);
+        this.fragmentAppend = (ToggleButton) getActivity().findViewById(R.id.toggleButtonFragmentAppend);
+        this.fragmentMyWeapons = (ToggleButton) getActivity().findViewById(R.id.toggleButtonWeapons);
     }
 
     /*
@@ -121,8 +115,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-	Logger.log(Log.INFO, this, "Fragment onViewStateRestored");
-	super.onViewStateRestored(savedInstanceState);
+        Logger.log(Log.INFO, this, "Fragment onViewStateRestored");
+        super.onViewStateRestored(savedInstanceState);
     }
 
     /*
@@ -132,8 +126,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onStart() {
-	Logger.log(Log.INFO, this, "Fragment onStart");
-	super.onStart();
+        Logger.log(Log.INFO, this, "Fragment onStart");
+        super.onStart();
     }
 
     /*
@@ -143,8 +137,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onResume() {
-	Logger.log(Log.INFO, this, "Fragment onResume");
-	super.onResume();
+        Logger.log(Log.INFO, this, "Fragment onResume");
+        super.onResume();
     }
 
     /*
@@ -154,8 +148,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onPause() {
-	Logger.log(Log.INFO, this, "Fragment onPause");
-	super.onPause();
+        Logger.log(Log.INFO, this, "Fragment onPause");
+        super.onPause();
     }
 
     /*
@@ -165,13 +159,13 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onStop() {
-	Logger.log(Log.INFO, this, "Fragment onStop");
-	super.onStop();
-	// When a fragment is stopped all tasks should be cancelled
-	ApplicationPS2Link.volley.cancelAll(this);
-	if (currentTask != null) {
-	    currentTask.cancel(true);
-	}
+        Logger.log(Log.INFO, this, "Fragment onStop");
+        super.onStop();
+        // When a fragment is stopped all tasks should be cancelled
+        ApplicationPS2Link.volley.cancelAll(this);
+        if (currentTask != null) {
+            currentTask.cancel(true);
+        }
     }
 
     /*
@@ -181,8 +175,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
-	Logger.log(Log.INFO, this, "Fragment onDestroyView");
-	super.onDestroyView();
+        Logger.log(Log.INFO, this, "Fragment onDestroyView");
+        super.onDestroyView();
     }
 
     /*
@@ -192,8 +186,8 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onDestroy() {
-	Logger.log(Log.INFO, this, "Fragment onDestroy");
-	super.onDestroy();
+        Logger.log(Log.INFO, this, "Fragment onDestroy");
+        super.onDestroy();
     }
 
     /*
@@ -203,64 +197,59 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void onDetach() {
-	Logger.log(Log.INFO, this, "Fragment onDetach");
-	super.onDetach();
-	mCallbacks = emptyCallbacks;
+        Logger.log(Log.INFO, this, "Fragment onDetach");
+        super.onDetach();
+        mCallbacks = emptyCallbacks;
     }
 
     /**
-     * @param enabled
-     *            if set to true, the progress view is displayed and the update
-     *            view is hidden. If set to false, the opposite will happen
+     * @param enabled if set to true, the progress view is displayed and the update
+     *                view is hidden. If set to false, the opposite will happen
      */
     public void setProgressButton(boolean enabled) {
-	if (enabled) {
-	    this.fragmentUpdate.setVisibility(View.GONE);
-	    this.fragmentProgress.setVisibility(View.VISIBLE);
-	} else {
-	    this.fragmentUpdate.setVisibility(View.VISIBLE);
-	    this.fragmentProgress.setVisibility(View.GONE);
-	}
+        if (enabled) {
+            this.fragmentUpdate.setVisibility(View.GONE);
+            this.fragmentProgress.setVisibility(View.VISIBLE);
+        } else {
+            this.fragmentUpdate.setVisibility(View.VISIBLE);
+            this.fragmentProgress.setVisibility(View.GONE);
+        }
     }
 
     /**
      * @return the ActivityContainer object that this class belongs to
      */
     protected ActivityContainer getActivityContainer() {
-	return (ActivityContainer) getActivity();
+        return (ActivityContainer) getActivity();
     }
 
     /**
-     * @param currentTask
-     *            new ASyncTask to be attached to this fragment. If a task is
-     *            already attached, the old one is cancelled and the new one is
-     *            set
+     * @param currentTask new ASyncTask to be attached to this fragment. If a task is
+     *                    already attached, the old one is cancelled and the new one is
+     *                    set
      */
     @SuppressWarnings("rawtypes")
     public void setCurrentTask(AsyncTask currentTask) {
-	if (this.currentTask != null) {
-	    this.currentTask.cancel(true);
-	}
-	this.currentTask = currentTask;
+        if (this.currentTask != null) {
+            this.currentTask.cancel(true);
+        }
+        this.currentTask = currentTask;
     }
 
     /**
      * If there is a current task set, cancel it.
      */
     public void cancelCurrentTask() {
-    	if(this.currentTask != null){
-    		this.currentTask.cancel(true);
-    	}
+        if (this.currentTask != null) {
+            this.currentTask.cancel(true);
+        }
     }
-    
+
     /**
-     * 
-     * 
      * This interface is used to send actions from the fragment back to the
      * activity that is attached to
-     * 
      */
     public interface FragmentCallbacks {
-	public void onItemSelected(String id, String args[]);
+        public void onItemSelected(String id, String args[]);
     }
 }

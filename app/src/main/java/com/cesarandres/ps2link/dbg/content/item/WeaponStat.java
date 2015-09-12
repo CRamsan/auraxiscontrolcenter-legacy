@@ -1,99 +1,99 @@
 package com.cesarandres.ps2link.dbg.content.item;
 
-public class WeaponStat implements Comparable<WeaponStat>{
+public class WeaponStat implements Comparable<WeaponStat> {
 
-	private String name;
-	private String vehicle;
-	private String imagePath;
-	private int kills;
-	private int TR;
-	private int VS;
-	private int NC;
-	private int headshots;
-	private int vehicleKills;
-	
-	public String getName() {
-		return name;
-	}
+    private String name;
+    private String vehicle;
+    private String imagePath;
+    private int kills;
+    private int TR;
+    private int VS;
+    private int NC;
+    private int headshots;
+    private int vehicleKills;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getImagePath() {
-		return imagePath;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
+    public String getImagePath() {
+        return imagePath;
+    }
 
-	public int getKills() {
-		return kills;
-	}
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
-	public void setKills(int kills) {
-		this.kills = kills;
-	}
+    public int getKills() {
+        return kills;
+    }
 
-	public int getTR() {
-		return TR;
-	}
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
 
-	public void setTR(int tR) {
-		TR = tR;
-	}
+    public int getTR() {
+        return TR;
+    }
 
-	public int getVS() {
-		return VS;
-	}
+    public void setTR(int tR) {
+        TR = tR;
+    }
 
-	public void setVS(int vS) {
-		VS = vS;
-	}
+    public int getVS() {
+        return VS;
+    }
 
-	public int getNC() {
-		return NC;
-	}
+    public void setVS(int vS) {
+        VS = vS;
+    }
 
-	public void setNC(int nC) {
-		NC = nC;
-	}
+    public int getNC() {
+        return NC;
+    }
 
-	public int getHeadshots() {
-		return headshots;
-	}
+    public void setNC(int nC) {
+        NC = nC;
+    }
 
-	public void setHeadshots(int headshots) {
-		this.headshots = headshots;
-	}
+    public int getHeadshots() {
+        return headshots;
+    }
 
-	public int getVehicleKills() {
-		return vehicleKills;
-	}
+    public void setHeadshots(int headshots) {
+        this.headshots = headshots;
+    }
 
-	public void setVehicleKills(int vehicleKills) {
-		this.vehicleKills = vehicleKills;
-	}
+    public int getVehicleKills() {
+        return vehicleKills;
+    }
 
-	@Override
-	public int compareTo(WeaponStat another) {
-		if(another.getKills() - this.getKills() == 0){
-			if(another.getHeadshots() - this.getHeadshots() == 0){
-				return another.getVehicleKills() - this.getVehicleKills();
-			}else {
-				return another.getHeadshots() - this.getHeadshots();
-			}
-		}else{
-			return another.getKills() - this.getKills();
-		}
-	}
+    public void setVehicleKills(int vehicleKills) {
+        this.vehicleKills = vehicleKills;
+    }
 
-	public String getVehicle() {
-		return vehicle;
-	}
+    @Override
+    public int compareTo(WeaponStat another) {
+        if (another.getKills() - this.getKills() == 0) {
+            if (another.getHeadshots() - this.getHeadshots() == 0) {
+                return another.getVehicleKills() - this.getVehicleKills();
+            } else {
+                return another.getHeadshots() - this.getHeadshots();
+            }
+        } else {
+            return another.getKills() - this.getKills();
+        }
+    }
 
-	public void setVehicle(String vehicle) {
-		this.vehicle = vehicle;
-	}
+    public String getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
+    }
 }

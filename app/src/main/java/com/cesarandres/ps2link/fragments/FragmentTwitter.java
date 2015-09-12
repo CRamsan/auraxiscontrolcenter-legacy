@@ -1,9 +1,5 @@
 package com.cesarandres.ps2link.fragments;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import twitter4j.TwitterException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -30,15 +26,20 @@ import com.cesarandres.ps2link.module.ObjectDataSource;
 import com.cesarandres.ps2link.module.twitter.PS2Tweet;
 import com.cesarandres.ps2link.module.twitter.TwitterUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import twitter4j.TwitterException;
+
 /**
  * Fragment that retrieves the Twitter feed for several users planetside 2
  * related. It also has UI to show and hide some users.
  */
 public class FragmentTwitter extends BaseFragment {
 
+    private final String USER_PREFIX = "cb_";
     private boolean loaded = false;
     private String[] users;
-    private final String USER_PREFIX = "cb_";
 
     /*
      * (non-Javadoc)
@@ -48,16 +49,16 @@ public class FragmentTwitter extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	View view = inflater.inflate(R.layout.fragment_twitter, container, false);
-	LinearLayout holder = (LinearLayout) view.findViewById(R.id.linearLayoutTwitterHolder);
-	this.users = getActivity().getResources().getStringArray(R.array.twitter_users);
-	for(String user : this.users){
-		CheckBox cb = new CheckBox(getActivity());
-	    cb.setText("@"+user);
-	    cb.setTag(user);
-	    holder.addView(cb);
-	}
-    return view;
+        View view = inflater.inflate(R.layout.fragment_twitter, container, false);
+        LinearLayout holder = (LinearLayout) view.findViewById(R.id.linearLayoutTwitterHolder);
+        this.users = getActivity().getResources().getStringArray(R.array.twitter_users);
+        for (String user : this.users) {
+            CheckBox cb = new CheckBox(getActivity());
+            cb.setText("@" + user);
+            cb.setTag(user);
+            holder.addView(cb);
+        }
+        return view;
     }
 
     /*
@@ -69,60 +70,60 @@ public class FragmentTwitter extends BaseFragment {
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	this.fragmentTitle.setText(getString(R.string.title_twitter));
+        super.onActivityCreated(savedInstanceState);
+        this.fragmentTitle.setText(getString(R.string.title_twitter));
 
-	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+        SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
 
-	OnCheckedChangeListener updateTweetLitener = new OnCheckedChangeListener() {
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		updateTweets();
-	    }
-	};
+        OnCheckedChangeListener updateTweetLitener = new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                updateTweets();
+            }
+        };
 
-	for(String user : this.users){
-		CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
-		userCheckbox.setChecked(settings.getBoolean(USER_PREFIX + user, false));
-		userCheckbox.setOnCheckedChangeListener(updateTweetLitener);
-	}
-	
-	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
-	    public void onClick(View v) {
-		ArrayList<String> usersnames = new ArrayList<String>();
-		
-		for(String user : FragmentTwitter.this.users){
-			CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
-			if (userCheckbox.isChecked()) {
-			    usersnames.add(user);
-			}
-		}
+        for (String user : this.users) {
+            CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
+            userCheckbox.setChecked(settings.getBoolean(USER_PREFIX + user, false));
+            userCheckbox.setOnCheckedChangeListener(updateTweetLitener);
+        }
 
-		String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
+        this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ArrayList<String> usersnames = new ArrayList<String>();
 
-		UpdateTweetsTask task = new UpdateTweetsTask();
-		setCurrentTask(task);
-		task.execute(stringArray);
-	    }
-	});
-	
-	ArrayList<String> usersnames = new ArrayList<String>();
-	for(String user : FragmentTwitter.this.users){
-		usersnames.add(user);
-	}
-	String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
-	
-	if (savedInstanceState == null) {
-	    UpdateTweetsTask task = new UpdateTweetsTask();
-	    setCurrentTask(task);
-	    task.execute(stringArray);
-	} else {
-	    this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
-	    if (!this.loaded) {
-		UpdateTweetsTask task = new UpdateTweetsTask();
-		setCurrentTask(task);
-		task.execute(stringArray);
-	    }
-	}
+                for (String user : FragmentTwitter.this.users) {
+                    CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
+                    if (userCheckbox.isChecked()) {
+                        usersnames.add(user);
+                    }
+                }
+
+                String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
+
+                UpdateTweetsTask task = new UpdateTweetsTask();
+                setCurrentTask(task);
+                task.execute(stringArray);
+            }
+        });
+
+        ArrayList<String> usersnames = new ArrayList<String>();
+        for (String user : FragmentTwitter.this.users) {
+            usersnames.add(user);
+        }
+        String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
+
+        if (savedInstanceState == null) {
+            UpdateTweetsTask task = new UpdateTweetsTask();
+            setCurrentTask(task);
+            task.execute(stringArray);
+        } else {
+            this.loaded = savedInstanceState.getBoolean("twitterLoader", false);
+            if (!this.loaded) {
+                UpdateTweetsTask task = new UpdateTweetsTask();
+                setCurrentTask(task);
+                task.execute(stringArray);
+            }
+        }
     }
 
     /*
@@ -132,10 +133,10 @@ public class FragmentTwitter extends BaseFragment {
      */
     @Override
     public void onResume() {
-	super.onResume();
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_TWITTER);
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
-	updateTweets();
+        super.onResume();
+        getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_TWITTER);
+        this.fragmentUpdate.setVisibility(View.VISIBLE);
+        updateTweets();
     }
 
     /*
@@ -146,8 +147,8 @@ public class FragmentTwitter extends BaseFragment {
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-	super.onSaveInstanceState(savedInstanceState);
-	savedInstanceState.putBoolean("twitterLoader", loaded);
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("twitterLoader", loaded);
     }
 
     /*
@@ -157,112 +158,110 @@ public class FragmentTwitter extends BaseFragment {
      */
     @Override
     public void onDestroyView() {
-	super.onDestroyView();
-	SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
-	SharedPreferences.Editor editor = settings.edit();
-	for(String user : FragmentTwitter.this.users){
-		CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
-		editor.putBoolean(USER_PREFIX + user, userCheckbox.isChecked());
-	}
-	editor.commit();
+        super.onDestroyView();
+        SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        for (String user : FragmentTwitter.this.users) {
+            CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
+            editor.putBoolean(USER_PREFIX + user, userCheckbox.isChecked());
+        }
+        editor.commit();
     }
 
     /**
      * Check the UI and update the content based on the selected users
      */
     private void updateTweets() {
-	ArrayList<String> usersnames = new ArrayList<String>();
-	
-	for(String user : FragmentTwitter.this.users){
-		CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
-		if (userCheckbox.isChecked()) {
-		    usersnames.add(user);
-		}
-	}
-	
-	String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
-	updateContent(stringArray);
+        ArrayList<String> usersnames = new ArrayList<String>();
+
+        for (String user : FragmentTwitter.this.users) {
+            CheckBox userCheckbox = ((CheckBox) getView().findViewWithTag(user));
+            if (userCheckbox.isChecked()) {
+                usersnames.add(user);
+            }
+        }
+
+        String[] stringArray = Arrays.copyOf(usersnames.toArray(), usersnames.size(), String[].class);
+        updateContent(stringArray);
     }
 
     /**
-     * @param users
-     *            list of users to read from the database
+     * @param users list of users to read from the database
      */
     private void updateContent(String[] users) {
-	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewTweetList);
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-		String url = "https://twitter.com/#!/" + ((PS2Tweet) myAdapter.getItemAtPosition(myItemInt)).getTag() + "/status/"
-			+ ((PS2Tweet) myAdapter.getItemAtPosition(myItemInt)).getId();
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
-		startActivity(i);
-	    }
-	});
-	ObjectDataSource data = getActivityContainer().getData();
-	listRoot.setAdapter(new TwitterItemAdapter(getActivity(), users, data));
+        ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewTweetList);
+        listRoot.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+                String url = "https://twitter.com/#!/" + ((PS2Tweet) myAdapter.getItemAtPosition(myItemInt)).getTag() + "/status/"
+                        + ((PS2Tweet) myAdapter.getItemAtPosition(myItemInt)).getId();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ObjectDataSource data = getActivityContainer().getData();
+        listRoot.setAdapter(new TwitterItemAdapter(getActivity(), users, data));
     }
 
     /**
      * Task that will update the tweets for the given users. The tweets will be
      * cached into the database
-     * 
      */
     private class UpdateTweetsTask extends AsyncTask<String, Integer, String[]> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
-	@Override
-	protected void onPreExecute() {
-	    setProgressButton(true);
-	}
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.AsyncTask#onPreExecute()
+         */
+        @Override
+        protected void onPreExecute() {
+            setProgressButton(true);
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
-	 */
-	@Override
-	protected String[] doInBackground(String... users) {
-	    ArrayList<PS2Tweet> tweetList = new ArrayList<PS2Tweet>(0);
-	    ObjectDataSource data = getActivityContainer().getData();
-	    int currentTime = (int) (System.currentTimeMillis() / 1000);
-	    int weekInSeconds = 60 * 60 * 24 * 7;
-	    data.deleteAllTweet(currentTime - weekInSeconds);
-	    for (String user : users) {
-		if (this.isCancelled()) {
-		    break;
-		}
-		try {
-		    tweetList = TwitterUtil.getTweets(user);
-		    data.insertAllTweets(tweetList, user);
-		} catch (TwitterException e) {
-		    Logger.log(Log.WARN, FragmentTwitter.this, "Error trying retrieve tweets");
-		} catch (IllegalStateException e) {
-		    Logger.log(Log.INFO, FragmentTwitter.this, "DB was closed. This is normal.");
-		    break;
-		}
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+         */
+        @Override
+        protected String[] doInBackground(String... users) {
+            ArrayList<PS2Tweet> tweetList = new ArrayList<PS2Tweet>(0);
+            ObjectDataSource data = getActivityContainer().getData();
+            int currentTime = (int) (System.currentTimeMillis() / 1000);
+            int weekInSeconds = 60 * 60 * 24 * 7;
+            data.deleteAllTweet(currentTime - weekInSeconds);
+            for (String user : users) {
+                if (this.isCancelled()) {
+                    break;
+                }
+                try {
+                    tweetList = TwitterUtil.getTweets(user);
+                    data.insertAllTweets(tweetList, user);
+                } catch (TwitterException e) {
+                    Logger.log(Log.WARN, FragmentTwitter.this, "Error trying retrieve tweets");
+                } catch (IllegalStateException e) {
+                    Logger.log(Log.INFO, FragmentTwitter.this, "DB was closed. This is normal.");
+                    break;
+                }
 
-	    }
-	    return users;
-	}
+            }
+            return users;
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(String[] result) {
-	    if (result != null) {
-		updateTweets();
-	    }
-	    setProgressButton(false);
-	    loaded = true;
-	}
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(String[] result) {
+            if (result != null) {
+                updateTweets();
+            }
+            setProgressButton(false);
+            loaded = true;
+        }
     }
 }

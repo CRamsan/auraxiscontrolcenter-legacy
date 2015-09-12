@@ -8,26 +8,26 @@ public class Server {
     private int world_id;
 
     public Name_Multi getName() {
-	return name;
+        return name;
     }
 
     public void setName(Name_Multi name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getState() {
-	return state;
+        return state;
     }
 
     public void setState(String state) {
-	this.state = state;
+        this.state = state;
     }
 
     public int getWorld_id() {
-	return world_id;
+        return world_id;
     }
 
     public void setWorld_id(int world_id) {
-	this.world_id = world_id;
+        this.world_id = world_id;
     }
 }

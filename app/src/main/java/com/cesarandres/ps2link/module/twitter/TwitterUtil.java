@@ -23,82 +23,75 @@ public class TwitterUtil {
     private static final String ACCESS_TOKEN_SECRET = "qfSQnSs7jQUnNHqt14SWJcY1KmVVm7mf3azPFT4a2OuqV";
 
     /**
-     * @param users
-     *            an array with all the users to retrieve tweets from
+     * @param users an array with all the users to retrieve tweets from
      * @return the list of tweets retrieved
-     * @throws TwitterException
-     *             this exception will ocur when there is a problem contacting
-     *             the twiter API
+     * @throws TwitterException this exception will ocur when there is a problem contacting
+     *                          the twiter API
      */
     public static ArrayList<PS2Tweet> getTweets(String[] users) throws TwitterException {
-	Twitter twitter = configureTwitter();
-	ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
-	tweetsFound = retrieveTweets(twitter, users);
-	return tweetsFound;
+        Twitter twitter = configureTwitter();
+        ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
+        tweetsFound = retrieveTweets(twitter, users);
+        return tweetsFound;
     }
 
     /**
-     * @param users
-     *            the user to retrieve tweets from
+     * @param users the user to retrieve tweets from
      * @return the list of tweets retrieved
-     * @throws TwitterException
-     *             this exception will ocur when there is a problem contacting
-     *             the twiter API
+     * @throws TwitterException this exception will ocur when there is a problem contacting
+     *                          the twiter API
      */
     public static ArrayList<PS2Tweet> getTweets(String user) throws TwitterException {
-	Twitter twitter = configureTwitter();
-	ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
-	String[] twitterUser = new String[] { user };
-	tweetsFound = retrieveTweets(twitter, twitterUser);
-	return tweetsFound;
+        Twitter twitter = configureTwitter();
+        ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
+        String[] twitterUser = new String[]{user};
+        tweetsFound = retrieveTweets(twitter, twitterUser);
+        return tweetsFound;
     }
 
     /**
      * @return the twitter object after being configured with the parameters to
-     *         contact the API
+     * contact the API
      */
     private static Twitter configureTwitter() {
-	ConfigurationBuilder cb = new ConfigurationBuilder();
-	cb.setDebugEnabled(true).setOAuthConsumerKey(CONSUMER_KEY).setOAuthConsumerSecret(CONSUMER_SECRET).setOAuthAccessToken(ACCESS_TOKEN)
-		.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
-	TwitterFactory tf = new TwitterFactory(cb.build());
-	Twitter twitter = tf.getInstance();
-	return twitter;
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true).setOAuthConsumerKey(CONSUMER_KEY).setOAuthConsumerSecret(CONSUMER_SECRET).setOAuthAccessToken(ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        return twitter;
     }
 
     /**
-     * @param twitter
-     *            a configured Twitter object
-     * @param users
-     *            a list of users to retrieve tweets from
+     * @param twitter a configured Twitter object
+     * @param users   a list of users to retrieve tweets from
      * @return an arraylist with all the tweets found
-     * @throws TwitterException
-     *             this exception is thrown where there is an error
-     *             communicating with the twitter API
+     * @throws TwitterException this exception is thrown where there is an error
+     *                          communicating with the twitter API
      */
     private static ArrayList<PS2Tweet> retrieveTweets(Twitter twitter, String[] users) throws TwitterException {
-	ResponseList<User> usersFound = twitter.lookupUsers(users);
-	ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
-	for (User foundUser : usersFound) {
-	    if (foundUser.getStatus() != null) {
-		List<Status> statusess = twitter.getUserTimeline(foundUser.getScreenName());
-		String name, tag, imgUrl, text;
-		for (Status status3 : statusess) {
-		    if (status3.isRetweet() || status3.isRetweetedByMe()) {
-			name = status3.getRetweetedStatus().getUser().getName();
-			tag = status3.getRetweetedStatus().getUser().getScreenName();
-			imgUrl = status3.getRetweetedStatus().getUser().getBiggerProfileImageURL();
-			text = status3.getText() + "\nRetweeted by " + status3.getUser().getScreenName();
-		    } else {
-			name = status3.getUser().getName();
-			tag = foundUser.getScreenName();
-			imgUrl = status3.getUser().getBiggerProfileImageURL();
-			text = status3.getText();
-		    }
-		    tweetsFound.add(new PS2Tweet(Long.toString(status3.getId()), name, (int) (status3.getCreatedAt().getTime() / 1000), text, tag, imgUrl));
-		}
-	    }
-	}
-	return tweetsFound;
+        ResponseList<User> usersFound = twitter.lookupUsers(users);
+        ArrayList<PS2Tweet> tweetsFound = new ArrayList<PS2Tweet>();
+        for (User foundUser : usersFound) {
+            if (foundUser.getStatus() != null) {
+                List<Status> statusess = twitter.getUserTimeline(foundUser.getScreenName());
+                String name, tag, imgUrl, text;
+                for (Status status3 : statusess) {
+                    if (status3.isRetweet() || status3.isRetweetedByMe()) {
+                        name = status3.getRetweetedStatus().getUser().getName();
+                        tag = status3.getRetweetedStatus().getUser().getScreenName();
+                        imgUrl = status3.getRetweetedStatus().getUser().getBiggerProfileImageURL();
+                        text = status3.getText() + "\nRetweeted by " + status3.getUser().getScreenName();
+                    } else {
+                        name = status3.getUser().getName();
+                        tag = foundUser.getScreenName();
+                        imgUrl = status3.getUser().getBiggerProfileImageURL();
+                        text = status3.getText();
+                    }
+                    tweetsFound.add(new PS2Tweet(Long.toString(status3.getId()), name, (int) (status3.getCreatedAt().getTime() / 1000), text, tag, imgUrl));
+                }
+            }
+        }
+        return tweetsFound;
     }
 }

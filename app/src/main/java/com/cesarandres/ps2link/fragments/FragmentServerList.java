@@ -33,10 +33,10 @@ import com.cesarandres.ps2link.module.ButtonSelectSource.SourceSelectionChangedL
 /**
  * This fragment will display the servers and theirs status
  */
-public class FragmentServerList extends BaseFragment implements SourceSelectionChangedListener{
+public class FragmentServerList extends BaseFragment implements SourceSelectionChangedListener {
 
-	private ButtonSelectSource selectionButton;
-	
+    private ButtonSelectSource selectionButton;
+
     /*
      * (non-Javadoc)
      * 
@@ -45,35 +45,35 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	View view = inflater.inflate(R.layout.fragment_server_list, container, false);
-	selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
-	selectionButton.setListener(this);
-	return view;
+        View view = inflater.inflate(R.layout.fragment_server_list, container, false);
+        selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+        selectionButton.setListener(this);
+        return view;
     }
 
     @Override
     public void onDestroyView() {
-    	super.onDestroyView();
-    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
-    	selectionButton.removeButtons(getActivity(), titleLayout);
+        super.onDestroyView();
+        LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+        selectionButton.removeButtons(getActivity(), titleLayout);
     }
-    
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	this.fragmentTitle.setText(getString(R.string.title_servers));
-	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
-	    public void onClick(View v) {
-		downloadServers();
-	    }
-	});
+        super.onActivityCreated(savedInstanceState);
+        this.fragmentTitle.setText(getString(R.string.title_servers));
+        this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                downloadServers();
+            }
+        });
 
-	ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-	    }
-	});
+        ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+        listRoot.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+            }
+        });
     }
 
     /*
@@ -83,10 +83,10 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
      */
     @Override
     public void onResume() {
-	super.onResume();
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
-	getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_SERVER_LIST);
-	downloadServers();
+        super.onResume();
+        this.fragmentUpdate.setVisibility(View.VISIBLE);
+        getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_SERVER_LIST);
+        downloadServers();
     }
 
     /**
@@ -94,32 +94,32 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
      * current list of servers and their state.
      */
     public void downloadServers() {
-	setProgressButton(true);
-	String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
-		QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10")).toString();
+        setProgressButton(true);
+        String url = DBGCensus.generateGameDataRequest(Verb.GET, PS2Collection.WORLD, "",
+                QueryString.generateQeuryString().AddCommand(QueryCommand.LIMIT, "10")).toString();
 
-	Listener<Server_response> success = new Response.Listener<Server_response>() {
-	    @Override
-	    public void onResponse(Server_response response) {
-		try {
-		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-		    listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
-		} catch (Exception e) {
-		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
-		}
-		setProgressButton(true);
-		downloadServerPopulation();
-	    }
-	};
+        Listener<Server_response> success = new Response.Listener<Server_response>() {
+            @Override
+            public void onResponse(Server_response response) {
+                try {
+                    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+                    listRoot.setAdapter(new ServerItemAdapter(getActivity(), response.getWorld_list()));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
+                }
+                setProgressButton(true);
+                downloadServerPopulation();
+            }
+        };
 
-	ErrorListener error = new Response.ErrorListener() {
-	    @Override
-	    public void onErrorResponse(VolleyError error) {
-		setProgressButton(false);
-		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
-	    }
-	};
-	DBGCensus.sendGsonRequest(url, Server_response.class, success, error, this);
+        ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                setProgressButton(false);
+                Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
+            }
+        };
+        DBGCensus.sendGsonRequest(url, Server_response.class, success, error, this);
     }
 
     /**
@@ -128,37 +128,37 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
      * call has been unreliable in the past.
      */
     public void downloadServerPopulation() {
-	setProgressButton(true);
-	// This is not an standard API call
-	String url = "http://census.daybreakgames.com/s:PS2Link/json/status/ps2";
+        setProgressButton(true);
+        // This is not an standard API call
+        String url = "http://census.daybreakgames.com/s:PS2Link/json/status/ps2";
 
-	Listener<Server_Status_response> success = new Response.Listener<Server_Status_response>() {
-	    @Override
-	    public void onResponse(Server_Status_response response) {
-		setProgressButton(false);
-		try {
-		    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
-		    PS2 servers = response.getPs2();
-		    ((ServerItemAdapter) listRoot.getAdapter()).setServerPopulation(servers);
-		} catch (Exception e) {
-		    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
-		}
-	    }
-	};
+        Listener<Server_Status_response> success = new Response.Listener<Server_Status_response>() {
+            @Override
+            public void onResponse(Server_Status_response response) {
+                setProgressButton(false);
+                try {
+                    ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
+                    PS2 servers = response.getPs2();
+                    ((ServerItemAdapter) listRoot.getAdapter()).setServerPopulation(servers);
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
-	ErrorListener error = new Response.ErrorListener() {
-	    @Override
-	    public void onErrorResponse(VolleyError error) {
-		setProgressButton(false);
-		Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
-	    }
-	};
+        ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                setProgressButton(false);
+                Toast.makeText(getActivity(), R.string.toast_error_retrieving_data, Toast.LENGTH_SHORT).show();
+            }
+        };
 
-	DBGCensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
+        DBGCensus.sendGsonRequest(url, Server_Status_response.class, success, error, this);
     }
 
-	@Override
-	public void onSourceSelectionChanged(Namespace selectedNamespace) {
-		downloadServers();
-	}
+    @Override
+    public void onSourceSelectionChanged(Namespace selectedNamespace) {
+        downloadServers();
+    }
 }

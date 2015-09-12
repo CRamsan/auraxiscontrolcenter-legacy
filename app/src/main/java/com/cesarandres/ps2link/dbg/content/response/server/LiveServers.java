@@ -3,58 +3,58 @@ package com.cesarandres.ps2link.dbg.content.response.server;
 import com.google.gson.annotations.SerializedName;
 
 public class LiveServers {
-	@SerializedName("Briggs (AU)")
-	private LiveServer Briggs;
-	
-	@SerializedName("Cobalt (EU)")
-	private LiveServer Cobalt;
-	
-	@SerializedName("Connery (US West)")
-	private LiveServer Connery;
-	
-	@SerializedName("Emerald (US East)")
-	private LiveServer Emerald;
-	
-	@SerializedName("Miller (EU)")
-	private LiveServer Miller;
-				
-	public LiveServer getBriggs() {
-		return Briggs;
-	}
+    @SerializedName("Briggs (AU)")
+    private LiveServer Briggs;
 
-	public void setBriggs(LiveServer briggs) {
-		Briggs = briggs;
-	}
+    @SerializedName("Cobalt (EU)")
+    private LiveServer Cobalt;
 
-	public LiveServer getCobalt() {
-		return Cobalt;
-	}
+    @SerializedName("Connery (US West)")
+    private LiveServer Connery;
 
-	public LiveServer getEmerald() {
-		return Emerald;
-	}
+    @SerializedName("Emerald (US East)")
+    private LiveServer Emerald;
 
-	public void setEmerald(LiveServer emerald) {
-		Emerald = emerald;
-	}
+    @SerializedName("Miller (EU)")
+    private LiveServer Miller;
 
-	public void setCobalt(LiveServer cobalt) {
-		Cobalt = cobalt;
-	}
+    public LiveServer getBriggs() {
+        return Briggs;
+    }
 
-	public LiveServer getConnery() {
-		return Connery;
-	}
+    public void setBriggs(LiveServer briggs) {
+        Briggs = briggs;
+    }
 
-	public void setConnery(LiveServer connery) {
-		Connery = connery;
-	}
+    public LiveServer getCobalt() {
+        return Cobalt;
+    }
 
-	public LiveServer getMiller() {
-		return Miller;
-	}
+    public void setCobalt(LiveServer cobalt) {
+        Cobalt = cobalt;
+    }
 
-	public void setMiller(LiveServer miller) {
-		Miller = miller;
-	}
+    public LiveServer getEmerald() {
+        return Emerald;
+    }
+
+    public void setEmerald(LiveServer emerald) {
+        Emerald = emerald;
+    }
+
+    public LiveServer getConnery() {
+        return Connery;
+    }
+
+    public void setConnery(LiveServer connery) {
+        Connery = connery;
+    }
+
+    public LiveServer getMiller() {
+        return Miller;
+    }
+
+    public void setMiller(LiveServer miller) {
+        Miller = miller;
+    }
 }

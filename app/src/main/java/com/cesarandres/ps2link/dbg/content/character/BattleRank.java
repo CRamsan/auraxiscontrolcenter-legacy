@@ -5,18 +5,18 @@ public class BattleRank {
     private int value;
 
     public int getPercent_to_next() {
-	return percent_to_next;
+        return percent_to_next;
     }
 
     public void setPercent_to_next(int percent_to_next) {
-	this.percent_to_next = percent_to_next;
+        this.percent_to_next = percent_to_next;
     }
 
     public int getValue() {
-	return value;
+        return value;
     }
 
     public void setValue(int value) {
-	this.value = value;
+        this.value = value;
     }
 }

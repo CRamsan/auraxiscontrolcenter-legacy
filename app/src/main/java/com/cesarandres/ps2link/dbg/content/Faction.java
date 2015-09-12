@@ -14,34 +14,34 @@ public class Faction {
     private String icon;
 
     public Name_Multi getName() {
-	return name;
+        return name;
     }
 
     public void setName(Name_Multi name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getCode() {
-	return code;
+        return code;
     }
 
     public void setCode(String code) {
-	this.code = code;
+        this.code = code;
     }
 
     public String getIcon() {
-	return icon;
+        return icon;
     }
 
     public void setIcon(String icon) {
-	this.icon = icon;
+        this.icon = icon;
     }
 
     public String getId() {
-	return id;
+        return id;
     }
 
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
 }

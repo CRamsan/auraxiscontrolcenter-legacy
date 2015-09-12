@@ -6,10 +6,10 @@ public class Stats {
     private ArrayList<Stat> stat_history;
 
     public ArrayList<Stat> getStat_history() {
-	return stat_history;
+        return stat_history;
     }
 
     public void setStat_history(ArrayList<Stat> stat_history) {
-	this.stat_history = stat_history;
+        this.stat_history = stat_history;
     }
 }

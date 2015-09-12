@@ -1,7 +1,5 @@
 package com.cesarandres.ps2link.fragments.holders;
 
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,20 +22,21 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.cesarandres.ps2link.fragments.FragmentReddit;
 
+import java.util.HashMap;
+
 /**
  * This fragment holds a view pager for all the profile related fragments
  */
 public class FragmentRedditPager extends BaseFragment {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
-    private static final int PC = 0;
-    private static final int PS4 = 1;
     public static final String PS2_PC = "Planetside";
     public static final String PS2_PS4 = "PS4Planetside2";
+    private static final int PC = 0;
+    private static final int PS4 = 1;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+    private Button goToReddit;
 
-	private Button goToReddit;
-	
     /*
      * (non-Javadoc)
      * 
@@ -46,10 +45,10 @@ public class FragmentRedditPager extends BaseFragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	if (savedInstanceState != null) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
 
-	}
+        }
     }
 
     /*
@@ -60,8 +59,8 @@ public class FragmentRedditPager extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	View view = inflater.inflate(R.layout.fragment_reddit_pager, container, false);
-	return view;
+        View view = inflater.inflate(R.layout.fragment_reddit_pager, container, false);
+        return view;
     }
 
     /*
@@ -71,53 +70,53 @@ public class FragmentRedditPager extends BaseFragment {
      */
     @Override
     public void onResume() {
-		super.onResume();
-		getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_REDDIT);
-				
-		this.fragmentUpdate.setVisibility(View.VISIBLE);
-		LinearLayout.LayoutParams params = (LayoutParams) goToReddit.getLayoutParams();
-		if(params != null) {
-			params.gravity = Gravity.CENTER_VERTICAL;
-			goToReddit.setLayoutParams(params);
-		}
+        super.onResume();
+        getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_REDDIT);
+
+        this.fragmentUpdate.setVisibility(View.VISIBLE);
+        LinearLayout.LayoutParams params = (LayoutParams) goToReddit.getLayoutParams();
+        if (params != null) {
+            params.gravity = Gravity.CENTER_VERTICAL;
+            goToReddit.setLayoutParams(params);
+        }
     }
 
     @Override
-    public void onStart(){
-    	super.onStart();
-    	
-    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
-    	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) != null) {
-    		goToReddit = (Button)titleLayout.findViewById(R.id.buttonFragmentGoToReddit);
-    	} else {
-    		goToReddit = (Button)View.inflate(getActivity(), R.layout.layout_go_to_reddit, null);    		
-    	}
-    	
-		goToReddit.setOnClickListener(new View.OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				String intentUri;
-				switch (mViewPager.getCurrentItem()) {
-				case PC:
-					intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
-					break;
-				case PS4:
-					intentUri = FragmentReddit.REDDIT_URL + PS2_PS4;
-					break;
-				default:
-					intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
-					break;
-				}
-		    	Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
-		    	startActivity(openRedditIntent);
-			}
-		});
-		
-    	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) == null) {
-    		titleLayout.addView(goToReddit);
-    	}
+    public void onStart() {
+        super.onStart();
+
+        LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+        if (titleLayout.findViewById(R.id.buttonFragmentGoToReddit) != null) {
+            goToReddit = (Button) titleLayout.findViewById(R.id.buttonFragmentGoToReddit);
+        } else {
+            goToReddit = (Button) View.inflate(getActivity(), R.layout.layout_go_to_reddit, null);
+        }
+
+        goToReddit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String intentUri;
+                switch (mViewPager.getCurrentItem()) {
+                    case PC:
+                        intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
+                        break;
+                    case PS4:
+                        intentUri = FragmentReddit.REDDIT_URL + PS2_PS4;
+                        break;
+                    default:
+                        intentUri = FragmentReddit.REDDIT_URL + PS2_PC;
+                        break;
+                }
+                Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
+                startActivity(openRedditIntent);
+            }
+        });
+
+        if (titleLayout.findViewById(R.id.buttonFragmentGoToReddit) == null) {
+            titleLayout.addView(goToReddit);
+        }
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -127,60 +126,60 @@ public class FragmentRedditPager extends BaseFragment {
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+        super.onActivityCreated(savedInstanceState);
 
-	mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
-	mViewPager = (ViewPager) getActivity().findViewById(R.id.redditPager);
-	mViewPager.setAdapter(mSectionsPagerAdapter);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+        mViewPager = (ViewPager) getActivity().findViewById(R.id.redditPager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-	Bundle extras = getActivity().getIntent().getExtras();
-	if (extras == null) {
-	    extras = getArguments();
-	}
-	
-	this.fragmentUpdate.setVisibility(View.VISIBLE);
-	this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
-	    public void onClick(View v) {
-	    Fragment selectedFragment = mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem());
-	    if(selectedFragment == null){
-	    	return;
-	    }
-		switch (mViewPager.getCurrentItem()) {
-		case PC:
-		case PS4:
-		    ((FragmentReddit) selectedFragment).updatePosts();
-		    break;
-		default:
-		    break;
-		}
-	    }
-	});
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras == null) {
+            extras = getArguments();
+        }
 
-	mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-	    @Override
-	    public void onPageSelected(int arg0) {
-	    }
+        this.fragmentUpdate.setVisibility(View.VISIBLE);
+        this.fragmentUpdate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Fragment selectedFragment = mSectionsPagerAdapter.getFragment(mViewPager.getCurrentItem());
+                if (selectedFragment == null) {
+                    return;
+                }
+                switch (mViewPager.getCurrentItem()) {
+                    case PC:
+                    case PS4:
+                        ((FragmentReddit) selectedFragment).updatePosts();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
-	    @Override
-	    public void onPageScrolled(int arg0, float arg1, int arg2) {
+        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int arg0) {
+            }
 
-	    }
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-	    @Override
-	    public void onPageScrollStateChanged(int arg0) {
+            }
 
-	    }
-	});
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+
+            }
+        });
     }
 
-    public void onStop(){
-    	super.onStop();
-    	LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
-    	if(titleLayout.findViewById(R.id.buttonFragmentGoToReddit) != null) {
-    		titleLayout.removeView(goToReddit);
-    	}
+    public void onStop() {
+        super.onStop();
+        LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+        if (titleLayout.findViewById(R.id.buttonFragmentGoToReddit) != null) {
+            titleLayout.removeView(goToReddit);
+        }
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -189,7 +188,7 @@ public class FragmentRedditPager extends BaseFragment {
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-	super.onSaveInstanceState(savedInstanceState);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     /**
@@ -197,91 +196,89 @@ public class FragmentRedditPager extends BaseFragment {
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
-	private HashMap<Integer, Fragment> mMap;
+        private HashMap<Integer, Fragment> mMap;
 
-	/**
-	 * @param fm
-	 *            Fragment manager that will hold all the fragments within
-	 *            the pager
-	 */
-	@SuppressLint("UseSparseArrays")
-	public SectionsPagerAdapter(FragmentManager fm) {
-	    super(fm);
-	    this.mMap = new HashMap<Integer, Fragment>();
-	}
+        /**
+         * @param fm Fragment manager that will hold all the fragments within
+         *           the pager
+         */
+        @SuppressLint("UseSparseArrays")
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+            this.mMap = new HashMap<Integer, Fragment>();
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.FragmentStatePagerAdapter#getItem(int)
-	 */
-	@Override
-	public Fragment getItem(int position) {
-	    Fragment fragment = null;
-		fragment = new FragmentReddit();
-	    Bundle args = new Bundle();
-	    switch (position) {
-		case PC:
-		    args.putString("PARAM_0", PS2_PC);			
-			break;
-		case PS4:
-		    args.putString("PARAM_0", PS2_PS4);
-			break;
-		default:
-			break;
-		}
-	    fragment.setArguments(args);
-	    mMap.put(position, fragment);
-	    return fragment;
-	}
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.support.v4.app.FragmentStatePagerAdapter#getItem(int)
+         */
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = null;
+            fragment = new FragmentReddit();
+            Bundle args = new Bundle();
+            switch (position) {
+                case PC:
+                    args.putString("PARAM_0", PS2_PC);
+                    break;
+                case PS4:
+                    args.putString("PARAM_0", PS2_PS4);
+                    break;
+                default:
+                    break;
+            }
+            fragment.setArguments(args);
+            mMap.put(position, fragment);
+            return fragment;
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * android.support.v4.app.FragmentStatePagerAdapter#destroyItem(android
-	 * .view.ViewGroup, int, java.lang.Object)
-	 */
-	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
-	    super.destroyItem(container, position, object);
-	    mMap.remove(position);
-	}
+        /*
+         * (non-Javadoc)
+         *
+         * @see
+         * android.support.v4.app.FragmentStatePagerAdapter#destroyItem(android
+         * .view.ViewGroup, int, java.lang.Object)
+         */
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+            mMap.remove(position);
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.view.PagerAdapter#getCount()
-	 */
-	@Override
-	public int getCount() {
-	    return 2;
-	}
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.support.v4.view.PagerAdapter#getCount()
+         */
+        @Override
+        public int getCount() {
+            return 2;
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.view.PagerAdapter#getPageTitle(int)
-	 */
-	@Override
-	public CharSequence getPageTitle(int position) {
-	    switch (position) {
-	    case PC:
-		return "r/" + PS2_PC;
-	    case PS4:
-	   	return "r/" + PS2_PS4;
-	    default:
-	    return PS2_PC;
-	    }
-	}
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.support.v4.view.PagerAdapter#getPageTitle(int)
+         */
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case PC:
+                    return "r/" + PS2_PC;
+                case PS4:
+                    return "r/" + PS2_PS4;
+                default:
+                    return PS2_PC;
+            }
+        }
 
-	/**
-	 * @param key
-	 *            integer that identifies the fragment
-	 * @return the fragment that is associated with the key
-	 */
-	public Fragment getFragment(int key) {
-	    return mMap.get(key);
-	}
+        /**
+         * @param key integer that identifies the fragment
+         * @return the fragment that is associated with the key
+         */
+        public Fragment getFragment(int key) {
+            return mMap.get(key);
+        }
     }
 }

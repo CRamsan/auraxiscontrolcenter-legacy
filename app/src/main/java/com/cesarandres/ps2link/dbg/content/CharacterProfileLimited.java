@@ -10,34 +10,34 @@ public class CharacterProfileLimited {
     private BattleRank battle_rank;
 
     public String getCharacter_Id() {
-	return this.character_id;
+        return this.character_id;
     }
 
     public void setCharacter_Id(String id) {
-	this.character_id = id;
+        this.character_id = id;
     }
 
     public Name getName() {
-	return this.name;
+        return this.name;
     }
 
     public void setName(Name name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getFaction_id() {
-	return faction_id;
+        return faction_id;
     }
 
     public void setFaction_id(String faction_id) {
-	this.faction_id = faction_id;
+        this.faction_id = faction_id;
     }
 
     public BattleRank getBattle_rank() {
-	return battle_rank;
+        return battle_rank;
     }
 
     public void setBattle_rank(BattleRank battle_rank) {
-	this.battle_rank = battle_rank;
+        this.battle_rank = battle_rank;
     }
 }

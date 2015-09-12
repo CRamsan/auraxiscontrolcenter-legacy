@@ -1,9 +1,9 @@
-
 package com.cesarandres.ps2link.module.reddit;
+
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
 
 public class Data {
 
@@ -17,72 +17,56 @@ public class Data {
     private Object before;
 
     /**
-     * 
-     * @return
-     *     The modhash
+     * @return The modhash
      */
     public String getModhash() {
         return modhash;
     }
 
     /**
-     * 
-     * @param modhash
-     *     The modhash
+     * @param modhash The modhash
      */
     public void setModhash(String modhash) {
         this.modhash = modhash;
     }
 
     /**
-     * 
-     * @return
-     *     The children
+     * @return The children
      */
     public List<Child> getChildren() {
         return children;
     }
 
     /**
-     * 
-     * @param children
-     *     The children
+     * @param children The children
      */
     public void setChildren(List<Child> children) {
         this.children = children;
     }
 
     /**
-     * 
-     * @return
-     *     The after
+     * @return The after
      */
     public String getAfter() {
         return after;
     }
 
     /**
-     * 
-     * @param after
-     *     The after
+     * @param after The after
      */
     public void setAfter(String after) {
         this.after = after;
     }
 
     /**
-     * 
-     * @return
-     *     The before
+     * @return The before
      */
     public Object getBefore() {
         return before;
     }
 
     /**
-     * 
-     * @param before
-     *     The before
+     * @param before The before
      */
     public void setBefore(Object before) {
         this.before = before;

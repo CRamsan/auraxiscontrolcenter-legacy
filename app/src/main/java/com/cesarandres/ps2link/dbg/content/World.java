@@ -10,42 +10,42 @@ public class World {
     private String population;
 
     public Name_Multi getName() {
-	return this.name;
+        return this.name;
     }
 
     public void setName(Name_Multi name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getState() {
-	return this.state;
+        return this.state;
     }
 
     public void setState(String state) {
-	this.state = state;
+        this.state = state;
     }
 
     public String getWorld_id() {
-	return world_id;
+        return world_id;
     }
 
     public void setWorld_id(String world_id) {
-	this.world_id = world_id;
+        this.world_id = world_id;
     }
 
     public String getCharacter_id() {
-	return character_id;
+        return character_id;
     }
 
     public void setCharacter_id(String character_id) {
-	this.character_id = character_id;
+        this.character_id = character_id;
     }
 
     public String getPopulation() {
-	return population;
+        return population;
     }
 
     public void setPopulation(String population) {
-	this.population = population;
+        this.population = population;
     }
 }

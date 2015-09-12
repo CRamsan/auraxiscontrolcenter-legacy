@@ -29,10 +29,10 @@ import com.cesarandres.ps2link.module.reddit.RedditItemAdapter;
  */
 public class FragmentReddit extends BaseFragment {
 
-	public static final String REDDIT_URL = "http://www.reddit.com/r/";
-	public static final String REDDIT_ENDPOINT = "/hot.json";
-	private String subReddit;
-	
+    public static final String REDDIT_URL = "http://www.reddit.com/r/";
+    public static final String REDDIT_ENDPOINT = "/hot.json";
+    private String subReddit;
+
     /*
      * (non-Javadoc)
      * 
@@ -40,9 +40,9 @@ public class FragmentReddit extends BaseFragment {
      * LayoutInflater, android.view.ViewGroup, android.os.Bundle)
      */
     @SuppressLint("InflateParams")
-	@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_reddit, container, false);
+        return inflater.inflate(R.layout.fragment_reddit, container, false);
     }
 
     /*
@@ -54,19 +54,19 @@ public class FragmentReddit extends BaseFragment {
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	this.fragmentTitle.setText(getString(R.string.title_reddit));
-	ListView listRoot = (ListView) getView().findViewById(R.id.listViewRedditList);
-	Bundle bundle = getArguments();
-	this.subReddit = bundle.getString("PARAM_0");
-	listRoot.setOnItemClickListener(new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-	    	Child child = ((Child) myAdapter.getItemAtPosition(myItemInt));
-	    	Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(child.getData().getUrl()));
-	    	startActivity(openRedditIntent);
-	    }
-	});
+        super.onActivityCreated(savedInstanceState);
+        this.fragmentTitle.setText(getString(R.string.title_reddit));
+        ListView listRoot = (ListView) getView().findViewById(R.id.listViewRedditList);
+        Bundle bundle = getArguments();
+        this.subReddit = bundle.getString("PARAM_0");
+        listRoot.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+                Child child = ((Child) myAdapter.getItemAtPosition(myItemInt));
+                Intent openRedditIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(child.getData().getUrl()));
+                startActivity(openRedditIntent);
+            }
+        });
     }
 
     /*
@@ -76,8 +76,8 @@ public class FragmentReddit extends BaseFragment {
      */
     @Override
     public void onResume() {
-	super.onResume();
-	updatePosts();
+        super.onResume();
+        updatePosts();
     }
 
     /*
@@ -87,10 +87,10 @@ public class FragmentReddit extends BaseFragment {
      */
     @Override
     public void onPause() {
-	super.onPause();
+        super.onPause();
 
-	}
-    
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -99,7 +99,7 @@ public class FragmentReddit extends BaseFragment {
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-	super.onSaveInstanceState(savedInstanceState);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     /*
@@ -109,41 +109,41 @@ public class FragmentReddit extends BaseFragment {
      */
     @Override
     public void onDestroyView() {
-	super.onDestroyView();
+        super.onDestroyView();
     }
 
     /**
      * Send a request to get all the information from the Reddit server
      */
     @SuppressWarnings("unchecked")
-	public void updatePosts() {
-    	setProgressButton(true);
-    	String url = REDDIT_URL + this.subReddit + REDDIT_ENDPOINT;
+    public void updatePosts() {
+        setProgressButton(true);
+        String url = REDDIT_URL + this.subReddit + REDDIT_ENDPOINT;
 
-    	Listener<Content> success = new Response.Listener<Content>() {
-    	    @Override
-    	    public void onResponse(Content response) {
-    		setProgressButton(false);
-    		try {
-    		    ListView listRoot = (ListView) getView().findViewById(R.id.listViewRedditList);
-    		    listRoot.setAdapter(new RedditItemAdapter(getActivity(), response.getData().getChildren()));
-    		} catch (Exception e) {
-    		    Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();
-    		}
-    	    }
-    	};
+        Listener<Content> success = new Response.Listener<Content>() {
+            @Override
+            public void onResponse(Content response) {
+                setProgressButton(false);
+                try {
+                    ListView listRoot = (ListView) getView().findViewById(R.id.listViewRedditList);
+                    listRoot.setAdapter(new RedditItemAdapter(getActivity(), response.getData().getChildren()));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
-    	ErrorListener error = new Response.ErrorListener() {
-    	    @Override
-    	    public void onErrorResponse(VolleyError error) {
-    		setProgressButton(false);
-    		Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();
-    	    }
-    	};
+        ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                setProgressButton(false);
+                Toast.makeText(getActivity(), getView().getResources().getString(R.string.toast_error_retrieving_data), Toast.LENGTH_SHORT).show();
+            }
+        };
 
-    	@SuppressWarnings({ "rawtypes" })
-		GsonRequest gsonOject = new GsonRequest(url, Content.class, null, success, error);
-    	gsonOject.setTag(this);
-    	ApplicationPS2Link.volley.add(gsonOject);
+        @SuppressWarnings({"rawtypes"})
+        GsonRequest gsonOject = new GsonRequest(url, Content.class, null, success, error);
+        gsonOject.setTag(this);
+        ApplicationPS2Link.volley.add(gsonOject);
     }
 }

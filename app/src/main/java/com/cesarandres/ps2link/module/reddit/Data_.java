@@ -1,10 +1,10 @@
-
 package com.cesarandres.ps2link.module.reddit;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Data_ {
 
@@ -117,792 +117,616 @@ public class Data_ {
     private Integer ups;
 
     /**
-     * 
-     * @return
-     *     The domain
+     * @return The domain
      */
     public String getDomain() {
         return domain;
     }
 
     /**
-     * 
-     * @param domain
-     *     The domain
+     * @param domain The domain
      */
     public void setDomain(String domain) {
         this.domain = domain;
     }
 
     /**
-     * 
-     * @return
-     *     The bannedBy
+     * @return The bannedBy
      */
     public Object getBannedBy() {
         return bannedBy;
     }
 
     /**
-     * 
-     * @param bannedBy
-     *     The banned_by
+     * @param bannedBy The banned_by
      */
     public void setBannedBy(Object bannedBy) {
         this.bannedBy = bannedBy;
     }
 
     /**
-     * 
-     * @return
-     *     The mediaEmbed
+     * @return The mediaEmbed
      */
     public MediaEmbed getMediaEmbed() {
         return mediaEmbed;
     }
 
     /**
-     * 
-     * @param mediaEmbed
-     *     The media_embed
+     * @param mediaEmbed The media_embed
      */
     public void setMediaEmbed(MediaEmbed mediaEmbed) {
         this.mediaEmbed = mediaEmbed;
     }
 
     /**
-     * 
-     * @return
-     *     The subreddit
+     * @return The subreddit
      */
     public String getSubreddit() {
         return subreddit;
     }
 
     /**
-     * 
-     * @param subreddit
-     *     The subreddit
+     * @param subreddit The subreddit
      */
     public void setSubreddit(String subreddit) {
         this.subreddit = subreddit;
     }
 
     /**
-     * 
-     * @return
-     *     The selftextHtml
+     * @return The selftextHtml
      */
     public String getSelftextHtml() {
         return selftextHtml;
     }
 
     /**
-     * 
-     * @param selftextHtml
-     *     The selftext_html
+     * @param selftextHtml The selftext_html
      */
     public void setSelftextHtml(String selftextHtml) {
         this.selftextHtml = selftextHtml;
     }
 
     /**
-     * 
-     * @return
-     *     The selftext
+     * @return The selftext
      */
     public String getSelftext() {
         return selftext;
     }
 
     /**
-     * 
-     * @param selftext
-     *     The selftext
+     * @param selftext The selftext
      */
     public void setSelftext(String selftext) {
         this.selftext = selftext;
     }
 
     /**
-     * 
-     * @return
-     *     The likes
+     * @return The likes
      */
     public Object getLikes() {
         return likes;
     }
 
     /**
-     * 
-     * @param likes
-     *     The likes
+     * @param likes The likes
      */
     public void setLikes(Object likes) {
         this.likes = likes;
     }
 
     /**
-     * 
-     * @return
-     *     The userReports
+     * @return The userReports
      */
     public List<Object> getUserReports() {
         return userReports;
     }
 
     /**
-     * 
-     * @param userReports
-     *     The user_reports
+     * @param userReports The user_reports
      */
     public void setUserReports(List<Object> userReports) {
         this.userReports = userReports;
     }
 
     /**
-     * 
-     * @return
-     *     The secureMedia
+     * @return The secureMedia
      */
     public Object getSecureMedia() {
         return secureMedia;
     }
 
     /**
-     * 
-     * @param secureMedia
-     *     The secure_media
+     * @param secureMedia The secure_media
      */
     public void setSecureMedia(Object secureMedia) {
         this.secureMedia = secureMedia;
     }
 
     /**
-     * 
-     * @return
-     *     The linkFlairText
+     * @return The linkFlairText
      */
     public String getLinkFlairText() {
         return linkFlairText;
     }
 
     /**
-     * 
-     * @param linkFlairText
-     *     The link_flair_text
+     * @param linkFlairText The link_flair_text
      */
     public void setLinkFlairText(String linkFlairText) {
         this.linkFlairText = linkFlairText;
     }
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * 
-     * @return
-     *     The gilded
+     * @return The gilded
      */
     public Integer getGilded() {
         return gilded;
     }
 
     /**
-     * 
-     * @param gilded
-     *     The gilded
+     * @param gilded The gilded
      */
     public void setGilded(Integer gilded) {
         this.gilded = gilded;
     }
 
     /**
-     * 
-     * @return
-     *     The archived
+     * @return The archived
      */
     public Boolean getArchived() {
         return archived;
     }
 
     /**
-     * 
-     * @param archived
-     *     The archived
+     * @param archived The archived
      */
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }
 
     /**
-     * 
-     * @return
-     *     The clicked
+     * @return The clicked
      */
     public Boolean getClicked() {
         return clicked;
     }
 
     /**
-     * 
-     * @param clicked
-     *     The clicked
+     * @param clicked The clicked
      */
     public void setClicked(Boolean clicked) {
         this.clicked = clicked;
     }
 
     /**
-     * 
-     * @return
-     *     The reportReasons
+     * @return The reportReasons
      */
     public Object getReportReasons() {
         return reportReasons;
     }
 
     /**
-     * 
-     * @param reportReasons
-     *     The report_reasons
+     * @param reportReasons The report_reasons
      */
     public void setReportReasons(Object reportReasons) {
         this.reportReasons = reportReasons;
     }
 
     /**
-     * 
-     * @return
-     *     The author
+     * @return The author
      */
     public String getAuthor() {
         return author;
     }
 
     /**
-     * 
-     * @param author
-     *     The author
+     * @param author The author
      */
     public void setAuthor(String author) {
         this.author = author;
     }
 
     /**
-     * 
-     * @return
-     *     The numComments
+     * @return The numComments
      */
     public Integer getNumComments() {
         return numComments;
     }
 
     /**
-     * 
-     * @param numComments
-     *     The num_comments
+     * @param numComments The num_comments
      */
     public void setNumComments(Integer numComments) {
         this.numComments = numComments;
     }
 
     /**
-     * 
-     * @return
-     *     The score
+     * @return The score
      */
     public Integer getScore() {
         return score;
     }
 
     /**
-     * 
-     * @param score
-     *     The score
+     * @param score The score
      */
     public void setScore(Integer score) {
         this.score = score;
     }
 
     /**
-     * 
-     * @return
-     *     The approvedBy
+     * @return The approvedBy
      */
     public Object getApprovedBy() {
         return approvedBy;
     }
 
     /**
-     * 
-     * @param approvedBy
-     *     The approved_by
+     * @param approvedBy The approved_by
      */
     public void setApprovedBy(Object approvedBy) {
         this.approvedBy = approvedBy;
     }
 
     /**
-     * 
-     * @return
-     *     The over18
+     * @return The over18
      */
     public Boolean getOver18() {
         return over18;
     }
 
     /**
-     * 
-     * @param over18
-     *     The over_18
+     * @param over18 The over_18
      */
     public void setOver18(Boolean over18) {
         this.over18 = over18;
     }
 
     /**
-     * 
-     * @return
-     *     The hidden
+     * @return The hidden
      */
     public Boolean getHidden() {
         return hidden;
     }
 
     /**
-     * 
-     * @param hidden
-     *     The hidden
+     * @param hidden The hidden
      */
     public void setHidden(Boolean hidden) {
         this.hidden = hidden;
     }
 
     /**
-     * 
-     * @return
-     *     The thumbnail
+     * @return The thumbnail
      */
     public String getThumbnail() {
         return thumbnail;
     }
 
     /**
-     * 
-     * @param thumbnail
-     *     The thumbnail
+     * @param thumbnail The thumbnail
      */
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 
     /**
-     * 
-     * @return
-     *     The subredditId
+     * @return The subredditId
      */
     public String getSubredditId() {
         return subredditId;
     }
 
     /**
-     * 
-     * @param subredditId
-     *     The subreddit_id
+     * @param subredditId The subreddit_id
      */
     public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
     }
 
     /**
-     * 
-     * @return
-     *     The edited
+     * @return The edited
      */
     public Object getEdited() {
         return edited;
     }
 
     /**
-     * 
-     * @param edited
-     *     The edited
+     * @param edited The edited
      */
     public void setEdited(Object edited) {
         this.edited = edited;
     }
 
     /**
-     * 
-     * @return
-     *     The linkFlairCssClass
+     * @return The linkFlairCssClass
      */
     public String getLinkFlairCssClass() {
         return linkFlairCssClass;
     }
 
     /**
-     * 
-     * @param linkFlairCssClass
-     *     The link_flair_css_class
+     * @param linkFlairCssClass The link_flair_css_class
      */
     public void setLinkFlairCssClass(String linkFlairCssClass) {
         this.linkFlairCssClass = linkFlairCssClass;
     }
 
     /**
-     * 
-     * @return
-     *     The authorFlairCssClass
+     * @return The authorFlairCssClass
      */
     public Object getAuthorFlairCssClass() {
         return authorFlairCssClass;
     }
 
     /**
-     * 
-     * @param authorFlairCssClass
-     *     The author_flair_css_class
+     * @param authorFlairCssClass The author_flair_css_class
      */
     public void setAuthorFlairCssClass(Object authorFlairCssClass) {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
     /**
-     * 
-     * @return
-     *     The downs
+     * @return The downs
      */
     public Integer getDowns() {
         return downs;
     }
 
     /**
-     * 
-     * @param downs
-     *     The downs
+     * @param downs The downs
      */
     public void setDowns(Integer downs) {
         this.downs = downs;
     }
 
     /**
-     * 
-     * @return
-     *     The secureMediaEmbed
+     * @return The secureMediaEmbed
      */
     public SecureMediaEmbed getSecureMediaEmbed() {
         return secureMediaEmbed;
     }
 
     /**
-     * 
-     * @param secureMediaEmbed
-     *     The secure_media_embed
+     * @param secureMediaEmbed The secure_media_embed
      */
     public void setSecureMediaEmbed(SecureMediaEmbed secureMediaEmbed) {
         this.secureMediaEmbed = secureMediaEmbed;
     }
 
     /**
-     * 
-     * @return
-     *     The saved
+     * @return The saved
      */
     public Boolean getSaved() {
         return saved;
     }
 
     /**
-     * 
-     * @param saved
-     *     The saved
+     * @param saved The saved
      */
     public void setSaved(Boolean saved) {
         this.saved = saved;
     }
 
     /**
-     * 
-     * @return
-     *     The stickied
+     * @return The stickied
      */
     public Boolean getStickied() {
         return stickied;
     }
 
     /**
-     * 
-     * @param stickied
-     *     The stickied
+     * @param stickied The stickied
      */
     public void setStickied(Boolean stickied) {
         this.stickied = stickied;
     }
 
     /**
-     * 
-     * @return
-     *     The isSelf
+     * @return The isSelf
      */
     public Boolean getIsSelf() {
         return isSelf;
     }
 
     /**
-     * 
-     * @param isSelf
-     *     The is_self
+     * @param isSelf The is_self
      */
     public void setIsSelf(Boolean isSelf) {
         this.isSelf = isSelf;
     }
 
     /**
-     * 
-     * @return
-     *     The permalink
+     * @return The permalink
      */
     public String getPermalink() {
         return permalink;
     }
 
     /**
-     * 
-     * @param permalink
-     *     The permalink
+     * @param permalink The permalink
      */
     public void setPermalink(String permalink) {
         this.permalink = permalink;
     }
 
     /**
-     * 
-     * @return
-     *     The name
+     * @return The name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * 
-     * @return
-     *     The created
+     * @return The created
      */
     public Integer getCreated() {
         return created;
     }
 
     /**
-     * 
-     * @param created
-     *     The created
+     * @param created The created
      */
     public void setCreated(Integer created) {
         this.created = created;
     }
 
     /**
-     * 
-     * @return
-     *     The url
+     * @return The url
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     * 
-     * @param url
-     *     The url
+     * @param url The url
      */
     public void setUrl(String url) {
         this.url = url;
     }
 
     /**
-     * 
-     * @return
-     *     The authorFlairText
+     * @return The authorFlairText
      */
     public Object getAuthorFlairText() {
         return authorFlairText;
     }
 
     /**
-     * 
-     * @param authorFlairText
-     *     The author_flair_text
+     * @param authorFlairText The author_flair_text
      */
     public void setAuthorFlairText(Object authorFlairText) {
         this.authorFlairText = authorFlairText;
     }
 
     /**
-     * 
-     * @return
-     *     The title
+     * @return The title
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * 
-     * @param title
-     *     The title
+     * @param title The title
      */
     public void setTitle(String title) {
         this.title = title;
     }
 
     /**
-     * 
-     * @return
-     *     The createdUtc
+     * @return The createdUtc
      */
     public Integer getCreatedUtc() {
         return createdUtc;
     }
 
     /**
-     * 
-     * @param createdUtc
-     *     The created_utc
+     * @param createdUtc The created_utc
      */
     public void setCreatedUtc(Integer createdUtc) {
         this.createdUtc = createdUtc;
     }
 
     /**
-     * 
-     * @return
-     *     The distinguished
+     * @return The distinguished
      */
     public Object getDistinguished() {
         return distinguished;
     }
 
     /**
-     * 
-     * @param distinguished
-     *     The distinguished
+     * @param distinguished The distinguished
      */
     public void setDistinguished(Object distinguished) {
         this.distinguished = distinguished;
     }
 
     /**
-     * 
-     * @return
-     *     The media
+     * @return The media
      */
     public Object getMedia() {
         return media;
     }
 
     /**
-     * 
-     * @param media
-     *     The media
+     * @param media The media
      */
     public void setMedia(Object media) {
         this.media = media;
     }
 
     /**
-     * 
-     * @return
-     *     The modReports
+     * @return The modReports
      */
     public List<Object> getModReports() {
         return modReports;
     }
 
     /**
-     * 
-     * @param modReports
-     *     The mod_reports
+     * @param modReports The mod_reports
      */
     public void setModReports(List<Object> modReports) {
         this.modReports = modReports;
     }
 
     /**
-     * 
-     * @return
-     *     The visited
+     * @return The visited
      */
     public Boolean getVisited() {
         return visited;
     }
 
     /**
-     * 
-     * @param visited
-     *     The visited
+     * @param visited The visited
      */
     public void setVisited(Boolean visited) {
         this.visited = visited;
     }
 
     /**
-     * 
-     * @return
-     *     The numReports
+     * @return The numReports
      */
     public Object getNumReports() {
         return numReports;
     }
 
     /**
-     * 
-     * @param numReports
-     *     The num_reports
+     * @param numReports The num_reports
      */
     public void setNumReports(Object numReports) {
         this.numReports = numReports;
     }
 
     /**
-     * 
-     * @return
-     *     The ups
+     * @return The ups
      */
     public Integer getUps() {
         return ups;
     }
 
     /**
-     * 
-     * @param ups
-     *     The ups
+     * @param ups The ups
      */
     public void setUps(Integer ups) {
         this.ups = ups;

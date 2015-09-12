@@ -9,50 +9,50 @@ public class Description {
     private String tr;
 
     public String getDe() {
-	return this.de;
+        return this.de;
     }
 
     public void setDe(String de) {
-	this.de = de;
+        this.de = de;
     }
 
     public String getEn() {
-	return this.en;
+        return this.en;
     }
 
     public void setEn(String en) {
-	this.en = en;
+        this.en = en;
     }
 
     public String getEs() {
-	return this.es;
+        return this.es;
     }
 
     public void setEs(String es) {
-	this.es = es;
+        this.es = es;
     }
 
     public String getFr() {
-	return this.fr;
+        return this.fr;
     }
 
     public void setFr(String fr) {
-	this.fr = fr;
+        this.fr = fr;
     }
 
     public String getIt() {
-	return this.it;
+        return this.it;
     }
 
     public void setIt(String it) {
-	this.it = it;
+        this.it = it;
     }
 
     public String getTr() {
-	return this.tr;
+        return this.tr;
     }
 
     public void setTr(String tr) {
-	this.tr = tr;
+        this.tr = tr;
     }
 }

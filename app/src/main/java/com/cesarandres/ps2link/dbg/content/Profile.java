@@ -8,11 +8,11 @@ public class Profile {
     private Name_Multi name;
 
     public Name_Multi getName() {
-	return name;
+        return name;
     }
 
     public void setName(Name_Multi name) {
-	this.name = name;
+        this.name = name;
     }
 
 }
