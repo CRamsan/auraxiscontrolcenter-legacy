@@ -183,11 +183,21 @@ public class KillItemAdapter extends BaseAdapter {
 			item = response.getVehicle_list().get(0);
 		}
 
-		events.get(position).setWeapon_name(item.getNameText());
-		name.setText(item.getNameText());
+		if(item != null) {
+			String weaponName = item.getNameText();
+			if (weaponName == null) {
+				weaponName = context.getText(R.string.text_unknown).toString();
+			}
+			events.get(position).setWeapon_name(weaponName);
+			name.setText(weaponName);
 
-		events.get(position).setImagePath(DBGCensus.ENDPOINT_URL + "/" + item.getImagePath());
-		image.setImageUrl(DBGCensus.ENDPOINT_URL + "/" + item.getImagePath(), ApplicationPS2Link.mImageLoader);
+			events.get(position).setImagePath(DBGCensus.ENDPOINT_URL + "/" + item.getImagePath());
+			image.setImageUrl(DBGCensus.ENDPOINT_URL + "/" + item.getImagePath(), ApplicationPS2Link.mImageLoader);
+		} else {
+			events.get(position).setWeapon_name(context.getText(R.string.text_unknown).toString());
+			name.setText(context.getText(R.string.text_unknown).toString());
+			image.setImageUrl("", null);
+		}
 	    }
 	};
 	

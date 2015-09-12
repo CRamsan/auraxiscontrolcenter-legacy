@@ -117,7 +117,11 @@ public class Item implements IContainDrawable {
 
     @Override
     public String getNameText() {
-	return getName().getLocalizedName();
+        if(name == null){
+            return null;
+        } else {
+            return getName().getLocalizedName();
+        }
     }
 
     @Override

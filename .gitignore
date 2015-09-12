@@ -4,3 +4,8 @@ gen/
 release/
 Thumbs.db
 .DS_Store
+.gradle/
+local.properties
+build/
+*.log
+.idea/*
