@@ -17,10 +17,10 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class TwitterUtil {
 
-    private static final String CONSUMER_SECRET = "eGaL0bIj6Y0p84cs6RZdw7WvXoq9EkDF9KES0bPnhw";
-    private static final String CONSUMER_KEY = "AdtZzl6c9v4QiqC6yHWSVw";
-    private static final String ACCESS_TOKEN = "752283427-izyU9iznlS6LHIGjwWaq9RK9mQuaVCr6XpYnJwEB";
-    private static final String ACCESS_TOKEN_SECRET = "qfSQnSs7jQUnNHqt14SWJcY1KmVVm7mf3azPFT4a2OuqV";
+    private static final String CONSUMER_SECRET = "";
+    private static final String CONSUMER_KEY = "";
+    private static final String ACCESS_TOKEN = "";
+    private static final String ACCESS_TOKEN_SECRET = "";
 
     /**
      * @param users an array with all the users to retrieve tweets from

@@ -103,6 +103,7 @@
     <string name="text_stat_week">Esta semana:</string>
     <string name="text_stat_month">Este mes:</string>   
     <string name="text_server_population">Población:</string>
+    <string name="text_server_alert">Alerta:</string>
     <string name="text_vehicle_kills_">Vehículos Destruidos: </string>
     <string name="text_wia_killed_by">Víctima: </string>
 	<string name="text_choose_donation">Elige una donación</string>
@@ -121,5 +122,7 @@
     <string name="text_created">CREADO</string>
     
     <string name="text_about_thanks">Muchas gracias a:\n-[FHM] McTomate\n-PsychosisVS\n-CzerwonyKolorNicku\nPor ayudar a traducir esta aplicación.</string>
-	<string name="text_toast_acra">Enviando el informe del fallo</string>	
+	<string name="text_toast_acra">Enviando el informe del fallo</string>
+    <string name="text_server_alert_current">Actualmente:</string>
+    <string name="text_server_alert_recently">Recientemente:</string>
 </resources>

@@ -104,6 +104,7 @@
     <string name="text_stat_week">This week:</string>
     <string name="text_stat_month">This month:</string>   
     <string name="text_server_population">Population:</string>
+    <string name="text_server_alert">Alert:</string>
     <string name="text_vehicle_kills_">Vehicle Kills: </string>
     <string name="text_wia_killed_by">Victim: </string>
 	<string name="text_choose_donation">Choose Donation</string>
@@ -127,4 +128,6 @@
     
     <string name="text_about_thanks">Special thanks to:\n-[FHM] McTomate\n-PsychosisVS\n-CzerwonyKolorNicku\nFor helping to translate this app.</string>
 	<string name="text_toast_acra">Uploading a crash log</string>
+    <string name="text_server_alert_current">Currently:</string>
+    <string name="text_server_alert_recently">Recently:</string>
 </resources>

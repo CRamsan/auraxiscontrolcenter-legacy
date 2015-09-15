@@ -8,7 +8,52 @@ public class WorldEvent {
     private String metagame_event_state;
     private String metagame_event_id;
     private String timestamp;
-    private World world;
+    private String zone_id;
+    private String world_id;
+    private String event_type;
+
+    public String getZone_id() {
+        return zone_id;
+    }
+
+    public void setZone_id(String zone_id) {
+        this.zone_id = zone_id;
+    }
+
+    public String getWorld_id() {
+        return world_id;
+    }
+
+    public void setWorld_id(String world_id) {
+        this.world_id = world_id;
+    }
+
+    public String getEvent_type() {
+        return event_type;
+    }
+
+    public void setEvent_type(String event_type) {
+        this.event_type = event_type;
+    }
+
+    public String getMetagame_event_state_name() {
+        return metagame_event_state_name;
+    }
+
+    public void setMetagame_event_state_name(String metagame_event_state_name) {
+        this.metagame_event_state_name = metagame_event_state_name;
+    }
+
+    public MetagameEvent getMetagame_event_id_join_metagame_event() {
+        return metagame_event_id_join_metagame_event;
+    }
+
+    public void setMetagame_event_id_join_metagame_event(MetagameEvent metagame_event_id_join_metagame_event) {
+        this.metagame_event_id_join_metagame_event = metagame_event_id_join_metagame_event;
+    }
+
+    private String metagame_event_state_name;
+    private MetagameEvent metagame_event_id_join_metagame_event;
 
     public EventType getEvent() {
         return event;
@@ -48,14 +93,6 @@ public class WorldEvent {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
     }
 
     public String getMetagame_event_state() {

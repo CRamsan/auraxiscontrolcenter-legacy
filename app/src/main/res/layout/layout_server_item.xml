@@ -14,7 +14,7 @@
         android:layout_marginRight="5dp"
         android:gravity="end"
         android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/textViewServerListName"
@@ -29,11 +29,24 @@
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/textViewSpace"
+    <LinearLayout
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:id="@+id/textViewServerAlert" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -49,7 +62,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/textViewServerPopulation"

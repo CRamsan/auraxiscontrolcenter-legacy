@@ -28,7 +28,7 @@ import java.net.URL;
 
 public class DBGCensus {
 
-    public static final String SERVICE_ID = "s:PS2Link";
+    public static final String SERVICE_ID = "";
     public static final String ENDPOINT_URL = "http://census.daybreakgames.com";
     public static final String IMG = "img";
     public static final String ITEM = "item";

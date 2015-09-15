@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.dbg.content.World;
+import com.cesarandres.ps2link.dbg.content.WorldEvent;
 import com.cesarandres.ps2link.dbg.content.response.server.PS2;
 import com.cesarandres.ps2link.dbg.util.Logger;
 
@@ -80,6 +81,16 @@ public class ServerItemAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void setServerAlert(WorldEvent event){
+        for (World world : this.serverList) {
+            if(world.getWorld_id().equals(event.getWorld_id())) {
+                world.setLastAlert(event);
+            }
+        }
+
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return this.serverList.size();
@@ -118,6 +129,7 @@ public class ServerItemAdapter extends BaseAdapter {
             holder.serverName = (TextView) convertView.findViewById(R.id.textViewServerListName);
             holder.serverRegion = (TextView) convertView.findViewById(R.id.textViewServerListRegion);
             holder.serverPopulation = (TextView) convertView.findViewById(R.id.textViewServerPopulation);
+            holder.serverAlert = (TextView) convertView.findViewById(R.id.textViewServerAlert);
             convertView.setTag(holder);
         } else {
             // Get the ViewHolder back to get fast access to the TextView
@@ -178,6 +190,44 @@ public class ServerItemAdapter extends BaseAdapter {
 
         holder.serverName.setText(name);
 
+        WorldEvent lastAlert = getItem(position).getLastAlert();
+        if(lastAlert != null){
+            try {
+                // THIS ARE GREEN
+                //   metagame_event_state_id: "135",
+                //            name: "started"
+                //    metagame_event_state_id: "136",
+                //            name: "restarted"
+                //    metagame_event_state_id: "139",
+                //            name: "xp bonus changed"
+                // THIS ARE GRAY
+                //    metagame_event_state_id: "137",
+                //            name: "canceled"
+                //    metagame_event_state_id: "138",
+                //            name: "ended"
+
+                if(lastAlert.getMetagame_event_state().equals("135") ||
+                   lastAlert.getMetagame_event_state().equals("136") ||
+                   lastAlert.getMetagame_event_state().equals("139") ) {
+                    holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_current)
+                            + " " + lastAlert.getMetagame_event_id_join_metagame_event().getDescription().getLocalizedName());
+
+                    holder.serverAlert.setTextColor(Color.argb(255, 200, 20, 20));
+                } else {
+                    holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_recently)
+                            + " " + lastAlert.getMetagame_event_id_join_metagame_event().getDescription().getLocalizedName());
+
+                    holder.serverAlert.setTextColor(Color.GRAY);
+                }
+            }catch (NullPointerException e){
+                holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_recently)
+                        + " " + context.getResources().getString(R.string.text_none));
+            }
+        }else{
+            holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_recently)
+                    + " " + context.getResources().getString(R.string.text_none));
+        }
+
         return convertView;
     }
 
@@ -187,5 +237,6 @@ public class ServerItemAdapter extends BaseAdapter {
         TextView serverName;
         TextView serverRegion;
         TextView serverPopulation;
+        TextView serverAlert;
     }
 }

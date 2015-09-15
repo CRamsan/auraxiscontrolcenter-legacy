@@ -9,6 +9,8 @@ public class World {
     private String state;
     private String population;
 
+    private WorldEvent lastAlert;
+
     public Name_Multi getName() {
         return this.name;
     }
@@ -47,5 +49,13 @@ public class World {
 
     public void setPopulation(String population) {
         this.population = population;
+    }
+
+    public WorldEvent getLastAlert() {
+        return lastAlert;
+    }
+
+    public void setLastAlert(WorldEvent lastAlert) {
+        this.lastAlert = lastAlert;
     }
 }
