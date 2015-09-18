@@ -1,21 +1,30 @@
 package com.cesarandres.ps2link.dbg.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.cesarandres.ps2link.R;
+import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.content.World;
 import com.cesarandres.ps2link.dbg.content.WorldEvent;
 import com.cesarandres.ps2link.dbg.content.response.server.PS2;
 import com.cesarandres.ps2link.dbg.util.Logger;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,12 +32,20 @@ public class ServerItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<World> serverList;
     private Context context;
+    private HashMap<CompoundButton.OnCheckedChangeListener, String> channelMap;
+    private List<String> subscribedChannels;
 
     public ServerItemAdapter(Context context, List<World> serverList) {
         // Cache the LayoutInflate to avoid asking for a new one each time.
         this.mInflater = LayoutInflater.from(context);
         this.serverList = new ArrayList<World>(serverList);
+        this.channelMap = new HashMap<>();
         this.context = context;
+        for (World world : this.serverList) {
+            String channel = DBGCensus.currentNamespace.toString() + "-" + world.getWorld_id();
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            world.setIsRegistered(settings.getBoolean("parse_" + channel, false));
+        }
     }
 
     /**
@@ -91,6 +108,24 @@ public class ServerItemAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void onItemSelected(int index, Context context) {
+        World world = this.serverList.get(index);
+        String channel = DBGCensus.currentNamespace.toString() + "-" +
+                        this.serverList.get(index).getWorld_id();
+        channel = channel.replace(":v2","");
+        if (world.isRegistered()) {
+            ParsePush.unsubscribeInBackground(channel);
+        } else {
+            ParsePush.subscribeInBackground(channel);
+        }
+        world.setIsRegistered(!world.isRegistered());
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("parse_" + channel, world.isRegistered());
+        editor.commit();
+        notifyDataSetInvalidated();
+    }
     @Override
     public int getCount() {
         return this.serverList.size();
@@ -130,6 +165,7 @@ public class ServerItemAdapter extends BaseAdapter {
             holder.serverRegion = (TextView) convertView.findViewById(R.id.textViewServerListRegion);
             holder.serverPopulation = (TextView) convertView.findViewById(R.id.textViewServerPopulation);
             holder.serverAlert = (TextView) convertView.findViewById(R.id.textViewServerAlert);
+            holder.serverAlertCheckBox = (CheckBox)convertView.findViewById(R.id.checkBoxServerAlert);
             convertView.setTag(holder);
         } else {
             // Get the ViewHolder back to get fast access to the TextView
@@ -172,6 +208,8 @@ public class ServerItemAdapter extends BaseAdapter {
             holder.serverStatus.setTextColor(Color.RED);
         }
 
+        holder.serverAlertCheckBox.setChecked(this.serverList.get(position).isRegistered());
+
         String name = this.serverList.get(position).getName().getLocalizedName();
 
         if (name.equals("Briggs")) {
@@ -212,20 +250,23 @@ public class ServerItemAdapter extends BaseAdapter {
                     holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_current)
                             + " " + lastAlert.getMetagame_event_id_join_metagame_event().getDescription().getLocalizedName());
 
-                    holder.serverAlert.setTextColor(Color.argb(255, 200, 20, 20));
+                    holder.serverAlert.setTextColor(Color.argb(255, 120, 235, 235));
+                    holder.serverAlert.setTypeface(null, Typeface.BOLD);
                 } else {
                     holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_recently)
                             + " " + lastAlert.getMetagame_event_id_join_metagame_event().getDescription().getLocalizedName());
-
+                    holder.serverAlert.setTypeface(null, Typeface.NORMAL);
                     holder.serverAlert.setTextColor(Color.GRAY);
                 }
             }catch (NullPointerException e){
                 holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_recently)
-                        + " " + context.getResources().getString(R.string.text_none));
+                        + " " + context.getResources().getString(R.string.text_unknown).toUpperCase());
+                holder.serverAlert.setTypeface(null, Typeface.NORMAL);
             }
         }else{
             holder.serverAlert.setText(context.getResources().getString(R.string.text_server_alert_recently)
                     + " " + context.getResources().getString(R.string.text_none));
+            holder.serverAlert.setTypeface(null, Typeface.NORMAL);
         }
 
         return convertView;
@@ -238,5 +279,6 @@ public class ServerItemAdapter extends BaseAdapter {
         TextView serverRegion;
         TextView serverPopulation;
         TextView serverAlert;
+        CheckBox serverAlertCheckBox;
     }
 }

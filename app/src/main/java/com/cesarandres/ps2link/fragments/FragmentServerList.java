@@ -1,6 +1,10 @@
 package com.cesarandres.ps2link.fragments;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +82,8 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
         listRoot.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+                ListView listParent = (ListView) getActivity().findViewById(R.id.listViewServers);
+                ((ServerItemAdapter) listParent.getAdapter()).onItemSelected(myItemInt, getContext());
             }
         });
     }
@@ -193,7 +199,7 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
                 try {
                     ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewServers);
                     ArrayList<WorldEvent> events = response.getWorld_event_list();
-                    if(events.size() > 0) {
+                    if(events != null && events.size() > 0) {
                         ((ServerItemAdapter) listRoot.getAdapter()).setServerAlert(events.get(0));
                     }
                 } catch (Exception e) {
@@ -216,5 +222,29 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
     public void onSourceSelectionChanged(Namespace selectedNamespace) {
         ApplicationPS2Link.volley.cancelAll(this);
         downloadServers();
+    }
+
+    public class FireMissilesDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(inflater.inflate(R.layout.layout_server_register, null));
+            builder.setMessage(R.string.text_about_thanks)
+                    .setPositiveButton(R.string.text_add, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // FIRE ZE MISSILES!
+                        }
+                    })
+                    .setNegativeButton(R.string.text_about_thanks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
     }
 }

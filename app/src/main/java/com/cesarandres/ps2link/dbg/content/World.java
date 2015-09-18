@@ -8,7 +8,7 @@ public class World {
     private String character_id;
     private String state;
     private String population;
-
+    private boolean isRegistered;
     private WorldEvent lastAlert;
 
     public Name_Multi getName() {
@@ -58,4 +58,13 @@ public class World {
     public void setLastAlert(WorldEvent lastAlert) {
         this.lastAlert = lastAlert;
     }
+
+    public boolean isRegistered() {
+        return isRegistered;
+    }
+
+    public void setIsRegistered(boolean isRegistered) {
+        this.isRegistered = isRegistered;
+    }
+
 }
