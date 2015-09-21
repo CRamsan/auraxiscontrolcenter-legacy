@@ -20,6 +20,7 @@ import com.cesarandres.ps2link.dbg.content.World;
 import com.cesarandres.ps2link.dbg.content.WorldEvent;
 import com.cesarandres.ps2link.dbg.content.response.server.PS2;
 import com.cesarandres.ps2link.dbg.util.Logger;
+import com.cesarandres.ps2link.fragments.FragmentSettings;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 
@@ -33,7 +34,7 @@ public class ServerItemAdapter extends BaseAdapter {
     private ArrayList<World> serverList;
     private Context context;
     private HashMap<CompoundButton.OnCheckedChangeListener, String> channelMap;
-    private List<String> subscribedChannels;
+    private boolean notificationsEnabled;
 
     public ServerItemAdapter(Context context, List<World> serverList) {
         // Cache the LayoutInflate to avoid asking for a new one each time.
@@ -41,9 +42,12 @@ public class ServerItemAdapter extends BaseAdapter {
         this.serverList = new ArrayList<World>(serverList);
         this.channelMap = new HashMap<>();
         this.context = context;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        notificationsEnabled = settings.getBoolean(FragmentSettings.PREF_KEY_NOTIFICATION_ENABLE, false);
+
         for (World world : this.serverList) {
             String channel = DBGCensus.currentNamespace.toString() + "-" + world.getWorld_id();
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            channel = channel.replace(":v2","");
             world.setIsRegistered(settings.getBoolean("parse_" + channel, false));
         }
     }
@@ -208,6 +212,7 @@ public class ServerItemAdapter extends BaseAdapter {
             holder.serverStatus.setTextColor(Color.RED);
         }
 
+        holder.serverAlertCheckBox.setEnabled(notificationsEnabled);
         holder.serverAlertCheckBox.setChecked(this.serverList.get(position).isRegistered());
 
         String name = this.serverList.get(position).getName().getLocalizedName();

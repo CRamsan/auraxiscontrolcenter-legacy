@@ -130,4 +130,11 @@
 	<string name="text_toast_acra">Uploading a crash log</string>
     <string name="text_server_alert_current">Currently:</string>
     <string name="text_server_alert_recently">Recently:</string>
+    <string name="title_settings">SETTINGS</string>
+    <string name="text_save">Save</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_enable_notifications">Enable notifications</string>
+    <string name="text_from">From: </string>
+    <string name="text_to">To: </string>
+    <string name="toast_time_error">This time is causing a conflict</string>
 </resources>

@@ -125,4 +125,11 @@
 	<string name="text_toast_acra">Enviando el informe del fallo</string>
     <string name="text_server_alert_current">Actualmente:</string>
     <string name="text_server_alert_recently">Recientemente:</string>
+    <string name="title_settings">CONFIGURAR</string>
+    <string name="text_save">Guardar</string>
+    <string name="text_cancel">Cancelar</string>
+    <string name="text_enable_notifications">Activar notificaciones</string>
+    <string name="text_from">Desde: </string>
+    <string name="text_to">Hasta: </string>
+    <string name="toast_time_error">Este tiempo esta causando un conflicto</string>
 </resources>

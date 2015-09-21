@@ -223,28 +223,4 @@ public class FragmentServerList extends BaseFragment implements SourceSelectionC
         ApplicationPS2Link.volley.cancelAll(this);
         downloadServers();
     }
-
-    public class FireMissilesDialogFragment extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setView(inflater.inflate(R.layout.layout_server_register, null));
-            builder.setMessage(R.string.text_about_thanks)
-                    .setPositiveButton(R.string.text_add, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // FIRE ZE MISSILES!
-                        }
-                    })
-                    .setNegativeButton(R.string.text_about_thanks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
-    }
 }

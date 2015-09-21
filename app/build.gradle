@@ -8,8 +8,8 @@ android {
         applicationId "com.cesarandres.ps2link"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 63
-        versionName "3.1.5"
+        versionCode 65
+        versionName "4.0.1"
     }
     buildTypes {
         release {

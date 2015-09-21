@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -80,6 +81,7 @@ public class FragmentMainMenu extends BaseFragment {
         Button buttonReddit = (Button) getActivity().findViewById(R.id.buttonRedditFragment);
         Button buttonDonate = (Button) getActivity().findViewById(R.id.buttonDonate);
         Button buttonAbout = (Button) getActivity().findViewById(R.id.buttonAbout);
+        Button buttonSettings = (Button) getActivity().findViewById(R.id.buttonSettings);
 
         buttonCharacters.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -123,6 +125,11 @@ public class FragmentMainMenu extends BaseFragment {
                     setCurrentTask(task);
                     task.execute();
                 }
+            }
+        });
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                mCallbacks.onItemSelected(ActivityMode.ACTIVITY_SETTINGS.toString(), null);
             }
         });
 

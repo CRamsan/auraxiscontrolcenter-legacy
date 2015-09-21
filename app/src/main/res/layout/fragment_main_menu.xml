@@ -78,7 +78,20 @@
                 android:id="@+id/buttonDonate"
                 style="@style/ButtonStyle"
                 android:text="@string/title_donate" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSettings"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/title_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:typeface="monospace"
+            android:background="@drawable/ps2_button"
+            android:layout_margin="10dp" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView1"

@@ -25,7 +25,7 @@ import java.util.Locale;
 /**
  * This class provides functions and objects that are used application wide.
  */
-@ReportsCrashes(formUri = "",
+@ReportsCrashes(formUri = "http://amplified-ward-94808.appspot.com/bugs",
         mode = ReportingInteractionMode.TOAST,
         reportType = org.acra.sender.HttpSender.Type.JSON,
         resToastText = R.string.text_toast_acra)
@@ -119,7 +119,19 @@ public class ApplicationPS2Link extends Application {
      * main fragment that is used.
      */
     public static enum ActivityMode {
-        ACTIVITY_ADD_OUTFIT, ACTIVITY_ADD_PROFILE, ACTIVITY_MEMBER_LIST, ACTIVITY_OUTFIT_LIST, ACTIVITY_PROFILE, ACTIVITY_PROFILE_LIST, ACTIVITY_SERVER_LIST, ACTIVITY_TWITTER, ACTIVITY_LINK_MENU, ACTIVITY_MAIN_MENU, ACTIVITY_REDDIT, ACTIVITY_ABOUT
+        ACTIVITY_ADD_OUTFIT,
+        ACTIVITY_ADD_PROFILE,
+        ACTIVITY_MEMBER_LIST,
+        ACTIVITY_OUTFIT_LIST,
+        ACTIVITY_PROFILE,
+        ACTIVITY_PROFILE_LIST,
+        ACTIVITY_SERVER_LIST,
+        ACTIVITY_TWITTER,
+        ACTIVITY_LINK_MENU,
+        ACTIVITY_MAIN_MENU,
+        ACTIVITY_REDDIT,
+        ACTIVITY_ABOUT,
+        ACTIVITY_SETTINGS
     }
 
 
