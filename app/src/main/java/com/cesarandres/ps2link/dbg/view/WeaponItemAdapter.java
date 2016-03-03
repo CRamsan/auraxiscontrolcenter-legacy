@@ -135,7 +135,7 @@ public class WeaponItemAdapter extends BaseAdapter {
                         "% " + this.context.getResources().getString(R.string.text_tr_) + " " + Math.round(100 * stat.getTR() / (float) stat.getKills()) + "%");
             } else if (this.characterFaction.equals(Faction.NC)) {
                 holder.ratios.setText(this.context.getResources().getString(R.string.text_tr_) + " " + Math.round(100 * stat.getTR() / (float) stat.getKills()) +
-                        "% " + this.context.getResources().getString(R.string.text_nc_) + " " + Math.round(100 * stat.getVS() / (float) stat.getKills()) + "%");
+                        "% " + this.context.getResources().getString(R.string.text_vs_) + " " + Math.round(100 * stat.getVS() / (float) stat.getKills()) + "%");
             } else if (this.characterFaction.equals(Faction.TR)) {
                 holder.ratios.setText(this.context.getResources().getString(R.string.text_nc_) + " " + Math.round(100 * stat.getNC() / (float) stat.getKills()) +
                         "% " + this.context.getResources().getString(R.string.text_vs_) + " " + Math.round(100 * stat.getVS() / (float) stat.getKills()) + "%");
