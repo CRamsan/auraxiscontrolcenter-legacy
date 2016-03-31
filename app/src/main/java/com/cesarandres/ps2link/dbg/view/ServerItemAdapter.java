@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.dbg.DBGCensus;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import static android.widget.Toast.*;
 
 public class ServerItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
@@ -49,6 +52,8 @@ public class ServerItemAdapter extends BaseAdapter {
             String channel = DBGCensus.currentNamespace.toString() + "-" + world.getWorld_id();
             channel = channel.replace(":v2","");
             world.setIsRegistered(settings.getBoolean("parse_" + channel, false));
+            // REMOVE THIS TO ENABLE PUSH NOTIFICATIONS
+            world.setIsRegistered(false);
         }
     }
 
@@ -128,6 +133,12 @@ public class ServerItemAdapter extends BaseAdapter {
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("parse_" + channel, world.isRegistered());
         editor.commit();
+
+        // REMOVE THIS TO ENABLE PUSH NOTIFICATIONS
+        ParsePush.unsubscribeInBackground(channel);
+        world.setIsRegistered(false);
+        makeText(context, R.string.toast_push_notifications_disabled, LENGTH_LONG).show();
+
         notifyDataSetInvalidated();
     }
     @Override

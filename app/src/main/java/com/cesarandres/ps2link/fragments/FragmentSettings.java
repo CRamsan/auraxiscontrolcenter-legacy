@@ -18,6 +18,9 @@ import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
 import com.parse.ParseInstallation;
 
+import static android.widget.Toast.LENGTH_LONG;
+import static android.widget.Toast.makeText;
+
 /**
  * Fragment that will provide settings for the user
  */
@@ -67,6 +70,9 @@ public class FragmentSettings extends BaseFragment {
 
         boolean checkEnabled = prefs.getBoolean(PREF_KEY_NOTIFICATION_ENABLE, false);
 
+        //MODIFY THIS TO REENABLE NOTIFICATIONS
+        checkEnabled = false;
+
         CheckBox enabledCheckbox = (CheckBox)getView().findViewById(R.id.checkBoxSettingsNotificationsEnabled);
         final EditText fromTime = (EditText)getView().findViewById(R.id.editTextSettingsFrom);
         final EditText toTime = (EditText)getView().findViewById(R.id.editTextSettingsTo);
@@ -107,7 +113,11 @@ public class FragmentSettings extends BaseFragment {
                 }
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean(PREF_KEY_NOTIFICATION_ENABLE, isChecked);
+
+                //MODIFY THIS TO REENABLE NOTIFICATIONS
+                editor.putBoolean(PREF_KEY_NOTIFICATION_ENABLE, false);
+                makeText(getContext(), R.string.toast_push_notifications_disabled, LENGTH_LONG).show();
+
                 editor.commit();
             }
         });

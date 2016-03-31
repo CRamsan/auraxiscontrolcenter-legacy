@@ -132,4 +132,5 @@
     <string name="text_from">Desde: </string>
     <string name="text_to">Hasta: </string>
     <string name="toast_time_error">Este tiempo esta causando un conflicto</string>
+    <string name="toast_push_notifications_disabled">Notificaciones fuera de servicio temporalmente</string>
 </resources>
