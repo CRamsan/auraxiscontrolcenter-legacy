@@ -282,6 +282,9 @@ public class FragmentWeaponList extends BaseFragment {
          */
         @Override
         protected void onPostExecute(Integer result) {
+            if (this.isCancelled()) {
+                return;
+            }
             ListView listRoot = (ListView) getActivity().findViewById(R.id.listViewWeaponList);
             listRoot.setAdapter(new WeaponItemAdapter(getActivity(), weaponKills, weaponKilledBy, profileFaction, FragmentWeaponList.this.fragmentMyWeapons.isChecked()));
             setProgressButton(false);

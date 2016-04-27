@@ -46,7 +46,7 @@ import java.util.ArrayList;
  */
 public class FragmentMainMenu extends BaseFragment {
 
-    private IInAppBillingService mService;
+    private static IInAppBillingService mService;
     private ServiceConnection mServiceConn;
 
     /*
@@ -361,10 +361,14 @@ public class FragmentMainMenu extends BaseFragment {
 
     }
 
-    public class DonationsDialogFragment extends DialogFragment {
+    public static class DonationsDialogFragment extends DialogFragment {
 
         private ArrayList<String> responseList;
         private CharSequence[] displayData;
+
+        public DonationsDialogFragment(){
+            super();
+        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

@@ -1,6 +1,7 @@
 package com.cesarandres.ps2link.dbg.view;
 
 import android.content.Context;
+import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class MemberItemAdapter extends DBItemAdapter {
         Member member;
         try {
             member = ObjectDataSource.cursorToMember(ObjectDataSource.cursorToPosition(cursor, position));
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             member = new Member();
             member.setCharacter_id("");
             member.setOnline_status("");
