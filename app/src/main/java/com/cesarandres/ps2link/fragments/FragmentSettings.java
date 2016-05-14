@@ -73,7 +73,7 @@ public class FragmentSettings extends BaseFragment {
         //MODIFY THIS TO REENABLE NOTIFICATIONS
         checkEnabled = false;
 
-        CheckBox enabledCheckbox = (CheckBox)getView().findViewById(R.id.checkBoxSettingsNotificationsEnabled);
+        final CheckBox enabledCheckbox = (CheckBox)getView().findViewById(R.id.checkBoxSettingsNotificationsEnabled);
         final EditText fromTime = (EditText)getView().findViewById(R.id.editTextSettingsFrom);
         final EditText toTime = (EditText)getView().findViewById(R.id.editTextSettingsTo);
         fromTime.setKeyListener(null);
@@ -89,7 +89,7 @@ public class FragmentSettings extends BaseFragment {
         enabledCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                /*if (isChecked) {
                     fromTime.setEnabled(true);
                     toTime.setEnabled(true);
                     ParseInstallation installation = ParseInstallation.getCurrentInstallation();
@@ -99,7 +99,7 @@ public class FragmentSettings extends BaseFragment {
                     }
                     installation.remove("channels_saved");
                     installation.saveInBackground();
-                } else {
+                } else {*/
                     ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
                     Object channelsToSave = installation.get("channels");
@@ -110,7 +110,7 @@ public class FragmentSettings extends BaseFragment {
                     installation.saveInBackground();
                     fromTime.setEnabled(false);
                     toTime.setEnabled(false);
-                }
+                //}
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = prefs.edit();
 
@@ -119,6 +119,7 @@ public class FragmentSettings extends BaseFragment {
                 makeText(getContext(), R.string.toast_push_notifications_disabled, LENGTH_LONG).show();
 
                 editor.commit();
+				enabledCheckbox.setChecked(false);
             }
         });
         fromTime.setOnClickListener(new View.OnClickListener() {
