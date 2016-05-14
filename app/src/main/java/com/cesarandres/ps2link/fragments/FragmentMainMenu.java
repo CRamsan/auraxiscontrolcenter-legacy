@@ -38,6 +38,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import android.support.v4.content.*;
+import android.*;
+import android.content.pm.*;
+import android.support.v4.app.*;
 
 /**
  * This fragment is very static, it has all the buttons for most of the main
@@ -150,6 +154,7 @@ public class FragmentMainMenu extends BaseFragment {
         final ImageButton buttonNCBackground = (ImageButton) getActivity().findViewById(R.id.buttonNC);
         buttonNCBackground.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				promptForPermissions();
                 BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
                 task.execute("nc_wallpaper.jpg");
                 SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -162,6 +167,7 @@ public class FragmentMainMenu extends BaseFragment {
         final ImageButton buttonTRBackground = (ImageButton) getActivity().findViewById(R.id.buttonTR);
         buttonTRBackground.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				promptForPermissions();
                 BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
                 task.execute("tr_wallpaper.jpg");
                 SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -175,6 +181,7 @@ public class FragmentMainMenu extends BaseFragment {
         final ImageButton buttonVSBackground = (ImageButton) getActivity().findViewById(R.id.buttonVS);
         buttonVSBackground.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				promptForPermissions();
                 BitmapWorkerTask task = new BitmapWorkerTask((ImageView) (getActivity().findViewById(R.id.imageViewBackground)), getActivity());
                 task.execute("vs_wallpaper.jpg");
                 SharedPreferences settings = getActivity().getSharedPreferences("PREFERENCES", 0);
@@ -200,6 +207,7 @@ public class FragmentMainMenu extends BaseFragment {
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
         getActivity().bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+		
     }
 
     /*
@@ -270,6 +278,16 @@ public class FragmentMainMenu extends BaseFragment {
             getActivity().unbindService(mServiceConn);
         }
     }
+
+	public void promptForPermissions() {
+		if (ContextCompat.checkSelfPermission(getActivity(),
+											  	Manifest.permission.WRITE_EXTERNAL_STORAGE)
+												!= PackageManager.PERMISSION_GRANTED) {
+				ActivityCompat.requestPermissions(getActivity(),
+												  new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+												  0);
+		}		
+	}
 
     /**
      * @author cramsan
