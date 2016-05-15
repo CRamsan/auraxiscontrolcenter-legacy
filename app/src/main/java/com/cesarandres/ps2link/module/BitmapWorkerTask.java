@@ -77,7 +77,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
      * @param reqHeight resulting image height
      * @return
      */
-    public static Bitmap decodeSampledBitmapFromResource(InputStream ims, int reqWidth, int reqHeight) {
+    public static BitmapFactory.Options generateDecodeSampledOptionsFromResource(InputStream ims, int reqWidth, int reqHeight) throws IOException {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -89,7 +89,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeStream(ims, null, options);
+        ims.reset();
+        return options;
     }
 
     /*
@@ -123,7 +124,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
                     return null;
                 }
                 ims = context.getAssets().open(data);
-                Bitmap image = decodeSampledBitmapFromResource(ims, width, height);
+                Bitmap image = BitmapFactory.decodeStream(ims, null, generateDecodeSampledOptionsFromResource(ims, width, height));
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 85, bytes);
 
