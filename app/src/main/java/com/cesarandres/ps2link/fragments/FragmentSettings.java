@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.cesarandres.ps2link.R;
 import com.cesarandres.ps2link.base.BaseFragment;
-import com.parse.ParseInstallation;
 
 import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.makeText;
@@ -89,28 +88,6 @@ public class FragmentSettings extends BaseFragment {
         enabledCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                /*if (isChecked) {
-                    fromTime.setEnabled(true);
-                    toTime.setEnabled(true);
-                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                    Object savedChannels = installation.get("channels_saved");
-                    if(savedChannels != null) {
-                        installation.put("channels", savedChannels);
-                    }
-                    installation.remove("channels_saved");
-                    installation.saveInBackground();
-                } else {*/
-                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-
-                    Object channelsToSave = installation.get("channels");
-                    if(channelsToSave != null) {
-                        installation.put("channels_saved", channelsToSave);
-                    }
-                    installation.remove("channels");
-                    installation.saveInBackground();
-                    fromTime.setEnabled(false);
-                    toTime.setEnabled(false);
-                //}
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = prefs.edit();
 

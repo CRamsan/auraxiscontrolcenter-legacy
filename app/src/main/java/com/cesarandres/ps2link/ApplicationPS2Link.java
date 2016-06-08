@@ -10,25 +10,12 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.cesarandres.ps2link.dbg.DBGCensus;
 import com.cesarandres.ps2link.dbg.volley.BitmapLruCache;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
-
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Locale;
 
-/**
- * This class provides functions and objects that are used application wide.
- */
-@ReportsCrashes(formUri = "http://amplified-ward-94808.appspot.com/bugs",
-        mode = ReportingInteractionMode.TOAST,
-        reportType = org.acra.sender.HttpSender.Type.JSON,
-        resToastText = R.string.text_toast_acra)
 public class ApplicationPS2Link extends Application {
 
     static final String ACTIVITY_MODE_KEY = "activity_mode";
@@ -88,10 +75,6 @@ public class ApplicationPS2Link extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //Initialize ACRA and Parse
-        ACRA.init(this);
-        Parse.initialize(this, "", "");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         if (volley == null) {
             ApplicationPS2Link.volley = Volley.newRequestQueue(this);

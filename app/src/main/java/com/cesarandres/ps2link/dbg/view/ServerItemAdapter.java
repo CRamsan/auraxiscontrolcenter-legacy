@@ -22,8 +22,6 @@ import com.cesarandres.ps2link.dbg.content.WorldEvent;
 import com.cesarandres.ps2link.dbg.content.response.server.PS2;
 import com.cesarandres.ps2link.dbg.util.Logger;
 import com.cesarandres.ps2link.fragments.FragmentSettings;
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,9 +121,9 @@ public class ServerItemAdapter extends BaseAdapter {
                         this.serverList.get(index).getWorld_id();
         channel = channel.replace(":v2","");
         if (world.isRegistered()) {
-            ParsePush.unsubscribeInBackground(channel);
+            //ParsePush.unsubscribeInBackground(channel);
         } else {
-            ParsePush.subscribeInBackground(channel);
+            //ParsePush.subscribeInBackground(channel);
         }
         world.setIsRegistered(!world.isRegistered());
 
@@ -135,8 +133,8 @@ public class ServerItemAdapter extends BaseAdapter {
         editor.commit();
 
         // REMOVE THIS TO ENABLE PUSH NOTIFICATIONS
-        ParsePush.unsubscribeInBackground(channel);
-        world.setIsRegistered(false);
+        //ParsePush.unsubscribeInBackground(channel);
+        //world.setIsRegistered(false);
         makeText(context, R.string.toast_push_notifications_disabled, LENGTH_LONG).show();
 
         notifyDataSetInvalidated();
