@@ -187,9 +187,13 @@ public class FragmentWeaponList extends BaseFragment {
                 if (weapon.getItem_id_join_item() == null && weapon.getVehicle_id_join_vehicle() == null) {
                     continue;
                 } else {
-                    if (weapon.getItem_id_join_item() != null) {
-                        weaponName = weapon.getItem_id_join_item().getName().getLocalizedName();
-                    } else {
+                    try {
+                        if (weapon.getItem_id_join_item() != null) {
+                            weaponName = weapon.getItem_id_join_item().getName().getLocalizedName();
+                        } else {
+                            continue;
+                        }
+                    }catch(Exception e) {
                         continue;
                     }
                 }

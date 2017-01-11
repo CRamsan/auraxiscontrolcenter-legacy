@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
@@ -20,6 +21,7 @@ import com.cesarandres.ps2link.dbg.DBGCensus.Namespace;
 import com.cesarandres.ps2link.fragments.FragmentMembersList;
 import com.cesarandres.ps2link.fragments.FragmentMembersOnline;
 import com.cesarandres.ps2link.fragments.FragmentOutfit;
+import com.cesarandres.ps2link.module.ButtonSelectSource;
 
 import java.util.HashMap;
 
@@ -27,7 +29,7 @@ import java.util.HashMap;
  * This fragment has a view pager that displays the online member next to all
  * the member.
  */
-public class FragmentOutfitPager extends BaseFragment {
+public class FragmentOutfitPager extends BaseFragment implements ButtonSelectSource.SourceSelectionChangedListener {
 
     private static final int OUTFIT = 0;
     private static final int ONLINE = 1;
@@ -37,9 +39,14 @@ public class FragmentOutfitPager extends BaseFragment {
     private String outfitId;
     private String namespace;
 
+    private ButtonSelectSource selectionButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_outfit_pager, container, false);
+        View view = inflater.inflate(R.layout.fragment_outfit_pager, container, false);
+        selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+        selectionButton.setListener(this);
+        return view;
     }
 
     @Override
@@ -138,6 +145,17 @@ public class FragmentOutfitPager extends BaseFragment {
     public void onResume() {
         super.onResume();
         getActivityContainer().setActivityMode(ActivityMode.ACTIVITY_MEMBER_LIST);
+    }
+
+    @Override
+    public void onSourceSelectionChanged(Namespace selectedNamespace) {
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+        selectionButton.removeButtons(getActivity(), titleLayout);
     }
 
     /**

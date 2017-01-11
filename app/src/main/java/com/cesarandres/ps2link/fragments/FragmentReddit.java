@@ -29,7 +29,7 @@ import com.cesarandres.ps2link.module.reddit.RedditItemAdapter;
  */
 public class FragmentReddit extends BaseFragment {
 
-    public static final String REDDIT_URL = "http://www.reddit.com/r/";
+    public static final String REDDIT_URL = "https://www.reddit.com/r/";
     public static final String REDDIT_ENDPOINT = "/hot.json";
     private String subReddit;
 

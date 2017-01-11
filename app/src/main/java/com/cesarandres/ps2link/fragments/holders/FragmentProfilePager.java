@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.cesarandres.ps2link.ApplicationPS2Link.ActivityMode;
 import com.cesarandres.ps2link.R;
@@ -22,13 +23,14 @@ import com.cesarandres.ps2link.fragments.FragmentKillList;
 import com.cesarandres.ps2link.fragments.FragmentProfile;
 import com.cesarandres.ps2link.fragments.FragmentStatList;
 import com.cesarandres.ps2link.fragments.FragmentWeaponList;
+import com.cesarandres.ps2link.module.ButtonSelectSource;
 
 import java.util.HashMap;
 
 /**
  * This fragment holds a view pager for all the profile related fragments
  */
-public class FragmentProfilePager extends BaseFragment {
+public class FragmentProfilePager extends BaseFragment implements ButtonSelectSource.SourceSelectionChangedListener {
 
     private static final int PROFILE = 0;
     private static final int FRIENDS = 1;
@@ -41,6 +43,8 @@ public class FragmentProfilePager extends BaseFragment {
     private String profileId;
     private String namespace;
     private String profileName;
+
+    private ButtonSelectSource selectionButton;
 
     /*
      * (non-Javadoc)
@@ -64,7 +68,10 @@ public class FragmentProfilePager extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile_pager, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_pager, container, false);
+        selectionButton = new ButtonSelectSource(getActivity(), (ViewGroup) getActivity().findViewById(R.id.linearLayoutTitle));
+        selectionButton.setListener(this);
+        return view;
     }
 
     /*
@@ -195,6 +202,14 @@ public class FragmentProfilePager extends BaseFragment {
         this.fragmentStar.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LinearLayout titleLayout = (LinearLayout) getActivity().findViewById(R.id.linearLayoutTitle);
+        selectionButton.removeButtons(getActivity(), titleLayout);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -208,6 +223,11 @@ public class FragmentProfilePager extends BaseFragment {
         if (!"".equals(profileName)) {
             savedInstanceState.putString("ProfileName", profileName);
         }
+    }
+
+    @Override
+    public void onSourceSelectionChanged(Namespace selectedNamespace) {
+        this.fragmentUpdate.performClick();
     }
 
     /**
