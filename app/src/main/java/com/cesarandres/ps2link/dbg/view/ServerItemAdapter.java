@@ -132,10 +132,6 @@ public class ServerItemAdapter extends BaseAdapter {
         editor.putBoolean("parse_" + channel, world.isRegistered());
         editor.commit();
 
-        // REMOVE THIS TO ENABLE PUSH NOTIFICATIONS
-        //ParsePush.unsubscribeInBackground(channel);
-        //world.setIsRegistered(false);
-        makeText(context, R.string.toast_push_notifications_disabled, LENGTH_LONG).show();
 
         notifyDataSetInvalidated();
     }

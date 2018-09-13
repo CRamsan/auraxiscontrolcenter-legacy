@@ -2,6 +2,7 @@ package com.cesarandres.ps2link.dbg;
 
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.cesarandres.ps2link.ApplicationPS2Link;
@@ -86,6 +87,11 @@ public class DBGCensus {
     public static void sendGsonRequest(String url, Class responseClass, Listener success, ErrorListener error, Object caller) {
         GsonRequest gsonOject = new GsonRequest(url, responseClass, null, success, error);
         gsonOject.setTag(caller);
+        gsonOject.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         ApplicationPS2Link.volley.add(gsonOject);
     }
 

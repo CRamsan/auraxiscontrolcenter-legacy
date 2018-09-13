@@ -93,7 +93,6 @@ public class FragmentSettings extends BaseFragment {
 
                 //MODIFY THIS TO REENABLE NOTIFICATIONS
                 editor.putBoolean(PREF_KEY_NOTIFICATION_ENABLE, false);
-                makeText(getContext(), R.string.toast_push_notifications_disabled, LENGTH_LONG).show();
 
                 editor.commit();
 				enabledCheckbox.setChecked(false);

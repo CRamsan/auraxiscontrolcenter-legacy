@@ -23,7 +23,7 @@ public class CharacterProfile {
     private String profile_id;
     private Stats stats;
     private Server server;
-    private int online_status;
+    private String online_status;
     private boolean cached;
     private CharacterProfile character_id_join_character;
     private Namespace namespace;
@@ -100,11 +100,11 @@ public class CharacterProfile {
         this.cached = cached;
     }
 
-    public int getOnline_status() {
+    public String getOnline_status() {
         return online_status;
     }
 
-    public void setOnline_status(int online_status) {
+    public void setOnline_status(String online_status) {
         this.online_status = online_status;
     }
 

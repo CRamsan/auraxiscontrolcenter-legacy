@@ -111,7 +111,7 @@ public class FragmentProfile extends BaseFragment {
 
                 TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
                 String onlineStatusText = getActivity().getResources().getString(R.string.text_unknown);
-                if (character.getOnline_status() == 0) {
+                if (character.getOnline_status() == "service_unavailable") {
                     onlineStatusText = getActivity().getResources().getString(R.string.text_offline_caps);
                     loginStatus.setText(onlineStatusText);
                     loginStatus.setTextColor(Color.RED);

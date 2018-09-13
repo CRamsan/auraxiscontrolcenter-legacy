@@ -112,7 +112,6 @@
 	<string name="text_thanks_failed">There was a problem processing your donation</string>
 	        
     <string name="toast_profile_download_failed">Profile data download failed.</string>
-    <string name="toast_push_notifications_disabled">Push notifications disabled temporarily</string>
     <string name="toast_error_server_error">Could not retrieve any donation data</string>
     <string name="toast_error_response_error">Error in response from the server</string>
     <string name="toast_error_empty_response">Donation data was empty, please try again later</string>
