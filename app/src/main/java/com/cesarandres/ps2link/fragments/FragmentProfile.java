@@ -110,15 +110,15 @@ public class FragmentProfile extends BaseFragment {
                 certs.setText(character.getCerts().getAvailable_points());
 
                 TextView loginStatus = ((TextView) getActivity().findViewById(R.id.TextViewProfileLoginStatusText));
-                String onlineStatusText = getActivity().getResources().getString(R.string.text_unknown);
-                if (character.getOnline_status() == "service_unavailable") {
-                    onlineStatusText = getActivity().getResources().getString(R.string.text_offline_caps);
-                    loginStatus.setText(onlineStatusText);
-                    loginStatus.setTextColor(Color.RED);
-                } else {
+                String onlineStatusText;
+                if ("1".equals(character.getOnline_status()) || "1000".equals(character.getOnline_status())) {
                     onlineStatusText = getActivity().getResources().getString(R.string.text_online_caps);
                     loginStatus.setText(onlineStatusText);
                     loginStatus.setTextColor(Color.GREEN);
+                } else {
+                    onlineStatusText = getActivity().getResources().getString(R.string.text_offline_caps);
+                    loginStatus.setText(onlineStatusText);
+                    loginStatus.setTextColor(Color.RED);
                 }
 
                 ((TextView) getActivity().findViewById(R.id.textViewProfileMinutesPlayed)).setText(Integer.toString((Integer.parseInt(character.getTimes()
