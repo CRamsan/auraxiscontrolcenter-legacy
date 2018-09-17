@@ -83,15 +83,16 @@
 
         <Button
             android:id="@+id/buttonSettings"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/title_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
             android:layout_gravity="center"
-            android:typeface="monospace"
+            android:layout_margin="10dp"
             android:background="@drawable/ps2_button"
-            android:layout_margin="10dp" />
+            android:text="@string/title_settings"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF"
+            android:typeface="monospace"
+            android:visibility="gone" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView1"
